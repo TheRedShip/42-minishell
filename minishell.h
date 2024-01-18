@@ -22,5 +22,6 @@
 // COMMANDS
 
 int ft_exit(char **args);
+int ft_pwd(void);
 
 #endif
