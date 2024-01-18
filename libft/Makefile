@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/13 13:44:02 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/19 00:09:14 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRC_MEM		:=	memory/ft_bzero.c memory/ft_calloc.c memory/ft_memchr.c memory/ft_me
 SRC_PRINT	:=	stdout/ft_putchar_fd.c stdout/ft_putendl_fd.c stdout/ft_putnbr_fd.c stdout/ft_putstr_fd.c stdout/ft_itoa.c
 
 # STRING
-SRC_STRING	:=	string/ft_wc.c string/ft_strtok.c string/ft_atoi.c string/ft_split.c string/ft_strchr.c string/ft_striteri.c string/ft_strdup.c string/ft_strjoin.c string/ft_strlcat.c string/ft_strlcpy.c string/ft_strlen.c string/ft_strmapi.c string/ft_strncmp.c string/ft_strnstr.c string/ft_strrchr.c string/ft_strtrim.c string/ft_substr.c
+SRC_STRING	:=	string/ft_wc.c string/ft_strtok.c string/ft_atoi.c string/ft_split.c string/ft_strchr.c string/ft_striteri.c string/ft_strdup.c string/ft_strjoin.c string/ft_strlcat.c string/ft_strlcpy.c string/ft_strlen.c string/ft_strmapi.c string/ft_strncmp.c string/ft_strnstr.c string/ft_strrchr.c string/ft_strtrim.c string/ft_substr.c string/ft_tablen.c
 
 # GNL
 SRC_GNL		:=	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
@@ -51,7 +51,7 @@ SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 
-CC          := clang
+CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror
 CPPFLAGS    := -I includes
 

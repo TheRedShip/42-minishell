@@ -18,7 +18,7 @@ long long ft_exit_atoi(char *str)
 	int sign = 1;
 	long long res = 0;
 
-	while (ft_isspace(str[i]))
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -36,22 +36,12 @@ long long ft_exit_atoi(char *str)
 	return (res % 256);
 }
 
-int ft_tab_len(char **tab)
-{
-	int i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
 int is_digit(char *str)
 {
 	int i;
 	char sign;
 
-	while (ft_isspace(*str))
+	while ((*str >= 9 && *str <= 13) || *str == 32)
 		str++;
 	sign = '+';
 	if (str[0] == '-' || str[0] == '+')
