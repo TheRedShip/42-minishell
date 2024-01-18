@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-long long ft_atoi(char *str)
+long long ft_exit_atoi(char *str)
 {
 	int i = 0;
 	int sign = 1;
@@ -94,6 +94,6 @@ int ft_exit(char **args)
 		return (1);
 	}
 	if (tablen == 1 && args[0])
-		exit(ft_atoi(args[0]) % 256);
+		exit(ft_exit_atoi(args[0]) % 256);
 	return (0);
 }
