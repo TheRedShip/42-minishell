@@ -18,7 +18,7 @@ long long ft_atoi(char *str)
 	int sign = 1;
 	long long res = 0;
 
-	while (str[i] == ' ' || str[i] == '\t') //changer whitespace
+	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -51,7 +51,7 @@ int is_digit(char *str)
 	int i;
 	char sign;
 
-	while (*str == ' ' || *str == '\t') //changer whitespace
+	while (ft_isspace(*str))
 		str++;
 	sign = '+';
 	if (str[0] == '-' || str[0] == '+')
@@ -63,7 +63,7 @@ int is_digit(char *str)
 	while (str[i])
 	{
 		if (i >= 19 || (i == 18 && sign == '-' && str[i] == '9')
-			|| (i == 18 && sign == '+' && str[i] >= '8')) //check if number is too big
+			|| (i == 18 && sign == '+' && str[i] >= '8'))
 			return (0);
 		if (str[i] < '0' || str[i] > '9')
 			return (0);
