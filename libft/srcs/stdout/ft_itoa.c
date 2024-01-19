@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 19:10:27 by rgramati          #+#    #+#             */
-/*   Updated: 2023/11/02 20:59:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:40:23 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*ft_itoa_rec(int n, char **str)
 {
 	if (n == -2147483648)
 	{
-		ft_strlcat(*str, "-2147483648", 12);
+		ft_strlcat(*str, "-2147483648", 12, 1);
 		*str += 12;
 		return (*str);
 	}

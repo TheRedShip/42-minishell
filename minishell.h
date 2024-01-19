@@ -26,4 +26,8 @@ int	ft_echo(char **args);
 int	ft_pwd(void);
 int ft_cd(char **args);
 
+// PARSING
+
+char	*parse_quotes(char *string);
+
 #endif
