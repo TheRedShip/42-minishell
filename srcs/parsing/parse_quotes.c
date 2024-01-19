@@ -3,37 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/19 16:57:19 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/19 20:34:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char *get_env_var(char *string)
+char	*str_add(char *dest, char *src, int place)
 {
 	int	i;
 	int	j;
-	char *env_var;
+	int	k;
+	char *final_str;
 
+	final_str = malloc(sizeof(char) * ft_strlen(dest) + ft_strlen(src) + 1);
+	if (!final_str)
+		return (NULL);
+	final_str[ft_strlen(dest) + ft_strlen(src)] = '\0';
+	i = 0;
+	k = 0;
+	while (i < ft_strlen(dest) + ft_strlen(src))
+	{
+		if (i == place)
+		{
+			j = -1;
+			while (src[++j])
+				final_str[k++] = src[j];  
+		}
+		if (k < ft_strlen(dest) + ft_strlen(src))
+			final_str[k] = dest[i];
+		k++;
+		i++;
+	}
+	return (final_str);
+}
+
+char	*str_remove(char *string, int place, int len)
+{
+	int	i;
+	int	j;
+	char *final_str;
+
+	final_str = malloc(sizeof(char) * ft_strlen(string) - len + 1);
+	if (!final_str)
+		return (NULL);
+	final_str[ft_strlen(string) - len] = '\0';
 	i = 0;
 	j = 0;
-	while (string[i] && string[i] != ' ' && string[i] != '\t' && string[i] != '\n' && string[i] != '\"' && string[i] != '$')
-		i++;
-	env_var = (char *)malloc(sizeof(char) * (i + 1));
-	if (!env_var)
-		return (NULL);
-	i = 0;
-	while (string[i] && string[i] != ' ' && string[i] != '\t' && string[i] != '\n' && string[i] != '\"' && string[i] != '$')
+	while (i < ft_strlen(string))
 	{
-		env_var[j] = string[i];
+		if (i == place)
+			i += len;
+		if (i < ft_strlen(string))
+			final_str[j++] = string[i];
 		i++;
-		j++;
 	}
-	env_var[j] = '\0';
-	return (env_var);
+	return (final_str);
+}
+
+char	*str_append(char *str, char c)
+{
+	int		i;
+    int 	len;
+    char 	*new_str;
+
+    len = ft_strlen(str);
+    new_str = (char *)malloc(len + 2);
+    if (!new_str)
+        return (NULL);
+    i = 0;
+	while (str && str[i])
+	{
+		new_str[i] = str[i];
+		i++;
+	}
+    new_str[len] = c;
+    new_str[len + 1] = '\0';
+	if (str != NULL)
+    	free(str);
+    return (new_str);
 }
 
 void	change_quote_state(int *quote_state, char *string, int i)
@@ -48,54 +99,55 @@ void	change_quote_state(int *quote_state, char *string, int i)
 		*quote_state = 0;
 }
 
-int calcul_len_string(char *string)
+char	*get_env_var(char *string)
 {
 	int	i;
-	int	string_size;
-	int	quote_state;
-	char *temp_string;
-	
-	string_size = 0;
-	quote_state = 0;
-	i = 0;
-	while (string[i])
-	{
-		change_quote_state(&quote_state, string, i);
-		if ((quote_state == 1 || quote_state == 0) && string[i] == '$' && (string[i + 1] != '$' && string[i + 1] != '\0'))
-		{
-			temp_string = get_env_var(&string[i + 1]);
-			if (!temp_string)
-				return (-1);
-			string_size += ft_strlen(getenv(temp_string));
-			i += ft_strlen(temp_string);
-			free(temp_string);
-		}
-		else
-			string_size++;		
-		i++;
-	}
-	return (string_size);
-}
+	int	j;
+	char *env_var;
 
-int create_new_string(char *string, char *new_string)
-{
-	
+	i = 0;
+	j = 0;
+	while (ft_isalnum(string[i]))
+		i++;
+	env_var = (char *)malloc(sizeof(char) * (i + 1));
+	if (!env_var)
+		return (NULL);
+	i = 0;
+	while (ft_isalnum(string[i]))
+	{
+		env_var[j] = string[i];
+		i++;
+		j++;
+	}
+	env_var[j] = '\0';
+	return (env_var);
 }
 
 char	*parse_quotes(char *string)
 {
-	int	final_len;
-	char *new_string;
-	
-	final_len = calcul_len_string(string);
-	if (final_len == -1)
-		return (NULL);
-	new_string = (char *)ft_calloc(sizeof(char), (final_len + 1));
-	if (!new_string)
-		return (NULL);
-	new_string[final_len] = '\0';
-	printf("%d\n", final_len);
-	if (create_new_string(string, new_string) == -1)
-		return (NULL);
-	return (new_string);
+	int		i;
+	int		j;
+	int 	quote_status;
+	char	*final_string;
+	char	*env_var;
+
+	i = -1;
+	j = 0;
+	quote_status = 0;
+	final_string = NULL;
+	while (string[++i])
+	{
+		change_quote_state(&quote_status, string, i);
+		if (string[i] == '$' && string[i + 1] != '\0' && (quote_status == 0 || quote_status == 1))
+		{
+			env_var = get_env_var(string + i + 1);
+			final_string = str_add(final_string, getenv(env_var), j);
+			i += ft_strlen(env_var);
+			j += ft_strlen(getenv(env_var)) - 1;
+		}
+		else
+			final_string = str_append(final_string, string[i]);
+		j++;
+	}
+	return (final_string);	
 }
