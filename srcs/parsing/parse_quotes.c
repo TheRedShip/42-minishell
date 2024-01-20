@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/19 20:34:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/20 16:20:16 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
-char	*str_add(char *dest, char *src, int place)
+char	*str_add(char *dest, char *src, size_t place)
 {
-	int	i;
-	int	j;
-	int	k;
+	size_t	i;
+	int		j;
+	size_t	k;
 	char *final_str;
 
 	final_str = malloc(sizeof(char) * ft_strlen(dest) + ft_strlen(src) + 1);
@@ -41,9 +41,9 @@ char	*str_add(char *dest, char *src, int place)
 	return (final_str);
 }
 
-char	*str_remove(char *string, int place, int len)
+char	*str_remove(char *string, size_t place, int len)
 {
-	int	i;
+	size_t	i;
 	int	j;
 	char *final_str;
 
@@ -145,7 +145,7 @@ char	*parse_quotes(char *string)
 			i += ft_strlen(env_var);
 			j += ft_strlen(getenv(env_var)) - 1;
 		}
-		else
+		else if ((string[i] != '\'' && string[i] != '"') && !(!quote_status && (string[i] == '\'' || string[i] == '"')))
 			final_string = str_append(final_string, string[i]);
 		j++;
 	}

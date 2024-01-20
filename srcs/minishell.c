@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/19 16:50:37 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/20 16:01:16 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
-	char string[] = "$$$$$$$$HOME cc cc cc $HOME";
-	parse_quotes(string);
-	// printf("%s\n", parse_quotes(string));
-	// printf("%d", ft_strlen(getenv(string)));
+	(void) argc;
+	(void) argv;
+	(void) envp;
+
+	char *line;
+	while (1)
+	{
+		line = readline("minishell>");
+		if (line && *line)
+   			add_history(line);
+		line = parse_quotes(line);
+		if (!ft_strncmp(line, "exit", 4))
+			exit(EXIT_SUCCESS);
+		if (!ft_strncmp(line, "echo", 4))
+			ft_echo(ft_split(line + 4, ' '));
+		free(line);
+	}
 	return (0);
 }

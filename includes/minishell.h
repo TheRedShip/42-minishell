@@ -17,7 +17,9 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <errno.h>
-# include "libft/includes/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "libft.h"
 
 // COMMANDS
 
