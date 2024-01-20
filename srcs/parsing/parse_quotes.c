@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/20 16:20:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:21:38 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,6 @@ char	*str_add(char *dest, char *src, size_t place)
 	return (final_str);
 }
 
-char	*str_remove(char *string, size_t place, int len)
-{
-	size_t	i;
-	int	j;
-	char *final_str;
-
-	final_str = malloc(sizeof(char) * ft_strlen(string) - len + 1);
-	if (!final_str)
-		return (NULL);
-	final_str[ft_strlen(string) - len] = '\0';
-	i = 0;
-	j = 0;
-	while (i < ft_strlen(string))
-	{
-		if (i == place)
-			i += len;
-		if (i < ft_strlen(string))
-			final_str[j++] = string[i];
-		i++;
-	}
-	return (final_str);
-}
-
 char	*str_append(char *str, char c)
 {
 	int		i;
@@ -87,16 +64,28 @@ char	*str_append(char *str, char c)
     return (new_str);
 }
 
-void	change_quote_state(int *quote_state, char *string, int i)
+void	change_quote_state(int *quote_state, char *string, int *i)
 {
-	if (string[i] == '"' && *quote_state == 0)
+	if (string[*i] == '"' && *quote_state == 0)
+	{
+		(*i)++;
 		*quote_state = 1;
-	else if (string[i] == '"' && *quote_state == 1)
+	}
+	else if (string[*i] == '"' && *quote_state == 1)
+	{
+		(*i)++;
 		*quote_state = 0;
-	else if (string[i] == '\'' && *quote_state == 0)
+	}
+	else if (string[*i] == '\'' && *quote_state == 0)
+	{
+		(*i)++;
 		*quote_state = 2;
-	else if (string[i] == '\'' && *quote_state == 2)
+	}
+	else if (string[*i] == '\'' && *quote_state == 2)
+	{
+		(*i)++;
 		*quote_state = 0;
+	}
 }
 
 char	*get_env_var(char *string)
@@ -137,7 +126,11 @@ char	*parse_quotes(char *string)
 	final_string = NULL;
 	while (string[++i])
 	{
-		change_quote_state(&quote_status, string, i);
+		change_quote_state(&quote_status, string, &i);
+		while (string[i] == '"' && quote_status == 1)
+			change_quote_state(&quote_status, string, &i);
+		while (string[i] == '\'' && quote_status == 2)
+			change_quote_state(&quote_status, string, &i);
 		if (string[i] == '$' && string[i + 1] != '\0' && (quote_status == 0 || quote_status == 1))
 		{
 			env_var = get_env_var(string + i + 1);
@@ -145,9 +138,10 @@ char	*parse_quotes(char *string)
 			i += ft_strlen(env_var);
 			j += ft_strlen(getenv(env_var)) - 1;
 		}
-		else if ((string[i] != '\'' && string[i] != '"') && !(!quote_status && (string[i] == '\'' || string[i] == '"')))
+		else
 			final_string = str_append(final_string, string[i]);
 		j++;
 	}
+	final_string[j] = '\0';
 	return (final_string);	
 }
