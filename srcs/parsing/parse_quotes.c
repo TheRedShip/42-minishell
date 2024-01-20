@@ -6,7 +6,7 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/20 17:21:38 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/20 17:44:00 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ char	*parse_quotes(char *string)
 	while (string[++i])
 	{
 		change_quote_state(&quote_status, string, &i);
+		// if (i != 0)
+			// printf("quote_status: %d %c %c\n", quote_status, string[i-1], string[i]);
 		while (string[i] == '"' && quote_status == 1)
 			change_quote_state(&quote_status, string, &i);
 		while (string[i] == '\'' && quote_status == 2)
