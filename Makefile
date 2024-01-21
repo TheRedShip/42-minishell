@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/21 14:50:36 by marvin           ###   ########.fr        #
+#    Updated: 2024/01/21 15:12:44 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,10 +66,12 @@ clean:
 
 fclean: dclean
 	@printf "\r$(LBLUE)$(NAME)$(RESET)     [$(LBLUE) $(NAME)       $(RED)deleted$(RESET) ]$(RESET)\n"
+	@make -C $(LFT_DIR) fclean
 	@$(RM) $(NAME)
 
 dclean: clean
 	@printf "\r$(LBLUE)$(NAME)$(RESET)     [$(LBLUE) objs dir    $(RED)deleted$(RESET) ]$(RESET)\n"
+	@make -C $(LFT_DIR) clean
 	@$(RM) $(OBJS_DIR)
 
 re:
