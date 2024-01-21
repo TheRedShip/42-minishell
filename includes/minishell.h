@@ -23,13 +23,16 @@
 
 // COMMANDS
 
-int	ft_exit(char *line);
-int	ft_echo(char **args);
-int	ft_pwd(void);
-int ft_cd(char **args);
+int		ft_exit(char *line);
+int		ft_echo(char **args);
+int		ft_pwd(void);
+int 	ft_cd(char **args);
 
 // PARSING
 
 char	*parse_quotes(char *string);
 
+// PROMPT
+
+void	ft_prompt(void);
 #endif

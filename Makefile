@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/21 15:12:44 by marvin           ###   ########.fr        #
+#    Updated: 2024/01/21 16:14:20 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,9 @@ SRC_COMMANDS:=	command/ft_cd.c command/ft_echo.c command/ft_exit.c command/ft_pw
 
 SRC_PARSING	:=  parsing/parse_quotes.c
 
-ALL_SRCS	:=	$(SRC_COMMANDS) $(SRC_PARSING) minishell.c
+SRC_PROMPT	:=  prompt/prompt.c
+
+ALL_SRCS	:=	$(SRC_COMMANDS) $(SRC_PARSING) $(SRC_PROMPT) minishell.c
 SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))

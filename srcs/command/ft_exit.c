@@ -66,6 +66,7 @@ int is_digit(char *str)
 
 void	real_exit(int exit_code, char *line, char **args)
 {
+ 	rl_clear_history();
 	free(line);
 	ft_free_tab((void **)(args));
 	exit(exit_code);
