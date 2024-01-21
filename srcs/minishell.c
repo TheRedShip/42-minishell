@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/21 16:14:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/21 16:26:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ int main(int argc, char **argv, char **envp)
 	(void) envp;
 
 	while (1)
-		ft_prompt();
+		ft_prompt(envp);
 	return (0);
 }

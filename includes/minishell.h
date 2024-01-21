@@ -19,6 +19,8 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include "libft.h"
 
 // COMMANDS
@@ -31,8 +33,9 @@ int 	ft_cd(char **args);
 // PARSING
 
 char	*parse_quotes(char *string);
+char	*str_add(char *dest, char *src, size_t place);
 
 // PROMPT
 
-void	ft_prompt(void);
+void	ft_prompt(char **envp);
 #endif

@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "*.cs": "csharp",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "types.h": "c",
+        "libft.h": "c"
     }
 }

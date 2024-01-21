@@ -12,21 +12,50 @@
 
 #include "minishell.h"
 
-void	builtin_cmd(char *line)
+void start_execve(char *line, char **envp)
 {
-	if (!ft_strncmp(line, "exit", 4))
-        ft_exit(line);
-    if (!ft_strncmp(line, "echo", 4))
-        ft_echo(ft_split(line + 4, ' '));
+	char **args;
+	char *temp_command;
+	pid_t pid;
+
+	args = ft_split(line, ' ');
+	pid = fork();
+	if (pid == 0)
+	{
+		temp_command = str_add(args[0], "/bin/", 0);
+		if (execve(temp_command, args, envp) == -1)
+			perror("execve");
+		free(temp_command);
+		exit(EXIT_SUCCESS);
+	}
+	else if (pid < 0)
+		perror("fork");
+	wait(NULL);
+	free(args);
 }
 
-void	ft_prompt(void)
+void	builtin_cmd(char *line, char **envp)
+{
+
+	if (!ft_strncmp(line, "exit", 4))
+		ft_exit(line);
+	else if (!ft_strncmp(line, "echo", 4))
+		ft_echo(ft_split(line + 4, ' '));
+	else if (!ft_strncmp(line, "pwd", 3))
+		ft_pwd();
+	else if (!ft_strncmp(line, "cd", 2))
+		ft_cd(ft_split(line + 2, ' '));
+	else 
+		start_execve(line, envp);
+}
+
+void	ft_prompt(char **envp)
 {
 	char *line;
 
 	line = readline("minishell>");
 	add_history(line);
 	line = parse_quotes(line);
-	builtin_cmd(line);
+	builtin_cmd(line, envp);
 	free(line);
 }

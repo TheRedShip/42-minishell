@@ -14,7 +14,7 @@
 
 int ft_pwd(void)
 {
-	char cwd[4096];
+	char cwd[65536];
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		printf("%s\n", cwd);
 	else
