@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/21 15:29:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/21 15:56:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*str_add(char *dest, char *src, size_t place)
 		k++;
 		i++;
 	}
+	free(dest);
 	return (final_str);
 }
 
@@ -133,12 +134,13 @@ char	*parse_quotes(char *string)
 			change_quote_state(&quote_status, string, &i);
 		while (string[i] == '\'' && quote_status == 2)
 			change_quote_state(&quote_status, string, &i);
-		if (string[i] == '$' && (string[i + 1] != '\0' && string[i + 1] != '$') && (quote_status == 0 || quote_status == 1))
+		if (string[i] == '$' && (ft_isalnum(string[i + 1])) && (quote_status == 0 || quote_status == 1))
 		{
 			env_var = get_env_var(string + i + 1);
 			final_string = str_add(final_string, getenv(env_var), j);
 			i += ft_strlen(env_var);
 			j += ft_strlen(getenv(env_var));
+			free(env_var);
 		}
 		else if (i < (int)(ft_strlen(string)))
 		{

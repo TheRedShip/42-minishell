@@ -64,18 +64,27 @@ int is_digit(char *str)
 	return (1);
 }
 
-int ft_exit(char **args)
+void	real_exit(int exit_code, char *line, char **args)
 {
-	int tablen;
+	free(line);
+	ft_free_tab((void **)(args));
+	exit(exit_code);
+}
 
+int ft_exit(char *line)
+{
+	char	**args;
+	int		tablen;
+
+	args = ft_split(line + 4, ' ');
 	tablen = ft_tab_len(args);
 	if (tablen == 0)
-		exit(0);//get the exit status of the last command
+		real_exit(0, line, args);//get the exit status of the last command
 	if (tablen >= 1 && is_digit(args[0]) == 0)
 	{
 		printf("exit\n");
 		printf("minishell: exit: %s: numeric argument required\n", args[0]);
-		exit(2);
+		real_exit(2, line, args);
 	}
 	if (tablen > 1 && is_digit(args[0]) == 1)
 	{
@@ -84,6 +93,6 @@ int ft_exit(char **args)
 		return (1);
 	}
 	if (tablen == 1 && args[0])
-		exit(ft_exit_atoi(args[0]) % 256);
+		real_exit(ft_exit_atoi(args[0]) % 256, line, args);
 	return (0);
 }
