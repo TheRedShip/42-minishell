@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/20 17:44:00 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/21 15:11:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	change_quote_state(int *quote_state, char *string, int *i)
 	{
 		(*i)++;
 		*quote_state = 0;
+		change_quote_state(quote_state, string, i);
 	}
 	else if (string[*i] == '\'' && *quote_state == 0)
 	{
@@ -85,6 +86,7 @@ void	change_quote_state(int *quote_state, char *string, int *i)
 	{
 		(*i)++;
 		*quote_state = 0;
+		change_quote_state(quote_state, string, i);
 	}
 }
 
@@ -124,11 +126,9 @@ char	*parse_quotes(char *string)
 	j = 0;
 	quote_status = 0;
 	final_string = NULL;
-	while (string[++i])
+	while (i < (int)(ft_strlen(string)) && string[++i])
 	{
 		change_quote_state(&quote_status, string, &i);
-		// if (i != 0)
-			// printf("quote_status: %d %c %c\n", quote_status, string[i-1], string[i]);
 		while (string[i] == '"' && quote_status == 1)
 			change_quote_state(&quote_status, string, &i);
 		while (string[i] == '\'' && quote_status == 2)
@@ -140,10 +140,11 @@ char	*parse_quotes(char *string)
 			i += ft_strlen(env_var);
 			j += ft_strlen(getenv(env_var)) - 1;
 		}
-		else
+		else if (i < (int)(ft_strlen(string)))
+		{
+			j++;
 			final_string = str_append(final_string, string[i]);
-		j++;
+		}
 	}
-	final_string[j] = '\0';
 	return (final_string);	
 }

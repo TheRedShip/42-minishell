@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/20 15:43:38 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/21 14:50:36 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 
-CC          := clang
+CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror -g
 IFLAGS	    := -I $(LFT_DIR)/includes -I ./includes
 
