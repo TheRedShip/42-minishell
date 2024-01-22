@@ -23,6 +23,23 @@
 # include <sys/wait.h>
 # include "libft.h"
 
+typedef enum e_token_type
+{
+    TK_BRACE = 1,
+    TK_BINOP,
+    TK_PIPES,
+    TK_REDIR,
+    TK_FILES,
+    TK_CMMDS
+}   t_token_type;
+
+typedef struct s_token
+{
+    char            *value;
+    t_token_type    type;
+    struct s_token  *next;
+}   t_token;
+
 // COMMANDS
 
 int		ft_exit(char *line);

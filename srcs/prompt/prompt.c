@@ -37,14 +37,14 @@ void start_execve(char *line, char **envp)
 void	builtin_cmd(char *line, char **envp)
 {
 
-	if (!ft_strncmp(line, "exit", 4))
+	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 4))
 		ft_exit(line);
-	else if (!ft_strncmp(line, "echo", 4))
-		ft_echo(ft_split(line + 4, ' '));
-	else if (!ft_strncmp(line, "pwd", 3))
+	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo\n", 5))
+		ft_echo(ft_split(line + 5, ' '));
+	else if (!ft_strncmp(line, "pwd\n", 4))
 		ft_pwd();
-	else if (!ft_strncmp(line, "cd", 2))
-		ft_cd(ft_split(line + 2, ' '));
+	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd\n", 3))
+		ft_cd(ft_split(line + 3, ' '));
 	else 
 		start_execve(line, envp);
 }

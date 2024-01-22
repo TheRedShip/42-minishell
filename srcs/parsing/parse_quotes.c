@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/21 16:24:12 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/22 08:29:00 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ char	*str_add(char *dest, char *src, size_t place)
 	if (!final_str)
 		return (NULL);
 	final_str[ft_strlen(dest) + ft_strlen(src)] = '\0';
-	i = 0;
+	i = -1;
 	k = 0;
-	while (i < ft_strlen(dest) + ft_strlen(src))
+	while (++i < ft_strlen(dest) + ft_strlen(src))
 	{
 		if (i == place)
 		{
@@ -36,7 +36,6 @@ char	*str_add(char *dest, char *src, size_t place)
 		if (k < ft_strlen(dest) + ft_strlen(src))
 			final_str[k] = dest[i];
 		k++;
-		i++;
 	}
 	free(dest);
 	return (final_str);

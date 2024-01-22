@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/21 16:14:20 by marvin           ###   ########.fr        #
+#    Updated: 2024/01/22 08:49:38 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(IFLAGS) $(OBJS) $(LFT_DIR)/libft.a -o $(NAME) -lreadline
 	@printf "\r                                                                                       \r"
-	@printf "\r$(LBLUE)$(NAME)$(RESET)     [ $(LBLUE)$(NAME)$(RESET)          $(GREEN)DONE $(LBLUE)$(RESET)]$(RESET)\n"
+	@printf "\r$(LBLUE)$(NAME)$(RESET) [ $(LBLUE)$(NAME)$(RESET)      $(GREEN)DONE $(LBLUE)$(RESET)]$(RESET)\n"
 
 $(OBJS_DIR)/%.o: %.c
 	@$(DIR_DUP)
@@ -63,17 +63,16 @@ $(OBJS_DIR)/%.o: %.c
 	@$(eval CMP=$(shell echo $$(($(CMP)+1))))
 
 clean:
-	@printf "\r$(LBLUE)$(NAME)$(RESET)     [$(LBLUE) objs files  $(RED)deleted$(RESET) ]$(RESET)\n"
+	@printf "\r$(LBLUE)$(NAME)$(RESET) [$(LBLUE) objs files  $(RED)deleted$(RESET) ]$(RESET)\n"
 	@$(RM) $(OBJS)
 
 fclean: dclean
-	@printf "\r$(LBLUE)$(NAME)$(RESET)     [$(LBLUE) $(NAME)       $(RED)deleted$(RESET) ]$(RESET)\n"
+	@printf "\r$(LBLUE)$(NAME)$(RESET) [$(LBLUE) $(NAME)   $(RED)deleted$(RESET) ]$(RESET)\n"
 	@make -C $(LFT_DIR) fclean
 	@$(RM) $(NAME)
 
 dclean: clean
-	@printf "\r$(LBLUE)$(NAME)$(RESET)     [$(LBLUE) objs dir    $(RED)deleted$(RESET) ]$(RESET)\n"
-	@make -C $(LFT_DIR) clean
+	@printf "\r$(LBLUE)$(NAME)$(RESET) [$(LBLUE) objs dir    $(RED)deleted$(RESET) ]$(RESET)\n"
 	@$(RM) $(OBJS_DIR)
 
 re:
