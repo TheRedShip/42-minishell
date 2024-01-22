@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/22 08:49:38 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/22 11:04:58 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,13 @@ SRCS_DIR	:=	srcs
 OBJS_DIR	:=	.objs
 LFT_DIR 	:= ./libft
 
-SRC_COMMANDS:=	command/ft_cd.c command/ft_echo.c command/ft_exit.c command/ft_pwd.c
+SRC_BUILTIN :=	builtins/ft_cd.c builtins/ft_echo.c builtins/ft_exit.c builtins/ft_pwd.c builtins/ft_env.c builtins/ft_export.c builtins/ft_unset.c
 
 SRC_PARSING	:=  parsing/parse_quotes.c
 
 SRC_PROMPT	:=  prompt/prompt.c
 
-ALL_SRCS	:=	$(SRC_COMMANDS) $(SRC_PARSING) $(SRC_PROMPT) minishell.c
+ALL_SRCS	:=	$(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) minishell.c
 SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))

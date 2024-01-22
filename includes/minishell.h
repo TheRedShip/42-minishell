@@ -25,34 +25,52 @@
 
 typedef enum e_token_type
 {
-    TK_BRACE = 1,
-    TK_BINOP,
-    TK_PIPES,
-    TK_REDIR,
-    TK_FILES,
-    TK_CMMDS
+	TK_BRACE = 1,
+	TK_BINOP,
+	TK_PIPES,
+	TK_REDIR,
+	TK_FILES,
+	TK_CMMDS
 }   t_token_type;
 
 typedef struct s_token
 {
-    char            *value;
-    t_token_type    type;
-    struct s_token  *next;
+	char            *value;
+	t_token_type    type;
+	struct s_token  *next;
 }   t_token;
 
-// COMMANDS
+typedef struct s_command
+{
+	int				infile;
+	int				outfile;
+	char			*path;
+	char			**args;
+	char			**envp;
+	struct s_cmd	*next;
+}   t_command;
 
+typedef struct s_envvar
+{
+	char			*name;
+	char			**values;
+	struct s_envvar	*next;
+}	t_envvar;
+
+/* BUILT-INS **************************************************************** */
 int		ft_exit(char *line);
 int		ft_echo(char **args);
 int		ft_pwd(void);
 int 	ft_cd(char **args);
+/* ************************************************************************** */
 
-// PARSING
-
+/* PARSING ****************************************************************** */
 char	*parse_quotes(char *string);
 char	*str_add(char *dest, char *src, size_t place);
+/* ************************************************************************** */
 
-// PROMPT
-
+/* STRUCT ******************************************************************* */
 void	ft_prompt(char **envp);
+/* ************************************************************************** */
+
 #endif

@@ -17,7 +17,6 @@ int ft_cd(char **args)
 	int	tab_len;
 
 	tab_len = ft_tab_len(args);
-	for (int i = 0; i < tab_len; i++){printf("%s\n", args[i]);}
 	if (tab_len > 1)
 	{
 		printf("minishell: cd: too many arguments\n");
@@ -25,8 +24,7 @@ int ft_cd(char **args)
 	}
 	if (tab_len == 1 && !ft_strcmp(args[0], "-"))
 	{
-		printf("salut");
-		chdir(getenv("OLDPWD"));
+		chdir(getenv("OLDPWD")); //A remplacer par la recup dans la linked list
 		return (1);
 	}
 	if (tab_len == 0 || (tab_len == 1 && ft_strcmp(args[0], "~") == 0))
@@ -34,7 +32,7 @@ int ft_cd(char **args)
 		// return (chdir("-"));
 	if (chdir(args[0]) != 0)
 	{
-		perror(getenv("SHELL"));
+		perror(getenv("SHELL")); // a recup dans la linked list
 		return (1);
 	}
 	return (0);

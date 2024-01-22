@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/22 08:51:20 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/22 11:23:45 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,6 @@ $(OBJS_DIR)/%.o: %.c
 	@$(DIR_DUP)
 	@printf "\r$(LBLUE)[$(CMP)$(LBLUE)] $(RESET)Compilation in progress... $(GREEN)$<$(BLUE) [$(RESET)$(CMP)$(BLUE)/$(RESET)$(FILE)$(BLUE)]$(RESET)                        \r"
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $^ 	 -o $@
-	@sleep 0.05
 	@$(eval CMP=$(shell echo $$(($(CMP)+1))))
 
 clean:
