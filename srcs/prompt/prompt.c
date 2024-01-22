@@ -34,7 +34,7 @@ void start_execve(char *line, char **envp)
 	free(args);
 }
 
-void	builtin_cmd(char *line, char **envp)
+void	builtin_cmd(char *line, t_envvar *envp)
 {
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
@@ -45,15 +45,22 @@ void	builtin_cmd(char *line, char **envp)
 		ft_pwd();
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
 		ft_cd(ft_split(line + 2, ' '));
+	// else if (!ft_strncmp(line, "export ", 7) || !ft_strncmp(line, "export", 7))
+	// 	ft_export(ft_split(line + 6, ' '));
 	// else
 		// start_execve(line, envp);
 }
 
-void	ft_prompt(char **envp)
+void	ft_prompt(t_envvar *envp)
 {
 	char *line;
 
 	line = readline("minishell>");
+	if (!line)
+	{
+		printf("exit\n");
+		ft_exit(ft_strdup("exit"));
+	}
 	add_history(line);
 	line = parse_quotes(line);
 	builtin_cmd(line, envp);

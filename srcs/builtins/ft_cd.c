@@ -35,5 +35,6 @@ int ft_cd(char **args)
 		perror(getenv("SHELL")); // a recup dans la linked list
 		return (1);
 	}
+	ft_free_tab((void **)args);
 	return (0);
 }

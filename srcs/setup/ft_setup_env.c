@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setup_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/22 19:40:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/22 23:31:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,23 @@ void	ft_remove_var(t_envvar **env, char *name)
 	ft_del_var(tmp);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	t_envvar *environment;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_envvar *environment;
 
-	environment = ft_setup_env(envp);
-	ft_remove_var(&environment, "LS_COLORS");
-	ft_remove_var(&environment, "PATH");
-	ft_remove_var(&environment, "USER");
-	ft_remove_var(&environment, "SHELL");
-	while (environment)
-	{
-		printf("Variable : %s\n", environment->name);
-		int i = -1;
-		while (environment->values[++i])
-			printf("  valeur %d : %s\n", i, environment->values[i]);
-		printf("\n");
-		environment = environment->next;
-	}
-	return (0);
-}
+// 	environment = ft_setup_env(envp);
+// 	ft_remove_var(&environment, "LS_COLORS");
+// 	ft_remove_var(&environment, "PATH");
+// 	ft_remove_var(&environment, "USER");
+// 	ft_remove_var(&environment, "SHELL");
+// 	while (environment)
+// 	{
+// 		printf("Variable : %s\n", environment->name);
+// 		int i = -1;
+// 		while (environment->values[++i])
+// 			printf("  valeur %d : %s\n", i, environment->values[i]);
+// 		printf("\n");
+// 		environment = environment->next;
+// 	}
+// 	return (0);
+// }

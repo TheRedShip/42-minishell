@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/22 11:26:11 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/22 23:43:52 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,9 @@ SRC_PARSING	:=  parsing/parse_quotes.c
 
 SRC_PROMPT	:=  prompt/prompt.c
 
-SRC_SETUP	:=  setup/ft_setup_env.c
+SRC_SETUP	:=  setup/ft_setup_env.c setup/setup_signals.c
 
-ALL_SRCS	:=	$(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) minishell.c
+ALL_SRCS	:=	$(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) $(SRC_SETUP) minishell.c
 SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
