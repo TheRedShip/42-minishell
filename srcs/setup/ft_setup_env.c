@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/22 11:22:14 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/22 11:25:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_envvar    *ft_newvar(char *value)
 {
     t_envvar    *new_var;
     char        **data;
-    char        *name
+    char        *name;
 
     new_var = malloc(sizeof(t_envvar));
     data = ft_split(value, "=");

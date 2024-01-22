@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/22 11:04:58 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/22 11:26:11 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ SRC_BUILTIN :=	builtins/ft_cd.c builtins/ft_echo.c builtins/ft_exit.c builtins/f
 SRC_PARSING	:=  parsing/parse_quotes.c
 
 SRC_PROMPT	:=  prompt/prompt.c
+
+SRC_SETUP	:=  setup/ft_setup_env.c
 
 ALL_SRCS	:=	$(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) minishell.c
 SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
