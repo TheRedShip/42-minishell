@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/22 08:29:00 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:14:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,6 @@ char	*parse_quotes(char *string)
 			j++;
 		}
 	}
+	free(string);
 	return (final_string);	
 }
