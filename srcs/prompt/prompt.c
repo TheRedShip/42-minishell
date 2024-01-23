@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+extern int g_exit_code;
+
 void start_execve(char *line, char **envp)
 {
 	char **args;
@@ -40,15 +42,13 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 {
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
-		ft_exit(line);
+		g_exit_code = ft_exit(line);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
-		ft_echo(ft_split(line + 4, ' '));
+		g_exit_code = ft_echo(ft_split(line + 4, ' '));
 	else if (!ft_strncmp(line, "pwd", 4))
-		ft_pwd();
+		g_exit_code = ft_pwd();
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
-		ft_cd(ft_split(line + 2, ' '));
-	// else if (!ft_strncmp(line, "export ", 7) || !ft_strncmp(line, "export", 7))
-	// 	ft_export(ft_split(line + 6, ' '));
+		g_exit_code = ft_cd(ft_split(line + 2, ' '));
 	else
 		start_execve(line, envpstring);
 }

@@ -25,11 +25,13 @@ int ft_cd(char **args)
 	if (tab_len == 1 && !ft_strcmp(args[0], "-"))
 	{
 		chdir(getenv("OLDPWD")); //A remplacer par la recup dans la linked list
-		return (1);
+		return (0);
 	}
 	if (tab_len == 0 || (tab_len == 1 && ft_strcmp(args[0], "~") == 0))
+	{
+		chdir(getenv("HOME"));
 		return (0);
-		// return (chdir("-"));
+	}
 	if (chdir(args[0]) != 0)
 	{
 		perror(getenv("SHELL")); // a recup dans la linked list
