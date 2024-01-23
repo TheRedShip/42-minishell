@@ -43,7 +43,7 @@ typedef enum e_quote_state
 
 typedef struct s_token
 {
-	char            *value;
+	char            *str;
 	t_token_type    type;
 }   t_token;
 
@@ -70,10 +70,6 @@ typedef struct s_envvar
 	char			**values;
 	struct s_envvar	*next;
 }	t_envvar;
-
-
-/* THE ONE AND ONLY ********************************************************* */
-int EXIT_CODE = 0;
 
 /* BUILT-INS **************************************************************** */
 int		ft_exit(char *line);
