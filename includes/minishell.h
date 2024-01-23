@@ -24,52 +24,7 @@
 # include <termios.h>
 # include "libft.h"
 
-
-typedef enum e_token_type
-{
-	TK_BRACE = 1,
-	TK_BINOP,
-	TK_PIPES,
-	TK_REDIR,
-	TK_UNKNO
-}   t_token_type;
-
-typedef enum e_quote_state
-{
-	QU_ZERO = 0,
-	QU_SINGLE,
-	QU_DOUBLE
-}	t_quote_state;
-
-typedef struct s_token
-{
-	char            *str;
-	t_token_type    type;
-}   t_token;
-
-typedef struct s_node
-{
-	int					rank;
-	void				*element;
-	struct s_token_node *left;
-	struct s_token_node *right;
-}	t_token_node;
-
-typedef struct s_command
-{
-	int				infile;
-	int				outfile;
-	char			*path;
-	char			**args;
-	char			**envp;
-}   t_command;
-
-typedef struct s_envvar
-{
-	char			*name;
-	char			**values;
-	struct s_envvar	*next;
-}	t_envvar;
+# include "data_structures.h"
 
 /* BUILT-INS **************************************************************** */
 int		ft_exit(char *line);
