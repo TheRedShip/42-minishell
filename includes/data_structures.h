@@ -6,23 +6,12 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/23 20:19:19 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/23 21:36:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DATA_STRUCTURES_H
 # define DATA_STRUCTURES_H
-
-/**
- * @enum			e_node_mode
- * @brief			Node creation mode.
- */
-typedef enum e_node_mode
-{
-	ND_SINGLE = 0,
-	ND_LEFTND,
-	ND_BINOPS,
-}	t_node_mode;
 
 /**
  * @enum			e_token_type
