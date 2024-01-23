@@ -6,11 +6,13 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/23 17:15:55 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/23 18:28:11 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 char	*str_add(char *dest, char *src, size_t place)
 {
@@ -133,6 +135,12 @@ char	*parse_quotes(char *string)
 			change_quote_state(&quote_status, string, &i);
 		while (string[i] == '\'' && quote_status == 2)
 			change_quote_state(&quote_status, string, &i);
+		if (string[i] == '$' && string[i + 1] == '?')
+		{
+			final_string = str_add(final_string, ft_itoa(g_exit_code), j);
+			i += 2;
+			j += ft_strlen(ft_itoa(g_exit_code));
+		}
 		if (string[i] == '$' && (ft_isalnum(string[i + 1])) && (quote_status == 0 || quote_status == 1))
 		{
 			env_var = get_env_var(string + i + 1);

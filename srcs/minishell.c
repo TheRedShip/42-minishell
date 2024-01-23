@@ -6,7 +6,7 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/23 16:58:36 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/23 18:30:05 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char **str_copy(char **string)
 	}
 	new_string[i] = NULL;
 	return (new_string);
-
 }
 
 int main(int argc, char **argv, char **envp)
