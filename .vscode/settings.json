@@ -3,6 +3,8 @@
         "*.cs": "csharp",
         "minishell.h": "c",
         "types.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "readline.h": "c",
+        "wait.h": "c"
     }
 }

@@ -21,7 +21,9 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include "libft.h"
+
 
 typedef enum e_token_type
 {
@@ -71,12 +73,12 @@ char	*str_add(char *dest, char *src, size_t place);
 /* ************************************************************************** */
 
 /* STRUCT ******************************************************************* */
-void	ft_prompt(t_envvar *envp);
+void	ft_prompt(t_envvar *envp, char **envpstring);
 /* ************************************************************************** */
 
 /* SETUP ******************************************************************** */
 t_envvar    *ft_setup_env(char **envp);
-void		ft_setup_signal(void);
+void		toggle_signal(int toggle);
 /* ************************************************************************** */
 
 #endif
