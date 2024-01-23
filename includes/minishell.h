@@ -29,9 +29,15 @@ typedef enum e_token_type
 	TK_BINOP,
 	TK_PIPES,
 	TK_REDIR,
-	TK_FILES,
-	TK_CMMDS
+	TK_UNKNO
 }   t_token_type;
+
+typedef enum e_quote_state
+{
+	QU_ZERO = 0,
+	QU_SINGLE,
+	QU_DOUBLE
+}	t_quote_state;
 
 typedef struct s_token
 {
@@ -39,6 +45,14 @@ typedef struct s_token
 	t_token_type    type;
 	struct s_token  *next;
 }   t_token;
+
+typedef struct s_node
+{
+	int					rank;
+	void				*element;
+	struct s_token_node left;
+	struct s_token_node right;
+}	t_token_node;
 
 typedef struct s_command
 {
@@ -56,6 +70,10 @@ typedef struct s_envvar
 	char			**values;
 	struct s_envvar	*next;
 }	t_envvar;
+
+
+/* THE ONE AND ONLY ********************************************************* */
+int EXIT_CODE = 0;
 
 /* BUILT-INS **************************************************************** */
 int		ft_exit(char *line);
