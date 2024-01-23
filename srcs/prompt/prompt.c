@@ -33,7 +33,7 @@ void start_execve(char *line, char **envp)
 		perror("fork");
 	wait(NULL);
 	toggle_signal(1);
-	free(args);
+	ft_free_tab((void **)(args));
 }
 
 void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
