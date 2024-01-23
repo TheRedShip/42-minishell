@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+extern int	g_exit_code;
+
 long long ft_exit_atoi(char *str)
 {
 	int i = 0;
@@ -82,7 +84,7 @@ int ft_exit(char *line)
 	if (tablen == 0)
 	{
 		printf("exit\n");
-		real_exit(0, line, args);//get the exit status of the last command
+		real_exit(g_exit_code, line, args);
 	}
 	if (tablen >= 1 && is_digit(args[0]) == 0)
 	{
