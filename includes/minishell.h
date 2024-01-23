@@ -52,8 +52,8 @@ typedef struct s_node
 {
 	int					rank;
 	void				*element;
-	struct s_token_node left;
-	struct s_token_node right;
+	struct s_token_node *left;
+	struct s_token_node *right;
 }	t_token_node;
 
 typedef struct s_command
