@@ -80,7 +80,10 @@ int ft_exit(char *line)
 	args = ft_split(line + 4, ' ');
 	tablen = ft_tab_len(args);
 	if (tablen == 0)
+	{
+		printf("exit\n");
 		real_exit(0, line, args);//get the exit status of the last command
+	}
 	if (tablen >= 1 && is_digit(args[0]) == 0)
 	{
 		printf("exit\n");
@@ -94,6 +97,9 @@ int ft_exit(char *line)
 		return (1);
 	}
 	if (tablen == 1 && args[0])
+	{
+		printf("exit\n");
 		real_exit(ft_exit_atoi(args[0]) % 256, line, args);
+	}
 	return (0);
 }

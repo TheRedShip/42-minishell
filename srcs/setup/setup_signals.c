@@ -12,20 +12,42 @@
 
 #include "minishell.h"
 
-void   ft_sigint(int sig)
+static void	signal_handler(int signal)
 {
-	(void)sig;
-	printf("\nminishell>");
+	printf("minishell:~$ ");
+	if (signal == 2)
+	{
+		printf("^C\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
-void   ft_sigquit(int sig)
+void	toggle_signal(int toggle)
 {
-	(void)sig;
-	printf("\b\b");
-}
+	static struct sigaction	action;
+	sigset_t			mask;
+	struct termios		term_data;
 
-void	ft_setup_signal(void)
-{
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigquit);
+	tcgetattr(0, &term_data);
+	if (toggle)
+	{
+		term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
+		tcsetattr(0, 0, &term_data);
+
+		sigemptyset(&mask);
+		sigaddset(&mask, SIGQUIT);
+		action.sa_mask = mask;
+		action.sa_flags = 0;
+		action.sa_handler = &signal_handler;
+		sigaction(SIGINT, &action, NULL);
+		sigaction(SIGQUIT, &action, NULL);
+	}
+	else
+	{
+		action.sa_handler = SIG_IGN;
+		sigaction(SIGINT, &action, NULL);
+		sigaction(SIGQUIT, &action, NULL);
+	}
 }
