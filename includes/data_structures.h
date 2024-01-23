@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/23 21:36:53 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 00:42:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ typedef struct s_envvar
 	struct s_envvar	*next;
 }	t_envvar;
 
+t_envvar    *ft_init_var(char *value);
+void		ft_add_var(t_envvar **vars, t_envvar *new_var);
+void		ft_remove_var(t_envvar **env, char *name);
+void		ft_del_var(t_envvar *var);
+
 /**
  * @struct			s_token
  * @brief			Command line token.
@@ -65,6 +70,9 @@ typedef struct s_token
 	t_token_type    type;
 }   t_token;
 
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 /**
  * @struct			s_command
  * @brief			Command descriptor.
@@ -84,9 +92,11 @@ typedef struct s_command
 	char			**envp;
 }   t_command;
 
+# define LEFT 0
+# define RIGHT 1
 /**
- * @struct			Environment variable structure
- * @brief			Environment variable linked list node.
+ * @struct			s_node
+ * @brief			Command line node.
  * 
  * @param rank		Node rank	
  * @param element	Node element (t_token || t_command)
@@ -95,10 +105,10 @@ typedef struct s_command
  */
 typedef struct s_node
 {
-	int					rank;
-	void				*element;
-	struct s_token_node *left;
-	struct s_token_node *right;
+	int				rank;
+	void			*element;
+	struct s_node	*left;
+	struct s_node	*right;
 }	t_node;
 
 #endif
