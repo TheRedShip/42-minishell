@@ -18,6 +18,7 @@ void start_execve(char *line, char **envp)
 	char *temp_command;
 	pid_t pid;
 
+	toggle_signal(0);
 	args = ft_split(line, ' ');
 	pid = fork();
 	if (pid == 0)
@@ -31,10 +32,11 @@ void start_execve(char *line, char **envp)
 	else if (pid < 0)
 		perror("fork");
 	wait(NULL);
-	free(args);
+	toggle_signal(1);
+	ft_free_tab((void **)(args));
 }
 
-void	builtin_cmd(char *line, t_envvar *envp)
+void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 {
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
@@ -47,22 +49,19 @@ void	builtin_cmd(char *line, t_envvar *envp)
 		ft_cd(ft_split(line + 2, ' '));
 	// else if (!ft_strncmp(line, "export ", 7) || !ft_strncmp(line, "export", 7))
 	// 	ft_export(ft_split(line + 6, ' '));
-	// else
-		// start_execve(line, envp);
+	else
+		start_execve(line, envpstring);
 }
 
-void	ft_prompt(t_envvar *envp)
+void	ft_prompt(t_envvar *envp, char **envpstring)
 {
 	char *line;
 
-	line = readline("minishell>");
+	line = readline("minishell:~$ ");
 	if (!line)
-	{
-		printf("exit\n");
 		ft_exit(ft_strdup("exit"));
-	}
 	add_history(line);
 	line = parse_quotes(line);
-	builtin_cmd(line, envp);
+	builtin_cmd(line, envp, envpstring);
 	free(line);
 }
