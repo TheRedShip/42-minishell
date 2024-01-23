@@ -45,7 +45,6 @@ typedef struct s_token
 {
 	char            *value;
 	t_token_type    type;
-	struct s_token  *next;
 }   t_token;
 
 typedef struct s_node
@@ -63,7 +62,6 @@ typedef struct s_command
 	char			*path;
 	char			**args;
 	char			**envp;
-	struct s_cmd	*next;
 }   t_command;
 
 typedef struct s_envvar
