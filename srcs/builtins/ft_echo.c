@@ -12,32 +12,8 @@
 
 #include "minishell.h"
 
-int ft_echo(char **args)
+int ft_echo(char *string)
 {
-	int	index;
-	int	trailing;
-	int	k;
-
-	trailing = 1;
-	index = 0;
-	k = 0;
-	while (args[index])
-	{
-		if (ft_strcmp(args[index], "-n") == 0)
-		{
-			k++;
-			trailing = 0;
-		}
-		else
-		{
-			if (index != k)
-				printf(" ");
-			printf("%s", args[index]);
-		}
-		index++;
-	}
-	if (trailing)
-		printf("\n");
-	ft_free_tab((void **)args);
+	printf("%s", string);
 	return (0);
 }

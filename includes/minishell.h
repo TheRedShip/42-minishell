@@ -31,7 +31,7 @@
 
 /* BUILT-INS **************************************************************** */
 int		ft_exit(char *line);
-int		ft_echo(char **args);
+int		ft_echo(char *string);
 int		ft_pwd(void);
 int 	ft_cd(char **args, t_envvar *envp);
 void	ft_export(t_command *cmd, t_envvar env);

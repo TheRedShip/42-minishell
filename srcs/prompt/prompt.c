@@ -19,6 +19,7 @@ void start_execve(char *line, char **envp)
 	char **args;
 	char *temp_command;
 	pid_t pid;
+	int status;
 
 	args = ft_split(line, ' ');
 	if (!args)
@@ -38,8 +39,8 @@ void start_execve(char *line, char **envp)
 	}
 	else if (pid < 0)
 		perror("fork");
-	waitpid(pid, &g_exit_code, 0);
-	g_exit_code %= 255;
+	waitpid(pid, &status, 0);
+	g_exit_code = WEXITSTATUS(status);
 	toggle_signal(1);
 	ft_free_tab((void **)(args));
 }
@@ -50,7 +51,7 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
 		g_exit_code = ft_exit(line);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
-		g_exit_code = ft_echo(ft_split(line + 4, ' '));
+		g_exit_code = ft_echo(line + 5);
 	else if (!ft_strncmp(line, "pwd", 4))
 		g_exit_code = ft_pwd();
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
