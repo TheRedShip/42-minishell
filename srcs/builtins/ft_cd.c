@@ -12,29 +12,41 @@
 
 #include "minishell.h"
 
-int ft_cd(char **args, t_envvar *envp)
+int	ft_cd(char **argv, t_envvar *envp)
 {
-	int	tab_len;
-	char *newdir;
-
-	tab_len = ft_tab_len(args);
-	if (tab_len > 1)
+	int			argc;
+	char		*newdir;
+	t_envvar	*vars[4];
+	
+	argc = ft_tab_len(argv);
+	vars[0] = ft_get_var(envp, "HOME");
+	vars[1] = ft_get_var(envp, "OLDPWD");
+	vars[2] = ft_get_var(envp, "PWD");
+	vars[3] = ft_get_var(envp, "SHELL");
+	if (argc > 1)
 	{
-		printf("minishell: cd: too many arguments\n");
-		return (1);
+		printf("minishell: cd: Too many arguments.\n");
+		return (1);	
 	}
-	if (tab_len == 1 && !ft_strcmp(args[0], "-") && ft_get_var(envp, "OLDPWD"))
-		chdir(ft_get_var(envp, "OLDPWD")->values[0]);
-	if ((tab_len == 0 || (tab_len == 1 && ft_strcmp(args[0], "~") == 0)) && ft_get_var(envp, "HOME"))
-		chdir(ft_get_var(envp, "HOME")->values[0]);
-	if (chdir(args[0]) != 0)
+	else
 	{
-		perror(getenv("SHELL")); // a recup dans la linked list
-		return (1);
+		if ((!argc || (argc == 1 && !ft_strcmp(argv[0], "~"))) && vars[0])
+			chdir(vars[0]->values[0]);
+		else if (argc == 1 && !ft_strcmp(argv[0], "-") && vars[1] && vars[2])
+			chdir(vars[1]->values[0]);
+		else
+		{
+			if (chdir(argv[0]) && vars[3])
+			{
+				perror(vars[3]->values[0]);
+				return (1);
+			}
+		}
 	}
+	ft_set_var(envp, "OLDPWD", vars[2]->values[0]);
 	newdir = ft_get_pwd();
 	ft_set_var(envp, "PWD", newdir);
 	free(newdir);
-	ft_free_tab((void **)args);
+	ft_free_tab((void **)argv);
 	return (0);
 }
