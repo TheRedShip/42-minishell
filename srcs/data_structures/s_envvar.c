@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 00:42:09 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:41:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@ t_envvar    *ft_init_var(char *value)
 	return (new_var);
 }
 
-void    ft_add_var(t_envvar **vars, t_envvar *new_var)
+void    ft_add_var(t_envvar **vars, t_envvar *var)
 {
 	t_envvar	*tmp;
 
-	if (!vars || !new_var)
+	if (!vars || !var)
 		return ;
 	if (!(*vars))
 	{
-		*vars = new_var;
+		*vars = var;
 		return ;
 	}
 	tmp = *vars;
 	while (tmp->next)
 		tmp = tmp->next;
-	tmp->next = new_var;
+	tmp->next = var;
 }
 
 void	ft_remove_var(t_envvar **env, char *name)
