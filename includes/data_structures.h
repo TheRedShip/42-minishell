@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_structures.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 14:11:04 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:28:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	ft_add_token(t_token **token, t_token *next);
  * @param token		Token to convert.
  * 
  * @return			An opaque pointer to either a t_command either itself
-*/-
+*/
 void	*ft_convert_token(t_token *token);
 
 /**
