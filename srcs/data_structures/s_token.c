@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:25:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 13:50:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:56:08 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_add_token(t_token **token, t_token *next)
 
 void	*ft_convert_token(t_token *token)
 {
+	(void) token;
 	return (NULL);
 }
 
