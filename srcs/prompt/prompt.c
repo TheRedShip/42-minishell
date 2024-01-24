@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/21 16:11:15 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/21 16:11:15 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/24 18:16:41 by rgramati          #+#    #+#             */
+/*   Updated: 2024/01/24 18:16:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void start_execve(char *line, char **envp)
 
 	toggle_signal(0);
 	args = ft_split(line, ' ');
+	if (!args)
+	{
+		free(args);
+		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -29,7 +34,7 @@ void start_execve(char *line, char **envp)
 		if (execve(temp_command, args, envp) == -1)
 			perror("execve");
 		free(temp_command);
-		exit(EXIT_SUCCESS);
+		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 		perror("fork");
@@ -48,7 +53,7 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 	else if (!ft_strncmp(line, "pwd", 4))
 		g_exit_code = ft_pwd();
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
-		g_exit_code = ft_cd(ft_split(line + 2, ' '));
+		g_exit_code = ft_cd(ft_split(line + 2, ' '), envp);
 	else
 		start_execve(line, envpstring);
 }

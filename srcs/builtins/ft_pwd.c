@@ -12,9 +12,19 @@
 
 #include "minishell.h"
 
+char	*ft_get_pwd(void)
+{
+	char cwd[65536];
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		return (ft_strdup(cwd));
+	return (NULL);
+}
+
 int ft_pwd(void)
 {
 	char cwd[65536];
+
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		printf("%s\n", cwd);
 	else

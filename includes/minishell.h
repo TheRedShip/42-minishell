@@ -26,16 +26,18 @@
 
 # include "data_structures.h"
 
-# define P_SUCCESS "\033[30;42;1m$?\033[0m\033[30;47;1;3m [MINISHELL]:\033[0m "
-# define P_FAIL "\033[30;41;1m$?\033[0m\033[30;47;1;3m [MINISHELL]:\033[0m "
+# define P_SUCCESS "\033[30;42;1m$?\033[0m \033[30;47;1;3m[MiniShell]:\033[0m "
+# define P_FAIL "\033[30;41;1m$?\033[0m \033[30;47;1;3m[MiniShell]:\033[0m "
 
 /* BUILT-INS **************************************************************** */
 int		ft_exit(char *line);
 int		ft_echo(char **args);
 int		ft_pwd(void);
-int 	ft_cd(char **args);
+int 	ft_cd(char **args, t_envvar *envp);
 void	ft_export(t_command *cmd, t_envvar env);
 /* ************************************************************************** */
+char	*ft_get_pwd(void);
+
 
 /* PARSING ****************************************************************** */
 char	*parse_quotes(char *string);

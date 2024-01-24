@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-extern int g_exit_code;
-
 static void	signal_handler(int signal)
 {
 	char	*prompt;

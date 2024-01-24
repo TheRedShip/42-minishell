@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 17:51:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 18:48:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,12 @@ t_envvar	*ft_get_var(t_envvar *vars, char *name)
 	while (ft_strncmp(vars->name, name, ft_strlen(name)))
 		vars = vars->next;
 	return (vars);
+}
+
+void	ft_set_var(t_envvar *vars, char *name, char *nv)
+{
+	while (ft_strncmp(vars->name, name, ft_strlen(name)))
+		vars = vars->next;
+	ft_free_tab((void **)vars->values);
+	vars->values = ft_split(nv, ':');
 }

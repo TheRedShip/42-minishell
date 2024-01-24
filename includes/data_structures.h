@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 17:51:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 18:45:39 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ t_envvar    *ft_init_var(char *value);
 void		ft_add_var(t_envvar **vars, t_envvar *var);
 
 /**
- * @brief			Remove and destroy variable designed by name from vars,
+ * @brief			Remove and destroy variable designed by name from vars.
  * 
  * @param vars		Linked list.
  * @param name		Name of the element to remove.
@@ -138,14 +138,24 @@ void		ft_remove_var(t_envvar **vars, char *name);
 void		ft_del_var(t_envvar *var);
 
 /**
- * @brief			Get t_envvar by searching name inside vars
+ * @brief			Get t_envvar by searching name inside vars.
  * 
  * @param vars		Linked list.
  * @param name		Name of the variable to search for.
  * 
- * @return			A pointer to the t_envvar with name, or NULL if not found 
+ * @return			A pointer to the t_envvar with name, NULL either.
 */
 t_envvar	*ft_get_var(t_envvar *vars, char *name);
+
+
+/**
+ * @brief			Set t_envvar values to new split of nv.
+ * 
+ * @param vars		Linked list.
+ * @param name		Name of the variable to modify.
+ * @param nv		New string of values, ':' separated.
+*/
+void	ft_set_var(t_envvar *vars, char *name, char *nv);
 
 /* T_NODE ******************************************************************* */
 
