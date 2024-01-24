@@ -12,8 +12,14 @@
 
 #include "minishell.h"
 
+extern int g_exit_code;
+
 static void	signal_handler(int signal)
 {
+	char	*prompt;
+
+	prompt = ft_get_prompt_string(NULL);
+	printf("%s", prompt);
 	if (signal == 2)
 	{
 		printf("^C\n");

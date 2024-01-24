@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 15:48:57 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:51:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void		ft_add_var(t_envvar **vars, t_envvar *var);
  * @param vars		Linked list.
  * @param name		Name of the element to remove.
  */
-void		ft_remove_var(t_envvar **env, char *name);
+void		ft_remove_var(t_envvar **vars, char *name);
 
 /**
  * @brief			De-allocate a t_envvar.
@@ -137,6 +137,15 @@ void		ft_remove_var(t_envvar **env, char *name);
  */
 void		ft_del_var(t_envvar *var);
 
+/**
+ * @brief			Get t_envvar by searching name inside vars
+ * 
+ * @param vars		Linked list.
+ * @param name		Name of the variable to search for.
+ * 
+ * @return			A pointer to the t_envvar with name, or NULL if not found 
+*/
+t_envvar	*ft_get_var(t_envvar *vars, char *name);
 
 /* T_NODE ******************************************************************* */
 

@@ -25,7 +25,7 @@ void start_execve(char *line, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		temp_command = str_add(args[0], "/bin/", 0);
+		temp_command = str_add(ft_strdup(args[0]), "/bin/", 0);
 		if (execve(temp_command, args, envp) == -1)
 			perror("execve");
 		free(temp_command);
@@ -55,13 +55,36 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 
 void	ft_prompt(t_envvar *envp, char **envpstring)
 {
-	char *line;
+	char	*line;
+	char	*prompt;
 
-	line = readline("minishell:~$ ");
+	prompt = ft_get_prompt_string(envp);
+	line = readline(prompt);
 	if (!line)
 		ft_exit(ft_strdup("exit"));
 	add_history(line);
 	line = parse_quotes(line);
 	builtin_cmd(line, envp, envpstring);
 	free(line);
+	free(prompt);
+}
+
+char	*ft_get_prompt_string(t_envvar *envp)
+{
+	static		t_envvar *save = NULL;
+	char		*prompt;
+	char		*pwd;
+
+	if (!save && envp)
+		save = envp;
+	if (ft_get_var(save, "PWD"))
+		pwd = ft_strjoin(ft_get_var(save, "PWD")->values[0], " > ");
+	else
+		pwd = ft_strdup(" > ");
+	if (!g_exit_code)
+		prompt = ft_strjoin(P_SUCCESS, pwd);
+	else
+		prompt = ft_strjoin(P_FAIL, pwd);
+	free(pwd);
+	return (prompt);
 }

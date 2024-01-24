@@ -26,6 +26,9 @@
 
 # include "data_structures.h"
 
+# define P_SUCCESS "\033[30;42;1m$?\033[0m\033[30;47;1;3m [MINISHELL]:\033[0m "
+# define P_FAIL "\033[30;41;1m$?\033[0m\033[30;47;1;3m [MINISHELL]:\033[0m "
+
 /* BUILT-INS **************************************************************** */
 int		ft_exit(char *line);
 int		ft_echo(char **args);
@@ -39,8 +42,9 @@ char	*parse_quotes(char *string);
 char	*str_add(char *dest, char *src, size_t place);
 /* ************************************************************************** */
 
-/* STRUCT ******************************************************************* */
+/* PROMPTING **************************************************************** */
 void	ft_prompt(t_envvar *envp, char **envpstring);
+char	*ft_get_prompt_string(t_envvar *envp);
 /* ************************************************************************** */
 
 /* SETUP ******************************************************************** */
