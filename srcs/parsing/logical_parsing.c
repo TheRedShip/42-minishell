@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 22:24:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 22:26:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,16 @@ int	ft_quote_checker(char *str)
 		tmp = qs;
 		if (ft_qs_update(*str, &qs))
 		{
-			printf("[%c] quote state changed of %d -- to %d\n", *str, abs((int)tmp - (int)qs), qs);
+			// printf("[%c] quote state changed of %d -- to %d\n", *str, abs((int)tmp - (int)qs), qs);
 			counts[abs((int)tmp - (int)qs) - 1]++;
 			str++;
 			continue ;
 		}
-		printf("%c\n", *str);
+		// printf("%c\n", *str);
 		str++;
 	}
-	printf("%d single quotes,  %d double quotes\n", counts[0], counts[1]);
+	// printf("%d single quotes,  %d double quotes\n", counts[0], counts[1]);
 	return (1);
-}
-
-int main(void)
-{
-	char *string = "Sa\"\"'lut\" 'com\"ent' tu v\"'''\"''\"'\"as\"";
-	ft_quote_checker(string);
 }
 
 // Sa""'lut" 'com"ent' tu v"'''"''"'"as"
