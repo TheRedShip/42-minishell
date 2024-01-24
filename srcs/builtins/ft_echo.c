@@ -14,6 +14,6 @@
 
 int ft_echo(char *string)
 {
-	printf("%s", string);
+	printf("%s\n", string);
 	return (0);
 }
