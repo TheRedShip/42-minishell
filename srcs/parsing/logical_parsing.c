@@ -6,22 +6,51 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/23 18:28:19 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 21:51:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*ft_logical_parser(char *command_string)
+int	ft_qs_update(char c, t_quote_state *qs)
 {
-	t_token	*command_log;
+	t_quote_state	tmp;
 
-	return (command_log);
+	tmp = *qs;
+	if (*qs == QU_ZERO)
+	{
+		if (c == '\'')
+			*qs = QU_SINGLE;
+		if (c == '"')
+			*qs = QU_DOUBLE;
+	}
+	else if ((c == '\'' && *qs == QU_SINGLE) || (c == '"' && *qs == QU_DOUBLE))
+		*qs = QU_ZERO;
+	return (*qs != tmp);
 }
 
-t_node	*ft_treeify(t_token *command_log)
+int	ft_quote_checker(char *str)
 {
-	t_node	*command_tree;
+	t_quote_state	qs;
 
-	return (command_tree);
+	qs = QU_ZERO;
+	while (*str)
+	{
+		if (ft_qs_update(*str, &qs))
+		{
+			str++;
+			continue ;
+		}
+		printf("%c", *str);
+		str++;
+	}
+	return (1);
 }
+
+int main(void)
+{
+	char *string = "Sa\"\"'lut\" 'com\"ent' tu v\"'''\"''\"'\"as\"";
+	ft_quote_checker(string);
+}
+
+// Sa""'lut" 'com"ent' tu v"'''"''"'"as"
