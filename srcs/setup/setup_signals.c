@@ -14,7 +14,6 @@
 
 static void	signal_handler(int signal)
 {
-	printf("minishell:~$ ");
 	if (signal == 2)
 	{
 		printf("^C\n");
