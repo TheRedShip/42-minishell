@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/23 18:30:05 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/24 15:50:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ int main(int argc, char **argv, char **envp)
 	toggle_signal(1);
 	env_copy = str_copy(envp);
 	env = ft_setup_env(env_copy);
+	t_command *test = ft_init_command(0, 1, "cat -e", env);
+	(void) test;
+	//printf("%s\n", test->path);
 	while (1)
 		ft_prompt(env, envp);
 	// ft_free_tab(env_copy);

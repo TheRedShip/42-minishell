@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 14:36:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:48:57 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,6 @@ typedef enum e_quote_state
 	QU_SINGLE,
 	QU_DOUBLE
 }	t_quote_state;
-
-/**
- * @struct			s_command
- * @brief			Command descriptor.
- * 
- * @param infile	()Input file descriptor
- * @param outfile	Output file descriptor
- * @param path		Command path
- * @param args		Command arguments
- * @param envp		Command environment
- */
-typedef struct s_command
-{
-	int		infile;
-	int		outfile;
-	char	*path;
-	char	**args;
-	char	**envp;
-}   t_command;
 
 /* T_TOKEN ****************************************************************** */
 
@@ -223,5 +204,38 @@ void	ft_associate(t_node **tree, t_node *neigh, void *element);
  * @param tree		t_node to free.
 */
 void	ft_del_node(t_node *tree);
+
+
+/* T_COMMAND **************************************************************** */
+
+/**
+ * @struct			s_command
+ * @brief			Command descriptor.
+ * 
+ * @param infile	()Input file descriptor
+ * @param outfile	Output file descriptor
+ * @param path		Command path
+ * @param args		Command arguments
+ * @param envp		Command environment
+ */
+typedef struct s_command
+{
+	int		infile;
+	int		outfile;
+	char	*path;
+	char	**args;
+	char	**envp;
+}   t_command;
+
+/**
+ * @brief			Initializes a new t_command.
+ * 
+ * @param input		Input file descriptor
+ * @param output	Output file descriptor
+ * @param raw_cmd	Raw command string
+ * 
+ * @return			A pointer to the newly allocated t_command.
+ */
+t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar *envp);
 
 #endif
