@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:28:17 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 11:52:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:35:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,13 @@ void	ft_associate(t_node **tree, t_node *neigh, void *element)
 	}
 	ft_insert_parent(tree, ft_init_node((*tree)->rank + 1, element), LEFT);
 	ft_insert_child(tree, neigh, RIGHT);
+}
+
+void	ft_del_node(t_node *tree)
+{
+	if (!tree)
+		return ;
+	ft_del_node(tree->left);
+	ft_del_node(tree->right);
+	free(tree);
 }
