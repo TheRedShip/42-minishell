@@ -34,8 +34,8 @@ long long ft_exit_atoi(char *str)
 		i++;
 	}
 	if (sign == -1)
-		return (256 - (res % 256));
-	return (res % 256);
+		return (256 - res);
+	return (res);
 }
 
 int is_digit(char *str)

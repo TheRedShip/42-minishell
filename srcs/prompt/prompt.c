@@ -20,13 +20,13 @@ void start_execve(char *line, char **envp)
 	char *temp_command;
 	pid_t pid;
 
-	toggle_signal(0);
 	args = ft_split(line, ' ');
 	if (!args)
 	{
 		free(args);
 		return ;
 	}
+	toggle_signal(0);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -38,7 +38,8 @@ void start_execve(char *line, char **envp)
 	}
 	else if (pid < 0)
 		perror("fork");
-	wait(NULL);
+	waitpid(pid, &g_exit_code, 0);
+	g_exit_code %= 255;
 	toggle_signal(1);
 	ft_free_tab((void **)(args));
 }
