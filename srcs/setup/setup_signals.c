@@ -17,7 +17,7 @@ static void	signal_handler(int signal)
 	char	*prompt;
 
 	prompt = ft_get_prompt_string(NULL);
-	printf("%s", prompt);
+	printf("%s%s", prompt, rl_line_buffer);
 	free(prompt);
 	if (signal == 2)
 	{
