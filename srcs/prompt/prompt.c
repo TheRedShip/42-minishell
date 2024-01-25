@@ -47,11 +47,15 @@ void start_execve(char *line, char **envp)
 
 void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 {
+	t_command	*test = ft_init_command(0, 1, "env", envp);
+
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
 		g_exit_code = ft_exit(line);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
 		g_exit_code = ft_echo(line + 5);
+	else if (!ft_strncmp(line, "env ", 5) || !ft_strncmp(line, "env", 4))
+		g_exit_code = ft_env(test);
 	else if (!ft_strncmp(line, "pwd", 4))
 		g_exit_code = ft_pwd();
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
@@ -60,6 +64,9 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 		printf("le level shell est %s\n", ft_get_var(envp, "SHLVL")->values[0]);
 	else
 		start_execve(line, envpstring);
+	free(test->path);
+	ft_free_tab((void **)test->args);
+	free(test);
 }
 
 void	ft_prompt(t_envvar *envp, char **envpstring)
@@ -89,13 +96,13 @@ char	*ft_get_prompt_string(t_envvar *envp)
 	if (!save && envp)
 		save = envp;
 	if (ft_get_var(save, "PWD"))
-		pwd = ft_strjoin(ft_get_var(save, "PWD")->values[0], " > ");
+		pwd = ft_strjoin(ft_get_var(save, "PWD")->values[0], " > ", 0);
 	else
 		pwd = ft_strdup(" > ");
 	if (!g_exit_code)
-		prompt = ft_strjoin(P_SUCCESS, pwd);
+		prompt = ft_strjoin(P_SUCCESS, pwd, 0);
 	else
-		prompt = ft_strjoin(P_FAIL, pwd);
+		prompt = ft_strjoin(P_FAIL, pwd, 0);
 	free(pwd);
 	return (prompt);
 }

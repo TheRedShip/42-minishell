@@ -29,7 +29,7 @@
 # define P_SUCCESS "\033[30;102;1m$?\033[0m \033[30;47;1;3m[MINISHELL]:\033[0m "
 # define P_FAIL "\033[30;101;1m$?\033[0m \033[30;47;1;3m[MINISHELL]:\033[0m "
 
-# define P_SDQUOTE "\033[30;104;1m>>\033[0m \033[30;47;1;3m![' dquote]:\033[0m > "
+# define P_SDQUOTE "\033[30;106;1m>>\033[0m \033[30;47;1;3m![' dquote]:\033[0m > "
 # define P_DDQUOTE "\033[30;104;1m>>\033[0m \033[30;47;1;3m![\" dquote]:\033[0m > "
 
 /* BUILT-INS **************************************************************** */
@@ -44,6 +44,15 @@ int		ft_exit(char *line);
 */
 //int		ft_echo(t_command *cmd);
 int		ft_echo(char *string);
+
+/**
+ * @brief			Display environment variables, no order precised.
+ * 
+ * @param cmd		t_cmd pointer with command meta-data.
+ * 
+ * @return			ft_env exit_code.
+*/
+int ft_env(t_command *cmd);
 
 int		ft_pwd(void);
 int 	ft_cd(char **args, t_envvar *envp);

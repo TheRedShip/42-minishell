@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 13:31:37 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:51:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_quote_checker(char *str, t_quote_state oldqs)
 	}
 	if (qs)
 	{
-		dquote_holder = ft_strjoin(string_holder, ft_open_dquote(qs));
+		dquote_holder = ft_strjoin(string_holder, ft_open_dquote(qs), "\n");
 		free(string_holder);
 		return (ft_quote_checker(dquote_holder, QU_ZERO));
 	}

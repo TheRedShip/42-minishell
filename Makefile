@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/25 12:54:28 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/25 17:31:30 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCS_DIR	:=	srcs
 OBJS_DIR	:=	.objs
 LFT_DIR 	:= ./libft
 
-SRC_DATA	:=	data_structures/s_envvar.c data_structures/s_token.c data_structures/s_node.c data_structures/s_command.c
+SRC_DATA	:=	data_structures/s_envvar.c data_structures/s_token.c data_structures/s_node.c data_structures/s_command.c data_structures/s_constructors.c
 
 SRC_BUILTIN :=	builtins/ft_cd.c builtins/ft_echo.c builtins/ft_exit.c builtins/ft_pwd.c builtins/ft_env.c builtins/ft_export.c builtins/ft_unset.c
 

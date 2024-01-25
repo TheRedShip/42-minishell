@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 16:59:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:33:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,9 +252,14 @@ typedef struct s_command
  * @param input		Input file descriptor
  * @param output	Output file descriptor
  * @param raw_cmd	Raw command string
+ * @param envp		Envp linked list.
  * 
  * @return			A pointer to the newly allocated t_command.
  */
 t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar *envp);
 
+/**
+ * @brief			Get command path.
+*/
+char	*ft_get_path(char *cmd, t_envvar *envp);
 #endif
