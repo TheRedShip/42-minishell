@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setup_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 22:41:20 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/25 13:49:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 t_envvar    *ft_setup_env(char **envp)
 {
 	t_envvar    *env;
+	char		*tmp;
 	int         i;
 
 	i = -1;
 	env = NULL;
 	while (envp[++i])
 		ft_add_var(&env, ft_init_var(envp[i]));
+	if (ft_get_var(env, "SHLVL"))
+		tmp = ft_itoa(1 + ft_atoi(ft_get_var(env, "SHLVL")->values[0]));
+	ft_set_var(env, "SHLVL", tmp);
 	return (env);
 }
 

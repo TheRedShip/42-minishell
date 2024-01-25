@@ -56,6 +56,8 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 		g_exit_code = ft_pwd();
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
 		g_exit_code = ft_cd(ft_split(line + 2, ' '), envp);
+	else if (!ft_strncmp(line, "level", 6)) 										//DEBUG ONLY ne pas toucher
+		printf("le level shell est %s\n", ft_get_var(envp, "SHLVL")->values[0]);
 	else
 		start_execve(line, envpstring);
 }
@@ -68,10 +70,11 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	prompt = ft_get_prompt_string(envp);
 	line = readline(prompt);
 	line = ft_quote_checker(line, QU_ZERO);
+	printf("LIGNE = [%s]\n", line);
 	if (!line)
 		ft_exit(ft_strdup("exit"));
 	add_history(line);
-	line = parse_quotes(line);
+	// line = parse_quotes(line);
 	builtin_cmd(line, envp, envpstring);
 	free(line);
 	free(prompt);
