@@ -40,7 +40,8 @@ void start_execve(char *line, char **envp)
 	else if (pid < 0)
 		perror("fork");
 	waitpid(pid, &status, 0);
-	g_exit_code = WEXITSTATUS(status);
+	if (g_exit_code < 130 || g_exit_code > 131)
+		g_exit_code = WEXITSTATUS(status);
 	toggle_signal(1);
 	ft_free_tab((void **)(args));
 }
@@ -74,7 +75,7 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	if (!line)
 		ft_exit(ft_strdup("exit"));
 	add_history(line);
-	// line = parse_quotes(line);
+	line = parse_quotes(line);
 	builtin_cmd(line, envp, envpstring);
 	free(line);
 	free(prompt);

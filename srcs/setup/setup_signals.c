@@ -12,11 +12,14 @@
 
 #include "minishell.h"
 
+extern int	g_exit_code;
+
 static void	signal_handler_inter(int signal)
 {
 	printf("\033[%dC", (int)(ft_strlen(rl_prompt) + ft_strlen(rl_line_buffer)) - 31);
 	if (signal == 2)
 	{
+		g_exit_code = 130;
 		printf("^C\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -31,7 +34,10 @@ static void	signal_handler_exec(int signal)
 	if (signal == 2)
 		printf("\n");
 	else if (signal == 3)
+	{
+		g_exit_code = 131;
 		printf("Quit (core dumped)\n");
+	}
 }
 
 
