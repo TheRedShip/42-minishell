@@ -22,14 +22,16 @@ static void	signal_handler_inter(int signal)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	if (signal == 3)
+		printf("  \b\b");
 }
 
 static void	signal_handler_exec(int signal)
 {
 	if (signal == 2)
-		printf("^C\n");
+		printf("\n");
 	else if (signal == 3)
-		printf("^\\Quit (core dumped)\n");
+		printf("Quit (core dumped)\n");
 }
 
 
