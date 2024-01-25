@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 13:30:21 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:31:37 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ char	*ft_quote_checker(char *str, t_quote_state oldqs)
 // int main(void)
 // {
 // 	char *test = "salut '\"c'a 'v'\"a\"'\"";
-// 	char *f;
-// 	char *testt = ft_strdup(test);
-// 	f = ft_quote_checker(testt, QU_ZERO);
-// 	printf("FINAL STRING IS : [%s]", f);
-	
-// 	free(f);
+// 	ft_quote_checker(ft_strdup(test), QU_ZERO);
 // }
+
+// Sa""'lut" 'com"ent' tu v"'''"''"'"as"
