@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/24 18:45:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:59:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,11 +239,11 @@ void	ft_del_node(t_node *tree);
  */
 typedef struct s_command
 {
-	int		infile;
-	int		outfile;
-	char	*path;
-	char	**args;
-	char	**envp;
+	int			infile;
+	int			outfile;
+	char		*path;
+	char		**args;
+	t_envvar	*envp;
 }   t_command;
 
 /**

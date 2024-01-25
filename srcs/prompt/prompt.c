@@ -74,7 +74,7 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	if (!line)
 		ft_exit(ft_strdup("exit"));
 	add_history(line);
-	// line = parse_quotes(line);
+	line = parse_quotes(line);
 	builtin_cmd(line, envp, envpstring);
 	free(line);
 	free(prompt);
