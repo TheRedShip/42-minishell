@@ -12,45 +12,51 @@
 
 #include "minishell.h"
 
-static void	signal_handler(int signal)
+static void	signal_handler_inter(int signal)
 {
-	char	*prompt;
-
-	prompt = ft_get_prompt_string(NULL);
-	printf("%s%s", prompt, rl_line_buffer);
-	free(prompt);
+	printf("\033[%dC", (int)(ft_strlen(rl_prompt) + ft_strlen(rl_line_buffer)) - 31);
 	if (signal == 2)
 	{
 		printf("^C\n");
-		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 	}
 }
 
+static void	signal_handler_exec(int signal)
+{
+	if (signal == 2)
+		printf("^C\n");
+	else if (signal == 3)
+		printf("^\\Quit (core dumped)\n");
+}
+
+
 void	toggle_signal(int toggle)
 {
 	static struct sigaction	action;
-	sigset_t			mask;
 	struct termios		term_data;
 
 	tcgetattr(0, &term_data);
 	if (toggle)
 	{
-		term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
-		tcsetattr(0, 0, &term_data);
+		// term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
+		// tcsetattr(0, 0, &term_data);
 
-		sigemptyset(&mask);
-		sigaddset(&mask, SIGQUIT);
-		action.sa_mask = mask;
+		// sigemptyset(&mask);
+		// sigaddset(&mask, SIGQUIT);
+		// action.sa_mask = mask;
 		action.sa_flags = 0;
-		action.sa_handler = &signal_handler;
+		action.sa_handler = &signal_handler_inter;
 		sigaction(SIGINT, &action, NULL);
 		sigaction(SIGQUIT, &action, NULL);
 	}
 	else
 	{
-		action.sa_handler = SIG_IGN;
+		// action.sa_mask = mask;
+		action.sa_flags = 0;
+		action.sa_handler = &signal_handler_exec;
 		sigaction(SIGINT, &action, NULL);
 		sigaction(SIGQUIT, &action, NULL);
 	}
