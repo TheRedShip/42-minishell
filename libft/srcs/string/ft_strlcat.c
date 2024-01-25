@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 00:48:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/19 17:01:18 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/25 11:03:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size, int null_term)
 		*(dst + len + i) = *(src + i);
 		i ++;
 	}
-	if (null_term == 1)
+	if (null_term)
 		*(dst + len + i) = '\0';
 	while (*(src + i))
 		i++;

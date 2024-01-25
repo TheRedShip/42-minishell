@@ -67,6 +67,7 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 
 	prompt = ft_get_prompt_string(envp);
 	line = readline(prompt);
+	line = ft_quote_checker(line, QU_ZERO);
 	if (!line)
 		ft_exit(ft_strdup("exit"));
 	add_history(line);
