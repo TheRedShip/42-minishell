@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 11:12:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:16:23 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,3 @@ t_envvar    *ft_setup_env(char **envp)
 	free(tmp);
 	return (env);
 }
-
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_envvar *environment;
-
-// 	environment = ft_setup_env(envp);
-// 	ft_remove_var(&environment, "LS_COLORS");
-// 	ft_remove_var(&environment, "PATH");
-// 	ft_remove_var(&environment, "USER");
-// 	ft_remove_var(&environment, "SHELL");
-// 	while (environment)
-// 	{
-// 		printf("Variable : %s\n", environment->name);
-// 		int i = -1;
-// 		while (environment->values[++i])
-// 			printf("  valeur %d : %s\n", i, environment->values[i]);
-// 		printf("\n");
-// 		environment = environment->next;
-// 	}
-// 	return (0);
-// }
