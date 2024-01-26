@@ -31,7 +31,7 @@ void start_execve(char *line, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		temp_command = str_add(ft_strdup(args[0]), "/nfs/homes/ycontre/Desktop/wk/core/minishell/", 0);
+		temp_command = str_add(ft_strdup(args[0]), "/bin/", 0);
 		if (execve(temp_command, args, envp) == -1)
 			perror("execve");
 		free(temp_command);
@@ -101,6 +101,14 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	free(prompt);
 }
 
+char	*ft_trim_pwd(char *str)
+{
+	char	*lastb;
+
+	lastb = ft_strrchr(str, '/');
+	return (ft_strdup(lastb));
+}
+
 char	*ft_get_prompt_string(t_envvar *envp)
 {
 	static		t_envvar *save = NULL;
@@ -110,7 +118,10 @@ char	*ft_get_prompt_string(t_envvar *envp)
 	if (!save && envp)
 		save = envp;
 	if (ft_get_var(save, "PWD"))
-		pwd = ft_strjoin(ft_get_var(save, "PWD")->values[0], " > ", 0, 0);
+	{
+		pwd = ft_trim_pwd(ft_get_var(save, "PWD")->values[0]);
+		pwd = ft_strjoin(pwd, " > ", 0, 1);
+	}
 	else
 		pwd = ft_strdup(" > ");
 	if (!g_exit_code)
