@@ -31,7 +31,7 @@ void start_execve(char *line, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		temp_command = str_add(ft_strdup(args[0]), "/bin/", 0);
+		temp_command = str_add(ft_strdup(args[0]), "/nfs/homes/ycontre/Desktop/wk/core/minishell/", 0);
 		if (execve(temp_command, args, envp) == -1)
 			perror("execve");
 		free(temp_command);
@@ -40,20 +40,16 @@ void start_execve(char *line, char **envp)
 	else if (pid < 0)
 		perror("fork");
 	waitpid(pid, &status, 0);
-	// if (g_exit_code < 130 || g_exit_code > 131)
-		// g_exit_code = WEXITSTATUS(status);
-	if (!WIFEXITED(status))
+	g_exit_code = WEXITSTATUS(status);
+	if (!WIFEXITED(status) && WCOREDUMP(status))
 	{
-		if (WCOREDUMP(status))
-		{
-			printf("Quit (core dumped)\n");
-			g_exit_code = 131;
-		}
-		else
-		{
-			printf("\n");
-			g_exit_code = 130;
-		}
+		printf("Quit (core dumped)\n");
+		g_exit_code = 131;
+	}
+	else if (WTERMSIG(status) == 2)
+	{
+		printf("\n");
+		g_exit_code = 130;
 	}
 	toggle_signal(1);
 	ft_free_tab((void **)(args));
@@ -91,6 +87,7 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	char	*line;
 	char	*prompt;
 
+	printf("%d\n", g_exit_code);
 	prompt = ft_get_prompt_string(envp);
 	line = readline(prompt);
 	line = ft_quote_checker(line, QU_ZERO);
