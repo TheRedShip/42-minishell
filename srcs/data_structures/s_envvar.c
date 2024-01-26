@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_envvar.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 14:41:32 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 15:45:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,16 @@ void	ft_remove_var(t_envvar **vars, char *name)
 
 	prv = NULL;
 	tmp = *vars;
-	while (ft_strcmp(tmp->name, name))
+	while (tmp && ft_strcmp(tmp->name, name))
 	{
 		prv = tmp;
 		tmp = tmp->next;
 	}
-	prv->next = tmp->next;
-	ft_del_var(tmp);
+	if (tmp)
+	{
+		prv->next = tmp->next;
+		ft_del_var(tmp);
+	}
 }
 
 void	ft_del_var(t_envvar *var)
@@ -62,12 +65,7 @@ void	ft_del_var(t_envvar *var)
 
 t_envvar	*ft_get_var(t_envvar *vars, char *name)
 {
-	int	maxlen;
-
-	maxlen = ft_strlen(name);
-	if ((int)(ft_strlen(vars->name)) > maxlen)
-		maxlen = ft_strlen(vars->name);
-	while (vars != NULL && ft_strncmp(vars->name, name, maxlen))
+	while (vars && ft_strncmp(vars->name, name, ft_strlen(vars->name) + 1))
 		vars = vars->next;
 	return (vars);
 }
