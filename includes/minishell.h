@@ -39,10 +39,11 @@
  * (A LAVENIR CETTE MERDE DOIT FREE TOUT LE CODE JAI DEJA UNE IDEE ON VERRA PLUS TARD OUBLIE PAS LES STATIC ET LES DETOURNEMENTS DE NORME)
  * 
  * @param exit_code		Exit code.
- * @param error_code	Error code (see enum e_error_code).
+ * @param ec			Error code (see enum e_error_code).
  * @param cmd			t_command pointer with command meta-data.
+ * @param prompt		Prompt line pointer.
 */
-void	ft_exit_manager(int exit_code, int error_code, t_command *cmd);
+void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt);
 
 /* BUILT-INS **************************************************************** */
 
@@ -55,7 +56,6 @@ void	ft_exit_manager(int exit_code, int error_code, t_command *cmd);
 */
 int ft_env(t_command *cmd);
 
-void	ft_export(t_command *cmd, t_envvar env);
 /* ************************************************************************** */
 char	*ft_get_pwd(void);
 

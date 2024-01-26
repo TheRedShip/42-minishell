@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 17:40:47 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:20:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,13 @@ char	*ft_get_path(char *cmd, t_envvar *envp)
 	return (path);
 }
 
+void	ft_del_command(t_command *cmd)
+{
+	if (cmd->infile > 2)
+		close(cmd->infile);
+	if (cmd->outfile > 2)
+		close(cmd->outfile);
+	free(cmd->path);
+	ft_free_tab((void **)cmd->args);
+	free(cmd);
+}

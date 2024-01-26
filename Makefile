@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/25 17:31:30 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/26 10:50:20 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 
-CC          := gcc
+CC          := clang
 CFLAGS      := -Wall -Wextra -Werror -g
 IFLAGS	    := -I $(LFT_DIR)/includes -I ./includes
 

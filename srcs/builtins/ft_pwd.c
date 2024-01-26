@@ -16,21 +16,22 @@ char	*ft_get_pwd(void)
 {
 	char cwd[65536];
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	if (getcwd(cwd, sizeof(cwd)))
 		return (ft_strdup(cwd));
 	return (NULL);
 }
 
-int ft_pwd(void)
+int ft_pwd(t_command *cmd)
 {
 	char cwd[65536];
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	(void) cmd;
+	if (getcwd(cwd, sizeof(cwd)))
 		printf("%s\n", cwd);
 	else
 	{
 		perror("getcwd() error");
-		return 1;
+		return (EC_FAILED);
 	}
-	return (0);
+	return (EC_SUCCES);
 }

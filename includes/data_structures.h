@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 07:13:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:16:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_token
  * 
  * @return			A pointer to the newly allocated t_token.
  */
-t_token	*ft_init_token(char *str, t_token_type type);
+t_token		*ft_init_token(char *str, t_token_type type);
 
 /**
  * @brief			Append var to the vars linked list.
@@ -70,7 +70,7 @@ t_token	*ft_init_token(char *str, t_token_type type);
  * @param token		Token linked list.
  * @param next		Token to append.
  */
-void	ft_add_token(t_token **token, t_token *next);
+void		ft_add_token(t_token **token, t_token *next);
 
 /**
  * @brief			Analyzes a t_token and convert it.
@@ -79,14 +79,14 @@ void	ft_add_token(t_token **token, t_token *next);
  * 
  * @return			An opaque pointer to either a t_command either itself
 */
-void	*ft_convert_token(t_token *token);
+void		*ft_convert_token(t_token *token);
 
 /**
  * @brief			De-allocate a t_token.
  * 
  * @param var		t_token to free.
  */
-void	ft_del_token(t_token *token);
+void		ft_del_token(t_token *token);
 
 /* T_ENVVAR ***************************************************************** */
 
@@ -195,7 +195,7 @@ typedef struct s_node
  * 
  * @return			A pointer to the newly allocated t_node.
  */
-t_node	*ft_init_node(int rank, void *element);
+t_node		*ft_init_node(int rank, void *element);
 
 /**
  * @brief			Insert a t_node (Parent-wise).
@@ -204,7 +204,7 @@ t_node	*ft_init_node(int rank, void *element);
  * @param root		New root t_node.
  * @param side		Side of root where tree will be inserted.
  */
-void	ft_insert_parent(t_node **tree, t_node *root, int side);
+void		ft_insert_parent(t_node **tree, t_node *root, int side);
 
 /**
  * @brief			Insert a t_node (Child-wise).
@@ -213,7 +213,7 @@ void	ft_insert_parent(t_node **tree, t_node *root, int side);
  * @param child		New child t_node.
  * @param side		Side of tree where child will be inserted.
  */
-void	ft_insert_child(t_node **tree, t_node *child, int side);
+void		ft_insert_child(t_node **tree, t_node *child, int side);
 
 /**
  * @brief			Associate 2 t_node into one tree and sets tree to \
@@ -223,14 +223,14 @@ void	ft_insert_child(t_node **tree, t_node *child, int side);
  * @param neigh		t_node *2, future right child.
  * @param element	New root t_node content
  */
-void	ft_associate(t_node **tree, t_node *neigh, void *element);
+void		ft_associate(t_node **tree, t_node *neigh, void *element);
 
 /**
  * @brief			De-allocate a t_node and all his childs recursively.
  * 
  * @param tree		t_node to free.
 */
-void	ft_del_node(t_node *tree);
+void		ft_del_node(t_node *tree);
 
 
 /* T_COMMAND **************************************************************** */
@@ -239,7 +239,7 @@ void	ft_del_node(t_node *tree);
  * @struct			s_command
  * @brief			Command descriptor.
  * 
- * @param infile	()Input file descriptor
+ * @param infile	Input file descriptor
  * @param outfile	Output file descriptor
  * @param path		Command path
  * @param args		Command arguments
@@ -265,6 +265,13 @@ typedef struct s_command
  * @return			A pointer to the newly allocated t_command.
  */
 t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar *envp);
+
+/**
+ * @brief			De-allocate a t_command.
+ * 
+ * @param cmd		t_command to free.
+*/
+void		ft_del_command(t_command *cmd);
 
 /**
  * @brief			Get command path.

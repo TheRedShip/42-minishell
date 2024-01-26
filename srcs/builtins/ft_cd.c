@@ -43,14 +43,14 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 	return (EC_SUCCES);
 }
 
-int	ft_cd(char **argv, t_envvar *envp)
+int	ft_cd(t_command *cmd)
 {
 	int			argc;
 	char		*newdir;
 	t_envvar	**vars;
 	
-	argc = ft_tab_len(argv);
-	vars = ft_get_directory_vars(envp);
+	argc = ft_tab_len(cmd->args);
+	vars = ft_get_directory_vars(cmd->envp);
 	if (!vars)
 		return (EC_FAILED);
 	if (argc > 1)
@@ -58,12 +58,11 @@ int	ft_cd(char **argv, t_envvar *envp)
 		printf("%s: cd: Too many arguments.\n", vars[3]->values[0]);
 		return (EC_FAILED);	
 	}
-	if (ft_manage_cd(argc, argv, vars))
+	if (ft_manage_cd(argc, cmd->args, vars))
 		return (EC_FAILED);
-	ft_set_var(envp, "OLDPWD", vars[2]->values[0]);
+	ft_set_var(cmd->envp, "OLDPWD", vars[2]->values[0]);
 	newdir = ft_get_pwd();
-	ft_set_var(envp, "PWD", newdir);
+	ft_set_var(cmd->envp, "PWD", newdir);
 	free(newdir);
-	ft_free_tab((void **)argv);
 	return (EC_SUCCES);
 }

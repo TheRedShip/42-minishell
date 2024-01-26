@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 08:44:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:11:16 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ typedef enum e_error_code
  * 
  * @return			ft_echo exit_code.
 */
-int			ft_echo(char *string);
-//int		ft_echo(t_command *cmd);
+int			ft_echo(t_command *cmd);
 
 /**
  * @brief			Prints current working directory.
@@ -41,8 +40,7 @@ int			ft_echo(char *string);
  * 
  * @return			ft_pwd exit code.		
 */
-int			ft_pwd(void);
-//int		ft_pwd(t_command *cmd);
+int			ft_pwd(t_command *cmd);
 
 /**
  * @brief			Change directory.
@@ -51,17 +49,27 @@ int			ft_pwd(void);
  * 
  * @return			ft_cd exit_code.
 */
-int 		ft_cd(char **args, t_envvar *envp);
-//int		ft_cd(t_command *cmd);
+int			ft_cd(t_command *cmd);
 
 /**
  * @brief			Exits shell.
  * 
  * @param cmd		t_cmd pointer with command meta-data.
+ * @param prompt	Prompt line pointer.
+ * @param envp		Linked list pointer (get it by command meta-data if NULL).
  * 
  * @return			ft_exit exit code. 
 */
-int		ft_exit(t_command *cmd);
+int			ft_exit(t_command *cmd, char *prompt, t_envvar *envp);
+
+/**
+ * @brief			Exports a environment variable, or display them if no args.
+ * 
+ * @param cmd		t_cmd pointer with command meta-data.
+ * 
+ * @return			ft_export exit code.
+*/
+int			ft_export(t_command *cmd);
 
 /* UTILS ******************************************************************** */
 
@@ -108,6 +116,15 @@ long		ft_exit_atoi(char *str);
  * @return			1 if str is a number, 0 otherwise.
 */
 int			ft_is_numeric(char *str);
+
+/**
+ * @brief			Check if echo option is only 'n's.
+ * 
+ * @param str		char* to check.
+ * 
+ * @return			1 if all chars after - are 'n's, 0 otherwise.
+*/
+int			ft_only_ns(char *str);
 
 /* ************************************************************************** */
 

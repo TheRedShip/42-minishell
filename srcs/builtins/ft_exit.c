@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 08:43:46 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:05:57 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,34 +53,48 @@ int	ft_is_numeric(char *str)
 	return (!*str && (str - tmp) && (str - tmp < 19));
 }
 
-void	ft_exit_manager(int exit_code, int error_code, t_command *cmd)
+void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt)
 {
-	if (error_code == EC_NOTNUM)
+	t_envvar	*tmp;
+	
+	if (ec == EC_NOTNUM)
 		printf("exit: %s: numeric argument required\n", cmd->args[1]);
-	if (error_code == EC_TOMAAR)
+	if (ec == EC_TOMAAR)
 	{
 		printf("exit: too many arguments\n");
 		return ;
 	}
 	rl_clear_history();
+	while (cmd->envp)
+	{
+		tmp = cmd->envp->next;
+		ft_del_var(cmd->envp);
+		cmd->envp = tmp;
+	}
+	ft_del_command(cmd);
+	free(prompt);
 	exit(exit_code);
 }
 
-int ft_exit(t_command *cmd)
+int ft_exit(t_command *cmd, char *prompt, t_envvar *envp)
 {
-	int		argc;
+	int			argc;
+	t_command	*holder;
 
+	holder = NULL;
+	if (envp)
+		holder = ft_init_command(0, 0, "exit", envp);
 	if (!cmd)
-		ft_exit_manager(g_exit_code, EC_SUCCES, cmd);
+		ft_exit_manager(g_exit_code, EC_SUCCES, holder, prompt);
 	argc = ft_tab_len(cmd->args) - 1;
 	printf("exit argc = %d\n", argc);
 	if (!argc)
-		ft_exit_manager(g_exit_code, EC_SUCCES, cmd);
+		ft_exit_manager(g_exit_code, EC_SUCCES, cmd, prompt);
 	if (!ft_is_numeric(cmd->args[1]))
-		ft_exit_manager(EC_ERRORS, EC_NOTNUM, cmd);
+		ft_exit_manager(EC_ERRORS, EC_NOTNUM, cmd, prompt);
 	if (argc > 1)
-		ft_exit_manager(EC_FAILED, EC_TOMAAR, cmd);
+		ft_exit_manager(EC_FAILED, EC_TOMAAR, cmd, prompt);
 	else
-		ft_exit_manager(ft_exit_atoi(cmd->args[1]), EC_SUCCES, cmd);
+		ft_exit_manager(ft_exit_atoi(cmd->args[1]), EC_SUCCES, cmd, prompt);
 	return (argc > 1);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 14:08:21 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:12:12 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@ t_envvar    *ft_setup_env(char **envp)
 
 	i = -1;
 	env = NULL;
+	tmp = NULL;
 	while (envp[++i])
 		ft_add_var(&env, ft_init_var(envp[i]));
 	if (ft_get_var(env, "SHLVL"))
 		tmp = ft_itoa(1 + ft_atoi(ft_get_var(env, "SHLVL")->values[0]));
 	ft_set_var(env, "SHLVL", tmp);
+	free(tmp);
+	tmp = ft_strdup("minishell");
+	ft_set_var(env, "SHELL", tmp);
 	free(tmp);
 	return (env);
 }

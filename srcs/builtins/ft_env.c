@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 07:52:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:07:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,40 +37,55 @@ char    *ft_get_varstring(t_envvar *var)
     {
         tmp = string;
         if (!i)
-            string = ft_strjoin(tmp, var->values[i], NULL);
+            string = ft_strjoin(tmp, var->values[i++], NULL);
         else
-            string = ft_strjoin(tmp, var->values[i], ":");
+            string = ft_strjoin(tmp, var->values[i++], ":");
         free(tmp);
-        i++;
     }
     return (string);
 }
 
-int ft_env(t_command *cmd)
+char    **ft_get_var_strs(t_envvar *vars, int size)
 {
-    t_envvar    *vars;
-    char        **vars_array;
-    int         size;
     int         i;
+    char        **vars_array;
 
-    vars = cmd->envp;
-    size = ft_var_size(vars) + 1;
+    i = -1;
     vars_array = malloc(size * sizeof(char *));
     if (!vars_array)
-        return (EC_FAILED);
-    i = -1;
+        return (NULL);
     while (++i < size - 1)
     {
         vars_array[i] = ft_get_varstring(vars);
         if (!vars_array[i])
         {
             ft_free_tab((void **)vars_array);
-            return (EC_FAILED);
+            return (NULL);
         }
-        printf("%s\n", vars_array[i]);
         vars = vars->next;
     }
     vars_array[i] = 0;
+    return (vars_array);
+}
+
+int ft_env(t_command *cmd)
+{
+    t_envvar    *vars;
+    char        **vars_array;
+    char        **tmp;
+    int         size;
+
+    vars = cmd->envp;
+    size = ft_var_size(vars) + 1;
+    vars_array = ft_get_var_strs(vars, size);
+    if (!vars_array)
+        return (EC_FAILED);
+    tmp = vars_array;
+    while (*tmp)
+    {
+        printf("%s\n", *tmp);
+        tmp++;
+    }
     ft_free_tab((void **)vars_array);
     return (EC_SUCCES);
 }

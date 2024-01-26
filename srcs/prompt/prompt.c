@@ -46,29 +46,27 @@ void start_execve(char *line, char **envp)
 	ft_free_tab((void **)(args));
 }
 
-void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
+void	builtin_cmd(char *line, t_envvar *envp, char **envpstring, char *prompt)
 {
 	//t_command	*test = ft_init_command(0, 1, "env", envp);
 	t_command	*test = ft_init_command(0, 1, line, envp);
 
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
-		g_exit_code = ft_exit(test);
+		g_exit_code = ft_exit(test, prompt, NULL);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
-		g_exit_code = ft_echo(line + 5);
+		g_exit_code = ft_echo(test);
 	else if (!ft_strncmp(line, "env ", 5) || !ft_strncmp(line, "env", 4))
 		g_exit_code = ft_env(test);
 	else if (!ft_strncmp(line, "pwd", 4))
-		g_exit_code = ft_pwd();
+		g_exit_code = ft_pwd(test);
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
-		g_exit_code = ft_cd(ft_split(line + 2, ' '), envp);
+		g_exit_code = ft_cd(test);
 	else if (!ft_strncmp(line, "level", 6)) 										//DEBUG ONLY ne pas toucher
 		printf("le level shell est %s\n", ft_get_var(envp, "SHLVL")->values[0]);
 	else
 		start_execve(line, envpstring);
-	free(test->path);
-	ft_free_tab((void **)test->args);
-	free(test);
+	ft_del_command(test);
 }
 
 void	ft_prompt(t_envvar *envp, char **envpstring)
@@ -79,12 +77,11 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	prompt = ft_get_prompt_string(envp);
 	line = readline(prompt);
 	line = ft_quote_checker(line, QU_ZERO);
-	printf("LIGNE = [%s]\n", line);
 	if (!line)
-		ft_exit(NULL);
+		ft_exit(NULL, prompt, envp);
 	add_history(line);
 	line = parse_quotes(line);
-	builtin_cmd(line, envp, envpstring);
+	builtin_cmd(line, envp, envpstring, prompt);
 	free(line);
 	free(prompt);
 }
