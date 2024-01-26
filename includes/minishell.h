@@ -60,7 +60,16 @@ char	*str_add(char *dest, char *src, size_t place);
 
 /* PROMPTING **************************************************************** */
 void	ft_prompt(t_envvar *envp, char **envpstring);
+
+/**
+ * @brief				Get prompt total string.
+ * 
+ * @param envp			Linked list.
+ * 
+ * @return				Formatted total prompt string.
+*/
 char	*ft_get_prompt_string(t_envvar *envp);
+
 char	*ft_quote_checker(char *str, t_quote_state oldqs);
 char	*ft_open_dquote(t_quote_state qs);
 /* ************************************************************************** */
@@ -68,12 +77,12 @@ char	*ft_open_dquote(t_quote_state qs);
 /* SETUP ******************************************************************** */
 
 /**
- * @brief			Setup t_envvar linked list from envp
+ * @brief				Setup t_envvar linked list from envp
  * 
- * @param envp		String array envp.
+ * @param envp			String array envp.
  * 
- * @return			A pointer to a newly allocated linked list containing env
- * 					variables, with name and values.
+ * @return				A pointer to a newly allocated linked list containing
+ * 						environment variables, with name and values.
 */
 t_envvar    *ft_setup_env(char **envp);
 
