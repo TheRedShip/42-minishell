@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 03:35:56 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 13:58:31 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 16:16:08 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static void	ft_manage_strings(char *s1, char *s2, int buffered)
 		free(s2);
 }
 
-char	*ft_strjoin(char *s1, char *s2, char *c)
+char	*ft_strjoin(char *s1, char *s2, char *c, int tofree)
 {
 	char	*ns;
 	int		buffered;
 	size_t	len1;
 	size_t	len2;
 
-	buffered = !s1 + (2 * !s2);
+	buffered = !s1 + (2 * !s2) + tofree;
 	if (!s1)
 		s1 = ft_strdup("");
 	if (!s2)
