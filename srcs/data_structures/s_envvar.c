@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_envvar.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 12:24:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:41:32 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,12 @@ void	ft_del_var(t_envvar *var)
 
 t_envvar	*ft_get_var(t_envvar *vars, char *name)
 {
-	while (ft_strncmp(vars->name, name, ft_strlen(name)))
+	int	maxlen;
+
+	maxlen = ft_strlen(name);
+	if ((int)(ft_strlen(vars->name)) > maxlen)
+		maxlen = ft_strlen(vars->name);
+	while (vars != NULL && ft_strncmp(vars->name, name, maxlen))
 		vars = vars->next;
 	return (vars);
 }

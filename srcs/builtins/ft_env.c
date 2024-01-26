@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 12:07:45 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:26:06 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char    *ft_get_varstring(t_envvar *var)
     char    *tmp;
     int     i;
 
+    if (var == NULL)
+        return (NULL);
     i = 0;
     string = ft_strjoin(var->name, "=", 0);
     while (var->values[i])

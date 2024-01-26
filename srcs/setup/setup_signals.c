@@ -27,13 +27,13 @@ static void	signal_handler_inter(int signal)
 	}
 }
 
-// static void	signal_handler_exec(int signal)
-// {
-// 	if (signal == 2)
-// 		printf("^C\n");
-// 	else if (signal == 3)
-// 		printf("^\\Quit core dumped\n");
-// }
+static void	signal_handler_exec(int signal)
+{
+	if (signal == 2)
+		g_exit_code = 130;
+	else if (signal == 3)
+		g_exit_code = 131;
+}
 
 void	toggle_signal(int toggle)
 {
@@ -58,8 +58,8 @@ void	toggle_signal(int toggle)
 	{
 		term_data.c_lflag = term_data.c_lflag | ECHOCTL;
 		tcsetattr(0, 0, &term_data);
-		// action.sa_handler = signal_handler_exec;
-		action.sa_handler = SIG_IGN;
+		action.sa_handler = signal_handler_exec;
+		// action.sa_handler = SIG_IGN;
 		sigaction(SIGINT, &action, NULL);
 		sigaction(SIGQUIT, &action, NULL);
 	}

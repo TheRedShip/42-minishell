@@ -6,7 +6,7 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/26 14:03:31 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 14:56:49 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ char *ft_strsub(char *string, int start, int end)
 	}
 	new_string[i] = '\0';
 	return (new_string);
-
 }
 
-t_envvar *getvarenv(char *string, t_envvar *envp)
+char *getvarenv(char *string, t_envvar *envp, int *i)
 {
-	int i;
-	char *var_name;
-	t_envvar *var_value;
+	int		tempi;
+	char	*var_name;
+	char	*var_value;
 
-	i = 0;
-	while (string[i] && string[i] != ' ' && string[i] != '$')
-		i++;
-	var_name = ft_strsub(string, 0, i);
-	var_value = ft_get_var(envp, var_name);
+	(*i) += 1;
+	tempi = *i;
+	while (string[*i] && string[*i] != ' ' && string[*i] != '$' && string[*i] != '\'' && string[*i] != '"')
+		(*i)++;
+	var_name = ft_strsub(string, tempi, *i);
+	var_value = ft_get_varstring(ft_get_var(envp, var_name));
 	free(var_name);
 	return (var_value);
 }
@@ -50,7 +50,7 @@ t_envvar *getvarenv(char *string, t_envvar *envp)
 char *parse_dollar(char *string, t_envvar *envp)
 {
 	char *final_string;
-	char **env_values;
+	char *env_values;
 	t_quote_state	qs;
 	int	i;
 	int	j;
@@ -63,15 +63,14 @@ char *parse_dollar(char *string, t_envvar *envp)
 		ft_qs_update(string[i], &qs);
 		if (string[i] == '$' && (qs == QU_ZERO || qs == QU_DOUBLE))
 		{
-			env_values = getvarenv(string + i + 1, envp)->values;
+			env_values = getvarenv(string, envp, &i);
 			j = 0;
-			while (env_values[j])
-			{
-				final_string = str_add(final_string, env_values[j], ft_strlen(final_string));
-				final_string = str_append(final_string, ':');
-				i += ft_strlen(env_values[j]) + 1;
+			while (env_values && env_values[j] && env_values[j] != '=')
 				j++;
-			}
+			if (env_values)
+				j++;
+			final_string = str_add(final_string, env_values + j, ft_strlen(final_string));
+			free(env_values);
 		}
 		else
 		{
