@@ -27,46 +27,30 @@ static void	signal_handler_inter(int signal)
 	}
 }
 
-static void	signal_handler_exec(int signal)
-{
-	if (signal == 2)
-	{
-		printf("Quit core dumped\n");
-		g_exit_code = 130;
-	}
-	else if (signal == 3)
-	{
-		printf("\n");
-		g_exit_code = 131;
-	}
-}
+// static void	signal_handler_exec(int signal)
+// {
+// 	if (signal == 2)
+// 	{
+// 		printf("Quit core dumped\n");
+// 		g_exit_code = 130;
+// 	}
+// 	else if (signal == 3)
+// 	{
+// 		printf("\n");
+// 		g_exit_code = 131;
+// 	}
+// }
 
 void	toggle_signal(int toggle)
 {
-	static struct sigaction	action;
-	sigset_t mask;
-	struct termios		term_data;
-
-	tcgetattr(0, &term_data);
-	if (toggle)
+	if (toggle == 1)
 	{
-		term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
-		tcsetattr(0, 0, &term_data);
-		sigemptyset(&mask);
-		sigaddset(&mask, SIGQUIT);
-		action.sa_mask = mask;
-		action.sa_flags = 0;
-		action.sa_handler = &signal_handler_inter;
-		sigaction(SIGINT, &action, NULL);
-		sigaction(SIGQUIT, &action, NULL);
+		signal(SIGINT, signal_handler_inter);
+		signal(SIGQUIT, signal_handler_inter);
 	}
 	else
 	{
-		term_data.c_lflag = term_data.c_lflag | ECHOCTL;
-		tcsetattr(0, 0, &term_data);
-		action.sa_handler = signal_handler_exec;
-		// action.sa_handler = SIG_IGN;
-		sigaction(SIGINT, &action, NULL);
-		sigaction(SIGQUIT, &action, NULL);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
