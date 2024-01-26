@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 13:28:15 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 20:59:15 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int ft_show_export_list(t_command *cmd)
     char    **vars_array;
     char    **tmp;
 
-    vars_array = ft_get_var_strs(cmd->envp);
+    vars_array = ft_get_var_strs(cmd->envp, 1);
     if (!vars_array)
         return (EC_FAILED);
     ft_sort_strs_tab(vars_array, ft_tab_len(vars_array));

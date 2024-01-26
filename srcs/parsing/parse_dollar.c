@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/26 16:01:08 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 20:55:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char *getvarenv(char *string, t_envvar *envp, int *i)
 	while (string[*i] && string[*i] != ' ' && string[*i] != '$' && string[*i] != '\'' && string[*i] != '"')
 		(*i)++;
 	var_name = ft_strsub(string, tempi, *i);
-	var_value = ft_get_varstring(ft_get_var(envp, var_name));
+	var_value = ft_get_varstring(ft_get_var(envp, var_name), 0);
 	free(var_name);
 	return (var_value);
 }

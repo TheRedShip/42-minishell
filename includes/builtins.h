@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 15:52:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 20:58:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,20 +148,24 @@ int			ft_only_ns(char *str);
  * @brief			Get environment variable string.
  * 
  * @param vars		t_envvar pointer.
+ * @param format	Format boolean
  * 
  * @return			Formatted string of all values in *vars, name-leaded,
- * 					':' separated.
+ * 					':' separated. NULL values set to "" if format is 1.
 */
-char		*ft_get_varstring(t_envvar *var);
+char		*ft_get_varstring(t_envvar *var, int format);
 
 /**
  * @brief			Get environment variables as a string array.
  * 
  * @param vars		Linked list.
+ * @param format	Format boolean
  * 
  * @return			A pointer to char** containing all environment variables.
+ * 					name-leaded, ':' separated. 
+ * 					NULL values set to "" if format is 1.
 */
-char		**ft_get_var_strs(t_envvar *vars);
+char		**ft_get_var_strs(t_envvar *vars, int format);
 
 /**
  * @brief			Sorts a string array by alphabetical order.
@@ -170,6 +174,15 @@ char		**ft_get_var_strs(t_envvar *vars);
  * @param size		Array size.
 */
 void		ft_sort_strs_tab(char **tab, int size);
+
+/**
+ * @brief			Display environment variables by alphabetical order.
+ * 
+ * @param cmd		t_cmd pointer with command meta-data.
+ * 
+ * @return			EC_SUCCES normally, EC_FAILED in case of NULL allocation.
+*/
+int			ft_show_export_list(t_command *cmd);
 
 /* ************************************************************************** */
 

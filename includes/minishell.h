@@ -27,12 +27,11 @@
 # include "data_structures.h"
 # include "builtins.h"
 
-# define P_SUCCESS "\033[30;102;1m$?\033[0m \033[30;47;1;3m[MINISHELL]:\033[0m "
-# define P_FAIL "\033[30;101;1m$?\033[0m \033[30;47;1;3m[MINISHELL]:\033[0m "
+# define P_SUCCESS "\001\033[30;102;1m\002$? [MINISHELL]:\001\033[0m\002 "
+# define P_FAIL "\001\033[30;101;1m\002$? [MINISHELL]:\001\033[0m\002 "
 
-# define P_SDQUOTE "\033[30;106;1m>>\033[0m \033[30;47;1;3m![' dquote]:\033[0m > "
-# define P_DDQUOTE "\033[30;104;1m>>\033[0m \033[30;47;1;3m![\" dquote]:\033[0m > "
-
+# define P_SDQUOTE "\001\033[30;106;1m\002''      dquote:\001\033[0m\002 > "
+# define P_DDQUOTE "\001\033[30;104;1m\002\"\"      dquote:\001\033[0m\002 > "
 
 /**
  * @brief				Exit Handler. 
@@ -67,7 +66,17 @@ char	*ft_open_dquote(t_quote_state qs);
 /* ************************************************************************** */
 
 /* SETUP ******************************************************************** */
+
+/**
+ * @brief			Setup t_envvar linked list from envp
+ * 
+ * @param envp		String array envp.
+ * 
+ * @return			A pointer to a newly allocated linked list containing env
+ * 					variables, with name and values.
+*/
 t_envvar    *ft_setup_env(char **envp);
+
 void		toggle_signal(int toggle);
 /* ************************************************************************** */
 
