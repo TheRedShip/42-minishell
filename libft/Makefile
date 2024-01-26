@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/25 11:04:17 by rgramati         ###   ########.fr        #
+#    Updated: 2024/01/26 08:08:34 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCS_DIR	:=	srcs
 OBJS_DIR	:=	.objs
 
 # CHECK
-SRC_CHAR	:=	char/ft_isalnum.c char/ft_isalpha.c char/ft_isascii.c char/ft_isdigit.c char/ft_isprint.c char/ft_tolower.c char/ft_toupper.c
+SRC_CHAR	:=	char/ft_isalnum.c char/ft_isalpha.c char/ft_isascii.c char/ft_isdigit.c char/ft_isprint.c char/ft_tolower.c char/ft_toupper.c char/ft_isspace.c
 
 #LIST
 SRC_LIST	:=	link_l/ft_lstadd_back_bonus.c link_l/ft_lstadd_front_bonus.c link_l/ft_lstclear_bonus.c link_l/ft_lstdelone_bonus.c link_l/ft_lstiter_bonus.c link_l/ft_lstlast_bonus.c link_l/ft_lstmap_bonus.c link_l/ft_lstnew_bonus.c link_l/ft_lstsize_bonus.c

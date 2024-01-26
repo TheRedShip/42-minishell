@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 18:24:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 07:52:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char    *ft_get_varstring(t_envvar *var)
     {
         tmp = string;
         if (!i)
-            string = ft_strjoin(tmp, var->values[i], 0);
+            string = ft_strjoin(tmp, var->values[i], NULL);
         else
             string = ft_strjoin(tmp, var->values[i], ":");
         free(tmp);
@@ -57,7 +57,7 @@ int ft_env(t_command *cmd)
     size = ft_var_size(vars) + 1;
     vars_array = malloc(size * sizeof(char *));
     if (!vars_array)
-        return (1);
+        return (EC_FAILED);
     i = -1;
     while (++i < size - 1)
     {
@@ -65,12 +65,12 @@ int ft_env(t_command *cmd)
         if (!vars_array[i])
         {
             ft_free_tab((void **)vars_array);
-            return (1);
+            return (EC_FAILED);
         }
         printf("%s\n", vars_array[i]);
         vars = vars->next;
     }
     vars_array[i] = 0;
     ft_free_tab((void **)vars_array);
-    return (0);
+    return (EC_SUCCES);
 }

@@ -3,105 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 16:15:41 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/16 16:15:41 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
+/*   Updated: 2024/01/26 08:43:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_exit_code;
+extern int g_exit_code;
 
-long long ft_exit_atoi(char *str)
+long	ft_exit_atoi(char *str)
 {
-	int i = 0;
-	int sign = 1;
-	long long res = 0;
+	long	n;
+	int		sign;
 
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (str[i])
-	{
-		res = res * 10 + str[i] - '0';
-		i++;
-	}
-	if (sign == -1)
-		return (256 - res);
-	return (res);
+	n = 0;
+	sign = 0;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '-' || *str == '+')
+		sign = (*(str++) == '-');
+	while (*str)
+		n = n * 10 + (int){*(str++) - '0'};
+	if (sign)
+		return ((256 - n) % 256);
+	return (n % 256);
 }
 
-int is_digit(char *str)
+int	ft_is_numeric(char *str)
 {
-	int i;
-	char sign;
+	int		sign;
+	char	*tmp;
 
-	while ((*str >= 9 && *str <= 13) || *str == 32)
+	sign = 0;
+	tmp = str;
+	while (ft_isspace(*str))
 		str++;
-	sign = '+';
-	if (str[0] == '-' || str[0] == '+')
+	if (*str == '-' || *str == '+')
 	{
-		sign = str[0];
 		str++;
-	}
-	i = 0;
-	while (str[i])
-	{
-		if (i >= 19 || (i == 18 && sign == '-' && str[i] == '9')
-			|| (i == 18 && sign == '+' && str[i] >= '8'))
-			return (0);
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
-		i++;
-	}
-	if (i == 0)
-		return (0);
-	return (1);
+		sign = 1;
+	}	
+	while (ft_isdigit(*(str)))
+		str++;
+	if (sign)
+		return (!*str && str - tmp < 18);
+	return (!*str && (str - tmp) && (str - tmp < 19));
 }
 
-void	real_exit(int exit_code, char *line, char **args)
+void	ft_exit_manager(int exit_code, int error_code, t_command *cmd)
 {
- 	rl_clear_history();
-	free(line);
-	ft_free_tab((void **)(args));
+	if (error_code == EC_NOTNUM)
+		printf("exit: %s: numeric argument required\n", cmd->args[1]);
+	if (error_code == EC_TOMAAR)
+	{
+		printf("exit: too many arguments\n");
+		return ;
+	}
+	rl_clear_history();
 	exit(exit_code);
 }
 
-int ft_exit(char *line)
+int ft_exit(t_command *cmd)
 {
-	char	**args;
-	int		tablen;
+	int		argc;
 
-	args = ft_split(line + 4, ' ');
-	tablen = ft_tab_len(args);
-	if (tablen == 0)
-	{
-		printf("exit\n");
-		real_exit(g_exit_code, line, args);
-	}
-	if (tablen >= 1 && is_digit(args[0]) == 0)
-	{
-		printf("exit\n");
-		printf("minishell: exit: %s: numeric argument required\n", args[0]);
-		real_exit(2, line, args);
-	}
-	if (tablen > 1 && is_digit(args[0]) == 1)
-	{
-		printf("exit\n");
-		printf("minishell: exit: too many arguments\n");
-		return (1);
-	}
-	if (tablen == 1 && args[0])
-	{
-		printf("exit\n");
-		real_exit(ft_exit_atoi(args[0]) % 256, line, args);
-	}
-	return (0);
+	if (!cmd)
+		ft_exit_manager(g_exit_code, EC_SUCCES, cmd);
+	argc = ft_tab_len(cmd->args) - 1;
+	printf("exit argc = %d\n", argc);
+	if (!argc)
+		ft_exit_manager(g_exit_code, EC_SUCCES, cmd);
+	if (!ft_is_numeric(cmd->args[1]))
+		ft_exit_manager(EC_ERRORS, EC_NOTNUM, cmd);
+	if (argc > 1)
+		ft_exit_manager(EC_FAILED, EC_TOMAAR, cmd);
+	else
+		ft_exit_manager(ft_exit_atoi(cmd->args[1]), EC_SUCCES, cmd);
+	return (argc > 1);
 }

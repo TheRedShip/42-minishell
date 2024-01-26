@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 17:33:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 07:13:58 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ void		ft_del_var(t_envvar *var);
 */
 t_envvar	*ft_get_var(t_envvar *vars, char *name);
 
-
 /**
  * @brief			Set t_envvar values to new split of nv.
  * 
@@ -155,7 +154,16 @@ t_envvar	*ft_get_var(t_envvar *vars, char *name);
  * @param name		Name of the variable to modify.
  * @param nv		New string of values, ':' separated.
 */
-void	ft_set_var(t_envvar *vars, char *name, char *nv);
+void		ft_set_var(t_envvar *vars, char *name, char *nv);
+
+/**
+ * @brief			Get vars linked list size.
+ * 
+ * @param vars		Linked list.
+ * 
+ * @return			List size
+*/
+int			ft_var_size(t_envvar *vars);
 
 /* T_NODE ******************************************************************* */
 

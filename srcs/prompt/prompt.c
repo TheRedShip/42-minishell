@@ -35,7 +35,7 @@ void start_execve(char *line, char **envp)
 		if (execve(temp_command, args, envp) == -1)
 			perror("execve");
 		free(temp_command);
-		exit(EXIT_FAILURE);
+		exit(EC_FAILED);
 	}
 	else if (pid < 0)
 		perror("fork");
@@ -48,11 +48,12 @@ void start_execve(char *line, char **envp)
 
 void	builtin_cmd(char *line, t_envvar *envp, char **envpstring)
 {
-	t_command	*test = ft_init_command(0, 1, "env", envp);
+	//t_command	*test = ft_init_command(0, 1, "env", envp);
+	t_command	*test = ft_init_command(0, 1, line, envp);
 
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
-		g_exit_code = ft_exit(line);
+		g_exit_code = ft_exit(test);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
 		g_exit_code = ft_echo(line + 5);
 	else if (!ft_strncmp(line, "env ", 5) || !ft_strncmp(line, "env", 4))
@@ -80,7 +81,7 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	line = ft_quote_checker(line, QU_ZERO);
 	printf("LIGNE = [%s]\n", line);
 	if (!line)
-		ft_exit(ft_strdup("exit"));
+		ft_exit(NULL);
 	add_history(line);
 	line = parse_quotes(line);
 	builtin_cmd(line, envp, envpstring);

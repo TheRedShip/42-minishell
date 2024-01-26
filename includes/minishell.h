@@ -25,6 +25,7 @@
 # include "libft.h"
 
 # include "data_structures.h"
+# include "builtins.h"
 
 # define P_SUCCESS "\033[30;102;1m$?\033[0m \033[30;47;1;3m[MINISHELL]:\033[0m "
 # define P_FAIL "\033[30;101;1m$?\033[0m \033[30;47;1;3m[MINISHELL]:\033[0m "
@@ -32,18 +33,18 @@
 # define P_SDQUOTE "\033[30;106;1m>>\033[0m \033[30;47;1;3m![' dquote]:\033[0m > "
 # define P_DDQUOTE "\033[30;104;1m>>\033[0m \033[30;47;1;3m![\" dquote]:\033[0m > "
 
-/* BUILT-INS **************************************************************** */
-int		ft_exit(char *line);
 
 /**
- * @brief			Echoes a string, -n to discard trailing newline.
+ * @brief				Exit Handler. 
+ * (A LAVENIR CETTE MERDE DOIT FREE TOUT LE CODE JAI DEJA UNE IDEE ON VERRA PLUS TARD OUBLIE PAS LES STATIC ET LES DETOURNEMENTS DE NORME)
  * 
- * @param cmd		t_cmd pointer with command meta-data.
- * 
- * @return			ft_echo exit_code.
+ * @param exit_code		Exit code.
+ * @param error_code	Error code (see enum e_error_code).
+ * @param cmd			t_command pointer with command meta-data.
 */
-//int		ft_echo(t_command *cmd);
-int		ft_echo(char *string);
+void	ft_exit_manager(int exit_code, int error_code, t_command *cmd);
+
+/* BUILT-INS **************************************************************** */
 
 /**
  * @brief			Display environment variables, no order precised.
@@ -54,8 +55,6 @@ int		ft_echo(char *string);
 */
 int ft_env(t_command *cmd);
 
-int		ft_pwd(void);
-int 	ft_cd(char **args, t_envvar *envp);
 void	ft_export(t_command *cmd, t_envvar env);
 /* ************************************************************************** */
 char	*ft_get_pwd(void);
