@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 11:11:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 12:14:44 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,15 @@ int			ft_cd(t_command *cmd);
  * @return			ft_exit exit code. 
 */
 int			ft_exit(t_command *cmd, char *prompt, t_envvar *envp);
+
+/**
+ * @brief			Display environment variables, no order precised.
+ * 
+ * @param cmd		t_cmd pointer with command meta-data.
+ * 
+ * @return			ft_env exit_code.
+*/
+int			ft_env(t_command *cmd);
 
 /**
  * @brief			Exports a environment variable, or display them if no args.
@@ -125,6 +134,33 @@ int			ft_is_numeric(char *str);
  * @return			1 if all chars after - are 'n's, 0 otherwise.
 */
 int			ft_only_ns(char *str);
+
+/**
+ * @brief			Get environment variable string.
+ * 
+ * @param vars		t_envvar pointer.
+ * 
+ * @return			Formatted string of all values in *vars, name-leaded,
+ * 					':' separated.
+*/
+char		*ft_get_varstring(t_envvar *var);
+
+/**
+ * @brief			Get environment variables as a string array.
+ * 
+ * @param vars		Linked list.
+ * 
+ * @return			A pointer to char** containing all environment variables.
+*/
+char		**ft_get_var_strs(t_envvar *vars);
+
+/**
+ * @brief			Sorts a string array by alphabetical order.
+ * 
+ * @param tab		String array.
+ * @param size		Array size.
+*/
+void		ft_sort_strs_tab(char **tab, int size);
 
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 10:16:48 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 12:09:29 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,5 +276,5 @@ void		ft_del_command(t_command *cmd);
 /**
  * @brief			Get command path.
 */
-char	*ft_get_path(char *cmd, t_envvar *envp);
+char		*ft_get_path(char *cmd, t_envvar *envp);
 #endif

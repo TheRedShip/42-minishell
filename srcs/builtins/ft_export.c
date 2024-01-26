@@ -6,50 +6,70 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 10:09:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 12:23:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	ft_sort_strs_tab(int *tab, int size)
-// {
-// 	int	min;
-// 	int	current;
-// 	int	swp;
+void    ft_swap_strs(char **a, char **b)
+{
+    char    *tmp;
 
-// 	current = 0;
-// 	while (current <= size)
-// 	{
-// 		min = current;
-// 		swp = current + 1;
-// 		while (swp <= size - 1)
-// 		{
-// 			if (tab[swp] < tab[min])
-// 				min = swp;
-// 			swp++;
-// 		}
-// 		ft_swap(&tab[current], &tab[min]);
-// 		current++;
-// 	}
-// }
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+void	ft_sort_strs_tab(char **tab, int size)
+{
+	int min;
+	int	curr;
+	int	swp;
+
+	curr = 0;
+	while (curr <= size)
+	{
+		min = curr;
+		swp = curr + 1;
+		while (swp <= size - 1)
+		{
+			if (ft_strncmp(*(tab + swp), *(tab + min), 1) < 0)
+				min = swp;
+			swp++;
+		}
+		ft_swap_strs(tab + curr, tab + min);
+		curr++;
+	}
+}
+
+int ft_show_export_list(t_command *cmd)
+{
+    char    **vars_array;
+    char    **tmp;
+
+    vars_array = ft_get_var_strs(cmd->envp);
+    if (!vars_array)
+        return (EC_FAILED);
+    ft_sort_strs_tab(vars_array, ft_tab_len(vars_array));
+    tmp = vars_array;
+    while (*tmp)
+    {
+        printf("%s\n", *tmp);
+        tmp++;
+    }
+    ft_free_tab((void **)vars_array);
+    return (EC_SUCCES);
+}
 
 int ft_export(t_command *cmd)
 {
-    (void) cmd;
+    if (ft_tab_len(cmd->args) == 1)
+    {
+        if (ft_show_export_list(cmd))
+            return (EC_FAILED);
+    }
+    else
+        printf("je fais autre chose avec %s\n", cmd->args[1]);
     return (EC_SUCCES);
-    // t_envvar    *vars;
-    // char        **vars_array;
-    // char        **args;
-    // int         size;
-
-    // vars = cmd->envp;
-    // size = ft_var_size(vars) + 1;
-    // if (ft_tab_len(cmd->args))
-    //     args = ft_split(cmd->args[1], '=');
-    // else
-    // {
-    //    return (EC_FAILED);
-    // }
-    // return (EC_SUCCES);
 }

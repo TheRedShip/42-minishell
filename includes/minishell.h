@@ -45,16 +45,6 @@
 */
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt);
 
-/* BUILT-INS **************************************************************** */
-
-/**
- * @brief			Display environment variables, no order precised.
- * 
- * @param cmd		t_cmd pointer with command meta-data.
- * 
- * @return			ft_env exit_code.
-*/
-int ft_env(t_command *cmd);
 
 /* ************************************************************************** */
 char	*ft_get_pwd(void);

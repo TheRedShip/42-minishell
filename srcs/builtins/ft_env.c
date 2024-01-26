@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 10:07:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 12:07:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ char    *ft_get_varstring(t_envvar *var)
     return (string);
 }
 
-char    **ft_get_var_strs(t_envvar *vars, int size)
+char    **ft_get_var_strs(t_envvar *vars)
 {
     int         i;
     char        **vars_array;
+    int         size;
 
     i = -1;
+    size = ft_var_size(vars) + 1;
     vars_array = malloc(size * sizeof(char *));
     if (!vars_array)
         return (NULL);
@@ -73,17 +75,16 @@ int ft_env(t_command *cmd)
     t_envvar    *vars;
     char        **vars_array;
     char        **tmp;
-    int         size;
 
     vars = cmd->envp;
-    size = ft_var_size(vars) + 1;
-    vars_array = ft_get_var_strs(vars, size);
+    vars_array = ft_get_var_strs(vars);
     if (!vars_array)
         return (EC_FAILED);
     tmp = vars_array;
     while (*tmp)
     {
-        printf("%s\n", *tmp);
+        if (*((*tmp) + ft_strlen(*tmp) - 1) != '=')
+            printf("%s\n", *tmp);
         tmp++;
     }
     ft_free_tab((void **)vars_array);

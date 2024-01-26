@@ -53,12 +53,12 @@ int	ft_cd(t_command *cmd)
 	vars = ft_get_directory_vars(cmd->envp);
 	if (!vars)
 		return (EC_FAILED);
-	if (argc > 1)
+	if (argc > 2)
 	{
 		printf("%s: cd: Too many arguments.\n", vars[3]->values[0]);
 		return (EC_FAILED);	
 	}
-	if (ft_manage_cd(argc, cmd->args, vars))
+	if (ft_manage_cd(argc - 1, cmd->args + 1, vars))
 		return (EC_FAILED);
 	ft_set_var(cmd->envp, "OLDPWD", vars[2]->values[0]);
 	newdir = ft_get_pwd();

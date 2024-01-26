@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 11:05:57 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:42:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	ft_is_numeric(char *str)
 	while (ft_isdigit(*(str)))
 		str++;
 	if (sign)
-		return (!*str && str - tmp < 18);
-	return (!*str && (str - tmp) && (str - tmp < 19));
+		return (!*str && str - tmp < 19);
+	return (!*str && (str - tmp) && (str - tmp < 18));
 }
 
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt)
