@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logical_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 13:37:46 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 14:17:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,19 @@ char	*ft_quote_checker(char *str, t_quote_state oldqs)
 	return (string_holder);
 }
 
-// int main(void)
-// {
-// 	char *test = "salut '\"c'a 'v'\"a\"'\"";
-// 	ft_quote_checker(ft_strdup(test), QU_ZERO);
-// }
+int	ft_quoted_words_counter(char *str)
+{
+	t_quote_state	qs;
+	int				changed;
+	int				count;
 
-// Sa""'lut" 'com"ent' tu v"'''"''"'"as"
+	changed = 0;
+	count = 0;
+	if (!str)
+		return 0;
+	while (*str)
+	{
+		changed = ft_qs_update(*str, &qs);
+		str++;
+	}
+}
