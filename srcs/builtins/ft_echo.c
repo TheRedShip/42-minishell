@@ -38,9 +38,9 @@ int	ft_only_ns(char *str)
 // 	{
 // 		tmp = string;
 // 		if (i != 1 + !trailing)
-// 			string = ft_strjoin(tmp, cmd->args[i++], " ");
+// 			string = ft_strjoin(tmp, cmd->args[i++], " ", 0);
 // 		else
-// 			string = ft_strjoin(tmp, cmd->args[i++], NULL);
+// 			string = ft_strjoin(tmp, cmd->args[i++], NULL, 0);
 // 		free(tmp);
 // 	}
 // 	if (string)

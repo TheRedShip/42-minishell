@@ -100,13 +100,12 @@ char	*ft_get_prompt_string(t_envvar *envp)
 	if (!save && envp)
 		save = envp;
 	if (ft_get_var(save, "PWD"))
-		pwd = ft_strjoin(ft_get_var(save, "PWD")->values[0], " > ", 0);
+		pwd = ft_strjoin(ft_get_var(save, "PWD")->values[0], " > ", 0, 0);
 	else
 		pwd = ft_strdup(" > ");
 	if (!g_exit_code)
-		prompt = ft_strjoin(P_SUCCESS, pwd, 0);
+		prompt = ft_strjoin(P_SUCCESS, pwd, 0, 2);
 	else
-		prompt = ft_strjoin(P_FAIL, pwd, 0);
-	free(pwd);
+		prompt = ft_strjoin(P_FAIL, pwd, 0, 2);
 	return (prompt);
 }

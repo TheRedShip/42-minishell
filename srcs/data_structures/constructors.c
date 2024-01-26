@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 16:04:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:20:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar *envp)
 	new_command->outfile = output;
 	new_command->path = NULL;
 	args = ft_split(raw_cmd, ' ');
-	if (args[0])
+	if (args)
 		new_command->path = ft_get_path(args[0], envp);
 	new_command->args = args;
 	new_command->envp = envp;
