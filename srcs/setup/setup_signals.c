@@ -30,9 +30,15 @@ static void	signal_handler_inter(int signal)
 static void	signal_handler_exec(int signal)
 {
 	if (signal == 2)
+	{
+		printf("Quit core dumped\n");
 		g_exit_code = 130;
+	}
 	else if (signal == 3)
+	{
+		printf("\n");
 		g_exit_code = 131;
+	}
 }
 
 void	toggle_signal(int toggle)

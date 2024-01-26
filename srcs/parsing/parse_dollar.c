@@ -6,7 +6,7 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/26 15:02:16 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 16:01:08 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ char *parse_dollar(char *string, t_envvar *envp)
 			i++;
 		}
 	}
+	free(string);
 	return (final_string);
 }
