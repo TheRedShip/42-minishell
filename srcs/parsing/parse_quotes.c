@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:53:31 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/26 16:13:42 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 23:20:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	change_quote_state(int *quote_state, char *string, int *i)
 char	*parse_quotes(char *string)
 {
 	int		i;
-	int		j;
+	// int		j;
 	int 	quote_status;
 	char	*final_string;
 
 	i = -1;
-	j = 0;
+	// j = 0;
 	quote_status = 0;
 	final_string = NULL;
 	while (i < (int)(ft_strlen(string)) && string[++i])

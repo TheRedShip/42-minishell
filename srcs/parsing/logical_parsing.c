@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logical_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 17:05:17 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 23:22:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,4 @@ char	*ft_quote_checker(char *str, t_quote_state oldqs)
 		return (ft_quote_checker(dquote_holder, QU_ZERO));
 	}
 	return (string_holder);
-}
-
-int	ft_quoted_words_counter(char *str)
-{
-	t_quote_state	qs;
-	int				changed;
-	int				count;
-
-	changed = 0;
-	count = 0;
-	if (!str)
-		return 0;
-	while (*str)
-	{
-		changed = ft_qs_update(*str, &qs);
-		str++;
-	}
-	return(0);
 }
