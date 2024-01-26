@@ -61,7 +61,7 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring, char *prompt)
 	else if (!ft_strncmp(line, "export ", 7) || !ft_strncmp(line, "export", 7))
 		g_exit_code = ft_export(test);
 	else if (!ft_strncmp(line, "unset ", 6) || !ft_strncmp(line, "unset", 6))
-		g_exit_code = ft_export(test);
+		g_exit_code = ft_unset(test);
 	else if (!ft_strncmp(line, "pwd ", 4) || !ft_strncmp(line, "pwd", 4))
 		g_exit_code = ft_pwd(test);
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))

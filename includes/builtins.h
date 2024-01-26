@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 14:59:39 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/26 15:50:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,15 @@ int			ft_env(t_command *cmd);
  * @return			ft_export exit code.
 */
 int			ft_export(t_command *cmd);
+
+/**
+ * @brief			Unsets one or more environment variables.
+ * 
+ * @param cmd		t_cmd pointer with command meta-data.
+ * 
+ * @return			ft_unset exit code.
+*/
+int			ft_unset(t_command *cmd);
 
 /* UTILS ******************************************************************** */
 
