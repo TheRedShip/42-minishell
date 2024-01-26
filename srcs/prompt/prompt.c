@@ -82,7 +82,8 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	if (!line)
 		ft_exit(NULL, prompt, envp);
 	add_history(line);
-	line = parse_quotes(line);
+	line = parse_dollar(line, envp);
+	// line = parse_quotes(line);
 	builtin_cmd(line, envp, envpstring, prompt);
 	free(line);
 	free(prompt);

@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   logical_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 17:51:14 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:37:46 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_qs_update(char c, t_quote_state *qs)
-{
-	t_quote_state	tmp;
-
-	tmp = *qs;
-	if (*qs == QU_ZERO)
-	{
-		if (c == '\'')
-			*qs = QU_SINGLE;
-		if (c == '"')
-			*qs = QU_DOUBLE;
-	}
-	else if ((c == '\'' && *qs == QU_SINGLE) || (c == '"' && *qs == QU_DOUBLE))
-		*qs = QU_ZERO;
-	return (*qs != tmp);
-}
 
 char	*ft_quote_checker(char *str, t_quote_state oldqs)
 {

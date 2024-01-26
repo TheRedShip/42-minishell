@@ -52,6 +52,10 @@ char	*ft_get_pwd(void);
 
 /* PARSING ****************************************************************** */
 char	*parse_quotes(char *string);
+char	*parse_dollar(char *string, t_envvar *envp);
+int		ft_qs_update(char c, t_quote_state *qs);
+char	*str_add(char *dest, char *src, size_t place);
+char	*str_append(char *str, char c);
 char	*str_add(char *dest, char *src, size_t place);
 /* ************************************************************************** */
 
