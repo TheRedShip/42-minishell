@@ -40,8 +40,21 @@ void start_execve(char *line, char **envp)
 	else if (pid < 0)
 		perror("fork");
 	waitpid(pid, &status, 0);
-	if (g_exit_code < 130 || g_exit_code > 131)
-		g_exit_code = WEXITSTATUS(status);
+	// if (g_exit_code < 130 || g_exit_code > 131)
+		// g_exit_code = WEXITSTATUS(status);
+	if (!WIFEXITED(status))
+	{
+		if (WCOREDUMP(status))
+		{
+			printf("Quit (core dumped)\n");
+			g_exit_code = 131;
+		}
+		else
+		{
+			printf("\n");
+			g_exit_code = 130;
+		}
+	}
 	toggle_signal(1);
 	ft_free_tab((void **)(args));
 }
