@@ -39,6 +39,6 @@ int	ft_echo(t_command *cmd)
 		i++;
 	}
 	printf("%s\n", string);
-	
+	free(string);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 12:02:29 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 16:13:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int ft_env(t_command *cmd)
     tmp = vars_array;
     while (*tmp)
     {
-        if (ft_strchr(*tmp, '=') != *tmp + ft_strlen(*tmp))
+        if (ft_strchr(*tmp, '='))
             printf("%s\n", *tmp);
         tmp++;
     }

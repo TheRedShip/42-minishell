@@ -14,7 +14,7 @@
 
 extern int g_exit_code;
 
-void start_execve(char *line, char **envp, t_command *cmd)
+void start_execve(char *line, t_command *cmd)
 {
 	char **args;
 	char *temp_command;
@@ -27,12 +27,20 @@ void start_execve(char *line, char **envp, t_command *cmd)
 		free(args);
 		return ;
 	}
+	if (access(args[0], X_OK))
+		temp_command = ft_get_path(args[0], cmd->envp);
+	else
+		temp_command = ft_strdup(args[0]);
+	if (!temp_command)
+	{
+		ft_free_tab((void **)(args));
+		return ;
+	}
 	toggle_signal(0);
 	pid = fork();
 	if (pid == 0)
 	{
-		temp_command = ft_get_path(args[0], cmd->envp);
-		if (execve(temp_command, args, envp) == -1)
+		if (execve(temp_command, args, ft_get_var_strs(cmd->envp, 0)) == -1)
 			perror("execve");
 		free(temp_command);
 		exit(EC_FAILED);
@@ -52,17 +60,21 @@ void start_execve(char *line, char **envp, t_command *cmd)
 		g_exit_code = 130;
 	}
 	toggle_signal(1);
+	free(temp_command);
 	ft_free_tab((void **)(args));
 }
 
-void	builtin_cmd(char *line, t_envvar *envp, char **envpstring, char *prompt)
+void	builtin_cmd(char *line, t_envvar *envp, char *prompt)
 {
 	//t_command	*test = ft_init_command(0, 1, "env", envp);
 	t_command	*test = ft_init_command(0, 1, line, envp);
 
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
+	{
+		free(line);
 		g_exit_code = ft_exit(test, prompt, NULL);
+	}
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
 		g_exit_code = ft_echo(test);
 	else if (!ft_strncmp(line, "env ", 4) || !ft_strncmp(line, "env", 4))
@@ -78,11 +90,11 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring, char *prompt)
 	else if (!ft_strncmp(line, "level", 6)) 										//DEBUG ONLY ne pas toucher
 		printf("le level shell est %s\n", ft_get_var(envp, "SHLVL")->values[0]);
 	else
-		start_execve(line, envpstring, test);
+		start_execve(line, test);
 	ft_del_command(test);
 }
 
-void	ft_prompt(t_envvar *envp, char **envpstring)
+void	ft_prompt(t_envvar *envp)
 {
 	char	*line;
 	char	*prompt;
@@ -96,7 +108,7 @@ void	ft_prompt(t_envvar *envp, char **envpstring)
 	add_history(line);
 	line = parse_dollar(line, envp);
 	// line = parse_quotes(line);
-	builtin_cmd(line, envp, envpstring, prompt);
+	builtin_cmd(line, envp, prompt);
 	free(line);
 	free(prompt);
 }

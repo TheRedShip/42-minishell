@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 13:49:00 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 15:46:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ char	*ft_get_path(char *cmd, t_envvar *envp)
 		path = ft_strjoin(envp->values[i++], bin, 0, 0);
 	}
 	free(bin);
+	if (!envp->values[i])
+		free(path);
+	if (!envp->values[i])
+		return (NULL);
 	return (path);
 }
 

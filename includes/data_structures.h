@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 10:33:29 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:39:03 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ void		ft_insert_child(t_node **tree, t_node *child, int side);
 
 /**
  * @brief			Associate 2 t_node into one tree and sets tree to \
- * @brief           newly allocated parent.
+ * 		           newly allocated parent.
  * 
  * @param tree		t_node *1, future left child.
  * @param neigh		t_node *2, future right child.

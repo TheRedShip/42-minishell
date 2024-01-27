@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/27 14:33:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 15:51:58 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,14 @@ char **str_copy(char **string)
 
 int main(int argc, char **argv, char **envp)
 {
-	char **env_copy;
 	t_envvar	*env;
 	(void) argc;
 	(void) argv;
 
 	toggle_signal(1);
-	env_copy = str_copy(envp);
-	env = ft_setup_env(env_copy);
+	env = ft_setup_env(envp);
 	while (1)
-		ft_prompt(env, envp);
+		ft_prompt(env);
 	// ft_free_tab(env_copy);
 	return (0);
 }
