@@ -6,27 +6,36 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 12:38:53 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 13:44:08 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 t_envvar    *ft_init_var(char *value)
 {
 	t_envvar    *new_var;
+	char		*equal;
 	char        *name;
+	char		**tmp;
 
+	(void) name;
 	new_var = malloc(sizeof(t_envvar));
 	if (!new_var)
 		return (NULL);
-	name = ft_strdup(ft_strtok(value, "="));
-	new_var->name = name;
-	if (ft_strchr(value, '='))
-		new_var->values = ft_split(value + ft_strlen(name) + 1, ':');
+	equal = ft_strchr(value, '=');
+	if (equal)
+	{
+		tmp = ft_split(value, '=');
+		new_var->name = ft_strdup(tmp[0]);
+		ft_free_tab((void **)tmp);
+		new_var->values = ft_split(equal + 1, ':');
+	}
 	else
+	{
+		new_var->name = ft_strdup(value);
 		new_var->values = NULL;
+	}
 	new_var->next = NULL;
 	return (new_var);
 }
