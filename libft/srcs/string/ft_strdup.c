@@ -6,13 +6,34 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 18:42:06 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 18:26:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+static int	ft_max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
+char	*ft_strndup(char *str, size_t n)
+{
+	char	*cpy;
+	char	*tmp;
+
+	cpy = malloc(ft_max(n + 1, ft_strlen(str)) * sizeof(char));
+	if (!cpy)
+		return (NULL);
+	tmp = cpy;
+	while (*str && n--)
+		*(cpy++) = *(str++);
+	return (tmp);
+}
+
+char	*ft_strdup(char *s)
 {
 	char	*dest;
 	size_t	len;

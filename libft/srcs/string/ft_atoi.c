@@ -6,13 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:38:15 by rgramati          #+#    #+#             */
-/*   Updated: 2023/11/02 20:58:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi(char *nptr)
 {
 	int	i;
 	int	sign;

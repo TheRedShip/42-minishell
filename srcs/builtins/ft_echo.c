@@ -14,11 +14,11 @@
 
 int	ft_echo(t_command *cmd)
 {
-	(void) cmd;
 	int	i;
 	int	trailing;
 	char *string;
 	char *args[] = {"echo", " ", "cc", "salut", NULL};
+	(void) cmd;
 	
 	if (!args[0])
 	{

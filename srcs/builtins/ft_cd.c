@@ -52,7 +52,7 @@ int	ft_cd(t_command *cmd)
 	int			argc;
 	char		*newdir;
 	t_envvar	**vars;
-	
+
 	argc = ft_tab_len(cmd->args);
 	vars = ft_get_directory_vars(cmd->envp);
 	if (!vars)
@@ -61,7 +61,7 @@ int	ft_cd(t_command *cmd)
 	{
 		free(vars);
 		printf("%s: cd: Too many arguments.\n", vars[3]->values[0]);
-		return (EC_FAILED);	
+		return (EC_FAILED);
 	}
 	if (ft_manage_cd(argc - 1, cmd->args + 1, vars))
 	{

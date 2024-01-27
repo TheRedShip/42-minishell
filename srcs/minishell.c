@@ -6,16 +6,16 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/27 15:51:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:17:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **str_copy(char **string)
+char	**str_copy(char **string)
 {
-	char **new_string;
-	int i;
+	char	**new_string;
+	int		i;
 
 	i = 0;
 	while (string[i])
@@ -31,16 +31,15 @@ char **str_copy(char **string)
 	return (new_string);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_envvar	*env;
+
 	(void) argc;
 	(void) argv;
-
 	toggle_signal(1);
 	env = ft_setup_env(envp);
 	while (1)
 		ft_prompt(env);
-	// ft_free_tab(env_copy);
 	return (0);
 }

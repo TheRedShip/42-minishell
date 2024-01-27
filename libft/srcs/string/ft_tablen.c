@@ -12,12 +12,12 @@
 
 #include "libft.h"
 
-int ft_tab_len(char **tab)
+int	ft_tab_len(char **tab)
 {
-	int i;
+	char	**tmp;
 
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
+	tmp = tab;
+	while (*(tmp++))
+		;
+	return (tmp - tab);
 }

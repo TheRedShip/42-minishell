@@ -6,20 +6,20 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:07:14 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 15:36:24 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:16:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_unset(t_command *cmd)
+int	ft_unset(t_command *cmd)
 {
-    char    **tmp;
+	char	**tmp;
 
-    if (ft_tab_len(cmd->args) < 2)
-        return (EC_FAILED);
-    tmp = cmd->args;
-    while (*tmp)
-        ft_remove_var(&cmd->envp, *(tmp++));
-    return (EC_SUCCES);
+	if (ft_tab_len(cmd->args) < 2)
+		return (EC_FAILED);
+	tmp = cmd->args;
+	while (*tmp)
+		ft_remove_var(&cmd->envp, *(tmp++));
+	return (EC_SUCCES);
 }

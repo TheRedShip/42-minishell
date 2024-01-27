@@ -6,16 +6,16 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:16:47 by rgramati          #+#    #+#             */
-/*   Updated: 2023/10/31 17:30:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strrchr(char *s, int c)
 {
 	size_t		i;
-	const char	*str;
+	char	*str;
 
 	str = s;
 	i = ft_strlen(str);

@@ -6,24 +6,24 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 14:25:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:16:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    ft_swap_strs(char **a, char **b)
+void	ft_swap_strs(char **a, char **b)
 {
-    char    *tmp;
+	char	*tmp;
 
-    tmp = *a;
-    *a = *b;
-    *b = tmp;
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
 void	ft_sort_strs_tab(char **tab, int size)
 {
-	int min;
+	int	min;
 	int	curr;
 	int	swp;
 
@@ -34,7 +34,7 @@ void	ft_sort_strs_tab(char **tab, int size)
 		swp = curr + 1;
 		while (swp <= size - 1)
 		{
-			if (ft_strncmp(*(tab + swp), *(tab + min), 1) < 0)
+			if (-ft_strncmp(*(tab + swp), *(tab + min), 1) > 0)
 				min = swp;
 			swp++;
 		}
@@ -43,56 +43,59 @@ void	ft_sort_strs_tab(char **tab, int size)
 	}
 }
 
-int ft_show_export_list(t_command *cmd)
+int	ft_show_export_list(t_command *cmd)
 {
-    char    **vars_array;
-    char    **tmp;
-    char    *string;
+	char	**vars_array;
+	char	**tmp;
+	char	*string;
 
-    vars_array = ft_get_var_strs(cmd->envp, 1);
-    if (!vars_array)
-        return (EC_FAILED);
-    ft_sort_strs_tab(vars_array, ft_tab_len(vars_array));
-    tmp = vars_array;
-    while (*tmp)
-    {
-        string = ft_strjoin("declare -x ", *tmp, NULL, 0);
-        printf("%s\n", string);
-        free(string);
-        tmp++;
-    }
-    ft_free_tab((void **)vars_array);
-    return (EC_SUCCES);
+	vars_array = ft_get_var_strs(cmd->envp, 1);
+	if (!vars_array)
+		return (EC_FAILED);
+	ft_sort_strs_tab(vars_array, ft_tab_len(vars_array));
+	tmp = vars_array;
+	while (*tmp)
+	{
+		string = ft_strjoin("declare -x ", *tmp, NULL, 0);
+		printf("%s\n", string);
+		free(string);
+		tmp++;
+	}
+	ft_free_tab((void **)vars_array);
+	return (EC_SUCCES);
 }
 
-int ft_export(t_command *cmd)
+void	ft_export_var(t_command *cmd)
 {
-    char    **tmp;
-    char    **tmp2;
+	char	**tmp;
+	char	**tmp2;
 
-    if (ft_tab_len(cmd->args) == 1)
-    {
-        if (ft_show_export_list(cmd))
-            return (EC_FAILED);
-    }
-    else
-    {
-        tmp = cmd->args;
-        while (*(++tmp))
-        {
-            printf("DEBUG > %s\n", *tmp);
-            if (ft_strchr(*tmp, '='))
-            {
-                tmp2 = ft_split(*tmp, '=');
-                if (tmp2[1])
-                    ft_set_var(cmd->envp, tmp2[0], ft_strtrim(tmp2[1], "\"'"));
-                else
-                    ft_set_var(cmd->envp, tmp2[0], "");
-                ft_free_tab((void **)tmp2);
-            }
-            else
-                ft_set_var(cmd->envp, *tmp, NULL);
-        }
-    }
-    return (EC_SUCCES);
+	tmp = cmd->args;
+	while (*(++tmp))
+	{
+		printf("DEBUG > %s\n", *tmp);
+		if (ft_strchr(*tmp, '='))
+		{
+			tmp2 = ft_split(*tmp, '=');
+			if (tmp2[1])
+				ft_set_var(cmd->envp, tmp2[0], ft_strtrim(tmp2[1], "\"'"));
+			else
+				ft_set_var(cmd->envp, tmp2[0], "");
+			ft_free_tab((void **)tmp2);
+		}
+		else
+			ft_set_var(cmd->envp, *tmp, NULL);
+	}
+}
+
+int	ft_export(t_command *cmd)
+{
+	if (ft_tab_len(cmd->args) == 1)
+	{
+		if (ft_show_export_list(cmd))
+			return (EC_FAILED);
+	}
+	else
+		ft_export_var(cmd);
+	return (EC_SUCCES);
 }

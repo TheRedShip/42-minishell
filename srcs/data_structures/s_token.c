@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:25:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 17:08:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:06:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_add_token(t_token **token, t_token *next)
 {
+	t_token	*tmp;
+
 	if (!token || !next)
 		return ;
 	if (!(*token))
@@ -21,7 +23,10 @@ void	ft_add_token(t_token **token, t_token *next)
 		*token = next;
 		return ;
 	}
-	(*token)->next = next;
+	tmp = *token;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = next;
 }
 
 void	*ft_convert_token(t_token *token)

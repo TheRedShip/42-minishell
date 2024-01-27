@@ -6,13 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 13:02:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/15 15:44:47 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strcspn(char *s, const char *rejects)
+int	ft_strcspn(char *s, char *rejects)
 {
 	char	*tmp;
 

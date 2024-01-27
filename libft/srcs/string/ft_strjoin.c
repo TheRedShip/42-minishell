@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 03:35:56 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 15:41:30 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:01:16 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strjoin(char *s1, char *s2, char *c, int tofree)
 	size_t	len1;
 	size_t	len2;
 
-	buffered = (!s1 + (2 * !s2)) | (tofree);
+	buffered = (!s1 + (2 * !s2)) | tofree;
 	if (!s1)
 		s1 = ft_strdup("");
 	if (!s2)

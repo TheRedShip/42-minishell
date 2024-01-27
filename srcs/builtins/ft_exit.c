@@ -6,13 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 15:34:10 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:07:12 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int g_exit_code;
+extern int	g_exit_code;
 
 long	ft_exit_atoi(char *str)
 {
@@ -21,8 +21,8 @@ long	ft_exit_atoi(char *str)
 
 	n = 0;
 	sign = 0;
-	while (ft_isspace(*str))
-		str++;
+	while (ft_isspace(*(str++)))
+		;
 	if (*str == '-' || *str == '+')
 		sign = (*(str++) == '-');
 	while (ft_isdigit(*str))
@@ -45,7 +45,7 @@ int	ft_is_numeric(char *str)
 	{
 		str++;
 		sign = 1;
-	}	
+	}
 	while (ft_isdigit(*(str)))
 		str++;
 	if (sign)
@@ -56,7 +56,7 @@ int	ft_is_numeric(char *str)
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt)
 {
 	t_envvar	*tmp;
-	
+
 	if (ec == EC_NOTNUM)
 		printf("exit: %s: numeric argument required\n", cmd->args[1]);
 	if (ec == EC_TOMAAR)
@@ -76,7 +76,7 @@ void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt)
 	exit(exit_code);
 }
 
-int ft_exit(t_command *cmd, char *prompt, t_envvar *envp)
+int	ft_exit(t_command *cmd, char *prompt, t_envvar *envp)
 {
 	int			argc;
 	t_command	*holder;
