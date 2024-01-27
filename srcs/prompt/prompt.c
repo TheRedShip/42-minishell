@@ -128,6 +128,6 @@ char	*ft_get_prompt_string(t_envvar *envp)
 		prompt = ft_strjoin(P_SUCCESS, P_TAIL, 0, 0);
 	else
 		prompt = ft_strjoin(P_FAIL, P_TAIL, 0, 0);
-	prompt = ft_strjoin(prompt, pwd, 0, 2);
+	prompt = ft_strjoin(prompt, pwd, 0, 3);
 	return (prompt);
 }
