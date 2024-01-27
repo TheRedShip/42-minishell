@@ -68,10 +68,9 @@ int	ft_cd(t_command *cmd)
 		free(vars);
 		return (EC_FAILED);
 	}
-	ft_set_var(cmd->envp, "OLDPWD", vars[2]->values[0]);
+	ft_set_var(cmd->envp, "OLDPWD", ft_strdup(vars[2]->values[0]));
 	newdir = ft_get_pwd();
 	ft_set_var(cmd->envp, "PWD", newdir);
 	free(vars);
-	free(newdir);
 	return (EC_SUCCES);
 }

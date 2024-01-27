@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 18:42:06 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:22:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_strdup(char *s)
 	size_t	len;
 
 	if (!s)
-		return ft_calloc(1, 1);
+		return (ft_calloc(1, 1));
 	len = sizeof(char) * ft_strlen(s) + 1;
 	dest = malloc(len);
 	if (dest == NULL)

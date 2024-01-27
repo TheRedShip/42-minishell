@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 00:15:52 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:21:16 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	*ft_memmove(void *dest, void *src, size_t n)
 {
-	size_t				i;
+	size_t			i;
 	unsigned char	*s;
-	unsigned char		*d;
+	unsigned char	*d;
 
 	i = n;
 	s = src;

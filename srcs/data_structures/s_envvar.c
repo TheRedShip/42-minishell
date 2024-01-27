@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 14:14:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:16:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,8 @@ void	ft_remove_var(t_envvar **vars, char *name)
 
 void	ft_del_var(t_envvar *var)
 {
-	char	**tmp;
-
-	tmp = var->values;
 	free(var->name);
-	while (var->values && *(var->values))
-	{
-		free(*(var->values));
-		var->values++;
-	}
-	free(tmp);
+	ft_free_tab((void **) var->values);
 	free(var);
 }
 
@@ -92,4 +84,5 @@ void	ft_set_var(t_envvar *vars, char *name, char *nv)
 	ft_free_tab((void **)vars->values);
 	vars->values = NULL;
 	vars->values = ft_split(nv, ':');
+	free(nv);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:16:47 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:22:34 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strrchr(char *s, int c)
 {
-	size_t		i;
+	size_t	i;
 	char	*str;
 
 	str = s;
