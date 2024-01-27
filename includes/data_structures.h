@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 14:09:36 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 10:33:29 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,16 @@ void		ft_set_var(t_envvar *vars, char *name, char *nv);
  * @return			List size
 */
 int			ft_var_size(t_envvar *vars);
+
+/**
+ * @brief			Setup t_envvar linked list from envp
+ * 
+ * @param envp		String array envp.
+ * 
+ * @return			A pointer to a newly allocated linked list containing
+ * 					environment variables, with name and values.
+*/
+t_envvar    *ft_setup_env(char **envp);
 
 /* T_NODE ******************************************************************* */
 

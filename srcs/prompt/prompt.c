@@ -14,7 +14,7 @@
 
 extern int g_exit_code;
 
-void start_execve(char *line, char **envp)
+void start_execve(char *line, char **envp, t_command *cmd)
 {
 	char **args;
 	char *temp_command;
@@ -31,7 +31,7 @@ void start_execve(char *line, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		temp_command = str_add(ft_strdup(args[0]), "/bin/", 0);
+		temp_command = ft_get_path(args[0], cmd->envp);
 		if (execve(temp_command, args, envp) == -1)
 			perror("execve");
 		free(temp_command);
@@ -78,7 +78,7 @@ void	builtin_cmd(char *line, t_envvar *envp, char **envpstring, char *prompt)
 	else if (!ft_strncmp(line, "level", 6)) 										//DEBUG ONLY ne pas toucher
 		printf("le level shell est %s\n", ft_get_var(envp, "SHLVL")->values[0]);
 	else
-		start_execve(line, envpstring);
+		start_execve(line, envpstring, test);
 	ft_del_command(test);
 }
 
@@ -125,8 +125,9 @@ char	*ft_get_prompt_string(t_envvar *envp)
 	else
 		pwd = ft_strdup(" > ");
 	if (!g_exit_code)
-		prompt = ft_strjoin(P_SUCCESS, pwd, 0, 2);
+		prompt = ft_strjoin(P_SUCCESS, P_TAIL, 0, 0);
 	else
-		prompt = ft_strjoin(P_FAIL, pwd, 0, 2);
+		prompt = ft_strjoin(P_FAIL, P_TAIL, 0, 0);
+	prompt = ft_strjoin(prompt, pwd, 0, 2);
 	return (prompt);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 21:03:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 12:02:29 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ char    *ft_get_varstring(t_envvar *var, int format)
     if (var == NULL)
         return (NULL);
     i = 0;
-    string = ft_strjoin("declare -x ", var->name, NULL, 0);
+    string = ft_strdup(var->name);
+    if (!var->values)
+        return (string);
     string = ft_strjoin(string, "=", NULL, 1);
     if (format)
         string = ft_strjoin(string, "\"", NULL, 1);
@@ -87,7 +89,7 @@ int ft_env(t_command *cmd)
     tmp = vars_array;
     while (*tmp)
     {
-        if (*((*tmp) + ft_strlen(*tmp) - 1) != '=')
+        if (ft_strchr(*tmp, '=') != *tmp + ft_strlen(*tmp))
             printf("%s\n", *tmp);
         tmp++;
     }

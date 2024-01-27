@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 11:42:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 08:23:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ long	ft_exit_atoi(char *str)
 		str++;
 	if (*str == '-' || *str == '+')
 		sign = (*(str++) == '-');
-	while (*str)
+	while (ft_isdigit(*str))
 		n = n * 10 + (int){*(str++) - '0'};
 	if (sign)
 		return ((256 - n) % 256);
@@ -87,7 +87,7 @@ int ft_exit(t_command *cmd, char *prompt, t_envvar *envp)
 	if (!cmd)
 		ft_exit_manager(g_exit_code, EC_SUCCES, holder, prompt);
 	argc = ft_tab_len(cmd->args) - 1;
-	printf("exit argc = %d\n", argc);
+	printf("exit\n");
 	if (!argc)
 		ft_exit_manager(g_exit_code, EC_SUCCES, cmd, prompt);
 	if (!ft_is_numeric(cmd->args[1]))

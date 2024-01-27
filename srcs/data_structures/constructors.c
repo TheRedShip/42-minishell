@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 16:20:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 12:38:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ t_envvar    *ft_init_var(char *value)
 		return (NULL);
 	name = ft_strdup(ft_strtok(value, "="));
 	new_var->name = name;
-	new_var->values = ft_split(value + ft_strlen(name) + 1, ':');
+	if (ft_strchr(value, '='))
+		new_var->values = ft_split(value + ft_strlen(name) + 1, ':');
+	else
+		new_var->values = NULL;
 	new_var->next = NULL;
 	return (new_var);
 }

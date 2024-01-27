@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 20:58:48 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 10:48:49 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,14 @@ void		ft_sort_strs_tab(char **tab, int size);
  * @return			EC_SUCCES normally, EC_FAILED in case of NULL allocation.
 */
 int			ft_show_export_list(t_command *cmd);
+
+/**
+ * @brief			Swap string pointers.
+ * 
+ * @param a			First string.
+ * @param b			Second string
+*/
+void    ft_swap_strs(char **a, char **b);
 
 /* ************************************************************************** */
 

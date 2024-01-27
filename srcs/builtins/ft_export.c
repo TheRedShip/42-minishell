@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 20:59:15 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 12:10:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int ft_show_export_list(t_command *cmd)
 {
     char    **vars_array;
     char    **tmp;
+    char    *string;
 
     vars_array = ft_get_var_strs(cmd->envp, 1);
     if (!vars_array)
@@ -55,7 +56,9 @@ int ft_show_export_list(t_command *cmd)
     tmp = vars_array;
     while (*tmp)
     {
-        printf("%s\n", *tmp);
+        string = ft_strjoin("declare -x ", *tmp, NULL, 0);
+        printf("%s\n", string);
+        free(string);
         tmp++;
     }
     ft_free_tab((void **)vars_array);
@@ -64,12 +67,21 @@ int ft_show_export_list(t_command *cmd)
 
 int ft_export(t_command *cmd)
 {
+    char    **tmp;
+
     if (ft_tab_len(cmd->args) == 1)
     {
         if (ft_show_export_list(cmd))
             return (EC_FAILED);
     }
     else
-        printf("je fais autre chose avec %s\n", cmd->args[1]);
+    {
+        tmp = cmd->args;
+        while (*tmp)
+        {
+            ft_set_var(cmd->envp, *tmp, "");
+            tmp++;
+        }
+    }
     return (EC_SUCCES);
 }
