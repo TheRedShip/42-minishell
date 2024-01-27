@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 13:25:30 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:14:02 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ void	ft_set_var(t_envvar *vars, char *name, char *nv)
 	}
 	ft_free_tab((void **)vars->values);
 	vars->values = NULL;
-	if (!nv)
-		vars->values = ft_split(nv, ':');
+	vars->values = ft_split(nv, ':');
 }
