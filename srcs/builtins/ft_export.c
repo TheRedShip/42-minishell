@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 14:18:59 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 14:25:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int ft_export(t_command *cmd)
             {
                 tmp2 = ft_split(*tmp, '=');
                 if (tmp2[1])
-                    ft_set_var(cmd->envp, tmp2[0], tmp2[1]);
+                    ft_set_var(cmd->envp, tmp2[0], ft_strtrim(tmp2[1], "\"'"));
                 else
                     ft_set_var(cmd->envp, tmp2[0], "");
                 ft_free_tab((void **)tmp2);
