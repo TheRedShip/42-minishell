@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 08:52:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/27 13:14:06 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,4 @@ char	*ft_quote_checker(char *str, t_quote_state oldqs)
 		return (ft_quote_checker(dquote_holder, QU_ZERO));
 	}
 	return (string_holder);
-}
-
-int	ft_quoted_words_counter(char *str)
-{
-	t_quote_state	qs;
-	int				changed;
-	int				count;
-
-	changed = 0;
-	count = 0;
-	if (!str)
-		return 0;
-	while (*str)
-	{
-		changed = ft_qs_update(*str, &qs);
-		str++;
-	}
-	return(0);
 }
