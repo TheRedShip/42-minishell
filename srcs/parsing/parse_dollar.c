@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/27 16:19:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:55:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 char *ft_strsub(char *string, int start, int end)
 {
@@ -61,7 +63,14 @@ char *parse_dollar(char *string, t_envvar *envp)
 	while (string[i])
 	{
 		ft_qs_update(string[i], &qs);
-		if (string[i] == '$' && (qs == QU_ZERO || qs == QU_DOUBLE))
+		if (string[i] == '$' && string[i + 1] == '?' && (qs == QU_ZERO || qs == QU_DOUBLE))
+		{
+			env_values = ft_itoa(g_exit_code);
+			final_string = str_add(final_string, env_values, ft_strlen(final_string));
+			free(env_values);
+			i += 2;	
+		}
+		else if (string[i] == '$' && (qs == QU_ZERO || qs == QU_DOUBLE))
 		{
 			env_values = getvarenv(string, envp, &i);
 			j = 0;

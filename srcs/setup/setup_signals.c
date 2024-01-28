@@ -22,6 +22,7 @@ static void	signal_handler(int signal)
 		g_exit_code = 130;
 		printf("^C\n");
 		rl_replace_line("", 0);
+        // printf("%s", ft_get_prompt_string(NULL));
 		rl_on_new_line();
 		rl_redisplay();
 	}
