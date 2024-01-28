@@ -99,7 +99,6 @@ void	ft_prompt(t_envvar *envp)
 	char	*line;
 	char	*prompt;
 
-	printf("%d\n", g_exit_code);
 	prompt = ft_get_prompt_string(envp);
 	line = readline(prompt);
 	line = ft_quote_checker(line, QU_ZERO);
