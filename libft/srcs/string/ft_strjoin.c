@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 03:35:56 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 23:01:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:05:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	ft_manage_strings(char *s1, char *s2, int buffered)
 {
-	if (buffered & 1)
+	if (buffered & 0b01)
 		free(s1);
-	if (buffered & 2)
+	if (buffered & 0b10)
 		free(s2);
 }
 
@@ -34,13 +34,13 @@ char	*ft_strjoin(char *s1, char *s2, char *c, int tofree)
 		s2 = ft_strdup("");
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	ns = ft_calloc((len1 + len2 + 1 + !!c), sizeof(char));
+	ns = ft_calloc((len1 + len2 + 1 + ft_strlen(c)), sizeof(char));
 	if (ns == NULL)
 		return (ns);
 	ft_strlcat(ns, s1, len1 + 1, 1);
 	if (c)
-		ft_strlcat(ns, c, len1 + 2, 1);
-	ft_strlcat(ns, s2, len1 + len2 + 1 + !!c, 1);
+		ft_strlcat(ns, c, len1 + 1 + ft_strlen(c), 1);
+	ft_strlcat(ns, s2, len1 + len2 + 1 + ft_strlen(c), 1);
 	ft_manage_strings(s1, s2, buffered);
 	return (ns);
 }

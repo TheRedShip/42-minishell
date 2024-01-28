@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 00:14:36 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 18:49:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_sort_strs_tab(char **tab, int size)
 	int	min;
 	int	curr;
 	int	swp;
+	int	len;
 
 	curr = 0;
 	while (curr <= size)
@@ -34,7 +35,8 @@ void	ft_sort_strs_tab(char **tab, int size)
 		swp = curr + 1;
 		while (swp <= size - 1)
 		{
-			if (-ft_strncmp(*(tab + swp), *(tab + min), 1) > 0)
+			len = ft_strlen(*(tab + swp)) + 1;
+			if (ft_strncmp(*(tab + swp), *(tab + min), len) < 0)
 				min = swp;
 			swp++;
 		}
@@ -56,16 +58,19 @@ int	ft_show_export_list(t_command *cmd)
 	tmp = vars_array;
 	while (*tmp)
 	{
-		string = ft_strjoin("declare -x ", *tmp, NULL, 0);
-		printf("%s\n", string);
-		free(string);
+		if (**tmp != '_')
+		{
+			string = ft_strjoin("declare -x ", *tmp, NULL, 0);
+			printf("%s\n", string);
+			free(string);
+		}
 		tmp++;
 	}
 	ft_free_tab((void **)vars_array);
 	return (EC_SUCCES);
 }
 
-void	ft_export_var(t_command *cmd)
+int	ft_export_var(t_command *cmd)
 {
 	char	**tmp;
 	char	**tmp2;
@@ -78,14 +83,15 @@ void	ft_export_var(t_command *cmd)
 		{
 			tmp2 = ft_split(*tmp, '=');
 			if (tmp2[1])
-				ft_set_var(cmd->envp, tmp2[0], ft_strtrim(tmp2[1], "\"'"));
+				ft_set_var(&(cmd->envp), tmp2[0], ft_strtrim(tmp2[1], "\"'"));
 			else
-				ft_set_var(cmd->envp, tmp2[0], "");
+				ft_set_var(&(cmd->envp), tmp2[0], "");
 			ft_free_tab((void **)tmp2);
 		}
 		else
-			ft_set_var(cmd->envp, *tmp, NULL);
+			ft_set_var(&(cmd->envp), *tmp, NULL);
 	}
+	return (EC_SUCCES);
 }
 
 int	ft_export(t_command *cmd)
@@ -96,6 +102,9 @@ int	ft_export(t_command *cmd)
 			return (EC_FAILED);
 	}
 	else
-		ft_export_var(cmd);
+	{
+		if (ft_export_var(cmd))
+			return (EC_FAILED);
+	}
 	return (EC_SUCCES);
 }

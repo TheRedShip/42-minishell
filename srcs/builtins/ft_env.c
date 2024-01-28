@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 23:20:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:32:19 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	**ft_get_var_strs(t_envvar *vars, int format)
 		}
 		vars = vars->next;
 	}
-	vars_array[i] = 0;
+	vars_array[i] = NULL;
 	return (vars_array);
 }
 

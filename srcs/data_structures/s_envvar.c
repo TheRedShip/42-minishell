@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_envvar.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 01:57:17 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/28 18:47:26 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,21 @@ t_envvar	*ft_last_var(t_envvar *vars)
 	return (vars);
 }
 
-void	ft_set_var(t_envvar *vars, char *name, char *nv)
+void	ft_set_var(t_envvar **vars, char *name, char *nv)
 {
 	t_envvar	*head;
 
-	head = vars;
-	while (vars && ft_strncmp(vars->name, name, ft_strlen(name)))
-		vars = vars->next;
-	if (!vars)
+	head = *(vars);
+	while (*(vars) && ft_strncmp((*vars)->name, name, ft_strlen(name)))
+		*(vars) = (*vars)->next;
+	if (!*(vars))
 	{
 		ft_add_var(&head, ft_init_var(name));
-		vars = ft_last_var(head);
+		*(vars) = ft_last_var(head);
 	}
-	ft_free_tab((void **)vars->values);
-	vars->values = NULL;
-	vars->values = ft_split(nv, ':');
+	ft_free_tab((void **)(*vars)->values);
+	(*vars)->values = NULL;
+	(*vars)->values = ft_split(nv, ':');
+	*(vars) = head;
 	free(nv);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 10:48:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 15:40:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int			ft_show_export_list(t_command *cmd);
  * @param a			First string.
  * @param b			Second string
 */
-void    ft_swap_strs(char **a, char **b);
+void		ft_swap_strs(char **a, char **b);
 
 /* ************************************************************************** */
 

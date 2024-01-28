@@ -29,6 +29,7 @@ t_envvar	**ft_get_directory_vars(t_envvar *envp)
 
 int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 {
+	printf("%d arguments\n", argc);
 	if ((!argc || (argc == 1 && !ft_strcmp(argv[0], "~"))) && vars[0])
 		chdir(vars[0]->values[0]);
 	else if (argc == 1 && !ft_strcmp(argv[0], "-") && vars[1] && vars[2])
@@ -36,7 +37,7 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 		printf("%s\n", vars[1]->values[0]);
 		chdir(vars[1]->values[0]);
 	}
-	else
+	else if (argv[0] && vars[3])
 	{
 		if (chdir(argv[0]) && vars[3])
 		{
@@ -44,6 +45,8 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 			return (EC_FAILED);
 		}
 	}
+	else
+		return(EC_FAILED);
 	return (EC_SUCCES);
 }
 
@@ -68,9 +71,9 @@ int	ft_cd(t_command *cmd)
 		free(vars);
 		return (EC_FAILED);
 	}
-	ft_set_var(cmd->envp, "OLDPWD", ft_strdup(vars[2]->values[0]));
+	ft_set_var(&(cmd->envp), "OLDPWD", ft_strdup(vars[2]->values[0]));
 	newdir = ft_get_pwd();
-	ft_set_var(cmd->envp, "PWD", newdir);
+	ft_set_var(&(cmd->envp), "PWD", newdir);
 	free(vars);
 	return (EC_SUCCES);
 }

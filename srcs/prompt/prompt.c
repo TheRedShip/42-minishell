@@ -17,6 +17,7 @@ extern int g_exit_code;
 void start_execve(char *line, t_command *cmd)
 {
 	char **args;
+	char **env;
 	char *temp_command;
 	pid_t pid;
 	int status;
@@ -33,15 +34,16 @@ void start_execve(char *line, t_command *cmd)
 		temp_command = ft_strdup(args[0]);
 	if (!temp_command)
 	{
-		ft_free_tab((void **)(args));
+		free(args);
 		return ;
 	}
 	toggle_signal(0);
+	env = ft_get_var_strs(cmd->envp, 0);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(temp_command, args, ft_get_var_strs(cmd->envp, 0)) == -1)
-			perror("execve");
+		execve(temp_command, args, env);
+		perror("execve");
 		free(temp_command);
 		exit(EC_FAILED);
 	}
@@ -62,6 +64,7 @@ void start_execve(char *line, t_command *cmd)
 	toggle_signal(1);
 	free(temp_command);
 	ft_free_tab((void **)(args));
+	ft_free_tab((void **)(env));
 }
 
 void	builtin_cmd(char *line, t_envvar *envp, char *prompt) //FAUT FREE LA LINE si EXIT
@@ -71,7 +74,7 @@ void	builtin_cmd(char *line, t_envvar *envp, char *prompt) //FAUT FREE LA LINE s
 
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
-		g_exit_code = ft_exit(test, prompt, NULL);
+		g_exit_code = ft_exit(test, prompt, envp);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
 		g_exit_code = ft_echo(test);
 	else if (!ft_strncmp(line, "env ", 4) || !ft_strncmp(line, "env", 4))
@@ -100,7 +103,10 @@ void	ft_prompt(t_envvar *envp)
 	line = readline(prompt);
 	line = ft_quote_checker(line, QU_ZERO);
 	if (!line)
+	{
+		printf("\n");
 		ft_exit(NULL, prompt, envp);
+	}
 	add_history(line);
 	line = parse_dollar(line, envp);
 	// line = parse_quotes(line);
@@ -124,7 +130,7 @@ char	*ft_get_prompt_string(t_envvar *envp)
 	char		*prompt;
 	char		*pwd;
 
-	if (!save && envp)
+	if (envp)
 		save = envp;
 	if (ft_get_var(save, "PWD"))
 	{

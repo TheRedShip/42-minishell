@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 18:42:06 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 00:22:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:27:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,27 @@ char	*ft_strndup(char *str, size_t n)
 	char	*cpy;
 	char	*tmp;
 
-	cpy = malloc(ft_max(n + 1, ft_strlen(str)) * sizeof(char));
+	cpy = malloc((ft_max(n, ft_strlen(str)) + 1) * sizeof(char));
 	if (!cpy)
 		return (NULL);
 	tmp = cpy;
 	while (*str && n--)
 		*(cpy++) = *(str++);
+	*cpy = 0;
 	return (tmp);
 }
 
-char	*ft_strdup(char *s)
+char	*ft_strdup(char *str)
 {
-	char	*dest;
-	size_t	len;
+	char	*cpy;
+	char	*tmp;
 
-	if (!s)
-		return (ft_calloc(1, 1));
-	len = sizeof(char) * ft_strlen(s) + 1;
-	dest = malloc(len);
-	if (dest == NULL)
+	cpy = malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!cpy)
 		return (NULL);
-	ft_strlcpy(dest, s, len);
-	return (dest);
+	tmp = cpy;
+	while (*str)
+		*(cpy++) = *(str++);
+	*cpy = 0;
+	return (tmp);
 }
