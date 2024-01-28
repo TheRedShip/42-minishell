@@ -64,17 +64,14 @@ void start_execve(char *line, t_command *cmd)
 	ft_free_tab((void **)(args));
 }
 
-void	builtin_cmd(char *line, t_envvar *envp, char *prompt)
+void	builtin_cmd(char *line, t_envvar *envp, char *prompt) //FAUT FREE LA LINE si EXIT
 {
 	//t_command	*test = ft_init_command(0, 1, "env", envp);
 	t_command	*test = ft_init_command(0, 1, line, envp);
 
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
-	{
-		free(line);
 		g_exit_code = ft_exit(test, prompt, NULL);
-	}
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
 		g_exit_code = ft_echo(test);
 	else if (!ft_strncmp(line, "env ", 4) || !ft_strncmp(line, "env", 4))
@@ -109,7 +106,8 @@ void	ft_prompt(t_envvar *envp)
 	line = parse_dollar(line, envp);
 	// line = parse_quotes(line);
 	builtin_cmd(line, envp, prompt);
-	free(line);
+	if (line)
+		free(line);
 	free(prompt);
 }
 
