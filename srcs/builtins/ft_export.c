@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 13:29:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:13:51 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	ft_export_var(t_command *cmd)
 		printf("DEBUG > %s\n", *tmp);
 		if (ft_strchr(*tmp, '='))
 		{
+			if (ft_strnstr(*tmp, "+=", ft_strlen(*tmp)))
+				ft_append_var
 			tmp2 = ft_split(*tmp, '=');
 			if (tmp2[1])
 				ft_set_var(&(cmd->envp), tmp2[0], ft_strtrim(tmp2[1], "\"'"));

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 18:47:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:02:39 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_envvar	*ft_last_var(t_envvar *vars)
 	return (vars);
 }
 
-void	ft_set_var(t_envvar **vars, char *name, char *nv)
+void	ft_set_var(t_envvar **vars, char *name, char *string)
 {
 	t_envvar	*head;
 
@@ -83,7 +83,22 @@ void	ft_set_var(t_envvar **vars, char *name, char *nv)
 	}
 	ft_free_tab((void **)(*vars)->values);
 	(*vars)->values = NULL;
-	(*vars)->values = ft_split(nv, ':');
+	(*vars)->values = ft_split(string, ':');
 	*(vars) = head;
-	free(nv);
+	free(string);
+}
+
+void	ft_append_var(t_envvar **vars, char *name, char *string)
+{
+	t_envvar	*head;
+	char		*tmp;
+
+	head = *(vars);
+	while (*(vars) && ft_strncmp((*vars)->name, name, ft_strlen(name)))
+		*(vars) = (*vars)->next;
+	tmp = ft_get_varstring(*vars, 0);
+	tmp = ft_strjoin(tmp, string, NULL, 0b11);
+	ft_set_var(vars, name, tmp);
+	*(vars) = head;
+	free(tmp);
 }

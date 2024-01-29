@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 20:38:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:13:51 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,16 @@ t_envvar	*ft_get_var(t_envvar *vars, char *name);
  * 
  * @param vars		Linked list adress.
  * @param name		Name of the variable to modify.
- * @param nv		New string of values, ':' separated.
+ * @param string	New string of values, ':' separated.
 */
-void		ft_set_var(t_envvar **vars, char *name, char *nv);
+void		ft_set_var(t_envvar **vars, char *name, char *string);
+
+/**
+ * @brief			Append a string to an environment variable string.
+ * 
+ * @
+*/
+void	ft_append_var(t_envvar **vars, char *name, char *string)
 
 /**
  * @brief			Get vars linked list size.
