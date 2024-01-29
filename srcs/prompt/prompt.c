@@ -34,7 +34,7 @@ void start_execve(char *line, t_command *cmd)
 		temp_command = ft_strdup(args[0]);
 	if (!temp_command)
 	{
-		free(args);
+		ft_free_tab((void**)(args));
 		return ;
 	}
 	toggle_signal(0);
