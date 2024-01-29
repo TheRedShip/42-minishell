@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 15:13:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:05:12 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_str_unquoted_len(char *str)
 int	ft_export_var(t_command *cmd)
 {
 	char	**tmp;
-	char	**tmp2;
+	char	**var;
 
 	tmp = cmd->args;
 	while (*(++tmp))
@@ -95,14 +95,17 @@ int	ft_export_var(t_command *cmd)
 		printf("DEBUG > %s\n", *tmp);
 		if (ft_strchr(*tmp, '='))
 		{
-			if (ft_strnstr(*tmp, "+=", ft_strlen(*tmp)))
-				ft_append_var
-			tmp2 = ft_split(*tmp, '=');
-			if (tmp2[1])
-				ft_set_var(&(cmd->envp), tmp2[0], ft_strtrim(tmp2[1], "\"'"));
+			var = ft_split(*tmp, '=');
+			if (ft_strlen(var[0]) && var[0][ft_strlen(var[0]) - 1] == '+')
+				ft_append_var(&(cmd->envp), var[0], ft_strtrim(var[1], "\"'"));
 			else
-				ft_set_var(&(cmd->envp), tmp2[0], "");
-			ft_free_tab((void **)tmp2);
+			{
+				if (var[1])
+					ft_set_var(&(cmd->envp), var[0], ft_strtrim(var[1], "\"'"));
+				else
+					ft_set_var(&(cmd->envp), var[0], "");
+			}
+			ft_free_tab((void **)var);
 		}
 		else
 			ft_set_var(&(cmd->envp), *tmp, NULL);
