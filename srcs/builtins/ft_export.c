@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 16:05:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:52:08 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_export_syntaxer(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(str[0]))
+		return (0);
+	while (str[i] && str[i] != '=')
+	{
+		if (str[i] == '+' || str[i] == '-')
+			return (0);
+		if (ft_is_token(&str[i], QU_ZERO))
+			return (0);
+		i++;
+	}
+	if (i == 0)
+		return (0);
+	return (1);
+}
 
 void	ft_swap_strs(char **a, char **b)
 {
