@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 20:27:47 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 22:07:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	ft_export_syntaxer(char *str)
 		return (0);
 	while (str[i] && str[i] != '=')
 	{
-		if (str[i] == '+' || str[i] == '-')
-			return (0);
-		if (ft_is_token(&str[i], QU_ZERO))
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '"' && str[i] != '\'')
 			return (0);
 		i++;
 	}
@@ -141,6 +139,11 @@ int	ft_export(t_command *cmd)
 	{
 		while (*(++tmp))
 		{
+			if (!ft_export_syntaxer(*tmp))
+			{
+				printf("minishell: export: `%s': not a valid identifier\n", *tmp);
+				return (EC_FAILED);
+			}
 			if (ft_export_var(cmd, *(tmp)))
 				return (EC_FAILED);
 		}

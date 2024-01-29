@@ -85,7 +85,7 @@ void	builtin_cmd(char *line, t_envvar *envp, char *prompt) //FAUT FREE LA LINE s
 		g_exit_code = ft_pwd(test);
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
 		g_exit_code = ft_cd(test);
-	else if (!ft_strncmp(line, "level", 6)) 										//DEBUG ONLY ne pas toucher
+	else if (!ft_strncmp(line, "level", 6))									//DEBUG ONLY ne pas toucher
 		printf("le level shell est %s\n", ft_get_var(envp, "SHLVL")->values[0]);
 	else
 		start_execve(line, test);
