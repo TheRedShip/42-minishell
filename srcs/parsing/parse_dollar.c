@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/29 21:48:21 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/29 21:57:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,17 @@ char *parse_dollar(char *string, t_envvar *envp)
 	while (string[i])
 	{
 		ft_qs_update(string[i], &qs);
-		if (string[i] == '$' && string[i + 1] == '?' && (qs == QU_ZERO || qs == QU_DOUBLE))
+		if (string[i] == '$' && (qs == QU_ZERO || qs == QU_DOUBLE))
 		{
-			env_values = ft_itoa(g_exit_code);
-			final_string = str_add(final_string, env_values, ft_strlen(final_string));
-			free(env_values);
-			i += 2;
-		}
-		else if (string[i] == '$' && (qs == QU_ZERO || qs == QU_DOUBLE))
-		{
-			env_values = getvarenv(string, envp, &i);
+			if (string[i + 1] == '?' && (i+=2) > -42)
+				env_values = ft_itoa(g_exit_code);
+			else
+				env_values = getvarenv(string, envp, &i);
 			final_string = str_add(final_string, env_values, ft_strlen(final_string));
 			free(env_values);
 		}
-		else
-		{
-			final_string = str_append(final_string, string[i]);
-			i++;
-		}
+		else if (i++ > -42)
+			final_string = str_append(final_string, string[i - 1]);
 	}
 	free(string);
 	return (final_string);
