@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 23:14:43 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:03:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,15 @@ void		ft_sort_strs_tab(char **tab, int size);
  * @return			EC_SUCCES normally, EC_FAILED in case of NULL allocation.
 */
 int			ft_show_export_list(t_command *cmd);
+
+/**
+ * @brief			Check environment variable name syntax.
+ * 
+ * @param str		Name string.
+ * 
+ * @return			1 if the name syntax is correct, 0 otherwise.
+*/
+int			ft_export_syntaxer(char *str);
 
 /**
  * @brief			Swap string pointers.
