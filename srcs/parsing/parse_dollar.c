@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/29 17:29:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 21:48:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char *getvarenv(char *string, t_envvar *envp, int *i)
 	while (string[*i] && string[*i] != ' ' && string[*i] != '$' && string[*i] != '\'' && string[*i] != '"')
 		(*i)++;
 	var_name = ft_strsub(string, tempi, *i);
-	var_value = ft_get_varstring(ft_get_var(envp, var_name), 0, 1);
+	var_value = ft_get_varstring(ft_get_var(envp, var_name), 0, 0);
 	free(var_name);
 	return (var_value);
 }
@@ -55,7 +55,6 @@ char *parse_dollar(char *string, t_envvar *envp)
 	char *env_values;
 	t_quote_state	qs;
 	int	i;
-	int	j;
 
 	final_string = NULL;
 	qs = QU_ZERO;
@@ -68,17 +67,12 @@ char *parse_dollar(char *string, t_envvar *envp)
 			env_values = ft_itoa(g_exit_code);
 			final_string = str_add(final_string, env_values, ft_strlen(final_string));
 			free(env_values);
-			i += 2;	
+			i += 2;
 		}
 		else if (string[i] == '$' && (qs == QU_ZERO || qs == QU_DOUBLE))
 		{
 			env_values = getvarenv(string, envp, &i);
-			j = 0;
-			while (env_values && env_values[j] && env_values[j] != '=')
-				j++;
-			if (env_values)
-				j++;
-			final_string = str_add(final_string, env_values + j, ft_strlen(final_string));
+			final_string = str_add(final_string, env_values, ft_strlen(final_string));
 			free(env_values);
 		}
 		else
