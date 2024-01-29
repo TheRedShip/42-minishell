@@ -27,6 +27,7 @@
 
 # include "data_structures.h"
 # include "builtins.h"
+# include "parser.h"
 
 # define P_SUCCESS "\001\033[30;102;1m\002$?\001\033[0m\002 "
 # define P_FAIL "\001\033[30;101;1m\002$?\001\033[0m\002 "
