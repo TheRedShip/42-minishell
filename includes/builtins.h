@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 16:05:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:26:56 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,18 +156,20 @@ int			ft_is_numeric(char *str);
  * @brief			Get environment variable string.
  * 
  * @param vars		t_envvar pointer.
- * @param format	Format boolean
+ * @param format	Format boolean.
+ * @param named		Named boolean.
  * 
- * @return			Formatted string of all values in *vars, name-leaded,
- * 					':' separated. NULL values set to "" if format is 1.
+ * @return			Formatted string of all values in *vars, name-leaded
+ * 					if named is True, ':' separated. "" formatted if format
+ * 					is True
 */
-char		*ft_get_varstring(t_envvar *var, int format);
+char		*ft_get_varstring(t_envvar *var, int format, int named);
 
 /**
  * @brief			Get environment variables as a string array.
  * 
  * @param vars		Linked list.
- * @param format	Format boolean
+ * @param format	Format boolean.
  * 
  * @return			A pointer to char** containing all environment variables.
  * 					name-leaded, ':' separated. 

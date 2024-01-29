@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 16:05:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:18:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ int	ft_export_var(t_command *cmd)
 		{
 			var = ft_split(*tmp, '=');
 			if (ft_strlen(var[0]) && var[0][ft_strlen(var[0]) - 1] == '+')
+			{
+				var[0][ft_strlen(var[0]) - 1] = 0;
 				ft_append_var(&(cmd->envp), var[0], ft_strtrim(var[1], "\"'"));
+			}
 			else
 			{
 				if (var[1])

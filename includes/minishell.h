@@ -85,4 +85,5 @@ char	*ft_open_dquote(t_quote_state qs);
 void		toggle_signal(int toggle);
 /* ************************************************************************** */
 
+
 #endif
