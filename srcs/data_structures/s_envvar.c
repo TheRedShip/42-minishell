@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 15:02:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:10:19 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,11 @@ void	ft_append_var(t_envvar **vars, char *name, char *string)
 	char		*tmp;
 
 	head = *(vars);
+	name[ft_strlen(name) - 1] = 0;
 	while (*(vars) && ft_strncmp((*vars)->name, name, ft_strlen(name)))
 		*(vars) = (*vars)->next;
-	tmp = ft_get_varstring(*vars, 0);
+	tmp = ft_get_varstring(*vars, 0, 0);
 	tmp = ft_strjoin(tmp, string, NULL, 0b11);
-	ft_set_var(vars, name, tmp);
+	ft_set_var(&head, name, tmp);
 	*(vars) = head;
-	free(tmp);
 }

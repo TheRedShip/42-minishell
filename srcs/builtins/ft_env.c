@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 15:01:55 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:25:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,30 @@ int	ft_var_size(t_envvar *vars)
 	return (size);
 }
 
-char	*ft_get_varstring(t_envvar *var, int format)
+char	*ft_get_varstring(t_envvar *var, int format, int named)
 {
 	char	*string;
 	int		i;
 
+	string = NULL;
 	if (var == NULL)
 		return (NULL);
 	i = 0;
-	string = ft_strdup(var->name);
 	if (!var->values)
-		return (string);
-	string = ft_strjoin(string, "=", NULL, 1);
+		return (ft_strdup(var->name));
+	if (named)
+		string = ft_strjoin(ft_strdup(var->name), "=", NULL, 0b01);
 	if (format)
 		string = ft_strjoin(string, "\"", NULL, 1);
 	while (var->values[i])
 	{
 		if (!i)
-			string = ft_strjoin(string, var->values[i++], NULL, 1);
+			string = ft_strjoin(string, var->values[i++], NULL, 0b01);
 		else
-			string = ft_strjoin(string, var->values[i++], ":", 1);
+			string = ft_strjoin(string, var->values[i++], ":", 0b01);
 	}
 	if (format)
-		string = ft_strjoin(string, "\"", NULL, 1);
+		string = ft_strjoin(string, "\"", NULL, 0b01);
 	return (string);
 }
 
@@ -64,7 +65,7 @@ char	**ft_get_var_strs(t_envvar *vars, int format)
 		return (NULL);
 	while (++i < size - 1)
 	{
-		vars_array[i] = ft_get_varstring(vars, format);
+		vars_array[i] = ft_get_varstring(vars, format, 1);
 		if (!vars_array[i])
 		{
 			ft_free_tab((void **)vars_array);

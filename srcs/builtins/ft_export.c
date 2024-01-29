@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 16:52:08 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/01/29 18:09:00 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int	ft_export_var(t_command *cmd)
 	tmp = cmd->args;
 	while (*(++tmp))
 	{
-		printf("DEBUG > %s\n", *tmp);
 		if (ft_strchr(*tmp, '='))
 		{
 			var = ft_split(*tmp, '=');
