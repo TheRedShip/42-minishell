@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 14:51:03 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:44:51 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
  * 
  * @return				1 if the string is headed by a token, 0 otherwise
 */
-int	ft_is_token(char *str);
+int	ft_is_token(char *str, t_quote_state qs);
 
-// (( cat Make"fil"|wc>    'outfile') || echo -n"n"n -nnnn fai"led") && sleep 1
-// 1 1000100001000110011111100000001111 100001001010100000100010001111 10000010
-
+// (( cat Make"fil"|wc>    '   outfile') || echo -n"n"n -nnnn fai"led") && sleep 1
+// 1 1000100001000010011111100000000000111 100001001010100000100000000111 100000101
+// 1110001000010000100111111000000000001111100001001000100000100010000111010000010
 
 // || echo -n"n"n -nnnn fai"led") && sleep 1
 
