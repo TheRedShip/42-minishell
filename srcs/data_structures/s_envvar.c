@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 18:10:19 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 20:29:15 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	ft_set_var(t_envvar **vars, char *name, char *string)
 	(*vars)->values = NULL;
 	(*vars)->values = ft_split(string, ':');
 	*(vars) = head;
-	free(string);
+	if (ft_strlen(string))
+		free(string);
 }
 
 void	ft_append_var(t_envvar **vars, char *name, char *string)

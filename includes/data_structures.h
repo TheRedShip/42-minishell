@@ -6,12 +6,17 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 16:06:29 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:35:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DATA_STRUCTURES_H
 # define DATA_STRUCTURES_H
+
+# define LEFT 0
+# define RIGHT 1
+
+/* ENUMS ******************************************************************** */
 
 /**
  * @enum			e_token_type
@@ -37,7 +42,7 @@ typedef enum e_quote_state
 	QU_DOUBLE
 }	t_quote_state;
 
-/* T_TOKEN ****************************************************************** */
+/* TYPEDEFS ***************************************************************** */
 
 /**
  * @struct			s_token
@@ -53,6 +58,59 @@ typedef struct s_token
 	t_token_type    type;
 	struct s_token	*next;
 }   t_token;
+
+/**
+ * @struct			s_envvar
+ * @brief			Environment variable linked list node.
+ * 
+ * @param name		(char *)		Variable name.
+ * @param values	(char **)		Variable values.
+ * @param next		(t_envvar *)	Next element.
+ */
+typedef struct s_envvar
+{
+	char			*name;
+	char			**values;
+	struct s_envvar	*next;
+}	t_envvar;
+
+/**
+ * @struct			s_node
+ * @brief			Command line node.
+ * 
+ * @param rank		(int)		Node rank.
+ * @param element	(void *)	Opaque pointer to the node content.
+ * @param left		(t_node *)	Left child node.
+ * @param right		(t_node *)	Right child node.
+ */
+typedef struct s_node
+{
+	int				rank;
+	void			*element;
+	struct s_node	*left;
+	struct s_node	*right;
+}	t_node;
+
+/**
+ * @struct			s_command
+ * @brief			Command descriptor.
+ * 
+ * @param infile	Input file descriptor
+ * @param outfile	Output file descriptor
+ * @param path		Command path
+ * @param args		Command arguments
+ * @param envp		Command environment
+ */
+typedef struct s_command
+{
+	int			infile;
+	int			outfile;
+	char		*path;
+	char		**args;
+	t_envvar	*envp;
+}   t_command;
+
+/* T_TOKEN ****************************************************************** */
 
 /**
  * @brief			Initializes a new t_token.
@@ -89,21 +147,6 @@ void		*ft_convert_token(t_token *token);
 void		ft_del_token(t_token *token);
 
 /* T_ENVVAR ***************************************************************** */
-
-/**
- * @struct			s_envvar
- * @brief			Environment variable linked list node.
- * 
- * @param name		(char *)		Variable name.
- * @param values	(char **)		Variable values.
- * @param next		(t_envvar *)	Next element.
- */
-typedef struct s_envvar
-{
-	char			*name;
-	char			**values;
-	struct s_envvar	*next;
-}	t_envvar;
 
 /**
  * @brief			Initializes a new t_envvar.
@@ -157,11 +200,23 @@ t_envvar	*ft_get_var(t_envvar *vars, char *name);
 void		ft_set_var(t_envvar **vars, char *name, char *string);
 
 /**
+ * @brief			Exports an environment var into env linked list.
+ * 
+ * @param cmd		t_cmd pointer with command meta-data.
+ * @param tmp		Variable string to export.
+ * 
+ * @return			Exit code.
+*/
+int			ft_export_var(t_command *cmd, char *tmp);
+
+/**
  * @brief			Append a string to an environment variable string.
  * 
- * @param vars
+ * @param vars		Linked list.
+ * @param name		Variable name.
+ * @param string	String to append.
 */
-void	ft_append_var(t_envvar **vars, char *name, char *string);
+void		ft_append_var(t_envvar **vars, char *name, char *string);
 
 /**
  * @brief			Get vars linked list size.
@@ -184,26 +239,6 @@ int			ft_var_size(t_envvar *vars);
 t_envvar    *ft_setup_env(char **argv, char **envp);
 
 /* T_NODE ******************************************************************* */
-
-# define LEFT 0
-# define RIGHT 1
-
-/**
- * @struct			s_node
- * @brief			Command line node.
- * 
- * @param rank		(int)		Node rank.
- * @param element	(void *)	Opaque pointer to the node content.
- * @param left		(t_node *)	Left child node.
- * @param right		(t_node *)	Right child node.
- */
-typedef struct s_node
-{
-	int				rank;
-	void			*element;
-	struct s_node	*left;
-	struct s_node	*right;
-}	t_node;
 
 /**
  * @brief			Initializes a new t_node.
@@ -252,25 +287,6 @@ void		ft_del_node(t_node *tree);
 
 
 /* T_COMMAND **************************************************************** */
-
-/**
- * @struct			s_command
- * @brief			Command descriptor.
- * 
- * @param infile	Input file descriptor
- * @param outfile	Output file descriptor
- * @param path		Command path
- * @param args		Command arguments
- * @param envp		Command environment
- */
-typedef struct s_command
-{
-	int			infile;
-	int			outfile;
-	char		*path;
-	char		**args;
-	t_envvar	*envp;
-}   t_command;
 
 /**
  * @brief			Initializes a new t_command.
