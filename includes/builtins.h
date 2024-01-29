@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 15:40:20 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 23:14:43 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,23 @@ char		*ft_get_pwd(void);
 t_envvar	**ft_get_directory_vars(t_envvar *envp);
 
 /**
+ * @brief			Updates and returns environment variables linked list.
+ * 
+ * @param env		Linked list to update, NULL to just give back env.
+ * 
+ * @return			Linked list pointer.
+*/
+t_envvar	*ft_update_env(t_envvar *env);
+
+/**
+ * @brief			Initialize basic environment.
+ * 
+ * @param env		Empty linked list adress.
+ * @param argv		String array argv.
+*/
+void		ft_create_env(t_envvar **env, char **argv);
+
+/**
  * @brief			Manage directory change.
  * 
  * @return			chdir exit code.
@@ -134,15 +151,6 @@ long		ft_exit_atoi(char *str);
  * @return			1 if str is a number, 0 otherwise.
 */
 int			ft_is_numeric(char *str);
-
-/**
- * @brief			Check if echo option is only 'n's.
- * 
- * @param str		char* to check.
- * 
- * @return			1 if all chars after - are 'n's, 0 otherwise.
-*/
-int			ft_only_ns(char *str);
 
 /**
  * @brief			Get environment variable string.

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 18:49:20 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:29:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,20 @@ int	ft_show_export_list(t_command *cmd)
 	}
 	ft_free_tab((void **)vars_array);
 	return (EC_SUCCES);
+}
+
+int	ft_str_unquoted_len(char *str)
+{
+	char	*tmp;
+	int		i;
+
+	tmp = str;
+	while (*str)
+	{
+		i += ((*str) == '"') + ((*str) == '\'');
+		str++;
+	}
+	return (str - tmp - i);
 }
 
 int	ft_export_var(t_command *cmd)

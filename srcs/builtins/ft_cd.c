@@ -16,20 +16,22 @@ t_envvar	**ft_get_directory_vars(t_envvar *envp)
 {
 	t_envvar	**vars;
 
-	vars = malloc(5 * sizeof(t_envvar *));
+	vars = malloc(4 * sizeof(t_envvar *));
 	if (!vars)
 		return (NULL);
 	vars[0] = ft_get_var(envp, "HOME");
 	vars[1] = ft_get_var(envp, "OLDPWD");
 	vars[2] = ft_get_var(envp, "PWD");
-	vars[3] = ft_get_var(envp, "SHELL");
-	vars[4] = NULL;
+	vars[3] = NULL;
 	return (vars);
 }
 
 int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 {
-	printf("%d arguments\n", argc);
+	if (!argc && !vars[0])
+		printf("minishell: cd: HOME not set\n");
+	if (!argc && !vars[0])
+		return (EC_FAILED);
 	if ((!argc || (argc == 1 && !ft_strcmp(argv[0], "~"))) && vars[0])
 		chdir(vars[0]->values[0]);
 	else if (argc == 1 && !ft_strcmp(argv[0], "-") && vars[1] && vars[2])
@@ -37,11 +39,11 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 		printf("%s\n", vars[1]->values[0]);
 		chdir(vars[1]->values[0]);
 	}
-	else if (argv[0] && vars[3])
+	else if (argv[0])
 	{
-		if (chdir(argv[0]) && vars[3])
+		if (chdir(argv[0]) == -1)
 		{
-			perror(vars[3]->values[0]);
+			perror("minishell");
 			return (EC_FAILED);
 		}
 	}
@@ -63,7 +65,7 @@ int	ft_cd(t_command *cmd)
 	if (argc > 2)
 	{
 		free(vars);
-		printf("%s: cd: Too many arguments.\n", vars[3]->values[0]);
+		printf("minishell: cd: Too many arguments.\n");
 		return (EC_FAILED);
 	}
 	if (ft_manage_cd(argc - 1, cmd->args + 1, vars))

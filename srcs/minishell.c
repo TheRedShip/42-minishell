@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/27 23:17:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/28 23:15:29 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 	toggle_signal(1);
-	env = ft_setup_env(envp);
+	env = ft_setup_env(argv, envp);
+	ft_update_env(env);
 	while (1)
 		ft_prompt(env);
 	return (0);

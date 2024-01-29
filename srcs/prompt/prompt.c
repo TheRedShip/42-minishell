@@ -24,17 +24,15 @@ void start_execve(char *line, t_command *cmd)
 
 	args = ft_split(line, ' ');
 	if (!args)
-	{
-		free(args);
 		return ;
-	}
 	if (access(args[0], X_OK))
 		temp_command = ft_get_path(args[0], cmd->envp);
 	else
 		temp_command = ft_strdup(args[0]);
 	if (!temp_command)
 	{
-		free(args);
+		printf("minishell: command not found\n");
+		ft_free_tab((void **)args);
 		return ;
 	}
 	toggle_signal(0);
@@ -103,10 +101,7 @@ void	ft_prompt(t_envvar *envp)
 	line = readline(prompt);
 	line = ft_quote_checker(line, QU_ZERO);
 	if (!line)
-	{
-		printf("\n");
 		ft_exit(NULL, prompt, envp);
-	}
 	add_history(line);
 	line = parse_dollar(line, envp);
 	// line = parse_quotes(line);
