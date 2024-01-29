@@ -16,19 +16,20 @@ extern int	g_exit_code;
 
 static void	signal_handler(int signal)
 {
-    char    *prompt;
+    // char    *prompt;
 
 	printf("\033[%dC", (int) ft_strlen(rl_prompt) + rl_point - 39);
 	if (signal == 2)
 	{
 		g_exit_code = 130;
 		printf("^C\n");
+        // prompt = ft_get_prompt_string(NULL);
 		rl_replace_line("", 0);
-        prompt = ft_get_prompt_string(NULL);
-        printf("%s", prompt);
-        free(prompt);
-		// rl_on_new_line();
-		// rl_redisplay();
+        rl_on_new_line();
+		rl_redisplay();
+        // printf(" \b");
+        // printf("%s", prompt);
+        // free(prompt);
 	}
 }
 
