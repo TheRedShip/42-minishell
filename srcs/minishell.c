@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/30 15:39:53 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:40:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_print_logo(void)
 	printf("\033c\033[31m");
 	while (line)
 	{
+		usleep(20000);
 		printf("%s", line);
 		free(line);
 		line = get_next_line(fd);
