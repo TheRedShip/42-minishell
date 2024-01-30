@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 18:42:06 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 16:27:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/29 23:39:51 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_max(int a, int b)
 	return (b);
 }
 
-char	*ft_strndup(char *str, size_t n)
+char	*ft_strndup(char *str, int n)
 {
 	char	*cpy;
 	char	*tmp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/29 22:17:03 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/30 12:17:47 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,3 +77,29 @@ char *parse_dollar(char *string, t_envvar *envp)
 	free(string);
 	return (final_string);
 }
+
+// char	*ft_replace_vars(t_envvar *vars, char *str)
+// {
+// 	t_quote_state	qs;
+// 	char			*tmp;
+// 	char			*result;
+// 	int				len;
+
+// 	qs = QU_ZERO;
+// 	result = NULL;
+// 	tmp = str;
+// 	while (*str)
+// 	{
+// 		ft_qs_update(*str, &qs);
+// 		len = ft_strchr(str, '$') - str;
+// 		ft_strjoin(result, ft_strndup(str, len), NULL, 0b11);
+// 		str += len;
+// 		printf("[%c] ehehe normalement cest un dollar");
+// 		exit(EC_SUCCES);
+// 	}
+// }
+
+// int main(void)
+// {
+// 	char *string = "SALUT je suis 'une ch$ain$e' ";
+// }

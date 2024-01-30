@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/29 22:18:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/30 12:37:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,27 @@ char	**str_copy(char **string)
 	return (new_string);
 }
 
+void	ft_print_logo(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("logosang", O_RDONLY);
+	if (fd < 0)
+		return ;
+	line = get_next_line(fd);
+	printf("\033[2J\033[H\033[31m");
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	printf("\033[0m");
+	printf("\033[37;1;3mby rgramati, ycontre\033[0m\n\n");
+	close(fd);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_envvar	*env;
@@ -40,6 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	toggle_signal(1);
 	env = ft_setup_env(argv, envp);
 	ft_update_env(env);
+	ft_print_logo();
 	while (1)
 		ft_prompt(env);
 	return (0);
