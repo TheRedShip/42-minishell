@@ -59,7 +59,7 @@ int	ft_cd(t_command *cmd)
 	t_envvar	**vars;
 
 	argc = ft_tab_len(cmd->args);
-	vars = ft_get_directory_vars(cmd->envp);
+	vars = ft_get_directory_vars(*(cmd->envp));
 	if (!vars)
 		return (EC_FAILED);
 	if (argc > 2)
@@ -73,9 +73,9 @@ int	ft_cd(t_command *cmd)
 		free(vars);
 		return (EC_FAILED);
 	}
-	ft_set_var(&(cmd->envp), "OLDPWD", ft_strdup(vars[2]->values[0]));
+	ft_set_var(cmd->envp, "OLDPWD", ft_strdup(vars[2]->values[0]));
 	newdir = ft_get_pwd();
-	ft_set_var(&(cmd->envp), "PWD", newdir);
+	ft_set_var(cmd->envp, "PWD", newdir);
 	free(vars);
 	return (EC_SUCCES);
 }
