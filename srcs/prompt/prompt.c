@@ -48,6 +48,8 @@ void start_execve(char *line, t_command *cmd)
 	else if (pid < 0)
 		perror("fork");
 	waitpid(pid, &status, 0);
+	if (ft_strnstr(temp_command, "clear", ft_strlen(temp_command)))
+		ft_print_logo();
 	g_exit_code = WEXITSTATUS(status);
 	if (!WIFEXITED(status) && WCOREDUMP(status))
 	{
