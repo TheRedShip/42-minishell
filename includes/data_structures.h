@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 18:35:27 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:11:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_command
 	int			outfile;
 	char		*path;
 	char		**args;
-	t_envvar	*envp;
+	t_envvar	**envp;
 }   t_command;
 
 /* T_TOKEN ****************************************************************** */
@@ -294,11 +294,11 @@ void		ft_del_node(t_node *tree);
  * @param input		Input file descriptor
  * @param output	Output file descriptor
  * @param raw_cmd	Raw command string
- * @param envp		Envp linked list.
+ * @param envp		Envp linked list adress.
  * 
  * @return			A pointer to the newly allocated t_command.
  */
-t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar *envp);
+t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar **envp);
 
 /**
  * @brief			De-allocate a t_command.

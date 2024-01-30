@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 21:34:27 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/30 14:38:44 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_env(t_command *cmd)
 	char		**vars_array;
 	char		**tmp;
 
-	vars = cmd->envp;
+	vars = *(cmd->envp);
 	vars_array = ft_get_var_strs(vars, 0);
 	if (!vars_array)
 		return (EC_FAILED);

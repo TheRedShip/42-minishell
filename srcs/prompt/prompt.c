@@ -18,37 +18,31 @@ void start_execve(char *line, t_command *cmd)
 {
 	char **args;
 	char **env;
-	char *temp_command;
 	pid_t pid;
 	int status;
 
 	args = ft_split(line, ' ');
 	if (!args)
 		return ;
-	if (access(args[0], X_OK))
-		temp_command = ft_get_path(args[0], cmd->envp);
-	else
-		temp_command = ft_strdup(args[0]);
-	if (!temp_command)
+	if (!cmd->path)
 	{
 		printf("minishell: command not found\n");
 		ft_free_tab((void **)args);
 		return ;
 	}
 	toggle_signal(0);
-	env = ft_get_var_strs(cmd->envp, 0);
+	env = ft_get_var_strs(*(cmd->envp), 0);
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(temp_command, args, env);
+		execve(cmd->path, args, env);
 		perror("execve");
-		free(temp_command);
 		exit(EC_FAILED);
 	}
 	else if (pid < 0)
 		perror("fork");
 	waitpid(pid, &status, 0);
-	if (ft_strnstr(temp_command, "clear", ft_strlen(temp_command)))
+	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)))
 		ft_print_logo();
 	g_exit_code = WEXITSTATUS(status);
 	if (!WIFEXITED(status) && WCOREDUMP(status))
@@ -62,14 +56,12 @@ void start_execve(char *line, t_command *cmd)
 		g_exit_code = 130;
 	}
 	toggle_signal(1);
-	free(temp_command);
 	ft_free_tab((void **)(args));
 	ft_free_tab((void **)(env));
 }
 
-void	builtin_cmd(char *line, t_envvar *envp, char *prompt) //FAUT FREE LA LINE si EXIT
+void	builtin_cmd(char *line, t_envvar **envp, char *prompt) //FAUT FREE LA LINE si EXIT
 {
-	//t_command	*test = ft_init_command(0, 1, "env", envp);
 	t_command	*test = ft_init_command(0, 1, line, envp);
 
 	(void) envp;
@@ -88,24 +80,24 @@ void	builtin_cmd(char *line, t_envvar *envp, char *prompt) //FAUT FREE LA LINE s
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
 		g_exit_code = ft_cd(test);
 	else if (!ft_strncmp(line, "level", 6))									//DEBUG ONLY ne pas toucher
-		printf("le level shell est %s\n", ft_get_var(envp, "SHLVL")->values[0]);
+		printf("le level shell est %s\n", ft_get_var(*envp, "SHLVL")->values[0]);
 	else
 		start_execve(line, test);
 	ft_del_command(test);
 }
 
-void	ft_prompt(t_envvar *envp)
+void	ft_prompt(t_envvar **envp)
 {
 	char	*line;
 	char	*prompt;
 
-	prompt = ft_get_prompt_string(envp);
+	prompt = ft_get_prompt_string(*envp);
 	line = readline(prompt);
 	line = ft_quote_checker(line, QU_ZERO);
 	if (!line)
 		ft_exit(NULL, prompt, envp);
 	add_history(line);
-	line = parse_dollar(line, envp);
+	line = parse_dollar(line, *envp);
 	// line = parse_quotes(line);
 	builtin_cmd(line, envp, prompt);
 	if (line)

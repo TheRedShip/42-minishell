@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 22:07:15 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/30 14:33:10 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_show_export_list(t_command *cmd)
 	char	**tmp;
 	char	*string;
 
-	vars_array = ft_get_var_strs(cmd->envp, 1);
+	vars_array = ft_get_var_strs(*(cmd->envp), 1);
 	if (!vars_array)
 		return (EC_FAILED);
 	ft_sort_strs_tab(vars_array, ft_tab_len(vars_array));
@@ -88,20 +88,6 @@ int	ft_show_export_list(t_command *cmd)
 	return (EC_SUCCES);
 }
 
-int	ft_str_unquoted_len(char *str)
-{
-	char	*tmp;
-	int		i;
-
-	tmp = str;
-	while (*str)
-	{
-		i += ((*str) == '"') + ((*str) == '\'');
-		str++;
-	}
-	return (str - tmp - i);
-}
-
 int	ft_export_var(t_command *cmd, char *tmp)
 {
 	char	**var;
@@ -110,18 +96,18 @@ int	ft_export_var(t_command *cmd, char *tmp)
 	{
 		var = ft_split(tmp, '=');
 		if (ft_strlen(var[0]) && var[0][ft_strlen(var[0]) - 1] == '+')
-			ft_append_var(&(cmd->envp), var[0], ft_strtrim(var[1], "\"'"));
+			ft_append_var(cmd->envp, var[0], ft_strtrim(var[1], "\"'"));
 		else
 		{
 			if (var[1])
-				ft_set_var(&(cmd->envp), var[0], ft_strtrim(var[1], "\"'"));
+				ft_set_var(cmd->envp, var[0], ft_strtrim(var[1], "\"'"));
 			else
-				ft_set_var(&(cmd->envp), var[0], "");
+				ft_set_var(cmd->envp, var[0], "");
 		}
 		ft_free_tab((void **)var);
 	}
 	else
-		ft_set_var(&(cmd->envp), tmp, NULL);
+		ft_set_var(cmd->envp, tmp, NULL);
 	return (EC_SUCCES);
 }
 

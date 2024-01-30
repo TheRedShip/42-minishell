@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/30 12:17:47 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:21:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,29 @@ char *parse_dollar(char *string, t_envvar *envp)
 	return (final_string);
 }
 
+// char	*ft_insert_var(t_envvar *vars, char *result, char *str, int *len)
+// {
+// 	char	*tmp;
+// 	char	*var;
+
+// 	tmp = str;
+// 	if (ft_strlen(str) == 1 || ft_isspace(*(str + 1)))
+// 		return (ft_strjoin(result, "$", NULL, 0b01));
+// 	while (!ft_instr(*str, " $'\""))
+// 		str++;
+// 	var = ft_strndup(tmp, str - tmp);
+// 	ft_get_varstring(ft_get_var(vars, ft_strn));
+
+// }
+
 // char	*ft_replace_vars(t_envvar *vars, char *str)
 // {
 // 	t_quote_state	qs;
-// 	char			*tmp;
 // 	char			*result;
+// 	char			*tmp;
 // 	int				len;
 
+// 	(void) vars;
 // 	qs = QU_ZERO;
 // 	result = NULL;
 // 	tmp = str;
@@ -92,14 +108,23 @@ char *parse_dollar(char *string, t_envvar *envp)
 // 	{
 // 		ft_qs_update(*str, &qs);
 // 		len = ft_strchr(str, '$') - str;
-// 		ft_strjoin(result, ft_strndup(str, len), NULL, 0b11);
+// 		result = ft_strjoin(result, ft_strndup(str, len), NULL, 0b11);
 // 		str += len;
-// 		printf("[%c] ehehe normalement cest un dollar");
-// 		exit(EC_SUCCES);
+// 		if (qs != QU_SINGLE)
+// 			result = ft_insert_var(vars, result, str, &len);
+// 		str += len;
+// 		printf("[%c] ehehe normalement cest un dollar\n", *str);
+// 		printf("[%s]\n", str);
+// 		printf("[%s]\n", result);
+// 		// exit(EC_SUCCES);
 // 	}
+// 	return (result);
 // }
 
 // int main(void)
 // {
-// 	char *string = "SALUT je suis 'une ch$ain$e' ";
+// 	char *string = "SALUT je$ suis 'une ch$ain$e' ";
+
+// 	printf("%s\n", ft_strchr(string, 'z'));
+// 	ft_replace_vars(NULL, string);
 // }

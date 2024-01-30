@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:07:14 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 19:05:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:33:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ int	ft_unset(t_command *cmd)
 		return (EC_FAILED);
 	tmp = cmd->args;
 	while (*tmp)
-		ft_remove_var(&cmd->envp, *(tmp++));
+		ft_remove_var(cmd->envp, *(tmp++));
 	return (EC_SUCCES);
 }

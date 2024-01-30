@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/30 12:37:33 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:39:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_print_logo(void)
 	if (fd < 0)
 		return ;
 	line = get_next_line(fd);
-	printf("\033[2J\033[H\033[31m");
+	printf("\033c\033[31m");
 	while (line)
 	{
 		printf("%s", line);
@@ -55,14 +55,23 @@ void	ft_print_logo(void)
 int	main(int argc, char **argv, char **envp)
 {
 	t_envvar	*env;
+	int 		debugging;
 
 	(void) argc;
 	(void) argv;
+	debugging = -1;
+	if (argc == 2 && !ft_strncmp(argv[1], "debug", 6))
+	{
+		debugging = open("debug", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		dup2(debugging, STDOUT_FILENO);
+	}
 	toggle_signal(1);
 	env = ft_setup_env(argv, envp);
-	ft_update_env(env);
+	ft_update_env(&env);
 	ft_print_logo();
 	while (1)
-		ft_prompt(env);
+		ft_prompt(&env);
+	if (debugging < 0)
+		close(debugging);
 	return (0);
 }

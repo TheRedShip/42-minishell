@@ -6,18 +6,18 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 13:39:24 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:12:44 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_envvar	*ft_update_env(t_envvar *env)
+t_envvar	*ft_update_env(t_envvar **env)
 {
 	static t_envvar	*envlist;
 
 	if (!envlist || env)
-		envlist = env;
+		envlist = *env;
 	return (envlist);
 }
 
@@ -31,7 +31,6 @@ void	ft_create_env(t_envvar **env,  char **argv)
 	ft_set_var(env, "PWD", tmp);
 	tmp = ft_strjoin(ft_get_pwd(), argv[0], "/", 0b01);
 	ft_set_var(env, "_", tmp);
-	return ;
 }
 
 t_envvar    *ft_setup_env(char **argv, char **envp)

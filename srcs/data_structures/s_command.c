@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_command.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 22:17:26 by marvin           ###   ########.fr       */
+/*   Updated: 2024/01/30 14:51:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	*ft_get_path(char *cmd, t_envvar *envp)
 
 	bin = ft_strjoin("/", cmd, 0, 0);
 	while (envp && ft_strncmp(envp->name, "PATH", 5))
+	{
+		printf("[%s] is not PATH\n", envp->name);
 		envp = envp->next;
+	}
 	if (!envp)
 		return (NULL);
 	i = 0;

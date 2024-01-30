@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 17:26:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:12:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			ft_cd(t_command *cmd);
  * 
  * @return			ft_exit exit code. 
 */
-int			ft_exit(t_command *cmd, char *prompt, t_envvar *envp);
+int			ft_exit(t_command *cmd, char *prompt, t_envvar **envp);
 
 /**
  * @brief			Display environment variables, no order precised.
@@ -116,7 +116,7 @@ t_envvar	**ft_get_directory_vars(t_envvar *envp);
  * 
  * @return			Linked list pointer.
 */
-t_envvar	*ft_update_env(t_envvar *env);
+t_envvar	*ft_update_env(t_envvar **env);
 
 /**
  * @brief			Initialize basic environment.

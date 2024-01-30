@@ -63,7 +63,7 @@ char	*str_add(char *dest, char *src, size_t place);
 /* ************************************************************************** */
 
 /* PROMPTING **************************************************************** */
-void	ft_prompt(t_envvar *envp);
+void	ft_prompt(t_envvar **envp);
 
 /**
  * @brief				Get prompt total string.

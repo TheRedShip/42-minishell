@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/28 19:08:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:41:58 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,18 @@ void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt)
 		return ;
 	}
 	rl_clear_history();
-	while (cmd->envp)
+	while (*(cmd->envp))
 	{
-		tmp = cmd->envp->next;
-		ft_del_var(cmd->envp);
-		cmd->envp = tmp;
+		tmp = (*(cmd->envp))->next;
+		ft_del_var(*(cmd->envp));
+		*(cmd->envp) = tmp;
 	}
 	ft_del_command(cmd);
 	free(prompt);
 	exit(exit_code);
 }
 
-int	ft_exit(t_command *cmd, char *prompt, t_envvar *envp)
+int	ft_exit(t_command *cmd, char *prompt, t_envvar **envp)
 {
 	int			argc;
 	t_command	*holder;
