@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/30 12:37:33 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:48:07 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_print_logo(void)
 	printf("\033[2J\033[H\033[31m");
 	while (line)
 	{
+		usleep(20000);
 		printf("%s", line);
 		free(line);
 		line = get_next_line(fd);
