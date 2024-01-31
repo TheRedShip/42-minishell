@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/31 07:51:36 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 08:40:08 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_print_logo(void)
 	int		fd;
 	char	*line;
 
-	fd = open("logosang", O_RDONLY);
+	fd = open("/nfs/homes/rgramati/Documents/42cursus/Minishell/logo", 0);
 	if (fd < 0)
 		return ;
 	line = get_next_line(fd);
