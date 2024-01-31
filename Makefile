@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+         #
+#    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/01/29 15:07:10 by ycontre          ###   ########.fr        #
+#    Updated: 2024/01/31 09:16:26 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 
 HEADERS		:=	includes/builtins.h includes/minishell.h includes/data_structures.h
 
-CC          := gcc
+CC          := clang
 CFLAGS      := -Wall -Wextra -Werror -g
 IFLAGS	    := -I $(LFT_DIR)/includes -I ./includes
 
