@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 15:12:44 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:43:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_envvar    *ft_setup_env(char **argv, char **envp)
 	char		*tmp;
 	int         i;
 
+	(void) envp;
 	i = -1;
 	env = NULL;
 	tmp = NULL;

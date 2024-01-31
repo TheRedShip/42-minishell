@@ -27,6 +27,7 @@ void start_execve(char *line, t_command *cmd)
 	if (!cmd->path || access(cmd->path, F_OK))
 	{
 		printf("minishell: command not found\n");
+		g_exit_code = 127;
 		ft_free_tab((void **)args);
 		return ;
 	}
@@ -106,7 +107,8 @@ void	ft_prompt(t_envvar **envp)
 	line = tmp;
 	// line = parse_dollar(line, *envp);
 	// line = parse_quotes(line);
-	builtin_cmd(line, envp, prompt);
+	if (*line)
+		builtin_cmd(line, envp, prompt);
 	if (line)
 		free(line);
 	free(prompt);

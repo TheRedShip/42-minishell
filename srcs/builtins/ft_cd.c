@@ -30,14 +30,19 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 {
 	if (!argc && !vars[0])
 		printf("minishell: cd: HOME not set\n");
-	if (!argc && !vars[0])
-		return (EC_FAILED);
 	if ((!argc || (argc == 1 && !ft_strcmp(argv[0], "~"))) && vars[0])
 		chdir(vars[0]->values[0]);
-	else if (argc == 1 && !ft_strcmp(argv[0], "-") && vars[1] && vars[2])
+	else if (argc == 1 && !ft_strcmp(argv[0], "-") && vars[1])
 	{
-		printf("%s\n", vars[1]->values[0]);
-		chdir(vars[1]->values[0]);
+		if (vars[1]->values)
+		{
+			printf("%s\n", vars[1]->values[0]);
+			chdir(vars[1]->values[0]);
+		}
+		else
+			printf("minishell: cd: OLDPWD not set\n");
+		if (!vars[1]->values)
+			return (EC_FAILED);
 	}
 	else if (argv[0])
 	{

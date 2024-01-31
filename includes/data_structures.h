@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/31 08:25:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 21:55:37 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
  */
 typedef enum e_token_type
 {
-	TK_BRACES = 0,
+	TK_STRING = 0,
+	TK_BRACES,
 	TK_BINOPS,
 	TK_PIPEXS,
-	TK_REDIRS,
-	TK_STRING
+	TK_REDIRS
 }   t_token_type;
 
 /**
@@ -145,6 +145,23 @@ void		*ft_convert_token(t_token *token);
  * @param var		t_token to free.
  */
 void		ft_del_token(t_token *token);
+
+/**
+ * @brief			De-allocate a t_token linked list.
+ * 
+ * @param tokens	Linked list to free.
+*/
+void	ft_clear_token_list(t_token *tokens);
+
+/**
+ * @brief			Tokenize a string.
+ * 
+ * @param str		String to tokenize.
+ * @param qs		Quote state.
+ * 
+ * @return			t_token linked list.
+*/
+t_token		*ft_tokenizer(char *str, t_quote_state qs);
 
 /* T_ENVVAR ***************************************************************** */
 
@@ -318,4 +335,5 @@ void		ft_del_command(t_command *cmd);
  * @brief			Get command path.
 */
 char		*ft_get_path(char *cmd, t_envvar *envp);
+
 #endif

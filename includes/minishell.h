@@ -73,5 +73,6 @@ char	*ft_open_dquote(t_quote_state qs);
 void		toggle_signal(int toggle);
 /* ************************************************************************** */
 
+void	ft_display_token(t_token *token);
 
 #endif
