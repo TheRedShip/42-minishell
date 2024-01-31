@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/29 20:29:15 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 08:24:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ void	ft_del_var(t_envvar *var)
 	free(var->name);
 	ft_free_tab((void **) var->values);
 	free(var);
+}
+
+void	ft_del_env(t_envvar *vars)
+{
+	t_envvar	*tmp;
+
+	while (vars)
+	{
+		tmp = vars->next;
+		ft_del_var(vars);
+		vars = tmp;
+	}
 }
 
 t_envvar	*ft_get_var(t_envvar *vars, char *name)

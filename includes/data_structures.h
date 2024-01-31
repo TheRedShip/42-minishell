@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 15:11:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 08:25:51 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,13 @@ void		ft_remove_var(t_envvar **vars, char *name);
  * @param var		t_envvar to free.
  */
 void		ft_del_var(t_envvar *var);
+
+/**
+ * @brief			Delete t_envvar linked list.
+ * 
+ * @param vars		Linked list.
+*/
+void		ft_del_env(t_envvar *vars);
 
 /**
  * @brief			Get t_envvar by searching name inside vars.

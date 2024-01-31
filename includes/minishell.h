@@ -75,6 +75,9 @@ void	ft_prompt(t_envvar **envp);
 char	*ft_get_prompt_string(t_envvar *envp);
 
 char	*ft_quote_checker(char *str, t_quote_state oldqs);
+
+char	*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
+
 char	*ft_open_dquote(t_quote_state qs);
 /* ************************************************************************** */
 

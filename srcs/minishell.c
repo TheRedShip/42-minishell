@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/30 15:40:55 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 07:51:36 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,44 @@ void	ft_print_logo(void)
 	close(fd);
 }
 
+char	*get_temp_file(char *head)
+{
+	int		urandom;
+	char	rand[11];
+	int		i;
+
+	i = 0;
+	rand[10] = 0;
+	urandom = open("/dev/urandom", O_RDONLY);
+	if (urandom < 0)
+		return (NULL);
+	read(urandom, rand, 10);
+	close(urandom);
+	while (i < 10)
+	{
+		while (!(ft_isalnum(rand[i])))
+			rand[i] = (unsigned char) rand[i] % 93 + 33;
+		i++;
+	}
+	return (ft_strjoin(head, rand, "-", 0b00));
+}
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_envvar	*env;
 	int 		debugging;
+	char		*debug_file;
 
 	(void) argc;
 	(void) argv;
 	debugging = -1;
 	if (argc == 2 && !ft_strncmp(argv[1], "debug", 6))
 	{
-		debugging = open("debug", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		debug_file = ft_strjoin("./.logs/", get_temp_file(".debug"), NULL, 0b10);
+		debugging = open(debug_file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		dup2(debugging, STDOUT_FILENO);
+		// ft_debug_adress(debug_file, debugging);
 	}
 	toggle_signal(1);
 	env = ft_setup_env(argv, envp);
@@ -72,7 +98,5 @@ int	main(int argc, char **argv, char **envp)
 	ft_print_logo();
 	while (1)
 		ft_prompt(&env);
-	if (debugging < 0)
-		close(debugging);
 	return (0);
 }

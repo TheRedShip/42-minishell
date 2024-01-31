@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 14:41:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 08:26:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int	ft_is_numeric(char *str)
 
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt)
 {
-	t_envvar	*tmp;
-
 	if (ec == EC_NOTNUM)
 		printf("exit: %s: numeric argument required\n", cmd->args[1]);
 	if (ec == EC_TOMAAR)
@@ -64,31 +62,26 @@ void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt)
 		printf("exit: too many arguments\n");
 		return ;
 	}
-	rl_clear_history();
-	while (*(cmd->envp))
+	if (cmd)
 	{
-		tmp = (*(cmd->envp))->next;
-		ft_del_var(*(cmd->envp));
-		*(cmd->envp) = tmp;
+		rl_clear_history();
+		ft_del_env(*(cmd->envp));
+		ft_del_command(cmd);
 	}
-	ft_del_command(cmd);
 	free(prompt);
 	exit(exit_code);
 }
 
-int	ft_exit(t_command *cmd, char *prompt, t_envvar **envp)
+int	ft_exit(t_command *cmd, char *line, char *prompt)
 {
 	int			argc;
-	t_command	*holder;
 
-	holder = NULL;
-	if (envp)
-		holder = ft_init_command(0, 0, "exit", envp);
 	printf("exit\n");
-	if (!cmd)
-		ft_exit_manager(g_exit_code, EC_SUCCES, holder, prompt);
-	argc = ft_tab_len(cmd->args) - 1;
-	if (!argc)
+	if (cmd && cmd->args && ft_tab_len(cmd->args) < 3)
+		free(line);
+	if (cmd)
+		argc = ft_tab_len(cmd->args) - 1;
+	if (!cmd || !argc)
 		ft_exit_manager(g_exit_code, EC_SUCCES, cmd, prompt);
 	if (!ft_is_numeric(cmd->args[1]))
 		ft_exit_manager(EC_ERRORS, EC_NOTNUM, cmd, prompt);

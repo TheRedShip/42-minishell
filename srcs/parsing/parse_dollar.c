@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/30 14:21:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 08:05:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,53 +78,66 @@ char *parse_dollar(char *string, t_envvar *envp)
 	return (final_string);
 }
 
-// char	*ft_insert_var(t_envvar *vars, char *result, char *str, int *len)
-// {
-// 	char	*tmp;
-// 	char	*var;
+char	*ft_insert_var(t_envvar *vars, char *result, char *str, int *len)
+{
+	char	*tmp;
+	char	*var;
+	char	*value;
 
-// 	tmp = str;
-// 	if (ft_strlen(str) == 1 || ft_isspace(*(str + 1)))
-// 		return (ft_strjoin(result, "$", NULL, 0b01));
-// 	while (!ft_instr(*str, " $'\""))
-// 		str++;
-// 	var = ft_strndup(tmp, str - tmp);
-// 	ft_get_varstring(ft_get_var(vars, ft_strn));
+	tmp = str;
+	if (!ft_strlen(str))
+		return (result);
+	if (ft_strlen(str) == 1 || (str && ft_isspace(*(str + 1))))
+		*len = 1;
+	if (ft_strlen(str) == 1 || (str && ft_isspace(*(str + 1))))
+		return (ft_strjoin(result, "$", NULL, 0b01));
+	if (*(str + 1) == '?')
+		*len = 2;
+	if (*(str + 1) == '?')
+		return (ft_strjoin(result, ft_itoa(g_exit_code), NULL, 0b11));
+	str++;
+	while (!ft_strchr(" $'\"", *str))
+		str++;
+	*len = str - tmp;
+	var = ft_strndup(tmp + 1, *len - 1);
+	value = ft_get_varstring(ft_get_var(vars, var), 0, 0);
+	free(var);
+	var = ft_strjoin(result, value, NULL, 0b11);
+	return (var);
+}
 
-// }
+char	*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs)
+{
+	char			*result;
+	int				len;
 
-// char	*ft_replace_vars(t_envvar *vars, char *str)
-// {
-// 	t_quote_state	qs;
-// 	char			*result;
-// 	char			*tmp;
-// 	int				len;
-
-// 	(void) vars;
-// 	qs = QU_ZERO;
-// 	result = NULL;
-// 	tmp = str;
-// 	while (*str)
-// 	{
-// 		ft_qs_update(*str, &qs);
-// 		len = ft_strchr(str, '$') - str;
-// 		result = ft_strjoin(result, ft_strndup(str, len), NULL, 0b11);
-// 		str += len;
-// 		if (qs != QU_SINGLE)
-// 			result = ft_insert_var(vars, result, str, &len);
-// 		str += len;
-// 		printf("[%c] ehehe normalement cest un dollar\n", *str);
-// 		printf("[%s]\n", str);
-// 		printf("[%s]\n", result);
-// 		// exit(EC_SUCCES);
-// 	}
-// 	return (result);
-// }
+	printf("WORKING ON <%s>\n", str); //DEBUG ONLY
+	len = ft_strchr(str, '$') - str;
+	if (!ft_strchr(str, '$'))
+		return (ft_strdup(str));
+	result = ft_strndup(str, len);
+	while (len)
+	{
+		ft_qs_update(*(str++), &qs);
+		len--;
+	}
+	if (qs != QU_SINGLE && str)
+		result = ft_insert_var(vars, result, str, &len);
+	else
+	{
+		while (!ft_strchr(" $'\"", *(str + len + 1)))
+			len++;
+		result = ft_strjoin(result, ft_strndup(str, ++len), NULL, 0b11);
+	}
+	str += len;
+	return (ft_strjoin(result, ft_replace_vars(vars, str, qs), NULL, 0b11));
+}
 
 // int main(void)
 // {
-// 	char *string = "SALUT je$ suis 'une ch$ain$e' ";
+// 	char *string = "salut '$HOME' \"$HOME\" $?abcd salut$PATH";
 
-// 	printf("%s\n", ft_strchr(string, 'z'));
-// 	ft_replace_vars(NULL, string);
+// 	char *test = ft_replace_vars(NULL, string, QU_ZERO);
+// 	printf("RESULT is <%s>\n", test);
+// 	free(test);
 // }

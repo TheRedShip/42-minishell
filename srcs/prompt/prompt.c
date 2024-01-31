@@ -24,7 +24,7 @@ void start_execve(char *line, t_command *cmd)
 	args = ft_split(line, ' ');
 	if (!args)
 		return ;
-	if (!cmd->path)
+	if (!cmd->path || access(cmd->path, F_OK))
 	{
 		printf("minishell: command not found\n");
 		ft_free_tab((void **)args);
@@ -42,8 +42,6 @@ void start_execve(char *line, t_command *cmd)
 	else if (pid < 0)
 		perror("fork");
 	waitpid(pid, &status, 0);
-	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)))
-		ft_print_logo();
 	g_exit_code = WEXITSTATUS(status);
 	if (!WIFEXITED(status) && WCOREDUMP(status))
 	{
@@ -55,6 +53,8 @@ void start_execve(char *line, t_command *cmd)
 		printf("\n");
 		g_exit_code = 130;
 	}
+	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
+		ft_print_logo();
 	toggle_signal(1);
 	ft_free_tab((void **)(args));
 	ft_free_tab((void **)(env));
@@ -66,7 +66,7 @@ void	builtin_cmd(char *line, t_envvar **envp, char *prompt) //FAUT FREE LA LINE 
 
 	(void) envp;
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
-		g_exit_code = ft_exit(test, prompt, envp);
+		g_exit_code = ft_exit(test, line, prompt);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
 		g_exit_code = ft_echo(test);
 	else if (!ft_strncmp(line, "env ", 4) || !ft_strncmp(line, "env", 4))
@@ -90,14 +90,21 @@ void	ft_prompt(t_envvar **envp)
 {
 	char	*line;
 	char	*prompt;
+	char	*tmp;
 
 	prompt = ft_get_prompt_string(*envp);
 	line = readline(prompt);
 	line = ft_quote_checker(line, QU_ZERO);
 	if (!line)
-		ft_exit(NULL, prompt, envp);
+	{
+		ft_del_env(*envp);
+		ft_exit(NULL, line, prompt);
+	}
 	add_history(line);
-	line = parse_dollar(line, *envp);
+	tmp = ft_replace_vars(*envp, line, QU_ZERO);
+	free(line);
+	line = tmp;
+	// line = parse_dollar(line, *envp);
 	// line = parse_quotes(line);
 	builtin_cmd(line, envp, prompt);
 	if (line)

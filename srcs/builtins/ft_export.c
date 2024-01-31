@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 14:33:10 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 08:03:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@ int	ft_export_syntaxer(char *str)
 		return (0);
 	return (1);
 }
+
+// int	ft_export_syntaxer(char *str)
+// {
+// 	if (ft_isdigit(*str))
+// 		return (0);
+// 	while (*str && (ft_isalnum(*str) || *str == '\'' || *str == '"'))
+// 		str++;
+// 	return (*str == '=');
+// }
 
 void	ft_swap_strs(char **a, char **b)
 {

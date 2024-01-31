@@ -6,11 +6,24 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 00:48:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:10:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+char	*ft_strcat(char *dest, char *src)
+{
+	char	*tmp;
+
+	tmp = dest;
+	while (*dest)
+		dest++;
+	while (*src)
+		*(dest++) = *(src++);
+	*dest = 0;
+	return (tmp);
+}
 
 size_t	ft_strlcat(char *dst, char *src, size_t size, int null_term)
 {

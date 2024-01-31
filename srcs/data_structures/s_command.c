@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 15:59:11 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:59:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ char	*ft_get_path(char *cmd, t_envvar *envp)
 	char	*path;
 	char	*bin;
 
-	bin = ft_strjoin("/", cmd, 0, 0b00);
 	while (envp && ft_strncmp(envp->name, "PATH", 5))
 		envp = envp->next;
 	if (!envp)
 		return (NULL);
+	if (!access(cmd, F_OK))
+		return (ft_strdup(cmd));
+	bin = ft_strjoin("/", cmd, 0, 0b00);
 	i = 0;
 	path = ft_strjoin(envp->values[i++], bin, 0, 0);
 	while (envp->values[i] && access(path, X_OK) == -1)

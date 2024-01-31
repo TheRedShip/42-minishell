@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 15:12:53 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 08:22:57 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int			ft_cd(t_command *cmd);
  * @brief			Exits shell.
  * 
  * @param cmd		t_cmd pointer with command meta-data.
+ * @param line		Line command pointer.
  * @param prompt	Prompt line pointer.
- * @param envp		Linked list pointer (get it by command meta-data if NULL).
  * 
  * @return			ft_exit exit code. 
 */
-int			ft_exit(t_command *cmd, char *prompt, t_envvar **envp);
+int			ft_exit(t_command *cmd, char *line, char *prompt);
 
 /**
  * @brief			Display environment variables, no order precised.
