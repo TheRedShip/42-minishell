@@ -6,21 +6,19 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 23:18:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:24:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_quote_checker(char *str, t_quote_state oldqs)
+char	*ft_quote_checker(char *str, t_quote_state qs)
 {
-	t_quote_state	qs;
 	char			*string_holder;
 	char			*dquote_holder;
 
 	if (!str)
 		return (NULL);
-	qs = oldqs;
 	string_holder = str;
 	while (*str)
 	{

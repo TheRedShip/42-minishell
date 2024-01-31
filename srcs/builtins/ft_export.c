@@ -6,38 +6,38 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/31 08:36:34 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:01:26 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_export_syntaxer(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (ft_isdigit(str[0]))
-		return (0);
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '"' && str[i] != '\'')
-			return (0);
-		i++;
-	}
-	if (i == 0)
-		return (0);
-	return (1);
-}
-
 // int	ft_export_syntaxer(char *str)
 // {
-// 	if (ft_isdigit(*str))
+// 	int	i;
+
+// 	i = 0;
+// 	if (ft_isdigit(str[0]))
 // 		return (0);
-// 	while (*str && (ft_isalnum(*str) || *str == '\'' || *str == '"'))
-// 		str++;
-// 	return (*str == '=');
+// 	while (str[i] && str[i] != '=')
+// 	{
+// 		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '"' && str[i] != '\'')
+// 			return (0);
+// 		i++;
+// 	}
+// 	if (i == 0)
+// 		return (0);
+// 	return (1);
 // }
+
+int	ft_export_syntaxer(char *str)
+{
+	if (ft_isdigit(*str))
+		return (0);
+	while (*str && (ft_isalnum(*str) || *str == '\'' || *str == '"'))
+		str++;
+	return (*str == '=');
+}
 
 void	ft_swap_strs(char **a, char **b)
 {

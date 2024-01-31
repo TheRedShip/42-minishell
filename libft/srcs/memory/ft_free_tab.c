@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:55:37 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/26 16:21:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:19:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	ft_free_tab(void **tab)
 {
-	int	i;
+	void	**tmp;
 
-	i = 0;
 	if (!tab)
 		return ;
-	while (tab[i])
-		free(tab[i++]);
+	tmp = tab;
+	while (*tmp)
+		free(*(tmp++));
 	free(tab);
 }

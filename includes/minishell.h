@@ -55,35 +55,20 @@ char	*ft_get_pwd(void);
 
 /* PARSING ****************************************************************** */
 char	*parse_quotes(char *string);
-char	*parse_dollar(char *string, t_envvar *envp);
+// char	*parse_dollar(char *string, t_envvar *envp);
 int		ft_qs_update(char c, t_quote_state *qs);
-char	*str_add(char *dest, char *src, size_t place);
-char	*str_append(char *str, char c);
-char	*str_add(char *dest, char *src, size_t place);
+// char	*str_add(char *dest, char *src, size_t place);
+// char	*str_append(char *str, char c);
+// char	*str_add(char *dest, char *src, size_t place);
 /* ************************************************************************** */
 
 /* PROMPTING **************************************************************** */
 void	ft_prompt(t_envvar **envp);
 
-/**
- * @brief				Get prompt total string.
- * 
- * @param envp			Linked list.
- * 
- * @return				Formatted total prompt string.
-*/
-char	*ft_get_prompt_string(t_envvar *envp);
-
-char	*ft_quote_checker(char *str, t_quote_state oldqs);
-
-char	*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
-
 char	*ft_open_dquote(t_quote_state qs);
 /* ************************************************************************** */
 
 /* SETUP ******************************************************************** */
-
-void		ft_print_logo(void); 
 
 void		toggle_signal(int toggle);
 /* ************************************************************************** */
