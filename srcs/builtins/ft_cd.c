@@ -31,7 +31,13 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 	if (!argc && !vars[0])
 		printf("minishell: cd: HOME not set\n");
 	if ((!argc || (argc == 1 && !ft_strcmp(argv[0], "~"))) && vars[0])
-		chdir(vars[0]->values[0]);
+	{
+		if (chdir(vars[0]->values[0]) == -1)
+		{
+			perror("minishell");
+			return (EC_FAILED);
+		}
+	}
 	else if (argc == 1 && !ft_strcmp(argv[0], "-") && vars[1])
 	{
 		if (vars[1]->values)

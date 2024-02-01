@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/01/31 21:56:22 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:37:51 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,9 @@ char	*get_temp_file(char *head)
 int	main(int argc, char **argv, char **envp)
 {
 	t_envvar	*env;
-	int 		debugging;
-	char		*debug_file;
 
 	(void) argc;
 	(void) argv;
-	debugging = -1;
-	if (argc == 2 && !ft_strncmp(argv[1], "debug", 6))
-	{
-		debug_file = ft_strjoin("./.logs/", get_temp_file(".debug"), NULL, 0b10);
-		debugging = open(debug_file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-		dup2(debugging, STDOUT_FILENO);
-		// ft_debug_adress(debug_file, debugging);
-	}
 	toggle_signal(1);
 	env = ft_setup_env(argv, envp);
 	ft_update_env(&env);

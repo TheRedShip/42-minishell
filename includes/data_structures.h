@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/31 21:55:37 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:17:55 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void		ft_del_token(t_token *token);
  * 
  * @param tokens	Linked list to free.
 */
-void	ft_clear_token_list(t_token *tokens);
+void		ft_clear_token_list(t_token *tokens);
 
 /**
  * @brief			Tokenize a string.

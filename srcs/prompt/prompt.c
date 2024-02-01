@@ -16,19 +16,17 @@ extern int g_exit_code;
 
 void start_execve(char *line, t_command *cmd)
 {
-	char **args;
 	char **env;
 	pid_t pid;
 	int status;
 
-	args = ft_split(line, ' ');
-	if (!args)
+	(void) line;
+	if (!cmd->args)
 		return ;
 	if (!cmd->path || access(cmd->path, F_OK))
 	{
 		printf("minishell: command not found\n");
 		g_exit_code = 127;
-		ft_free_tab((void **)args);
 		return ;
 	}
 	toggle_signal(0);
@@ -36,7 +34,7 @@ void start_execve(char *line, t_command *cmd)
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(cmd->path, args, env);
+		execve(cmd->path, cmd->args, env);
 		perror("execve");
 		exit(EC_FAILED);
 	}
@@ -57,7 +55,6 @@ void start_execve(char *line, t_command *cmd)
 	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
 		ft_print_logo();
 	toggle_signal(1);
-	ft_free_tab((void **)(args));
 	ft_free_tab((void **)(env));
 }
 
