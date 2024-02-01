@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/01 15:59:33 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/01 16:19:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_print_logo(t_envvar *env)
 	int		fd;
 	char	*line;
 
+	if (!ft_get_var(env, "LOGOPWD"))
+		return ;
 	fd = open(ft_get_var(env, "LOGOPWD")->values[0], 0);
 	if (fd < 0)
 		return ;
