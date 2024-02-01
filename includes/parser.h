@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/31 10:37:28 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:59:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 */
 char	*ft_get_prompt_string(t_envvar *envp);
 
-void	ft_print_logo(void); 
+void	ft_print_logo(t_envvar *env);
 
 /* STRING MANIPULATION ****************************************************** */
 

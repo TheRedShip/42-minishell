@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setup_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/31 17:43:46 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:00:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ t_envvar    *ft_setup_env(char **argv, char **envp)
 		tmp = ft_strdup("minishell");
 		ft_set_var(&env, "SHELL", tmp);
 	}
+	ft_set_var(&env, "LOGOPWD", ft_strjoin(ft_get_var(env, "PWD")->values[0], "/logo", "", 0b00));
 	return (env);
 }

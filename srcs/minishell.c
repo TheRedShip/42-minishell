@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/01 14:37:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:59:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ char	**str_copy(char **string)
 	return (new_string);
 }
 
-void	ft_print_logo(void)
+void	ft_print_logo(t_envvar *env)
 {
 	int		fd;
 	char	*line;
 
-	fd = open("/nfs/homes/rgramati/Documents/42cursus/Minishell/logo", 0);
+	fd = open(ft_get_var(env, "LOGOPWD")->values[0], 0);
 	if (fd < 0)
 		return ;
 	line = get_next_line(fd);
@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	toggle_signal(1);
 	env = ft_setup_env(argv, envp);
 	ft_update_env(&env);
-	ft_print_logo();
+	ft_print_logo(env);
 	while (1)
 		ft_prompt(&env);
 	return (0);
