@@ -53,7 +53,7 @@ void start_execve(char *line, t_command *cmd)
 		g_exit_code = 130;
 	}
 	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
-		ft_print_logo();
+		ft_print_logo(*(cmd->envp));
 	toggle_signal(1);
 	ft_free_tab((void **)(env));
 }
