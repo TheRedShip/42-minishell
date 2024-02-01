@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/01 15:53:20 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:04:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,6 @@ int	ft_is_token(char *str, t_quote_state qs)
 		return (1);
 	return (0);
 }
-
-// int	ft_is_token(char *str, t_quote_state qs)
-// {
-// 	return (\
-// 	(!ft_strncmp(str, "||", 2) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, "&&", 2) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, ">>", 2) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, "<<", 2) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, "\"", 1) && (qs == QU_DOUBLE)) || \
-// 	(!ft_strncmp(str, "'", 1) && (qs == QU_SINGLE)) || \
-// 	(!ft_strncmp(str, " ", 1) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, "(", 1) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, ")", 1) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, "|", 1) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, ">", 1) && (qs == QU_ZERO)) || \
-// 	(!ft_strncmp(str, "<", 1) && (qs == QU_ZERO)));
-// }
 
 t_token_type	ft_ttyper(char *str)
 {
