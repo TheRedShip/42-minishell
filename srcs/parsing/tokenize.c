@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/01 13:21:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:53:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,21 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	if (!*str)
 		return (NULL);
 	tmp = str;
+	printf("|DEBUG| working str = [%s], qs = [%u]\n", str, qs);
 	len = ft_is_token(tmp, qs);
+	ft_qs_update(*tmp, &qs);
 	while (!len || (*tmp == ' ' && qs != QU_ZERO))
 	{
-		tmp++;
 		ft_qs_update(*tmp, &qs);
+		tmp++;
 		len = ft_is_token(tmp, qs);
 	}
 	if (tmp == str)
 		tstring = ft_strndup(str, len);
 	else
 		tstring = ft_strndup(str, tmp - str);
-	printf("|DEBUG| tstring = [%s]\n", tstring);
-	if (ft_strcmp(tstring, " "))
+	printf("|DEBUG| tstring = [%s], qs = [%u]\n", tstring, qs);
+	if (ft_strncmp(tstring, " ", 2))
 		token = ft_init_token(ft_strdup(tstring), ft_ttyper(str));
 	ft_add_token(&token, ft_tokenizer(str + ft_strlen(tstring), qs));
 	free(tstring);
@@ -106,7 +108,7 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 // 	t_token *t;
 // 	t_token *tmp;
 
-// 	t = ft_tokenizer("Makefile cat -e && echo      \"        $HOME || salut | ouiii   \"    > out", QU_ZERO);
+// 	t = ft_tokenizer("Makefile cat -e && echo            $HOME || salut | ouiii       > out", QU_ZERO);
 
 // 	tmp = t;
 // 	while (tmp)
