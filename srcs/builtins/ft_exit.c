@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/31 09:18:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:41:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt)
 	}
 	if (cmd)
 	{
-		rl_clear_history();
 		ft_del_env(*(cmd->envp));
 		ft_del_command(cmd);
 	}
 	free(prompt);
+	rl_clear_history();
 	exit(exit_code);
 }
 

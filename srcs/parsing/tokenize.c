@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/01 16:04:17 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/01 17:39:03 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 // 	t_token *t;
 // 	t_token *tmp;
 
-// 	t = ft_tokenizer("Makefile cat -e && echo            $HOME || salut | ouiii       > out", QU_ZERO);
+// 	t = ft_tokenizer("<Makefile cat -e && echo           $HOME || salut | ouiii       > out", QU_ZERO);
 
 // 	tmp = t;
 // 	while (tmp)
@@ -102,7 +102,7 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 // 	tmp = t;
 // 	while (tmp)
 // 	{
-// 		printf("[%s]", tmp->str);
+// 		printf(" [%s] ", tmp->str);
 // 		tmp = tmp->next;
 // 	}
 // 	printf("\n");
