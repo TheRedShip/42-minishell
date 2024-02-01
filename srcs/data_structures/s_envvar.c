@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/01 14:10:57 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:19:04 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	ft_del_var(t_envvar *var)
 	free(var->name);
 	if (var->values && *(var->values))
 		ft_free_tab((void **) var->values);
+	else
+		free(var->values);
 	free(var);
 }
 
