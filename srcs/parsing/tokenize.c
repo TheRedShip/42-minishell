@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/02 14:05:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:28:19 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,30 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	return (token);
 }
 
+int		ft_valid_braces(t_token *tokens)
+{
+	t_token *tmp;
+	int	has_binary_op;
+	
+	has_binary_op = 0;
+	tmp = tokens;
+	while (tmp->next != NULL && tmp->type != 1)
+	{
+		if (tmp->type == 2)
+			has_binary_op = 1;
+		tmp = tmp->next;
+	}
+	if (tmp->type != 1)
+		return (-1);
+	return (has_binary_op);
+}
+
 int main(void)
 {
 	t_token *t;
 	t_token *tmp;
 
-	t = ft_tokenizer("(echo a && echo b) | cat -e", QU_ZERO);
+	t = ft_tokenizer("(echo a || echo b) | cat -e", QU_ZERO);
 
 	tmp = t;
 	while (tmp)
@@ -106,6 +124,7 @@ int main(void)
 		printf(" [%s] ", tmp->str);
 		tmp = tmp->next;
 	}
+	printf("\n|%d|\n", ft_valid_braces(t->next));
 	printf("\n");
 	ft_clear_token_list(t);
 	exit(EC_SUCCES);
