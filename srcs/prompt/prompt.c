@@ -102,8 +102,6 @@ void	ft_prompt(t_envvar **envp)
 	tmp = ft_replace_vars(*envp, line, QU_ZERO);
 	free(line);
 	line = tmp;
-	// line = parse_dollar(line, *envp);
-	// line = parse_quotes(line);
 	if (*line)
 		builtin_cmd(line, envp, prompt);
 	if (line)
