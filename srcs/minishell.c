@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/01 17:38:59 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:46:34 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,17 @@ char	*get_temp_file(char *head)
 }
 
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_envvar	*env;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_envvar	*env;
 
-	(void) argc;
-	(void) argv;
-	toggle_signal(1);
-	env = ft_setup_env(argv, envp);
-	ft_update_env(&env);
-	ft_print_logo(env);
-	while (1)
-		ft_prompt(&env);
-	return (0);
-}
+// 	(void) argc;
+// 	(void) argv;
+// 	toggle_signal(1);
+// 	env = ft_setup_env(argv, envp);
+// 	ft_update_env(&env);
+// 	ft_print_logo(env);
+// 	while (1)
+// 		ft_prompt(&env);
+// 	return (0);
+// }

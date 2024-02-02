@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/01 17:39:03 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:57:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_is_token(char *str, t_quote_state qs)
 {
-	if (!ft_strncmp(str, "\"", 1))
+	if (!ft_strncmp(str, "\"", 1) && (qs != QU_SINGLE))
 		return (1);
-	else if (!ft_strncmp(str, "'", 1))
+	else if (!ft_strncmp(str, "'", 1) && (qs != QU_DOUBLE))
 		return (1);
 	else if (!ft_strncmp(str, " ", 1) && (qs == QU_ZERO))
 		return (1);
@@ -41,8 +41,10 @@ int	ft_is_token(char *str, t_quote_state qs)
 	return (0);
 }
 
-t_token_type	ft_ttyper(char *str)
+t_token_type	ft_ttyper(char *str, t_quote_state qs)
 {
+	if (qs != QU_ZERO)
+		return (TK_STRING);
 	if (!ft_strncmp(str, "(", 1) || !ft_strncmp(str, ")", 1))
 		return (TK_BRACES);
 	if (!ft_strncmp(str, "||", 2) || !ft_strncmp(str, "&&", 2))
@@ -65,22 +67,21 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	if (!*str)
 		return (NULL);
 	tmp = str;
-	printf("|DEBUG| working str = [%s], qs = [%u]\n", str, qs);
+	// printf("|DEBUG| working str = [%s], qs = [%u]\n", str, qs);
 	len = ft_is_token(tmp, qs);
 	ft_qs_update(*tmp, &qs);
 	while (!len || (*tmp == ' ' && qs != QU_ZERO))
 	{
-		ft_qs_update(*tmp, &qs);
-		tmp++;
+		ft_qs_update(*(tmp++), &qs);
 		len = ft_is_token(tmp, qs);
 	}
 	if (tmp == str)
 		tstring = ft_strndup(str, len);
 	else
 		tstring = ft_strndup(str, tmp - str);
-	printf("|DEBUG| tstring = [%s], qs = [%u]\n", tstring, qs);
+	// printf("|DEBUG| tstring = [%s], qs = [%u]\n", tstring, qs);
 	if (ft_strncmp(tstring, " ", 2))
-		token = ft_init_token(ft_strdup(tstring), ft_ttyper(str));
+		token = ft_init_token(ft_strdup(tstring), ft_ttyper(str, qs));
 	ft_add_token(&token, ft_tokenizer(str + ft_strlen(tstring), qs));
 	free(tstring);
 	return (token);
@@ -91,7 +92,7 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 // 	t_token *t;
 // 	t_token *tmp;
 
-// 	t = ft_tokenizer("<Makefile cat -e && echo           $HOME || salut | ouiii       > out", QU_ZERO);
+// 	t = ft_tokenizer("Makefile cat -e && '|& ( echo   '()'()'()'()'    \"  ) \" ) $HOME ||' salut | ouiii  \"   '  > out ", QU_ZERO);
 
 // 	tmp = t;
 // 	while (tmp)
