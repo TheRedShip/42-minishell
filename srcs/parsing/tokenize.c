@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/02 14:05:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:50:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_is_token(char *str, t_quote_state qs)
 {
+	if (!str)
+		return (0);
 	if (!ft_strncmp(str, "\"", 1) && (qs != QU_SINGLE))
 		return (1);
 	else if (!ft_strncmp(str, "'", 1) && (qs != QU_DOUBLE))
@@ -64,13 +66,13 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	int		len;
 
 	token = NULL;
-	if (!*str)
+	if (!str || !*str)
 		return (NULL);
 	tmp = str;
 	// printf("|DEBUG| working str = [%s], qs = [%u]\n", str, qs);
 	len = ft_is_token(tmp, qs);
 	ft_qs_update(*tmp, &qs);
-	while (!len || (*tmp == ' ' && qs != QU_ZERO))
+	while (*tmp && (!len || (*tmp == ' ' && qs != QU_ZERO)))
 	{
 		ft_qs_update(*(tmp++), &qs);
 		len = ft_is_token(tmp, qs);
@@ -87,26 +89,26 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	return (token);
 }
 
-int main(void)
-{
-	t_token *t;
-	t_token *tmp;
+// int main(void)
+// {
+// 	t_token *t;
+// 	t_token *tmp;
 
-	t = ft_tokenizer("(echo a && echo b) | cat -e", QU_ZERO);
+// 	t = ft_tokenizer("(echo a && echo b) | cat -e", QU_ZERO);
 
-	tmp = t;
-	while (tmp)
-	{
-		ft_display_token(tmp);
-		tmp = tmp->next;
-	}
-	tmp = t;
-	while (tmp)
-	{
-		printf(" [%s] ", tmp->str);
-		tmp = tmp->next;
-	}
-	printf("\n");
-	ft_clear_token_list(t);
-	exit(EC_SUCCES);
-}
+// 	tmp = t;
+// 	while (tmp)
+// 	{
+// 		ft_display_token(tmp);
+// 		tmp = tmp->next;
+// 	}
+// 	tmp = t;
+// 	while (tmp)
+// 	{
+// 		printf(" [%s] ", tmp->str);
+// 		tmp = tmp->next;
+// 	}
+// 	printf("\n");
+// 	ft_clear_token_list(t);
+// 	exit(EC_SUCCES);
+// }

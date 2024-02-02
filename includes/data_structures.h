@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/01 11:17:55 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:15:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,15 +129,6 @@ t_token		*ft_init_token(char *str, t_token_type type);
  * @param next		Token to append.
  */
 void		ft_add_token(t_token **token, t_token *next);
-
-/**
- * @brief			Analyzes a t_token and convert it.
- * 
- * @param token		Token to convert.
- * 
- * @return			An opaque pointer to either a t_command either itself
-*/
-void		*ft_convert_token(t_token *token);
 
 /**
  * @brief			De-allocate a t_token.
