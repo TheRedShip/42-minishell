@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/01 13:47:43 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:22:10 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	ft_export_syntaxer(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (ft_isdigit(str[0]))
-// 		return (0);
-// 	while (str[i] && str[i] != '=')
-// 	{
-// 		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '"' && str[i] != '\'')
-// 			return (0);
-// 		i++;
-// 	}
-// 	if (i == 0)
-// 		return (0);
-// 	return (1);
-// }
 
 int	ft_export_syntaxer(char *str)
 {
