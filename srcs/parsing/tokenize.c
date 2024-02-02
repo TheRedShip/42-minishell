@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/02 13:57:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/02 14:05:56 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,26 +87,26 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	return (token);
 }
 
-// int main(void)
-// {
-// 	t_token *t;
-// 	t_token *tmp;
+int main(void)
+{
+	t_token *t;
+	t_token *tmp;
 
-// 	t = ft_tokenizer("Makefile cat -e && '|& ( echo   '()'()'()'()'    \"  ) \" ) $HOME ||' salut | ouiii  \"   '  > out ", QU_ZERO);
+	t = ft_tokenizer("(echo a && echo b) | cat -e", QU_ZERO);
 
-// 	tmp = t;
-// 	while (tmp)
-// 	{
-// 		ft_display_token(tmp);
-// 		tmp = tmp->next;
-// 	}
-// 	tmp = t;
-// 	while (tmp)
-// 	{
-// 		printf(" [%s] ", tmp->str);
-// 		tmp = tmp->next;
-// 	}
-// 	printf("\n");
-// 	ft_clear_token_list(t);
-// 	exit(EC_SUCCES);
-// }
+	tmp = t;
+	while (tmp)
+	{
+		ft_display_token(tmp);
+		tmp = tmp->next;
+	}
+	tmp = t;
+	while (tmp)
+	{
+		printf(" [%s] ", tmp->str);
+		tmp = tmp->next;
+	}
+	printf("\n");
+	ft_clear_token_list(t);
+	exit(EC_SUCCES);
+}

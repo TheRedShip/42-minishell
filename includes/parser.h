@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/01 15:59:24 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/02 14:14:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,21 @@ char	*ft_insert_var(t_envvar *vars, char *result, char *str, int *len);
  * @return			1 if the string is headed by a token, 0 otherwise
 */
 int		ft_is_token(char *str, t_quote_state qs);
+
+/**
+ * @brief			Check if a brace group contains a binary operator
+ * 
+ * @param tokens	Token linked list.
+ * 
+ * @return			1 in case of valid group, 0 otherwise.
+*/
+int		ft_valid_braces(t_token *tokens);
+
+/**
+ * @brief			Update linked list, deleting useless brace tokens.
+ * 
+ * @param tokens	Linked list.
+*/
+void	ft_delete_braces(t_token **tokens);
 
 #endif
