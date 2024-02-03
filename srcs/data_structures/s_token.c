@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_token.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:25:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/02 15:14:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 01:00:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,26 +105,26 @@ void	ft_clear_token_list(t_token *tokens)
 	}
 }
 
-int main(void)
-{
-	t_token *tmp = NULL;
-	char *str = ft_strdup("<Makefile cat | wc -l > /dev/stdout");
+// int main(void)
+// {
+// 	t_token *tmp = NULL;
+// 	char *str = ft_strdup("<Makefile cat | wc -l > /dev/stdout");
 
-	t_token *tokens = ft_tokenizer(str, QU_ZERO);
-	tmp = tokens;
-	while (tmp)
-	{
-		ft_display_token(tmp);
-		tmp = tmp->next;
-	}
-	ft_delete_braces(&tokens);
-	printf("\n\n");
-	tmp = tokens;
-	while (tmp)
-	{
-		ft_display_token(tmp);
-		tmp = tmp->next;
-	}
-	ft_clear_token_list(tokens);
-	free(str);
-}
+// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
+// 	tmp = tokens;
+// 	while (tmp)
+// 	{
+// 		ft_display_token(tmp);
+// 		tmp = tmp->next;
+// 	}
+// 	ft_delete_braces(&tokens);
+// 	printf("\n\n");
+// 	tmp = tokens;
+// 	while (tmp)
+// 	{
+// 		ft_display_token(tmp);
+// 		tmp = tmp->next;
+// 	}
+// 	ft_clear_token_list(tokens);
+// 	free(str);
+// }

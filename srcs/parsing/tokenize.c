@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/02 15:33:29 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/03 01:35:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,11 @@ int	ft_is_token(char *str, t_quote_state qs)
 {
 	if (!str)
 		return (0);
-	if (!ft_strncmp(str, "\"", 1) && (qs != QU_SINGLE))
-		return (1);
-	else if (!ft_strncmp(str, "'", 1) && (qs != QU_DOUBLE))
-		return (1);
-	else if (!ft_strncmp(str, " ", 1) && (qs == QU_ZERO))
-		return (1);
-	else if (!ft_strncmp(str, "(", 1) && (qs == QU_ZERO))
-		return (1);
-	else if (!ft_strncmp(str, ")", 1) && (qs == QU_ZERO))
+	if (((!ft_strncmp(str, "\"", 1) && (qs != QU_SINGLE))) || \
+		(!ft_strncmp(str, "'", 1) && (qs != QU_DOUBLE)) || \
+		(!ft_strncmp(str, " ", 1) && (qs == QU_ZERO)) || \
+		(!ft_strncmp(str, "(", 1) && (qs == QU_ZERO)) || \
+		(!ft_strncmp(str, ")", 1) && (qs == QU_ZERO)))
 		return (1);
 	else if (!ft_strncmp(str, "||", 2) && (qs == QU_ZERO))
 		return (2);
@@ -112,8 +108,7 @@ int main(void)
 	t_token *t;
 	t_token *tmp;
 
-	t = ft_tokenizer("(echo a || echo b) | cat -e", QU_ZERO);
-
+	t = ft_tokenizer("(echo a || < echo b) | cat -e ", QU_ZERO);
 	tmp = t;
 	while (tmp)
 	{
@@ -127,6 +122,7 @@ int main(void)
 		tmp = tmp->next;
 	}
 	printf("\n|%d|\n", ft_valid_braces(t->next));
+	printf("\n|%d|\n", ft_verify_token(t));
 	printf("\n");
 	ft_clear_token_list(t);
 	exit(EC_SUCCES);

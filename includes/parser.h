@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/02 14:14:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 00:58:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,7 @@ int		ft_valid_braces(t_token *tokens);
  * @param tokens	Linked list.
 */
 void	ft_delete_braces(t_token **tokens);
+
+int		ft_verify_token(t_token *tokens);
 
 #endif
