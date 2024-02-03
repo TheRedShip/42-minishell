@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:25:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/03 15:12:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 17:58:22 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,21 @@ void	ft_delete_braces(t_token **tokens)
 	}
 }
 
+t_token	*ft_dup_token(t_token *token)
+{
+	t_token	*cpy;
+
+	cpy = malloc(sizeof(t_token));
+	if (!cpy)
+		return (NULL);
+	cpy->str = ft_strdup(token->str);
+	cpy->type = token->type;
+	cpy->next = NULL;
+	return (cpy);
+}
+
 void	ft_del_token(t_token *token)
 {
-	// printf("deleting token at adress %p\n", token);
 	if (!token)
 		return ;
 	free(token->str);

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/03 15:10:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 18:01:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ int	ft_get_heredoc(char *str)
 
 int	ft_manage_file(t_token **tokens, int **fds)
 {
-	t_token	*tmp;
 	int		state;
 
-	tmp = *tokens;
-	state = !ft_strncmp(tmp->str, "<", 2) + 2 * !ft_strncmp(tmp->str, "<<", 3);
+	state = !ft_strncmp((*tokens)->str, "<", 2) + 2 * !ft_strncmp((*tokens)->str, "<<", 3);
 	// printf("TESTING: state = [%d]\n", state);
 	if (state)
 	{
@@ -46,7 +44,7 @@ int	ft_manage_file(t_token **tokens, int **fds)
 			return (EC_FAILED);
 		// printf("FILE OPENED: fd = [%d]\n", (*fds)[0]);
 	}
-	state = !ft_strncmp(tmp->str, ">", 2) + 2 * !ft_strncmp(tmp->str, ">>", 3);
+	state = !ft_strncmp((*tokens)->str, ">", 2) + 2 * !ft_strncmp((*tokens)->str, ">>", 3);
 	// printf("TESTING: state = [%d]\n", state);
 	if (state)
 	{
@@ -98,30 +96,46 @@ t_node	*ft_convert_tokens(t_token **tokens, int rank, t_envvar **env)
 
 t_node	*ft_build_tree(t_token *tokens, int rank, t_envvar **env)
 {
-	t_node	*tmp;
+	t_node	*tree;
+	t_token	*tmp;
 
-	tmp = NULL;
-	if (!tokens)
-		return (NULL);
-	if (tokens->type == TK_STRING || tokens->type == TK_REDIRS)
-		tmp = ft_convert_tokens(&tokens, rank, env);
-	if (!tokens)
-		return (tmp);
-	if (tokens->type == TK_BINOPS)
+	tree = NULL;
+	while (tokens)
 	{
-		ft_associate(&tmp, ft_build_tree(tokens->next, rank, env), NULL, tokens);
-		ft_insert_parent(&tmp, ft_init_node(rank + 1, NULL, tokens), LEFT);
-		tokens = tokens->next;
-		ft_insert_child(&tmp, ft_build_tree(tokens, rank, env), RIGHT);
+		// if (tokens->type)
+		if (tokens->type == TK_STRING || tokens->type == TK_REDIRS)
+			ft_insert_child(&tree, ft_convert_tokens(&tokens, rank, env), RIGHT);
+		if (!tokens)
+			return (tree);
+		if (tokens->type == TK_BINOPS || tokens->type == TK_PIPEXS)
+		{
+			tmp = ft_dup_token(tokens);
+			ft_insert_parent(&tree, ft_init_node(rank + 1, NULL, tmp), LEFT);
+			tokens = tokens->next;
+		}
 	}
-	return (tmp);
+	return (tree);
+}
+
+void treeprint(t_node *root, int level)
+{
+	if (root == NULL)
+		return ;
+	for (int i = 0; i < level; i++)
+		printf(i == level - 1 ? "└" : " ");
+	if (root->token)
+    	printf("TOKEN : [%s]\n", root->token->str);
+	if (root->command)
+		printf("COMMAND [%s]\n", root->command->path);
+	treeprint(root->left, level + 1);
+	treeprint(root->right, level + 1);
 }
 
 int main(int argc, char **argv, char **envp)
 {
 	(void) argc;
 	t_token *tmp = NULL;
-	char *str = ft_strdup("< infile < Makefile > outfile cat -e >>zebi && echo > outfile2 || wc -l > cringe");
+	char *str = ft_strdup("echo a || echo b && echo c");
 
 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
 	tmp = tokens;
@@ -139,12 +153,18 @@ int main(int argc, char **argv, char **envp)
 	env = ft_setup_env(argv, envp);
 	tree = ft_build_tree(tokens, 0, &env);
 
-	ft_display_node(tree);
+	// ft_display_node(tree);
+	// ft_display_node(tree->left);
+	// ft_display_node(tree->left->left);
+	// ft_display_node(tree->left->right);
+	// ft_display_node(tree->right);
+
+	treeprint(tree, 0);
 
 	// ft_putstr_fd("SALUT LUKE", tree->);
 
 	ft_clear_token_list(tokens);
-	ft_del_env(env);
 	ft_del_node(tree);
+	ft_del_env(env);
 	free(str);
 }

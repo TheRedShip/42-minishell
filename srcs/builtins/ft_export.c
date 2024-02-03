@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/02 14:22:10 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/03 15:53:01 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	ft_export_syntaxer(char *str)
 	tmp = str;
 	if (ft_isdigit(*str) || !*str)
 		return (0);
-	while (*str && (ft_isalnum(*str) || *str == '\'' || *str == '"') && *str != '=')
+	while (*str && (ft_isalnum(*str) || *str == '\'' || *str == '"' || *str == '_') && *str != '=')
 		str++;
 	if (*str == '+' && *(str + 1) == '=')
 		return (1);
-	return (tmp != str);
+	return (tmp != str && *str == '=');
 }
 
 void	ft_swap_strs(char **a, char **b)
@@ -72,7 +72,7 @@ int	ft_show_export_list(t_command *cmd)
 	tmp = vars_array;
 	while (*tmp)
 	{
-		if (**tmp != '_')
+		if (ft_strncmp(*tmp, "_", 2))
 		{
 			string = ft_strjoin("declare -x ", *tmp, NULL, 0);
 			printf("%s\n", string);
@@ -123,7 +123,7 @@ int	ft_export(t_command *cmd)
 		{
 			if (!ft_export_syntaxer(*tmp))
 			{
-				printf("minishell: export: `%s': not a valid identifier\n", *tmp);
+				printf("minishell: export: '%s': not a valid identifier\n", *tmp);
 				return (EC_FAILED);
 			}
 			if (ft_export_var(cmd, *(tmp)))

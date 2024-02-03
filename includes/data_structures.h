@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/03 11:16:47 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 18:00:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,16 @@ void		ft_del_token(t_token *token);
  * @param tokens	Linked list to free.
 */
 void		ft_clear_token_list(t_token *tokens);
+
+/**
+ * @brief			Duplicates a token.
+ * 
+ * @param token		Token to duplicate.
+ * 
+ * @return			A pointer to a new t_token, with same string and type,
+ * 					next = NULL.
+*/
+t_token		*ft_dup_token(t_token *token);
 
 /**
  * @brief			Tokenize a string.

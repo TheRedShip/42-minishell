@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:28:17 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/03 13:36:27 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 17:27:29 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ void	ft_del_node(t_node *tree)
 {
 	if (!tree)
 		return ;
+	if (tree->token)
+		ft_del_token(tree->token);
+	if (tree->command)
+		ft_del_command(tree->command);
 	ft_del_node(tree->left);
 	ft_del_node(tree->right);
 	free(tree);
@@ -76,12 +80,12 @@ void ft_display_node(t_node *tree)
 	if (tree->left)
 	{
 		printf("LEFT    : %p\n", tree->left);
-		ft_display_node(tree->left);
+		// ft_display_node(tree->left);
 	}
 	if (tree->right)
 	{
 		printf("RIGHT   : %p\n", tree->right);
-		ft_display_node(tree->right);
+		// ft_display_node(tree->right);
 	}
 	printf("--------------------------------------\n");
 }
