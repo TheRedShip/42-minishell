@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/01 14:37:06 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/02 22:33:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar **envp
 	return (new_command);
 }
 
-t_node	*ft_init_node(int rank, void *element)
+t_node	*ft_init_node(int rank, t_command *command, t_token *token)
 {
 	t_node	*new_node;
 
@@ -67,7 +67,8 @@ t_node	*ft_init_node(int rank, void *element)
 	if (!new_node)
 		return (NULL);
 	new_node->rank = rank;
-	new_node->element = element;
+	new_node->command = command;
+	new_node->token = token;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return (new_node);

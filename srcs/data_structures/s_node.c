@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:28:17 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 17:08:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 13:36:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_insert_parent(t_node **tree, t_node *root, int side)
 
 void	ft_insert_child(t_node **tree, t_node *child, int side)
 {
-	if (!tree || !child)
+	if (!tree)
 		return ;
 	if (!(*tree))
 	{
@@ -43,7 +43,7 @@ void	ft_insert_child(t_node **tree, t_node *child, int side)
 		(*tree)->right = child;
 }
 
-void	ft_associate(t_node **tree, t_node *neigh, void *element)
+void	ft_associate(t_node **tree, t_node *neigh, t_command *c, t_token *t)
 {
 	if (!tree || !neigh)
 		return ;
@@ -52,7 +52,7 @@ void	ft_associate(t_node **tree, t_node *neigh, void *element)
 		*tree = neigh;
 		return ;
 	}
-	ft_insert_parent(tree, ft_init_node((*tree)->rank + 1, element), LEFT);
+	ft_insert_parent(tree, ft_init_node((*tree)->rank + 1, c, t), LEFT);
 	ft_insert_child(tree, neigh, RIGHT);
 }
 
@@ -63,4 +63,25 @@ void	ft_del_node(t_node *tree)
 	ft_del_node(tree->left);
 	ft_del_node(tree->right);
 	free(tree);
+}
+
+void ft_display_node(t_node *tree)
+{
+	printf("- NODE --- %p ------------------\n", tree);
+	printf("RANK : %d\n", tree->rank);
+	if (tree->command)
+		ft_display_command(tree->command);
+	if (tree->token)
+		ft_display_token(tree->token);
+	if (tree->left)
+	{
+		printf("LEFT    : %p\n", tree->left);
+		ft_display_node(tree->left);
+	}
+	if (tree->right)
+	{
+		printf("RIGHT   : %p\n", tree->right);
+		ft_display_node(tree->right);
+	}
+	printf("--------------------------------------\n");
 }

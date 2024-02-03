@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/02 14:15:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 11:16:47 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,6 @@ typedef struct s_envvar
 }	t_envvar;
 
 /**
- * @struct			s_node
- * @brief			Command line node.
- * 
- * @param rank		(int)		Node rank.
- * @param element	(void *)	Opaque pointer to the node content.
- * @param left		(t_node *)	Left child node.
- * @param right		(t_node *)	Right child node.
- */
-typedef struct s_node
-{
-	int				rank;
-	void			*element;
-	struct s_node	*left;
-	struct s_node	*right;
-}	t_node;
-
-/**
  * @struct			s_command
  * @brief			Command descriptor.
  * 
@@ -109,6 +92,25 @@ typedef struct s_command
 	char		**args;
 	t_envvar	**envp;
 }   t_command;
+
+/**
+ * @struct			s_node
+ * @brief			Command line node.
+ * 
+ * @param rank		(int)		Node rank.
+ * @param command	(t_command *) pointer to the command, NULL if token.
+ * @param token		(t_token *) pointer to the token, NULL if command.
+ * @param left		(t_node *)	Left child node.
+ * @param right		(t_node *)	Right child node.
+ */
+typedef struct s_node
+{
+	int				rank;
+	t_command		*command;
+	t_token			*token;
+	struct s_node	*left;
+	struct s_node	*right;
+}	t_node;
 
 /* T_TOKEN ****************************************************************** */
 
@@ -259,11 +261,12 @@ t_envvar    *ft_setup_env(char **argv, char **envp);
  * @brief			Initializes a new t_node.
  * 
  * @param rank		Rank on the tree hierarchy.
- * @param element	A pointer to struct content.
+ * @param command	A pointer to struct command.
+ * @param token		A pointer to struct token.
  * 
  * @return			A pointer to the newly allocated t_node.
  */
-t_node		*ft_init_node(int rank, void *element);
+t_node		*ft_init_node(int rank, t_command *command, t_token *token);
 
 /**
  * @brief			Insert a t_node (Parent-wise).
@@ -288,10 +291,11 @@ void		ft_insert_child(t_node **tree, t_node *child, int side);
  * 		           newly allocated parent.
  * 
  * @param tree		t_node *1, future left child.
- * @param neigh		t_node *2, future right child.
- * @param element	New root t_node content
+ * @param next		t_node *2, future right child.
+ * @param c			New root t_command element.
+ * @param t			New root t_token token.
  */
-void		ft_associate(t_node **tree, t_node *neigh, void *element);
+void		ft_associate(t_node **tree, t_node *next, t_command *c, t_token *t);
 
 /**
  * @brief			De-allocate a t_node and all his childs recursively.
@@ -300,6 +304,7 @@ void		ft_associate(t_node **tree, t_node *neigh, void *element);
 */
 void		ft_del_node(t_node *tree);
 
+void		ft_display_node(t_node *tree);
 
 /* T_COMMAND **************************************************************** */
 
@@ -326,5 +331,10 @@ void		ft_del_command(t_command *cmd);
  * @brief			Get command path.
 */
 char		*ft_get_path(char *cmd, t_envvar *envp);
+
+/**
+ * @brief
+*/
+void		ft_display_command(t_command *cmd);
 
 #endif

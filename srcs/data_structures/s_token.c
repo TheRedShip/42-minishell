@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:25:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/02 15:14:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 13:29:52 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,26 @@ void	ft_remove_token(t_token **tokens, t_token *prev)
 	if (prev)
 	{
 		tmp = *tokens;
-		prev->next = (*tokens)->next;
+		prev->next = tmp->next;
+		*tokens = prev->next;
 		ft_del_token(tmp);
 	}
 	else
 	{
 		tmp = *tokens;
-		*tokens = (*tokens)->next;
+		*tokens = tmp->next;
 		ft_del_token(tmp);
 	}
 }
 
 void	ft_display_token(t_token *token)
 {
-	printf("- TOKEN --- %x ------------------\n", *(unsigned int *) token);
+	printf("- TOKEN --- %p\n", token);
 	printf("STRING : %s\n", token->str);
 	printf("TYPE   : %u\n", token->type);
 	if (token->next)
-		printf("NEXT   : %x\n", *(unsigned int *) token->next);
-	printf("--------------------------------------\n\n");
+		printf("NEXT   : %p\n", token->next);
+	printf("---------\n");
 }
 
 void	ft_delete_braces(t_token **tokens)
@@ -71,9 +72,13 @@ void	ft_delete_braces(t_token **tokens)
 			prev = tmp;
 			tmp = tmp->next;
 		}
-		if (!ft_valid_braces(tmp))
+		if (!tmp)
+			return ;
+		if (ft_strncmp(tmp->str, ")", 2) && !ft_valid_braces(tmp->next))
 		{
 			ft_remove_token(&tmp, prev);
+			if (!prev)
+				*tokens = tmp;
 			while (tmp && tmp->type != TK_BRACES)
 			{
 				prev = tmp;
@@ -81,12 +86,14 @@ void	ft_delete_braces(t_token **tokens)
 			}
 			ft_remove_token(&tmp, prev);
 		}
+		else
+			tmp = tmp->next;
 	}
 }
 
 void	ft_del_token(t_token *token)
 {
-	printf("deleting token at adress %x\n", *(unsigned int *) token);
+	// printf("deleting token at adress %p\n", token);
 	if (!token)
 		return ;
 	free(token->str);
@@ -105,26 +112,26 @@ void	ft_clear_token_list(t_token *tokens)
 	}
 }
 
-int main(void)
-{
-	t_token *tmp = NULL;
-	char *str = ft_strdup("<Makefile cat | wc -l > /dev/stdout");
+// int main(void)
+// {
+// 	t_token *tmp = NULL;
+// 	char *str = ft_strdup("(<Makefile) \"((cat && echo a)) | (wc)\" -l > /dev/stdout");
 
-	t_token *tokens = ft_tokenizer(str, QU_ZERO);
-	tmp = tokens;
-	while (tmp)
-	{
-		ft_display_token(tmp);
-		tmp = tmp->next;
-	}
-	ft_delete_braces(&tokens);
-	printf("\n\n");
-	tmp = tokens;
-	while (tmp)
-	{
-		ft_display_token(tmp);
-		tmp = tmp->next;
-	}
-	ft_clear_token_list(tokens);
-	free(str);
-}
+// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
+// 	tmp = tokens;
+// 	while (tmp)
+// 	{
+// 		ft_display_token(tmp);
+// 		tmp = tmp->next;
+// 	}
+// 	ft_delete_braces(&tokens);
+// 	printf("\n\n");
+// 	tmp = tokens;
+// 	while (tmp)
+// 	{
+// 		ft_display_token(tmp);
+// 		tmp = tmp->next;
+// 	}
+// 	ft_clear_token_list(tokens);
+// 	free(str);
+// }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/02 15:15:10 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:45:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,43 +91,43 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 
 int		ft_valid_braces(t_token *tokens)
 {
-	t_token *tmp;
 	int	has_binary_op;
 	
 	has_binary_op = 0;
-	tmp = tokens;
-	while (tmp->next != NULL && tmp->type != 1)
+	// printf("i check \n");
+	// ft_display_token(tokens);
+	if (!tokens)
+		return (1);
+	while (tokens->next && tokens->type != 1)
 	{
-		if (tmp->type == 2)
+		if (tokens->type == 2)
 			has_binary_op = 1;
-		tmp = tmp->next;
+		tokens = tokens->next;
 	}
-	if (tmp->type != 1)
-		return (-1);
 	return (has_binary_op);
 }
 
-int main(void)
-{
-	t_token *t;
-	t_token *tmp;
+// int main(void)
+// {
+// 	t_token *t;
+// 	t_token *tmp;
 
-	t = ft_tokenizer("(echo a || echo b) | cat -e", QU_ZERO);
+// 	t = ft_tokenizer("<Makefile && \" waj || \"(      echo a  echo b) | cat -e", QU_ZERO);
 
-	tmp = t;
-	while (tmp)
-	{
-		ft_display_token(tmp);
-		tmp = tmp->next;
-	}
-	tmp = t;
-	while (tmp)
-	{
-		printf(" [%s] ", tmp->str);
-		tmp = tmp->next;
-	}
-	printf("\n|%d|\n", ft_valid_braces(t->next));
-	printf("\n");
-	ft_clear_token_list(t);
-	exit(EC_SUCCES);
-}
+// 	tmp = t;
+// 	while (tmp)
+// 	{
+// 		ft_display_token(tmp);
+// 		tmp = tmp->next;
+// 	}
+// 	tmp = t;
+// 	while (tmp)
+// 	{
+// 		printf(" [%s] ", tmp->str);
+// 		tmp = tmp->next;
+// 	}
+// 	printf("\n|%d|\n", ft_valid_braces(t));
+// 	printf("\n");
+// 	ft_clear_token_list(t);
+// 	exit(EC_SUCCES);
+// }

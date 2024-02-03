@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/02 13:49:59 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/02 19:05:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_insert_var(t_envvar *vars, char *result, char *str, int *len)
 	if (*(str + 1) == '?')
 		return (ft_strjoin(result, ft_itoa(g_exit_code), NULL, 0b11));
 	str++;
-	while (!ft_strchr(" $'\"", *str))
+	while (!ft_strchr(" $'\"\n", *str))
 		str++;
 	*len = str - tmp;
 	var = ft_strndup(tmp + 1, *len - 1);
@@ -60,7 +60,7 @@ char	*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs)
 		result = ft_insert_var(vars, result, str, &len);
 	else
 	{
-		while (!ft_strchr(" $'\"", *(str + len + 1)))
+		while (!ft_strchr(" $'\"\n", *(str + len + 1)))
 			len++;
 		result = ft_strjoin(result, ft_strndup(str, ++len), NULL, 0b11);
 	}

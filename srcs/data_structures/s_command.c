@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/01 14:38:03 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 15:10:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,21 @@ void	ft_del_command(t_command *cmd)
 	free(cmd->path);
 	ft_free_tab((void **)cmd->args);
 	free(cmd);
+}
+
+void	ft_display_command(t_command *cmd)
+{
+	printf("- COMMAND --- %p\n", cmd);
+	printf("INFILE FD : %d\n", cmd->infile);
+	printf("OUTFILE FD : %d\n", cmd->outfile);
+	if (cmd->path)
+		printf("PATH : %s\n", cmd->path);
+	if (cmd->args)
+	{
+		printf("ARGS :\n");
+		while (*(cmd->args))
+			printf("  val : %s\n", *(cmd->args++));
+	}
+	printf("ENV    : %p\n", cmd->envp);
+	printf("--------------------------------------\n");
 }
