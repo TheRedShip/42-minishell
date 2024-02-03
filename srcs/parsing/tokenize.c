@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/02 16:45:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/03 15:12:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,11 @@ int	ft_is_token(char *str, t_quote_state qs)
 {
 	if (!str)
 		return (0);
-	if (!ft_strncmp(str, "\"", 1) && (qs != QU_SINGLE))
-		return (1);
-	else if (!ft_strncmp(str, "'", 1) && (qs != QU_DOUBLE))
-		return (1);
-	else if (!ft_strncmp(str, " ", 1) && (qs == QU_ZERO))
-		return (1);
-	else if (!ft_strncmp(str, "(", 1) && (qs == QU_ZERO))
-		return (1);
-	else if (!ft_strncmp(str, ")", 1) && (qs == QU_ZERO))
+	if (((!ft_strncmp(str, "\"", 1) && (qs != QU_SINGLE))) || \
+		(!ft_strncmp(str, "'", 1) && (qs != QU_DOUBLE)) || \
+		(!ft_strncmp(str, " ", 1) && (qs == QU_ZERO)) || \
+		(!ft_strncmp(str, "(", 1) && (qs == QU_ZERO)) || \
+		(!ft_strncmp(str, ")", 1) && (qs == QU_ZERO)))
 		return (1);
 	else if (!ft_strncmp(str, "||", 2) && (qs == QU_ZERO))
 		return (2);
