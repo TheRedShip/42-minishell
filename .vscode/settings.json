@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"*.cs": "csharp",
+		"minishell.h": "c",
+		"data_structures.h": "c"
+	}
+}
