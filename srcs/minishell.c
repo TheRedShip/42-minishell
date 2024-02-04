@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/03 16:00:27 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/04 13:52:33 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,17 @@ char	*get_temp_file(char *head)
 	return (ft_strjoin(head, rand, "-", 0b00));
 }
 
+int	main(int argc, char **argv, char **envp)
+{
+	t_envvar	*env;
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_envvar	*env;
-
-// 	(void) argc;
-// 	(void) argv;
-// 	toggle_signal(1);
-// 	env = ft_setup_env(argv, envp);
-// 	ft_update_env(&env);
-// 	ft_print_logo(env);
-// 	while (1)
-// 		ft_prompt(&env);
-// 	return (0);
-// }
+	(void) argc;
+	(void) argv;
+	toggle_signal(1);
+	env = ft_setup_env(argv, envp);
+	ft_update_env(&env);
+	ft_print_logo(env);
+	while (1)
+		ft_prompt(&env);
+	return (0);
+}

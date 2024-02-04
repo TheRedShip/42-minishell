@@ -89,6 +89,7 @@ void	ft_prompt(t_envvar **envp)
 	char	*line;
 	char	*prompt;
 	char	*tmp;
+	t_token *tokens;
 
 	prompt = ft_get_prompt_string(*envp);
 	line = readline(prompt);
@@ -102,10 +103,17 @@ void	ft_prompt(t_envvar **envp)
 	tmp = ft_replace_vars(*envp, line, QU_ZERO);
 	free(line);
 	line = tmp;
-	if (*line)
+	tokens = ft_tokenizer(line, QU_ZERO);
+	if (tokens && ft_verify_token(tokens) == 0)
+	{
+		printf("minishell: syntax error\n");
+		g_exit_code = 2;
+	}
+	else if (*line)
 		builtin_cmd(line, envp, prompt);
 	if (line)
 		free(line);
+	ft_clear_token_list(tokens);
 	free(prompt);
 }
 

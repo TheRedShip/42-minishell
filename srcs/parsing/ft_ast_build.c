@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 14:06:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/04 14:41:34 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,41 +131,41 @@ void treeprint(t_node *root, int level)
 	treeprint(root->right, level + 1);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	(void) argc;
-	t_token *tmp = NULL;
-	// char *str = ft_strdup("<< EOF < logo cat Makefile | wc -l > out || echo a >> test && < infile rev");
-	char *str = ft_strdup("\"'echo'\" blabla blabla");
+// int main(int argc, char **argv, char **envp)
+// {
+// 	(void) argc;
+// 	t_token *tmp = NULL;
+// 	// char *str = ft_strdup("<< EOF < logo cat Makefile | wc -l > out || echo a >> test && < infile rev");
+// 	char *str = ft_strdup("echo a | cat b > luke | wc -l > outfile");
 
-	t_token *tokens = ft_tokenizer(str, QU_ZERO);
-	tmp = tokens;
-	while (tmp)
-	{
-		printf(" [%s] ", tmp->str);
-		tmp = tmp->next;
-	}
-	printf("\n");
-	ft_delete_braces(&tokens);
+// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
+// 	tmp = tokens;
+// 	while (tmp)
+// 	{
+// 		printf(" [%s] ", tmp->str);
+// 		tmp = tmp->next;
+// 	}
+// 	printf("\n");
+// 	ft_delete_braces(&tokens);
 
-	t_node *tree;
-	t_envvar *env;
+// 	t_node *tree;
+// 	t_envvar *env;
 
-	env = ft_setup_env(argv, envp);
-	tree = ft_build_tree(tokens, 0, &env);
+// 	env = ft_setup_env(argv, envp);
+// 	tree = ft_build_tree(tokens, 0, &env);
 
-	// ft_display_node(tree->left);
-	// ft_display_node(tree->left->left);
-	// ft_display_node(tree->left->right);
-	// ft_display_node(tree->right);
+// 	// ft_display_node(tree->left);
+// 	// ft_display_node(tree->left->left);
+// 	// ft_display_node(tree->left->right);
+// 	// ft_display_node(tree->right);
 
-	treeprint(tree, 0);
+// 	treeprint(tree, 0);
 
-	ft_display_node(tree);
-	// ft_putstr_fd("SALUT LUKE", tree->);
+// 	ft_display_node(tree);
+// 	// ft_putstr_fd("SALUT LUKE", tree->);
 
-	ft_clear_token_list(tokens);
-	ft_del_node(tree);
-	ft_del_env(env);
-	free(str);
-}
+// 	ft_clear_token_list(tokens);
+// 	ft_del_node(tree);
+// 	ft_del_env(env);
+// 	free(str);
+// }
