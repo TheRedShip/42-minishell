@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <dirent.h>
 # include "libft.h"
 
 # include "data_structures.h"
