@@ -6,13 +6,13 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/04 14:10:10 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/04 15:33:39 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_verify_double_token(t_token *tokens)
+int		ft_verify_chaining_token(t_token *tokens)
 {
 	if (tokens->type == TK_BINOPS || tokens->type == TK_PIPEXS)
 		return (tokens->type);
@@ -41,7 +41,7 @@ int		ft_verify_double_token(t_token *tokens)
 
 int		ft_verify_token(t_token *tokens)
 {
-	if (ft_verify_double_token(tokens) != 42)
+	if (ft_verify_chaining_token(tokens) != 42)
 		return (0);
 	return (1);
 }
