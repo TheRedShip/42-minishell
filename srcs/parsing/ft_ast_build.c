@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/03 18:01:28 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/04 13:27:30 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_manage_file(t_token **tokens, int **fds)
 	int		state;
 
 	state = !ft_strncmp((*tokens)->str, "<", 2) + 2 * !ft_strncmp((*tokens)->str, "<<", 3);
-	// printf("TESTING: state = [%d]\n", state);
+	printf("TESTING: state = [%d]\n", state);
 	if (state)
 	{
 		// printf("DEBUG :  OPENING INFILE: current = [%d], state = [%d]\n", (*fds)[0], state);
@@ -75,7 +75,7 @@ t_node	*ft_convert_tokens(t_token **tokens, int rank, t_envvar **env)
 	tmp = *tokens;
 	fds = malloc(3 * sizeof(int));
 	fds[0] = 0;
-	fds[1] = 0;
+	fds[1] = 1;
 	fds[2] = 0;
 	while (tmp && (tmp->type == TK_STRING || tmp->type == TK_REDIRS))
 	{
@@ -135,7 +135,8 @@ int main(int argc, char **argv, char **envp)
 {
 	(void) argc;
 	t_token *tmp = NULL;
-	char *str = ft_strdup("echo a || echo b && echo c");
+	// char *str = ft_strdup("<< EOF < logo cat Makefile | wc -l > out || echo a >> test && < infile rev");
+	char *str = ft_strdup("echo a | cat b > luke | wc -l > outfile");
 
 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
 	tmp = tokens;
@@ -153,7 +154,6 @@ int main(int argc, char **argv, char **envp)
 	env = ft_setup_env(argv, envp);
 	tree = ft_build_tree(tokens, 0, &env);
 
-	// ft_display_node(tree);
 	// ft_display_node(tree->left);
 	// ft_display_node(tree->left->left);
 	// ft_display_node(tree->left->right);
@@ -161,6 +161,7 @@ int main(int argc, char **argv, char **envp)
 
 	treeprint(tree, 0);
 
+	ft_display_node(tree);
 	// ft_putstr_fd("SALUT LUKE", tree->);
 
 	ft_clear_token_list(tokens);

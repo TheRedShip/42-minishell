@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/03 15:10:27 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/04 13:25:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	ft_del_command(t_command *cmd)
 
 void	ft_display_command(t_command *cmd)
 {
+	char	**tmp;
+
+	tmp = NULL;
 	printf("- COMMAND --- %p\n", cmd);
 	printf("INFILE FD : %d\n", cmd->infile);
 	printf("OUTFILE FD : %d\n", cmd->outfile);
@@ -56,9 +59,10 @@ void	ft_display_command(t_command *cmd)
 		printf("PATH : %s\n", cmd->path);
 	if (cmd->args)
 	{
+		tmp = cmd->args;
 		printf("ARGS :\n");
-		while (*(cmd->args))
-			printf("  val : %s\n", *(cmd->args++));
+		while (*tmp)
+			printf("  val : %s\n", *(tmp++));
 	}
 	printf("ENV    : %p\n", cmd->envp);
 	printf("--------------------------------------\n");

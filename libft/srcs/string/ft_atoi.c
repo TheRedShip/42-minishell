@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:38:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/27 23:36:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/04 13:30:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,20 @@ int	ft_atoi(char *nptr)
 		i++;
 	}
 	return (sign * sum);
+}
+
+int	ft_atoi(char *nptr)
+{
+	long	n;
+	int		sign;
+
+	n = 0;
+	sign = 1;
+	while (ft_isspace(*nptr))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
+		sign = (int) 2 * (0.5 - (*(nptr++) == '-'));
+	while (ft_isdigit(*nptr))
+		n = n * 10 + (int){*(nptr++) - '0'};
+	return (sign * n);
 }
