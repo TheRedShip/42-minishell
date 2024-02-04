@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 13:27:30 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/04 14:06:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int main(int argc, char **argv, char **envp)
 	(void) argc;
 	t_token *tmp = NULL;
 	// char *str = ft_strdup("<< EOF < logo cat Makefile | wc -l > out || echo a >> test && < infile rev");
-	char *str = ft_strdup("echo a | cat b > luke | wc -l > outfile");
+	char *str = ft_strdup("\"'echo'\" blabla blabla");
 
 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
 	tmp = tokens;

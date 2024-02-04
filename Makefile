@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/03 15:12:13 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/04 13:31:45 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRC_DATA	:=	data_structures/s_envvar.c data_structures/s_token.c data_structures
 
 SRC_BUILTIN :=	builtins/ft_cd.c builtins/ft_echo.c builtins/ft_exit.c builtins/ft_pwd.c builtins/ft_env.c builtins/ft_export.c builtins/ft_unset.c
 
-SRC_PARSING	:=  parsing/ft_ast_build.c parsing/parse_quotes.c parsing/logical_parsing.c parsing/utils.c parsing/parse_dollar.c parsing/tokenize.c
+SRC_PARSING	:=  parsing/ft_ast_build.c parsing/parse_quotes.c parsing/logical_parsing.c parsing/utils.c parsing/parse_dollar.c parsing/tokenize.c parsing/ft_wildcard.c
 
 SRC_PROMPT	:=  prompt/prompt.c prompt/ft_dquotes.c
 
