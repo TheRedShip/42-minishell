@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/04 14:40:42 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/04 22:20:30 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 HEADERS		:=	includes/builtins.h includes/minishell.h includes/data_structures.h
 
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -g
+CFLAGS      := -Wall -Wextra -Werror -g -pg
 IFLAGS	    := -I $(LFT_DIR)/includes -I ./includes
 
 RM          := rm -rf

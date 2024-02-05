@@ -3,28 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 14:09:22 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/05 16:06:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-
-/* UTILS ******************************************************************** */
-
-/**
- * @brief			Get prompt total string.
- * 
- * @param envp		Linked list.
- * 
- * @return			Formatted total prompt string.
-*/
-char	*ft_get_prompt_string(t_envvar *envp);
-
-void	ft_print_logo(t_envvar *env);
 
 /* STRING MANIPULATION ****************************************************** */
 
@@ -36,7 +23,7 @@ void	ft_print_logo(t_envvar *env);
  * 
  * @return			Final quoted string.
 */
-char	*ft_quote_checker(char *str, t_quote_state qs);
+char		*ft_quote_checker(char *str, t_quote_state qs);
 
 /**
  * @brief			Recursively replace $VARS by their values.
@@ -45,7 +32,7 @@ char	*ft_quote_checker(char *str, t_quote_state qs);
  * @param str		String to format.
  * @param qs		Carried quote state.
 */
-char	*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
+char		*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
 
 /**
  * @brief			Insert environment variable into a string.
@@ -55,34 +42,110 @@ char	*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
  * @param str		String leftovers.
  * @param len		Len pointer (filled with inserted string len).
 */
-char	*ft_insert_var(t_envvar *vars, char *result, char *str, int *len);
+char		*ft_insert_var(t_envvar *vars, char *result, char *str, int *len);
 
 /**
- * @brief			Check if a string starts by a token, if yes fill
- * 					the token pointer.
+ * @brief			Check if a string starts by a token.
  * 
  * @param str		String to analyze.
+ * @param qs		Carried quote state.
  * 
- * @return			1 if the string is headed by a token, 0 otherwise
+ * @return			1 if the string is headed by a token, 0 otherwise.
 */
-int		ft_is_token(char *str, t_quote_state qs);
+int			ft_is_token(char *str, t_quote_state qs);
 
 /**
- * @brief			Check if a brace group contains a binary operator
+ * @brief			Check if a brace group contains a binary operator.
  * 
  * @param tokens	Token linked list.
  * 
  * @return			1 in case of valid group, 0 otherwise.
 */
-int		ft_valid_braces(t_token *tokens);
+int			ft_valid_braces(t_token *tokens);
 
 /**
  * @brief			Update linked list, deleting useless brace tokens.
  * 
  * @param tokens	Linked list.
 */
-void	ft_delete_braces(t_token **tokens);
+void		ft_delete_braces(t_token **tokens);
 
-int		ft_verify_token(t_token *tokens);
+/**
+ * @brief			Check if a token linked list is valid.
+ * 
+ * @param tokens	Token linked list.
+ * 
+ * @return			1 if the linked list is valid, 0 otherwise.
+*/
+int			ft_valid_token(t_token *tokens);
+
+/* WILDCARD ***************************************************************** */
+
+/**
+ * @brief			Verify if a string is a wildcard string.
+ * 
+ * @param str		String to check.
+ * 
+ * @return			1 if the string contains only *, 0 otherwise.
+*/
+int			ft_verif_wildcard(char *str);
+
+/**
+ * @brief			Get current directory wildcard string.
+ * 
+ * @return			Wildcard string, not sorted.
+*/
+char		*ft_wildcard_string(void);
+
+/**
+ * @brief			Format a wildcard string by sorting.
+ * 
+ * @param str		String pointer.
+*/
+void		ft_format_wildcard(char **str);
+
+/**
+ * @brief			Replace wildcard tokens by a list of new tokens.
+ * 
+ * @param tokens	Token linked list.
+ * @param qs		Quote state.
+*/
+void		ft_replace_wildcard(t_token **tokens, t_quote_state qs);
+
+/**
+ * @brief			Replace a wildcard token by a list of string tokens.
+ * 
+ * @param head		Token linked list head.
+ * @param tokens	Current position in the linked list (pointer).
+ * @param prev		Previous token pointer.
+*/
+void		ft_wildcard_token(t_token **head, t_token **tokens, t_token *prev);
+
+/* UTILS ******************************************************************** */
+
+/**
+ * @brief			Get prompt total string.
+ * 
+ * @param envp		Linked list.
+ * 
+ * @return			Formatted total prompt string.
+*/
+char		*ft_get_prompt_string(t_envvar *envp);
+
+/**
+ * @brief			Print MinishellRC logo.
+ * 
+ * @param envp		Envp linked list.
+*/
+void		ft_print_logo(t_envvar *envp);
+
+/**
+ * @brief			Sorts a string array by alphabetical order, 
+ * 					not case sensitive.
+ * 
+ * @param tab		String array.
+ * @param size		Array size.
+*/
+void		ft_sort_lowstrs_tab(char **tab, int size);
 
 #endif

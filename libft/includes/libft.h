@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 13:16:25 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 17:09:08 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/04 15:30:24 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,37 @@ int		ft_isprint(int c);
  * 
  * @return		1 if true, 0 otherwise;
 */
-int		ft_isspace(char c);
+int		ft_isspace(int c);
+
+/**
+ * @brief		Is a char uppercase.
+ * 
+ * @param c		char to test
+ * 
+ * @return		1 if true, 0 otherwise;
+*/
+int		ft_isupper(int c);
+
+/**
+ * @brief		Is a char lowercase.
+ * 
+ * @param c		char to test
+ * 
+ * @return		1 if true, 0 otherwise;
+*/
+int		ft_islower(int c);
 
 /**
  * @brief		Change a lowercase letter to uppercase.
  * 
  * @param c		char to convert
  * 
- * @return		Uppercase letter if c was an lowercase letter, c otherwise;
+ * @return		Uppercase letter if c was a lowercase letter, c otherwise;
 */
 int		ft_toupper(int c);
 
 /**
- * @brief		Change a upeercase letter to lowercase.
+ * @brief		Change an uppercase letter to lowercase.
  * 
  * @param c		char to convert
  * 
@@ -129,6 +147,25 @@ int		ft_strcspn(char *s, char *rejects);
 char	*ft_strtok(char *str, char *token);
 int		ft_wc(char *str, char delim);
 int		ft_tab_len(char **tab);
+
+/**
+ * @brief		Returns a lowercase copy of a string.
+ * 
+ * @param str	String to lower.
+ * 
+ * @return		Lowercase string.
+*/
+char	*ft_strlow(char *str);
+
+/**
+ * @brief		Returns an uppercase copy of a string.
+ * 
+ * @param str	String to upper.
+ * 
+ * @return		Uppercase string.
+*/
+char	*ft_strupp(char *str);
+
 /* ************************************************************************** */
 
 /* MEMORY ******************************************************************* */

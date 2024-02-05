@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/03 15:53:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/05 15:25:31 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,40 +23,7 @@ int	ft_export_syntaxer(char *str)
 		str++;
 	if (*str == '+' && *(str + 1) == '=')
 		return (1);
-	return (tmp != str && *str == '=');
-}
-
-void	ft_swap_strs(char **a, char **b)
-{
-	char	*tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
-void	ft_sort_strs_tab(char **tab, int size)
-{
-	int	min;
-	int	curr;
-	int	swp;
-	int	len;
-
-	curr = 0;
-	while (curr <= size)
-	{
-		min = curr;
-		swp = curr + 1;
-		while (swp <= size - 1)
-		{
-			len = ft_strlen(*(tab + swp)) + 1;
-			if (ft_strncmp(*(tab + swp), *(tab + min), len) < 0)
-				min = swp;
-			swp++;
-		}
-		ft_swap_strs(tab + curr, tab + min);
-		curr++;
-	}
+	return ((tmp != str && *str == '=') || !*str);
 }
 
 int	ft_show_export_list(t_command *cmd)
@@ -72,7 +39,7 @@ int	ft_show_export_list(t_command *cmd)
 	tmp = vars_array;
 	while (*tmp)
 	{
-		if (ft_strncmp(*tmp, "_", 2))
+		if (ft_strncmp(*tmp, "_=", 2))
 		{
 			string = ft_strjoin("declare -x ", *tmp, NULL, 0);
 			printf("%s\n", string);

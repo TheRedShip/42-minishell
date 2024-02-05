@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/04 13:45:08 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/04 21:40:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int		ft_valid_braces(t_token *tokens)
 // 	t_token *t;
 // 	t_token *tmp;
 
-// 	t = ft_tokenizer("<Makefile && \" waj || \"(      echo a  echo b) | cat -e", QU_ZERO);
+// 	t = ft_tokenizer("<< EOF < logo cat \"Makefile > out | << EOF wc > /dev/stdout && cat && echo d\" || cat || cat", QU_ZERO);
 
 // 	tmp = t;
 // 	while (tmp)

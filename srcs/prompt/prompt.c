@@ -100,11 +100,12 @@ void	ft_prompt(t_envvar **envp)
 		ft_exit(NULL, line, prompt);
 	}
 	add_history(line);
+	// ft_replace_wildcard(&line);
 	tmp = ft_replace_vars(*envp, line, QU_ZERO);
 	free(line);
 	line = tmp;
 	tokens = ft_tokenizer(line, QU_ZERO);
-	if (tokens && ft_verify_token(tokens) == 0)
+	if (tokens && ft_valid_token(tokens) == 0)
 	{
 		printf("minishell: syntax error\n");
 		g_exit_code = 2;
@@ -141,9 +142,9 @@ char	*ft_get_prompt_string(t_envvar *envp)
 	else
 		pwd = ft_strdup(" > ");
 	if (!g_exit_code)
-		prompt = ft_strjoin(P_SUCCESS, P_TAIL, 0, 0);
+		prompt = ft_strjoin(P_SUCCESS, P_TAIL, 0, 0b00);
 	else
-		prompt = ft_strjoin(P_FAIL, P_TAIL, 0, 0);
+		prompt = ft_strjoin(P_FAIL, P_TAIL, 0, 0b00);
 	prompt = ft_strjoin(prompt, pwd, 0, 3);
 	return (prompt);
 }

@@ -88,4 +88,6 @@ void		toggle_signal(int toggle);
 
 void	ft_display_token(t_token *token);
 
+void start_execve(char *line, t_command *cmd);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 14:41:34 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/04 22:20:00 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_manage_file(t_token **tokens, int **fds)
 	printf("TESTING: state = [%d]\n", state);
 	if (state)
 	{
-		// printf("DEBUG :  OPENING INFILE: current = [%d], state = [%d]\n", (*fds)[0], state);
+		printf("DEBUG :  OPENING INFILE: current = [%d], state = [%d]\n", (*fds)[0], state);
 		if ((*fds)[0] > 2)
 		{
 			// printf("I CLOSE [%d]\n", (*fds)[0]);
@@ -42,13 +42,13 @@ int	ft_manage_file(t_token **tokens, int **fds)
 		}
 		else
 			return (EC_FAILED);
-		// printf("FILE OPENED: fd = [%d]\n", (*fds)[0]);
+		printf("FILE OPENED: fd = [%d]\n", (*fds)[0]);
 	}
 	state = !ft_strncmp((*tokens)->str, ">", 2) + 2 * !ft_strncmp((*tokens)->str, ">>", 3);
 	// printf("TESTING: state = [%d]\n", state);
 	if (state)
 	{
-		// printf("DEBUG : OPENING OUTFILE: current = [%d], state = [%d]\n", (*fds)[1], state);
+		printf("DEBUG : OPENING OUTFILE: current = [%d], state = [%d]\n", (*fds)[1], state);
 		if ((*fds)[1] > 2)
 		{
 			// printf("I CLOSE [%d]\n", (*fds)[1]);
@@ -58,7 +58,7 @@ int	ft_manage_file(t_token **tokens, int **fds)
 			(*fds)[1] = open(((*tokens)->next)->str, OPEN_CREATE, 0644);
 		else if (state & 0b10)
 			(*fds)[1] = open(((*tokens)->next)->str, OPEN_APPEND, 0644);
-		// printf("FILE OPENED: fd = [%d]\n", (*fds)[1]);
+		printf("FILE OPENED: fd = [%d]\n", (*fds)[1]);
 	}
 	(*tokens) = (*tokens)->next;
 	return (EC_SUCCES);
@@ -77,14 +77,13 @@ t_node	*ft_convert_tokens(t_token **tokens, int rank, t_envvar **env)
 	fds[0] = 0;
 	fds[1] = 1;
 	fds[2] = 0;
-	while (tmp && (tmp->type == TK_STRING || tmp->type == TK_REDIRS))
+	while (tmp && (tmp->type & (TK_STRING | TK_REDIRS)))
 	{
-		if (tmp->type == TK_REDIRS)
+		if (tmp->type & TK_REDIRS)
 			ft_manage_file(&tmp, &fds);
-		else if (tmp->type == TK_STRING)
+		else if (tmp->type & TK_STRING)
 			raw = ft_strjoin(raw, tmp->str, " ", 0b01);
 		tmp = tmp->next;
-		// printf("DEBUG: fds = [ %d , %d  , hdcount : %d ]\n", fds[0], fds[1], fds[2]);
 	}
 	cmd_node = ft_init_node(rank, \
 				ft_init_command(fds[0], fds[1], raw, env), NULL);
@@ -103,11 +102,11 @@ t_node	*ft_build_tree(t_token *tokens, int rank, t_envvar **env)
 	while (tokens)
 	{
 		// if (tokens->type)
-		if (tokens->type == TK_STRING || tokens->type == TK_REDIRS)
+		if (tokens->type & (TK_STRING | TK_REDIRS))
 			ft_insert_child(&tree, ft_convert_tokens(&tokens, rank, env), RIGHT);
 		if (!tokens)
 			return (tree);
-		if (tokens->type == TK_BINOPS || tokens->type == TK_PIPEXS)
+		if (tokens->type & (TK_BINOPS | TK_PIPEXS))
 		{
 			tmp = ft_dup_token(tokens);
 			ft_insert_parent(&tree, ft_init_node(rank + 1, NULL, tmp), LEFT);
@@ -117,26 +116,56 @@ t_node	*ft_build_tree(t_token *tokens, int rank, t_envvar **env)
 	return (tree);
 }
 
-void treeprint(t_node *root, int level)
+// void treeprint(t_node *root, int level)
+// {
+// 	if (root == NULL)
+// 		return ;
+// 	for (int i = 0; i < level; i++)
+// 		printf(i == level - 1 ? "└" : " ");
+// 	if (root->token)
+//     	printf("TOKEN : [%s]\n\n", root->token->str);
+// 	if (root->command)
+// 		printf("COMMAND [%s]\n\n", root->command->path);
+// 	treeprint(root->left, level + 1);
+// 	treeprint(root->right, level + 1);
+// }
+
+void treeprint(t_node *root, int space)
 {
-	if (root == NULL)
-		return ;
-	for (int i = 0; i < level; i++)
-		printf(i == level - 1 ? "└" : " ");
-	if (root->token)
-    	printf("TOKEN : [%s]\n", root->token->str);
+    if (root == NULL)
+        return;
+    space += 10;
+    treeprint(root->right, space);
+    printf("\n");
+    for (int i = 10; i < space; i++)
+	{
+        printf(" ");
+	}
 	if (root->command)
-		printf("COMMAND [%s]\n", root->command->path);
-	treeprint(root->left, level + 1);
-	treeprint(root->right, level + 1);
+    	printf("%s\n", root->command->path);
+	if (root->token)
+		printf("%s\n", root->token->str);
+    treeprint(root->left, space);
 }
+
+// void	ft_exec(t_node *tree)
+// {
+// 	if (tree->left)
+// 		ft_exec(tree->left);
+// 	if (tree->command)
+// 	{
+// 		start_execve(ft_strdup(""), tree->command);
+// 	}
+// 	if (tree->right)
+// 		ft_exec(tree->right);
+// }
 
 // int main(int argc, char **argv, char **envp)
 // {
 // 	(void) argc;
 // 	t_token *tmp = NULL;
-// 	// char *str = ft_strdup("<< EOF < logo cat Makefile | wc -l > out || echo a >> test && < infile rev");
-// 	char *str = ft_strdup("echo a | cat b > luke | wc -l > outfile");
+// 	char *str = ft_strdup("echo a | echo b | wc ");
+// 	// char *str = ft_strdup("echo a | cat b > luke | wc -l > outfile");
 
 // 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
 // 	tmp = tokens;
@@ -161,8 +190,11 @@ void treeprint(t_node *root, int level)
 
 // 	treeprint(tree, 0);
 
-// 	ft_display_node(tree);
+// 	// printf("\n");
+// 	// ft_display_node(tree);
 // 	// ft_putstr_fd("SALUT LUKE", tree->);
+
+// 	ft_exec(tree);
 
 // 	ft_clear_token_list(tokens);
 // 	ft_del_node(tree);

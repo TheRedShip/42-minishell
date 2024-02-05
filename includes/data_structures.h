@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/03 18:00:21 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:05:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
  */
 typedef enum e_token_type
 {
-	TK_STRING = 0,
-	TK_BRACES,
-	TK_BINOPS,
-	TK_PIPEXS,
-	TK_REDIRS
+	TK_STRING = 0b00001,
+	TK_BRACES = 0b00010,
+	TK_BINOPS = 0b00100,
+	TK_PIPEXS = 0b01000,
+	TK_REDIRS = 0b10000
 }   t_token_type;
 
 /**

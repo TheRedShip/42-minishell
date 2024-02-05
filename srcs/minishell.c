@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/04 13:52:33 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/04 22:19:58 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ char	**str_copy(char **string)
 	return (new_string);
 }
 
-void	ft_print_logo(t_envvar *env)
+void	ft_print_logo(t_envvar *envp)
 {
 	int		fd;
 	char	*line;
 
-	if (!ft_get_var(env, "LOGOPWD"))
+	if (!ft_get_var(envp, "LOGOPWD"))
 		return ;
-	fd = open(ft_get_var(env, "LOGOPWD")->values[0], 0);
+	fd = open(ft_get_var(envp, "LOGOPWD")->values[0], 0);
 	if (fd < 0)
 		return ;
 	line = get_next_line(fd);
