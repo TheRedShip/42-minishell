@@ -36,7 +36,7 @@
 
 # define P_SDQUOTE "\001\033[30;106;1m\002''\001\033[0m\002 "
 # define P_DDQUOTE "\001\033[30;104;1m\002\"\"\001\033[0m\002 "
-# define P_ENDQUOTE "\001\033[30;47;3;1m\002   [dquote]:\001\033[0m\002 > "
+# define P_ENDQUOTE "\001\033[30;47;3;1m\002/!\\  [dquote]:\001\033[0m\002 > "
 
 # ifndef OPEN_READ
 #  define OPEN_READ O_RDONLY

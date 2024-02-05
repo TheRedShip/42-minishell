@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/04 22:20:30 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/05 16:51:43 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,15 +29,34 @@ SRCS_DIR	:=	srcs
 OBJS_DIR	:=	.objs
 LFT_DIR 	:= ./libft
 
-SRC_DATA	:=	data_structures/s_envvar.c data_structures/s_token.c data_structures/s_node.c data_structures/s_command.c data_structures/constructors.c
+SRC_DATA	:=	data_structures/constructors.c \
+				data_structures/s_envvar.c \
+				data_structures/s_token.c \
+				data_structures/s_node.c \
+				data_structures/s_command.c
 
-SRC_BUILTIN :=	builtins/ft_cd.c builtins/ft_echo.c builtins/ft_exit.c builtins/ft_pwd.c builtins/ft_env.c builtins/ft_export.c builtins/ft_unset.c
+SRC_BUILTIN :=	builtins/ft_cd.c \
+				builtins/ft_echo.c \
+				builtins/ft_exit.c \
+				builtins/ft_pwd.c \
+				builtins/ft_env.c \
+				builtins/ft_export.c \
+				builtins/ft_unset.c
 
-SRC_PARSING	:=  parsing/ft_ast_build.c parsing/parse_quotes.c parsing/logical_parsing.c parsing/utils.c parsing/parse_dollar.c parsing/tokenize.c parsing/ft_wildcard.c parsing/verify_token.c
+SRC_PARSING	:=  parsing/ft_ast_build.c \
+				parsing/parse_quotes.c \
+				parsing/logical_parsing.c \
+				parsing/utils.c \
+				parsing/parse_dollar.c \
+				parsing/ft_tokenize.c \
+				parsing/ft_wildcard.c \
+				parsing/verify_token.c
 
-SRC_PROMPT	:=  prompt/prompt.c prompt/ft_dquotes.c
+SRC_PROMPT	:=  prompt/prompt.c \
+				prompt/ft_dquotes.c
 
-SRC_SETUP	:=  setup/ft_setup_env.c setup/setup_signals.c
+SRC_SETUP	:=  setup/ft_setup_env.c \
+				setup/setup_signals.c
 
 ALL_SRCS	:=	$(SRC_DATA) $(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) $(SRC_SETUP) global.c minishell.c
 SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
@@ -47,7 +66,7 @@ OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 HEADERS		:=	includes/builtins.h includes/minishell.h includes/data_structures.h
 
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -g -pg
+CFLAGS      := -Wall -Wextra -Werror -g #-pg
 IFLAGS	    := -I $(LFT_DIR)/includes -I ./includes
 
 RM          := rm -rf

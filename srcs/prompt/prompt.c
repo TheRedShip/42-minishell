@@ -93,19 +93,21 @@ void	ft_prompt(t_envvar **envp)
 
 	prompt = ft_get_prompt_string(*envp);
 	line = readline(prompt);
-	line = ft_quote_checker(line, QU_ZERO);
+	ft_quote_enforcer(&line, QU_ZERO);
 	if (!line)
 	{
 		ft_del_env(*envp);
 		ft_exit(NULL, line, prompt);
 	}
 	add_history(line);
+	if (!ft_quote_syntax(line, QU_ZERO))
+		printf("minishell: unexpected EOF while looking for matching quote\n");
 	// ft_replace_wildcard(&line);
 	tmp = ft_replace_vars(*envp, line, QU_ZERO);
 	free(line);
 	line = tmp;
 	tokens = ft_tokenizer(line, QU_ZERO);
-	if (tokens && ft_valid_token(tokens) == 0)
+	if (tokens && (!ft_valid_token(tokens) || !ft_quote_syntax(line, QU_ZERO)))
 	{
 		printf("minishell: syntax error\n");
 		g_exit_code = 2;
@@ -137,7 +139,7 @@ char	*ft_get_prompt_string(t_envvar *envp)
 	if (ft_get_var(save, "PWD"))
 	{
 		pwd = ft_trim_pwd(ft_get_var(save, "PWD")->values[0]);
-		pwd = ft_strjoin(pwd, " > ", 0, 1);
+		pwd = ft_strjoin(pwd, " $ ", 0, 1);
 	}
 	else
 		pwd = ft_strdup(" > ");

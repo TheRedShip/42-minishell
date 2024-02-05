@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/05 16:06:21 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/05 19:56:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,22 @@
 /* STRING MANIPULATION ****************************************************** */
 
 /**
- * @brief			Checks if quoting is respected.
+ * @brief			Enforce strict quoting.
+ * 
+ * @param str		Pointer to string to check.
+ * @param qs		Carried quote state.
+*/
+void		ft_quote_enforcer(char **str, t_quote_state qs);
+
+/**
+ * @brief			Check for quote syntax error.
  * 
  * @param str		String to check.
- * @param oldqs		Carried quote state.
+ * @param qs		Quote_state.
  * 
- * @return			Final quoted string.
+ * @return			0 if qs is different of QU_ZERO, 1 otherwise.		
 */
-char		*ft_quote_checker(char *str, t_quote_state qs);
+int			ft_quote_syntax(char *str, t_quote_state qs);
 
 /**
  * @brief			Recursively replace $VARS by their values.
