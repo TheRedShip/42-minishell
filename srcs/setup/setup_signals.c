@@ -16,14 +16,10 @@ extern int	g_exit_code;
 
 static void	signal_handler(int signal)
 {
-    char    *prompt;
-
-	// printf("\033[%dC", (int) ft_strlen(prompt) + rl_point - 39); fflush(stdout);
+	printf("\033[%dC", (int) ft_strlen(rl_prompt) + rl_point - 39);
 	if (signal == 2)
 	{
 		g_exit_code = 130;
-        prompt = ft_get_prompt_string(ft_update_env(NULL));
-        printf("%s", prompt);
 		printf("^C\n");
 		rl_replace_line("", 0);
         rl_on_new_line();
@@ -36,35 +32,23 @@ void	ign(int signal)
 	(void)signal;
 }
 
-void    testdquote(int signal)
-{
-    (void) signal;
-}
-
 void    toggle_signal(int toggle)
 {
     struct termios        term_data;
 
     tcgetattr(0, &term_data);
-    if (toggle == 1)
+    if (toggle)
     {
         term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
         tcsetattr(0, 0, &term_data);
         signal(SIGINT, signal_handler);
         signal(SIGQUIT, signal_handler);
     }
-    else if (toggle == 0)
+    else
     {
         term_data.c_lflag = term_data.c_lflag | ECHOCTL;
         tcsetattr(0, 0, &term_data);
         signal(SIGINT, ign);
         signal(SIGQUIT, ign);
-    }
-    else if (toggle == 2)
-    {
-        term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
-        tcsetattr(0, 0, &term_data);
-        signal(SIGINT, testdquote);
-        signal(SIGQUIT, testdquote);
     }
 }
