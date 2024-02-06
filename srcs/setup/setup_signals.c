@@ -16,14 +16,14 @@ extern int	g_exit_code;
 
 static void	signal_handler(int signal)
 {
-    char    *prompt;
+    // char    *prompt;
 
-	// printf("\033[%dC", (int) ft_strlen(prompt) + rl_point - 39); fflush(stdout);
+	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
 	if (signal == 2)
 	{
 		g_exit_code = 130;
-        prompt = ft_get_prompt_string(ft_update_env(NULL));
-        printf("%s", prompt);
+        // prompt = ft_get_prompt_string(ft_update_env(NULL));
+        // printf("%s", prompt);
 		printf("^C\n");
 		rl_replace_line("", 0);
         rl_on_new_line();
@@ -38,7 +38,8 @@ void	ign(int signal)
 
 void    testdquote(int signal)
 {
-    (void) signal;
+	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
+	(void) signal;
 }
 
 void    toggle_signal(int toggle)

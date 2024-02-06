@@ -111,7 +111,8 @@ void	ft_prompt(t_envvar **envp)
 	tokens = ft_tokenizer(line, QU_ZERO);
 	if (tokens && (!ft_valid_token(tokens) || !ft_quote_syntax(line, QU_ZERO)))
 	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
+		ft_putstr_fd("minishell: syntax error\n", 1);
+		// printf("\001\033[1A\002");
 		g_exit_code = 2;
 	}
 	else if (*line)
