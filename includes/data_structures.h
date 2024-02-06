@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/05 16:05:33 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:40:10 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,20 @@ typedef struct s_node
 t_token		*ft_init_token(char *str, t_token_type type);
 
 /**
- * @brief			Append var to the vars linked list.
+ * @brief			Append var to the token linked list.
  * 
  * @param token		Token linked list.
  * @param next		Token to append.
  */
 void		ft_add_token(t_token **token, t_token *next);
+
+/**
+ * @brief			Remove a token from a linked list.
+ * 
+ * @param tokens	Linked list.
+ * @param prev		Previous token pointer.
+*/
+void		ft_remove_token(t_token **tokens, t_token *prev);
 
 /**
  * @brief			De-allocate a t_token.

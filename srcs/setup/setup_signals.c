@@ -54,11 +54,18 @@ void    toggle_signal(int toggle)
         signal(SIGINT, signal_handler);
         signal(SIGQUIT, signal_handler);
     }
-    else
+    else if (toggle == 0)
     {
         term_data.c_lflag = term_data.c_lflag | ECHOCTL;
         tcsetattr(0, 0, &term_data);
         signal(SIGINT, ign);
         signal(SIGQUIT, ign);
+    }
+    else if (toggle == 2)
+    {
+        term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
+        tcsetattr(0, 0, &term_data);
+        signal(SIGINT, testdquote);
+        signal(SIGQUIT, testdquote);
     }
 }

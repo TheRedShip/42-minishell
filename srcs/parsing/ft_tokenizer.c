@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   ft_tokenizer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/04 21:40:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:34:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,16 @@
 
 int	ft_is_token(char *str, t_quote_state qs)
 {
-	if (!str)
+	char		**tmp;
+	static char *tokens[11] = {" ", "(", ")", "||", "&&", \
+								"|", ">>", ">", "<<", "<", NULL};
+
+	tmp = tokens;
+	if (!str || !*str)
 		return (0);
-	if (((!ft_strncmp(str, "\"", 1) && (qs != QU_SINGLE))) || \
-		(!ft_strncmp(str, "'", 1) && (qs != QU_DOUBLE)) || \
-		(!ft_strncmp(str, " ", 1) && (qs == QU_ZERO)) || \
-		(!ft_strncmp(str, "(", 1) && (qs == QU_ZERO)) || \
-		(!ft_strncmp(str, ")", 1) && (qs == QU_ZERO)))
-		return (1);
-	else if (!ft_strncmp(str, "||", 2) && (qs == QU_ZERO))
-		return (2);
-	else if (!ft_strncmp(str, "&&", 2) && (qs == QU_ZERO))
-		return (2);
-	else if (!ft_strncmp(str, "|", 1) && (qs == QU_ZERO))
-		return (1);
-	else if (!ft_strncmp(str, ">>", 2) && (qs == QU_ZERO))
-		return (2);
-	else if (!ft_strncmp(str, ">", 1) && (qs == QU_ZERO))
-		return (1);
-	else if (!ft_strncmp(str, "<<", 2) && (qs == QU_ZERO))
-		return (2);
-	else if (!ft_strncmp(str, "<", 1) && (qs == QU_ZERO))
-		return (1);
-	return (0);
+	while (*tmp && (ft_strncmp(str, *tmp, ft_strlen(*tmp)) || qs != QU_ZERO))
+		tmp++;
+	return (ft_strlen(*tmp));
 }
 
 t_token_type	ft_ttyper(char *str, t_quote_state qs)
@@ -65,9 +52,7 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	if (!str || !*str)
 		return (NULL);
 	tmp = str;
-	// printf("|DEBUG| working str = [%s], qs = [%u]\n", str, qs);
 	len = ft_is_token(tmp, qs);
-	ft_qs_update(*tmp, &qs);
 	while (*tmp && (!len || (*tmp == ' ' && qs != QU_ZERO)))
 	{
 		ft_qs_update(*(tmp++), &qs);
@@ -77,7 +62,6 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 		tstring = ft_strndup(str, len);
 	else
 		tstring = ft_strndup(str, tmp - str);
-	// printf("|DEBUG| tstring = [%s], qs = [%u]\n", tstring, qs);
 	if (ft_strncmp(tstring, " ", 2))
 		token = ft_init_token(ft_strdup(tstring), ft_ttyper(str, qs));
 	ft_add_token(&token, ft_tokenizer(str + ft_strlen(tstring), qs));
@@ -85,30 +69,12 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	return (token);
 }
 
-int		ft_valid_braces(t_token *tokens)
-{
-	int	has_binary_op;
-	
-	has_binary_op = 0;
-	// printf("i check \n");
-	// ft_display_token(tokens);
-	if (!tokens)
-		return (1);
-	while (tokens->next && tokens->type != 1)
-	{
-		if (tokens->type == 2)
-			has_binary_op = 1;
-		tokens = tokens->next;
-	}
-	return (has_binary_op);
-}
-
 // int main(void)
 // {
 // 	t_token *t;
 // 	t_token *tmp;
 
-// 	t = ft_tokenizer("<< EOF < logo cat \"Makefile > out | << EOF wc > /dev/stdout && cat && echo d\" || cat || cat", QU_ZERO);
+// 	t = ft_tokenizer("echo a | cat b > luke | wc -l > outfile", QU_ZERO);
 
 // 	tmp = t;
 // 	while (tmp)

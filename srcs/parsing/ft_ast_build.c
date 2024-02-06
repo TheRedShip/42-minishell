@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 22:20:00 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:01:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,57 +147,3 @@ void treeprint(t_node *root, int space)
 		printf("%s\n", root->token->str);
     treeprint(root->left, space);
 }
-
-// void	ft_exec(t_node *tree)
-// {
-// 	if (tree->left)
-// 		ft_exec(tree->left);
-// 	if (tree->command)
-// 	{
-// 		start_execve(ft_strdup(""), tree->command);
-// 	}
-// 	if (tree->right)
-// 		ft_exec(tree->right);
-// }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	(void) argc;
-// 	t_token *tmp = NULL;
-// 	char *str = ft_strdup("echo a | echo b | wc ");
-// 	// char *str = ft_strdup("echo a | cat b > luke | wc -l > outfile");
-
-// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
-// 	tmp = tokens;
-// 	while (tmp)
-// 	{
-// 		printf(" [%s] ", tmp->str);
-// 		tmp = tmp->next;
-// 	}
-// 	printf("\n");
-// 	ft_delete_braces(&tokens);
-
-// 	t_node *tree;
-// 	t_envvar *env;
-
-// 	env = ft_setup_env(argv, envp);
-// 	tree = ft_build_tree(tokens, 0, &env);
-
-// 	// ft_display_node(tree->left);
-// 	// ft_display_node(tree->left->left);
-// 	// ft_display_node(tree->left->right);
-// 	// ft_display_node(tree->right);
-
-// 	treeprint(tree, 0);
-
-// 	// printf("\n");
-// 	// ft_display_node(tree);
-// 	// ft_putstr_fd("SALUT LUKE", tree->);
-
-// 	ft_exec(tree);
-
-// 	ft_clear_token_list(tokens);
-// 	ft_del_node(tree);
-// 	ft_del_env(env);
-// 	free(str);
-// }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   verify_token.c                                     :+:      :+:    :+:   */
+/*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/05 19:53:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:37:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,80 @@ int		ft_valid_token(t_token *t)
 	return (0);
 }
 
-// int main(void)
-// {
-// 	char *str = ft_strdup("echo || echo && salut > toi > && cat");
-// 	t_token	*tokens;
-// 	t_token *tmp;
+int		ft_valid_braces(t_token *tokens)
+{
+	int	bin;
+	
+	bin = 0;
+	if (!tokens)
+		return (1);
+	while (tokens->next && !(tokens->type & TK_BRACES))
+	{
+		bin = (tokens->type & TK_BINOPS);
+		tokens = tokens->next;
+	}
+	return (!bin);
+}
 
-// 	tokens = ft_tokenizer(str, QU_ZERO);
-// 	tmp = tokens;
+// void	ft_delete_braces(t_token **tokens)
+// {
+// 	t_token	*tmp;
+// 	t_token	*prev;
+
+// 	tmp = *tokens;
+// 	prev = NULL;
 // 	while (tmp)
 // 	{
-// 		ft_display_token(tmp);
-// 		tmp = tmp->next;
+// 		while (tmp && tmp->type != TK_BRACES)
+// 		{
+// 			prev = tmp;
+// 			tmp = tmp->next;
+// 		}
+// 		if (!tmp)
+// 			return ;
+// 		if (ft_strncmp(tmp->str, ")", 2) && ft_valid_braces(tmp->next))
+// 		{
+// 			ft_remove_token(&tmp, prev);
+// 			if (!prev)
+// 				*tokens = tmp;
+// 			while (tmp && tmp->type != TK_BRACES)
+// 			{
+// 				prev = tmp;
+// 				tmp = tmp->next;
+// 			}
+// 			ft_remove_token(&tmp, prev);
+// 		}
+// 		else
+// 			tmp = tmp->next;
 // 	}
-// 	printf("ah oui la %d\n", ft_valid_token(tokens));
-// 	ft_clear_token_list(tokens);
-// 	free(str);
 // }
+
+void	ft_remove_braces(t_token **tokens)
+{
+	t_token	*tmp;
+	t_token	*prev;
+	int		brace;
+
+	tmp = *tokens;
+	prev = NULL;
+	while (tmp)
+	{
+		if (tmp->type & TK_BRACES)
+		{
+			if (ft_strncmp(tmp->str, "(", 2) && ft_valid_braces(tmp->next))
+			{
+				ft_remove_token(&tmp, prev);
+				brace = 1;
+			}
+			else if (ft_strncmp(tmp->str, ")", 2) && brace)
+			{
+				ft_remove_token(&tmp, prev);
+				brace = 0;
+			}
+			if (!prev)
+				*tokens = tmp;
+			prev = tmp;
+			tmp = tmp->next;
+		}
+	}
+}

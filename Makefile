@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/05 16:51:43 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/06 16:36:35 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,13 +44,12 @@ SRC_BUILTIN :=	builtins/ft_cd.c \
 				builtins/ft_unset.c
 
 SRC_PARSING	:=  parsing/ft_ast_build.c \
-				parsing/parse_quotes.c \
-				parsing/logical_parsing.c \
-				parsing/utils.c \
-				parsing/parse_dollar.c \
-				parsing/ft_tokenize.c \
-				parsing/ft_wildcard.c \
-				parsing/verify_token.c
+				parsing/ft_parse_dollars.c \
+				parsing/ft_parse_quotes.c \
+				parsing/ft_parse_wildcards.c \
+				parsing/ft_token_auth.c \
+				parsing/ft_tokenizer.c \
+				parsing/utils.c
 
 SRC_PROMPT	:=  prompt/prompt.c \
 				prompt/ft_dquotes.c

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:25:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 14:41:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:00:59 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,39 +58,6 @@ void	ft_display_token(t_token *token)
 	printf("---------\n");
 }
 
-void	ft_delete_braces(t_token **tokens)
-{
-	t_token	*tmp;
-	t_token	*prev;
-
-	tmp = *tokens;
-	prev = NULL;
-	while (tmp)
-	{
-		while (tmp && tmp->type != TK_BRACES)
-		{
-			prev = tmp;
-			tmp = tmp->next;
-		}
-		if (!tmp)
-			return ;
-		if (ft_strncmp(tmp->str, ")", 2) && !ft_valid_braces(tmp->next))
-		{
-			ft_remove_token(&tmp, prev);
-			if (!prev)
-				*tokens = tmp;
-			while (tmp && tmp->type != TK_BRACES)
-			{
-				prev = tmp;
-				tmp = tmp->next;
-			}
-			ft_remove_token(&tmp, prev);
-		}
-		else
-			tmp = tmp->next;
-	}
-}
-
 t_token	*ft_dup_token(t_token *token)
 {
 	t_token	*cpy;
@@ -123,27 +90,3 @@ void	ft_clear_token_list(t_token *tokens)
 		tokens = tmp;
 	}
 }
-
-// int main(void)
-// {
-// 	t_token *tmp = NULL;
-// 	char *str = ft_strdup("(<Makefile) \"((cat && echo a)) | (wc)\" -l > /dev/stdout");
-
-// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
-// 	tmp = tokens;
-// 	while (tmp)
-// 	{
-// 		ft_display_token(tmp);
-// 		tmp = tmp->next;
-// 	}
-// 	ft_delete_braces(&tokens);
-// 	printf("\n\n");
-// 	tmp = tokens;
-// 	while (tmp)
-// 	{
-// 		ft_display_token(tmp);
-// 		tmp = tmp->next;
-// 	}
-// 	ft_clear_token_list(tokens);
-// 	free(str);
-// }
