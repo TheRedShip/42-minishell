@@ -109,7 +109,42 @@ void	ft_prompt(t_envvar **envp)
 	free(line);
 	line = tmp;
 	tokens = ft_tokenizer(line, QU_ZERO);
-	ft_replace_wildcard(&tokens, QU_ZERO);
+	
+	/*
+		DEBUG SECTION	
+	*/
+	t_token *t;
+
+	t = tokens;
+	printf("------------- ACTUAL TOKEN LIST -------------\n");
+	while (t)
+	{
+		printf("%s ", t->str);
+		t = t->next;
+	}
+	printf("\n---------------------------------------------\n");
+	/*
+		END OF DEBUG
+	*/
+	
+	ft_format_tokens(tokens, QU_ZERO);
+	ft_remove_braces(&tokens);
+
+	/*
+		DEBUG SECTION	
+	*/
+	t = tokens;
+	printf("------------ REPLACED TOKEN LIST ------------\n");
+	while (t)
+	{
+		printf("%s ", t->str);
+		t = t->next;
+	}
+	printf("\n---------------------------------------------\n");
+	/*
+		END OF DEBUG
+	*/
+
 	if (tokens && (!ft_valid_token(tokens) || !ft_quote_syntax(line, QU_ZERO)))
 	{
 		ft_putstr_fd("minishell: syntax error\n", 1);

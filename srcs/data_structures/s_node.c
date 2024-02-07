@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:28:17 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 13:17:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/06 17:10:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_associate(t_node **tree, t_node *neigh, t_command *c, t_token *t)
 		*tree = neigh;
 		return ;
 	}
-	ft_insert_parent(tree, ft_init_node((*tree)->rank + 1, c, t), LEFT);
+	ft_insert_parent(tree, ft_init_node((*tree)->braced, c, t), LEFT);
 	ft_insert_child(tree, neigh, RIGHT);
 }
 
@@ -72,7 +72,7 @@ void	ft_del_node(t_node *tree)
 void ft_display_node(t_node *tree)
 {
 	printf("- NODE --- %p ------------------\n", tree);
-	printf("RANK : %d\n", tree->rank);
+	printf("braced : %d\n", tree->braced);
 	if (tree->command)
 		ft_display_command(tree->command);
 	if (tree->token)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logical_parsing.c                                  :+:      :+:    :+:   */
+/*   ft_parse_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/05 20:08:14 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 00:30:02 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,61 @@ void	ft_quote_enforcer(char **str, t_quote_state qs)
 	}
 	*str = string_holder;
 }
+
 int	ft_quote_syntax(char *str, t_quote_state qs)
 {
 	while (*str)
 		ft_qs_update(*(str++), &qs);
 	return (!qs);
+}
+
+void	ft_dequote_string(char **str, t_quote_state qs)
+{
+	char	*tmp;
+	char	*tmpr;
+	char	*res;
+
+	tmp = *str;
+	res = malloc((ft_dqstrlen(*str) + 1) * sizeof(char));
+	if (!res)
+		return ;
+	tmpr = res;
+	while (*tmp)
+	{
+		if (ft_qs_update(*tmp, &qs))
+		{
+			tmp++;
+			continue;
+		}
+		*(tmpr++) = *(tmp++);
+	}
+	*tmpr = 0;
+	free(*str);
+	*str = res;
+}
+
+void	ft_format_tokens(t_token *tokens, t_quote_state qs)
+{
+	t_token	*tmp;
+	char	*wcs;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		ft_qs_update(*(tmp->str), &qs);
+		if (tmp->type & TK_STRING)
+			ft_dequote_string(&(tmp->str), QU_ZERO);
+		if (qs == QU_ZERO && ft_verif_wildcard(tmp->str))
+		{
+			free(tmp->str);
+			wcs = ft_wildcard_string();
+			ft_format_wildcard(&wcs);
+			tmp->str = ft_strdup(wcs);
+			ft_wildcard_token(&tokens, &tmp);
+			free(wcs);
+		}
+		if (!tmp)
+			break ;
+		tmp = tmp->next;
+	}
 }

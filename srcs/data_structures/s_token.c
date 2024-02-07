@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:25:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/06 15:00:59 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 00:11:00 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	ft_add_token(t_token **tokens, t_token *next)
 {
 	t_token	*tmp;
+	t_token *prev;
 
+	prev = NULL;
 	if (!tokens || !next)
 		return ;
 	if (!(*tokens))
@@ -25,25 +27,32 @@ void	ft_add_token(t_token **tokens, t_token *next)
 	}
 	tmp = *tokens;
 	while (tmp->next)
+	{
+		prev = tmp;
 		tmp = tmp->next;
+	}
 	tmp->next = next;
+	tmp->next->prev = tmp;
 }
 
-void	ft_remove_token(t_token **tokens, t_token *prev)
+void	ft_remove_token(t_token **tokens)
 {
 	t_token *tmp;
 
-	if (prev)
+	if ((*tokens)->prev)
 	{
 		tmp = *tokens;
-		prev->next = tmp->next;
-		*tokens = prev->next;
+		(*tokens)->prev->next = tmp->next;
+		if (tmp->next)
+			tmp->next->prev = (*tokens)->prev;
+		*tokens = (*tokens)->prev->next;
 		ft_del_token(tmp);
 	}
 	else
 	{
 		tmp = *tokens;
 		*tokens = tmp->next;
+		(*tokens)->prev = NULL;
 		ft_del_token(tmp);
 	}
 }
@@ -53,8 +62,14 @@ void	ft_display_token(t_token *token)
 	printf("- TOKEN --- %p\n", token);
 	printf("STRING : %s\n", token->str);
 	printf("TYPE   : %u\n", token->type);
+	if (token->prev)
+		printf("PREV   : %p\n", token->prev);
+	else
+		printf("YA PAS DE PRECEDENT\n");
 	if (token->next)
 		printf("NEXT   : %p\n", token->next);
+	else
+		printf("YA PAS DE SUIVANT\n");
 	printf("---------\n");
 }
 
@@ -68,6 +83,7 @@ t_token	*ft_dup_token(t_token *token)
 	cpy->str = ft_strdup(token->str);
 	cpy->type = token->type;
 	cpy->next = NULL;
+	cpy->prev = NULL;
 	return (cpy);
 }
 

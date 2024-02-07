@@ -6,13 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/06 16:37:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 00:32:09 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_valid_token(t_token *t)
+int	ft_valid_token(t_token *t)
 {
 	t_token_type	bops;
 	t_token_type	strs;
@@ -40,80 +40,47 @@ int		ft_valid_token(t_token *t)
 	return (0);
 }
 
-int		ft_valid_braces(t_token *tokens)
+int	ft_valid_braces(t_token *tk)
 {
-	int	bin;
-	
-	bin = 0;
-	if (!tokens)
+	int		isvalid;
+	int		level;
+
+	level = 0;
+	isvalid = 0;
+	if (!tk || !(tk->type & TK_BRACES && !ft_strncmp(tk->str, "(", 2)))
 		return (1);
-	while (tokens->next && !(tokens->type & TK_BRACES))
+	tk = tk->next;
+	while (tk && (!(tk->type & TK_BRACES && !ft_strncmp(tk->str, ")", 2)) || level))
 	{
-		bin = (tokens->type & TK_BINOPS);
-		tokens = tokens->next;
+		if (tk->type & TK_BRACES && !ft_strncmp(tk->str, "(", 2))
+			level++;
+		if (tk->type & TK_BRACES && !ft_strncmp(tk->str, ")", 2))
+			level--;
+		if (!level && tk->type & TK_BINOPS)
+			isvalid = 1;
+		tk = tk->next;
 	}
-	return (!bin);
+	if (!tk)
+		return (1);
+	if (!(tk && isvalid))
+		ft_remove_token(&tk);
+	return (tk && isvalid);
 }
-
-// void	ft_delete_braces(t_token **tokens)
-// {
-// 	t_token	*tmp;
-// 	t_token	*prev;
-
-// 	tmp = *tokens;
-// 	prev = NULL;
-// 	while (tmp)
-// 	{
-// 		while (tmp && tmp->type != TK_BRACES)
-// 		{
-// 			prev = tmp;
-// 			tmp = tmp->next;
-// 		}
-// 		if (!tmp)
-// 			return ;
-// 		if (ft_strncmp(tmp->str, ")", 2) && ft_valid_braces(tmp->next))
-// 		{
-// 			ft_remove_token(&tmp, prev);
-// 			if (!prev)
-// 				*tokens = tmp;
-// 			while (tmp && tmp->type != TK_BRACES)
-// 			{
-// 				prev = tmp;
-// 				tmp = tmp->next;
-// 			}
-// 			ft_remove_token(&tmp, prev);
-// 		}
-// 		else
-// 			tmp = tmp->next;
-// 	}
-// }
 
 void	ft_remove_braces(t_token **tokens)
 {
 	t_token	*tmp;
-	t_token	*prev;
-	int		brace;
 
 	tmp = *tokens;
-	prev = NULL;
 	while (tmp)
 	{
-		if (tmp->type & TK_BRACES)
+		if (!ft_valid_braces(tmp))
 		{
-			if (ft_strncmp(tmp->str, "(", 2) && ft_valid_braces(tmp->next))
-			{
-				ft_remove_token(&tmp, prev);
-				brace = 1;
-			}
-			else if (ft_strncmp(tmp->str, ")", 2) && brace)
-			{
-				ft_remove_token(&tmp, prev);
-				brace = 0;
-			}
-			if (!prev)
+			ft_remove_token(&tmp);
+			if (!tmp->prev)
 				*tokens = tmp;
-			prev = tmp;
-			tmp = tmp->next;
+			continue;
 		}
+		tmp = tmp->next;
 	}
 }

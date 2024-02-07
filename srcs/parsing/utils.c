@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:40 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/06 14:58:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:34:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@ void	ft_swap_strs(char **a, char **b)
 	tmp = *a;
 	*a = *b;
 	*b = tmp;
+}
+
+int	ft_dqstrlen(char *str)
+{
+	t_quote_state	qs;
+	int				len;
+
+	qs = QU_ZERO;
+	len = 0;
+	while (*str)
+	{
+		if (!ft_qs_update(*(str++), &qs))
+			len++;
+	}
+	return (len);
 }
 
 void	ft_sort_strs_tab(char **tab, int size)

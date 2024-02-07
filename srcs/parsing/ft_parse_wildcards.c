@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/06 17:08:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 00:30:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,49 +73,26 @@ void	ft_format_wildcard(char **str)
 	*str = formatted;
 }
 
-void	ft_wildcard_token(t_token **head, t_token **tokens, t_token *prev)
+void	ft_wildcard_token(t_token **head, t_token **tokens)
 {
 	t_token *wctokens;
 	t_token *tail;
+	t_token	*tmp;
 
 	tail = (*tokens)->next;
 	wctokens = ft_tokenizer((*tokens)->str, QU_ZERO);
 	ft_add_token(&wctokens, tail);
 	ft_del_token(*tokens);
-	if (prev)
+	if ((*tokens)->prev)
 	{
-		prev->next = wctokens;
-		*tokens = wctokens;
+		(*tokens)->prev->next = wctokens;
+		tmp = wctokens;
+		while (tmp != tail)
+			tmp = tmp->next;
+		*tokens = tmp;
 	}
 	else
 		*head = wctokens;
-}
-
-void	ft_replace_wildcard(t_token **tokens, t_quote_state qs)
-{
-	t_token	*tmp;
-	t_token	*prev;
-	char	*wcs;
-
-	tmp = *tokens;
-	prev = NULL;
-	while (tmp)
-	{
-		ft_qs_update(*(tmp->str), &qs);
-		if (qs == QU_ZERO && ft_verif_wildcard(tmp->str))
-		{
-			free(tmp->str);
-			wcs = ft_wildcard_string();
-			ft_format_wildcard(&wcs);
-			tmp->str = ft_strdup(wcs);
-			ft_wildcard_token(tokens, &tmp, prev);
-			free(wcs);
-		}
-		prev = tmp;
-		if (!tmp)
-			break ;
-		tmp = tmp->next;
-	}
 }
 
 // int main(void)

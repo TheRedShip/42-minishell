@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/06 16:34:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/07 23:17:26 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,28 +68,3 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	free(tstring);
 	return (token);
 }
-
-// int main(void)
-// {
-// 	t_token *t;
-// 	t_token *tmp;
-
-// 	t = ft_tokenizer("echo a | cat b > luke | wc -l > outfile", QU_ZERO);
-
-// 	tmp = t;
-// 	while (tmp)
-// 	{
-// 		ft_display_token(tmp);
-// 		tmp = tmp->next;
-// 	}
-// 	tmp = t;
-// 	while (tmp)
-// 	{
-// 		printf(" [%s] ", tmp->str);
-// 		tmp = tmp->next;
-// 	}
-// 	printf("\n|%d|\n", ft_valid_braces(t));
-// 	printf("\n");
-// 	ft_clear_token_list(t);
-// 	exit(EC_SUCCES);
-// }

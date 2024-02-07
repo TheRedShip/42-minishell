@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/06 16:38:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 00:30:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,21 @@ char		*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
 char		*ft_insert_var(t_envvar *vars, char *result, char *str, int *len);
 
 /**
+ * @brief			Dequote a string.
+ * 
+ * @param str		String adress.
+ * @param qs		Quote state.
+*/
+void		ft_dequote_string(char **str, t_quote_state qs);
+
+/**
+ * @brief			Dequote all tokens in a linked list.
+ * 
+ * @param tokens	Linked list.
+*/
+void		ft_dequote_tokens(t_token *tokens, t_quote_state qs);
+
+/**
  * @brief			Check if a string starts by a token.
  * 
  * @param str		String to analyze.
@@ -69,14 +84,14 @@ int			ft_is_token(char *str, t_quote_state qs);
  * 
  * @return			1 in case of valid group, 0 otherwise.
 */
-int			ft_valid_braces(t_token *tokens);
+int			ft_valid_braces(t_token *tk);
 
 /**
  * @brief			Update linked list, deleting useless brace tokens.
  * 
  * @param tokens	Linked list.
 */
-void		ft_delete_braces(t_token **tokens);
+void		ft_remove_braces(t_token **tokens);
 
 /**
  * @brief			Check if a token linked list is valid.
@@ -113,21 +128,20 @@ char		*ft_wildcard_string(void);
 void		ft_format_wildcard(char **str);
 
 /**
- * @brief			Replace wildcard tokens by a list of new tokens.
+ * @brief			Format tokens (wildcard && quotes).
  * 
  * @param tokens	Token linked list.
  * @param qs		Quote state.
 */
-void		ft_replace_wildcard(t_token **tokens, t_quote_state qs);
+void		ft_format_tokens(t_token *tokens, t_quote_state qs);
 
 /**
  * @brief			Replace a wildcard token by a list of string tokens.
  * 
  * @param head		Token linked list head.
  * @param tokens	Current position in the linked list (pointer).
- * @param prev		Previous token pointer.
 */
-void		ft_wildcard_token(t_token **head, t_token **tokens, t_token *prev);
+void		ft_wildcard_token(t_token **head, t_token **tokens);
 
 /* UTILS ******************************************************************** */
 
@@ -155,5 +169,10 @@ void		ft_print_logo(t_envvar *envp);
  * @param size		Array size.
 */
 void		ft_sort_lowstrs_tab(char **tab, int size);
+
+/**
+ * 
+*/
+int			ft_dqstrlen(char *str);
 
 #endif

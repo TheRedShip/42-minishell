@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/06 16:40:10 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/07 23:02:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ typedef enum e_quote_state
  * @param str		(char *)		Token raw string.
  * @param type		(e_token_type) 	Token identifier (see enum).
  * @param next		(t_token *)		Next Token.
+ * @param prev		(t_token *)		Previous Token.
  */
 typedef struct s_token
 {
 	char            *str;
 	t_token_type    type;
 	struct s_token	*next;
+	struct s_token	*prev;
 }   t_token;
 
 /**
@@ -97,7 +99,7 @@ typedef struct s_command
  * @struct			s_node
  * @brief			Command line node.
  * 
- * @param rank		(int)		Node rank.
+ * @param braced	(int)		Node braced.
  * @param command	(t_command *) pointer to the command, NULL if token.
  * @param token		(t_token *) pointer to the token, NULL if command.
  * @param left		(t_node *)	Left child node.
@@ -105,7 +107,7 @@ typedef struct s_command
  */
 typedef struct s_node
 {
-	int				rank;
+	int				braced;
 	t_command		*command;
 	t_token			*token;
 	struct s_node	*left;
@@ -135,10 +137,9 @@ void		ft_add_token(t_token **token, t_token *next);
 /**
  * @brief			Remove a token from a linked list.
  * 
- * @param tokens	Linked list.
- * @param prev		Previous token pointer.
+ * @param tokens	Adress of element to remove.
 */
-void		ft_remove_token(t_token **tokens, t_token *prev);
+void		ft_remove_token(t_token **tokens);
 
 /**
  * @brief			De-allocate a t_token.
@@ -278,13 +279,13 @@ t_envvar    *ft_setup_env(char **argv, char **envp);
 /**
  * @brief			Initializes a new t_node.
  * 
- * @param rank		Rank on the tree hierarchy.
+ * @param braced		braced on the tree hierarchy.
  * @param command	A pointer to struct command.
  * @param token		A pointer to struct token.
  * 
  * @return			A pointer to the newly allocated t_node.
  */
-t_node		*ft_init_node(int rank, t_command *command, t_token *token);
+t_node		*ft_init_node(int braced, t_command *command, t_token *token);
 
 /**
  * @brief			Insert a t_node (Parent-wise).
