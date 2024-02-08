@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 16:17:06 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:17:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,9 @@ void		ft_format_wildcard(char **str);
 /**
  * @brief			Format tokens (wildcard && quotes).
  * 
- * @param tokens	Token linked list.
- * @param qs		Quote state.
+ * @param tokens	Token linked list adress.
 */
-void		ft_format_tokens(t_token *tokens, t_quote_state qs);
+void		ft_format_tokens(t_token **tokens);
 
 /**
  * @brief			Replace a wildcard token by a list of string tokens.
@@ -146,7 +145,16 @@ void		ft_wildcard_token(t_token **head, t_token **tokens);
 
 /* TREE ********************************************************************* */
 
-t_node		*ft_build_tree(t_token *tokens, int braced, t_envvar **env);
+/**
+ * @brief			Recursively build a binary syntax tree.
+ * 
+ * @param tokens	Tokens linked list.
+ * @param env		Environment linked list.
+*/
+t_node		*ft_build_tree(t_token *tokens, t_envvar **env);
+
+
+void		treeprint(t_node *root, int space);
 
 /* UTILS ******************************************************************** */
 

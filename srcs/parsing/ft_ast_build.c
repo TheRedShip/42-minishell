@@ -6,13 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 19:45:36 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:27:58 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	*ft_cmd_token(t_token **tokens, int braced, t_envvar **env)
+t_node	*ft_cmd_token(t_token **tokens, t_envvar **env)
 {
 	t_node		*cmd_node;
 	t_token		*tmp;
@@ -21,22 +21,21 @@ t_node	*ft_cmd_token(t_token **tokens, int braced, t_envvar **env)
 
 	raw = NULL;
 	tmp = *tokens;
+	ft_memset(fds, 0, 3 * sizeof(int));
 	fds[1] = 1;
 	while (tmp && (tmp->type & (TK_STRING | TK_REDIRS)))
 	{
 		if (tmp->type & TK_REDIRS)
-		{
 			ft_manage_inputs(&tmp, &(fds[0]), &(fds[2]));
+		if (tmp->type & TK_REDIRS)
 			ft_manage_outputs(&tmp, &(fds[1]));
-		}
 		else if (tmp->type & TK_STRING)
+		{
 			raw = ft_strjoin(raw, tmp->str, " ", 0b01);
-		if (!tmp)
-			continue ;
-		tmp = tmp->next;
+			tmp = tmp->next;
+		}
 	}
-	cmd_node = ft_init_node(braced, \
-				ft_init_command(fds[0], fds[1], raw, env), NULL);
+	cmd_node = ft_init_node(ft_init_command(fds[0], fds[1], raw, env), NULL);
 	free(raw);
 	*tokens = tmp;
 	return (cmd_node);
@@ -53,7 +52,6 @@ void treeprint(t_node *root, int space)
 	{
         printf(" ");
 	}
-	printf("(%d) :", root->braced);
 	if (root->command)
 	{
     	printf("%s ", root->command->path);
@@ -69,7 +67,7 @@ void	ft_brace_tree(t_token **tk, t_node **tree, t_envvar **env)
 	t_node *test;
 	int		level;
 
-	test = ft_build_tree((*tk)->next, 1, env);
+	test = ft_build_tree((*tk)->next, env);
 	level = 0;
 	if (!tree)
 		*tree = test;
@@ -94,18 +92,15 @@ void	ft_connect_ops(t_token **tk, t_node **tree, t_envvar **env)
 
 	tmp = ft_dup_token(*tk);
 	if ((*tk)->type & TK_BINOPS)
-	{
-		ft_associate(tree, ft_build_tree((*tk)->next, 0, env), NULL, tmp);
-
-	}
+		ft_associate(tree, ft_build_tree((*tk)->next, env), NULL, tmp);
 	else if ((*tk)->type & TK_PIPEXS)
 	{
-		ft_insert_parent(tree, ft_init_node(0, NULL, tmp), LEFT);
+		ft_insert_parent(tree, ft_init_node(NULL, tmp), LEFT);
 		(*tk) = (*tk)->next;
 	}
 }
 
-t_node	*ft_build_tree(t_token *tokens, int braced, t_envvar **env)
+t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 {
 	t_node			*tree;
 	t_token_type	tmp;
@@ -121,7 +116,7 @@ t_node	*ft_build_tree(t_token *tokens, int braced, t_envvar **env)
 				return (tree);
 		}
 		else if (tokens->type & (TK_STRING | TK_REDIRS))
-			ft_insert_child(&tree, ft_cmd_token(&tokens, braced, env), RIGHT);
+			ft_insert_child(&tree, ft_cmd_token(&tokens, env), RIGHT);
 		if (!tokens)
 			return (tree);
 		tmp = tokens->type;
@@ -132,15 +127,15 @@ t_node	*ft_build_tree(t_token *tokens, int braced, t_envvar **env)
 	return (tree);
 }
 
-int	max_depth(t_node *tree)
-{
-	int	max;
+// int	max_depth(t_node *tree)
+// {
+// 	int	max;
 
-	max = 0;
-	if (!tree)
-		return (max);
-	return (1 + ft_max(max_depth(tree->left), max_depth(tree->right)));
-}
+// 	max = 0;
+// 	if (!tree)
+// 		return (max);
+// 	return (1 + ft_max(max_depth(tree->left), max_depth(tree->right)));
+// }
 
 // int main(int argc, char **argv, char **envp)
 // {

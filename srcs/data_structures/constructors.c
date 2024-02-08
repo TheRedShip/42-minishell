@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/07 22:55:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:14:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,13 @@ t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar **envp
 	return (new_command);
 }
 
-t_node	*ft_init_node(int braced, t_command *command, t_token *token)
+t_node	*ft_init_node(t_command *command, t_token *token)
 {
 	t_node	*new_node;
 
 	new_node = malloc(sizeof(t_node));
 	if (!new_node)
 		return (NULL);
-	new_node->braced = braced;
 	new_node->command = command;
 	new_node->token = token;
 	new_node->left = NULL;

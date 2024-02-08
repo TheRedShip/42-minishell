@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 18:25:11 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:15:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ typedef struct s_command
  */
 typedef struct s_node
 {
-	int				braced;
 	t_command		*command;
 	t_token			*token;
 	struct s_node	*left;
@@ -279,13 +278,12 @@ t_envvar    *ft_setup_env(char **argv, char **envp);
 /**
  * @brief			Initializes a new t_node.
  * 
- * @param braced		braced on the tree hierarchy.
  * @param command	A pointer to struct command.
  * @param token		A pointer to struct token.
  * 
  * @return			A pointer to the newly allocated t_node.
  */
-t_node		*ft_init_node(int braced, t_command *command, t_token *token);
+t_node		*ft_init_node(t_command *command, t_token *token);
 
 /**
  * @brief			Insert a t_node (Parent-wise).

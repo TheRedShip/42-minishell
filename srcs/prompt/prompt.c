@@ -127,7 +127,7 @@ void	ft_prompt(t_envvar **envp)
 		END OF DEBUG
 	*/
 	
-	ft_format_tokens(tokens, QU_ZERO);
+	ft_format_tokens(&tokens);
 	ft_remove_braces(&tokens);
 
 	/*
@@ -151,7 +151,13 @@ void	ft_prompt(t_envvar **envp)
 		g_exit_code = 2;
 	}
 	else if (*line)
+	{
+		/* regale toi yavin ca affiche larbre apres chaque commande */
+		t_node *tree = ft_build_tree(tokens, envp);
+		treeprint(tree, 0);
+		printf("\n");
 		builtin_cmd(line, envp, prompt);
+	}
 	if (line)
 		free(line);
 	ft_clear_token_list(tokens);

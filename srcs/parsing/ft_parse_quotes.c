@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 20:11:44 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:11:30 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,35 +71,60 @@ void	ft_dequote_string(char **str, t_quote_state qs)
 	*str = res;
 }
 
-void	ft_format_tokens(t_token *tokens, t_quote_state qs)
+void	ft_format_tokens(t_token **tokens)
 {
 	t_token	*tmp;
 	char	*wcs;
+	char	*og;
 
-	tmp = tokens;
+	tmp = *tokens;
 	while (tmp)
 	{
-		ft_qs_update(*(tmp->str), &qs);
+		og = ft_strdup(tmp->str);
 		if (tmp->type & TK_STRING)
 			ft_dequote_string(&(tmp->str), QU_ZERO);
-		if (qs == QU_ZERO && ft_verif_wildcard(tmp->str))
+		if (ft_verif_wildcard(og))
 		{
 			free(tmp->str);
 			wcs = ft_wildcard_string();
 			ft_format_wildcard(&wcs);
 			tmp->str = ft_strdup(wcs);
-			ft_wildcard_token(&tokens, &tmp);
+			ft_wildcard_token(tokens, &tmp);
 			free(wcs);
 		}
-		if (!tmp)
-			break ;
-		tmp = tmp->next;
+		else
+			tmp = tmp->next;
+		free(og);
 	}
 }
 
 // int main(void)
 // {
-// 	char *str = ft_strdup("echo * *");
+// 	char *str = ft_strdup("echo *");
 
-	
+// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
+
+// 	t_token *t;
+// 	t = tokens;
+// 	printf("------------- ACTUAL TOKEN LIST -------------\n");
+// 	while (t)
+// 	{
+// 		printf("%p = [%s] ->", t, t->str);
+// 		t = t->next;
+// 	}
+// 	printf("\n---------------------------------------------\n");
+
+// 	ft_format_tokens(&tokens);
+
+// 	t = tokens;
+// 	printf("------------- ACTUAL TOKEN LIST -------------\n");
+// 	while (t)
+// 	{
+// 		printf("%p = [%s] ->", t, t->str);
+// 		t = t->next;
+// 	}
+// 	printf("\n---------------------------------------------\n");
+
+// 	free(str);
+// 	ft_clear_token_list(tokens);
 // }
