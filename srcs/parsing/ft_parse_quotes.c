@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:11:30 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:47:58 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,16 @@ void	ft_dequote_string(char **str, t_quote_state qs)
 	*str = res;
 }
 
+void	ft_replace_wildcard(t_token **tokens, t_token **tmp, char **wcs)
+{
+	free((*tmp)->str);
+	*wcs = ft_wildcard_string();
+	ft_format_wildcard(wcs);
+	(*tmp)->str = ft_strdup(*wcs);
+	ft_wildcard_token(tokens, tmp);
+	free(*wcs);
+}
+
 void	ft_format_tokens(t_token **tokens)
 {
 	t_token	*tmp;
@@ -83,24 +93,26 @@ void	ft_format_tokens(t_token **tokens)
 		og = ft_strdup(tmp->str);
 		if (tmp->type & TK_STRING)
 			ft_dequote_string(&(tmp->str), QU_ZERO);
-		if (ft_verif_wildcard(og))
+		if (!*(tmp->str))
 		{
-			free(tmp->str);
-			wcs = ft_wildcard_string();
-			ft_format_wildcard(&wcs);
-			tmp->str = ft_strdup(wcs);
-			ft_wildcard_token(tokens, &tmp);
-			free(wcs);
+			ft_remove_token(&tmp);
+			if (!tmp)
+				*tokens = NULL;
 		}
 		else
-			tmp = tmp->next;
+		{
+			if (ft_verif_wildcard(og))
+				ft_replace_wildcard(tokens, &tmp, &wcs);
+			else
+				tmp = tmp->next;
+		}
 		free(og);
 	}
 }
 
 // int main(void)
 // {
-// 	char *str = ft_strdup("echo *");
+// 	char *str = ft_strdup("\"\"");
 
 // 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
 
