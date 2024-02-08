@@ -47,7 +47,7 @@ void    toggle_signal(int toggle)
     struct termios        term_data;
 
     tcgetattr(0, &term_data);
-    if (toggle)
+    if (toggle == 1)
     {
         term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
         tcsetattr(0, 0, &term_data);

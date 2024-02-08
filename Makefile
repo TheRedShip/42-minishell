@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/06 16:36:35 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/08 16:18:17 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,18 +51,20 @@ SRC_PARSING	:=  parsing/ft_ast_build.c \
 				parsing/ft_tokenizer.c \
 				parsing/utils.c
 
+SRC_EXEC	:=	execution/ft_file_manager.c
+
 SRC_PROMPT	:=  prompt/prompt.c \
 				prompt/ft_dquotes.c
 
 SRC_SETUP	:=  setup/ft_setup_env.c \
 				setup/setup_signals.c
 
-ALL_SRCS	:=	$(SRC_DATA) $(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) $(SRC_SETUP) global.c minishell.c
+ALL_SRCS	:=	$(SRC_DATA) $(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) $(SRC_EXEC) $(SRC_SETUP) global.c minishell.c
 SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 
-HEADERS		:=	includes/builtins.h includes/minishell.h includes/data_structures.h
+HEADERS		:=	includes/builtins.h includes/minishell.h includes/data_structures.h includes/executer.h
 
 CC          := cc
 CFLAGS      := -Wall -Wextra -Werror -g #-pg

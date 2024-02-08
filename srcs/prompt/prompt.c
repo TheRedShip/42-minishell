@@ -96,10 +96,10 @@ void	ft_prompt(t_envvar **envp)
 	//											A DECOMMENTER POUR ACTIVER LES DQUOTES (VOITR LIGNE 106-108 AUSSI)
 	// toggle_signal(2);
 	// ft_quote_enforcer(&line, QU_ZERO);
-	// toggle_signal(1);
+	toggle_signal(1);
 	if (!line)
 	{
-		ft_del_env(*envp);
+		ft_clear_env(*envp);
 		ft_exit(NULL, line, prompt);
 	}
 	add_history(line);
@@ -112,14 +112,14 @@ void	ft_prompt(t_envvar **envp)
 	
 	/*
 		DEBUG SECTION	
+	
 	*/
 	t_token *t;
-
 	t = tokens;
 	printf("------------- ACTUAL TOKEN LIST -------------\n");
 	while (t)
 	{
-		printf("%s ", t->str);
+		printf("[%s]->", t->str);
 		t = t->next;
 	}
 	printf("\n---------------------------------------------\n");
@@ -137,7 +137,7 @@ void	ft_prompt(t_envvar **envp)
 	printf("------------ REPLACED TOKEN LIST ------------\n");
 	while (t)
 	{
-		printf("%s ", t->str);
+		printf("[%s]->", t->str);
 		t = t->next;
 	}
 	printf("\n---------------------------------------------\n");

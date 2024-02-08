@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rems <rems@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/08 12:50:36 by rems             ###   ########.fr       */
+/*   Updated: 2024/02/08 16:47:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_valid_braces(t_token *tk)
 			level++;
 		if (tk->type & TK_BRACES && !ft_strncmp(tk->str, ")", 2))
 			level--;
-		if (!level && tk->type & TK_BINOPS)
+		if (!level && tk->type & (TK_BINOPS | TK_PIPEXS))
 			isvalid = 1;
 		tk = tk->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:28:17 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/06 17:10:20 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 15:22:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,19 @@ void	ft_del_node(t_node *tree)
 {
 	if (!tree)
 		return ;
-	ft_del_node(tree->left);
-	ft_del_node(tree->right);
+	if (tree->token)
+		ft_del_token(tree->token);
+	if (tree->command)
+		ft_del_command(tree->command);
+	free(tree);
+}
+
+void	ft_clear_tree(t_node *tree)
+{
+	if (!tree)
+		return ;
+	ft_clear_tree(tree->left);
+	ft_clear_tree(tree->right);
 	if (tree->token)
 		ft_del_token(tree->token);
 	if (tree->command)

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/01 16:19:04 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:27:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_del_var(t_envvar *var)
 	free(var);
 }
 
-void	ft_del_env(t_envvar *vars)
+void	ft_clear_env(t_envvar *vars)
 {
 	t_envvar	*tmp;
 

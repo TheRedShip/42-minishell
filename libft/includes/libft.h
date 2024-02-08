@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 13:16:25 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 15:30:24 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 19:48:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,16 @@ int		ft_toupper(int c);
  * @return		Lowercase letter if c was an uppercase letter, c otherwise;
 */
 int		ft_tolower(int c);
+
+/**
+ * @brief		Max between 2 values.
+ * 
+ * @param a		First value.
+ * @param b		Second value.
+ * 
+ * @return		Max between a and b.
+*/
+int		ft_max(int a, int b);
 
 /* ************************************************************************** */
 

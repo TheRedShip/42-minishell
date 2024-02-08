@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/07 23:02:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:25:11 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,11 +210,11 @@ void		ft_remove_var(t_envvar **vars, char *name);
 void		ft_del_var(t_envvar *var);
 
 /**
- * @brief			Delete t_envvar linked list.
+ * @brief			De-allocate t_envvar linked list.
  * 
  * @param vars		Linked list.
 */
-void		ft_del_env(t_envvar *vars);
+void		ft_clear_env(t_envvar *vars);
 
 /**
  * @brief			Get t_envvar by searching name inside vars.
@@ -307,7 +307,7 @@ void		ft_insert_child(t_node **tree, t_node *child, int side);
 
 /**
  * @brief			Associate 2 t_node into one tree and sets tree to \
- * 		           newly allocated parent.
+ * 		          	newly allocated parent.
  * 
  * @param tree		t_node *1, future left child.
  * @param next		t_node *2, future right child.
@@ -317,11 +317,18 @@ void		ft_insert_child(t_node **tree, t_node *child, int side);
 void		ft_associate(t_node **tree, t_node *next, t_command *c, t_token *t);
 
 /**
- * @brief			De-allocate a t_node and all his childs recursively.
+ * @brief			De-allocate a t_node.
  * 
  * @param tree		t_node to free.
 */
 void		ft_del_node(t_node *tree);
+
+/**
+ * @brief			De-allocate an entire tree recursively.
+ * 
+ * @param tree		Tree to free;
+*/
+void		ft_clear_tree(t_node *tree);
 
 void		ft_display_node(t_node *tree);
 

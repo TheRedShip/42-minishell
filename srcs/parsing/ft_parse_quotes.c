@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 00:30:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 20:11:44 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,3 +96,10 @@ void	ft_format_tokens(t_token *tokens, t_quote_state qs)
 		tmp = tmp->next;
 	}
 }
+
+// int main(void)
+// {
+// 	char *str = ft_strdup("echo * *");
+
+	
+// }
