@@ -153,6 +153,7 @@ void	ft_prompt(t_envvar **envp)
 		t_node *tree = ft_build_tree(tokens, envp);
 		treeprint(tree, 0);
 		printf("\n");
+		ft_clear_tree(tree);
 		builtin_cmd(line, envp, prompt);
 	}
 	if (line)

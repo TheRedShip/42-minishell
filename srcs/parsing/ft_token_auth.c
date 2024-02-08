@@ -79,7 +79,10 @@ void	ft_remove_braces(t_token **tokens)
 		{
 			ft_remove_token(&tmp);
 			if (!tmp)
+			{
+				*tokens = NULL;
 				continue ;
+			}
 			if (!tmp->prev)
 				*tokens = tmp;
 			continue ;
