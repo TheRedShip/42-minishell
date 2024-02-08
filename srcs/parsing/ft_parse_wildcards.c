@@ -6,12 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 23:45:38 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/09 00:05:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	ft_verif_wildcard(char *str)
 {
@@ -82,9 +81,9 @@ void	ft_format_wildcard(char **str)
 
 void	ft_wildcard_token(t_token **head, t_token **tokens)
 {
-	t_token *wctokens;
-	t_token *tail;
-	t_token	*tmp;
+	t_token		*wctokens;
+	t_token		*tail;
+	t_token		*tmp;
 
 	tail = (*tokens)->next;
 	wctokens = ft_tokenizer((*tokens)->str, QU_ZERO);

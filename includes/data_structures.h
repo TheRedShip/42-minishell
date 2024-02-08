@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_structures.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:15:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:15:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum e_token_type
 	TK_BINOPS = 0b00100,
 	TK_PIPEXS = 0b01000,
 	TK_REDIRS = 0b10000
-}   t_token_type;
+}	t_token_type;
 
 /**
  * @enum			e_quote_state
@@ -55,11 +55,11 @@ typedef enum e_quote_state
  */
 typedef struct s_token
 {
-	char            *str;
-	t_token_type    type;
+	char			*str;
+	t_token_type	type;
 	struct s_token	*next;
 	struct s_token	*prev;
-}   t_token;
+}	t_token;
 
 /**
  * @struct			s_envvar
@@ -93,7 +93,7 @@ typedef struct s_command
 	char		*path;
 	char		**args;
 	t_envvar	**envp;
-}   t_command;
+}	t_command;
 
 /**
  * @struct			s_node
@@ -183,7 +183,7 @@ t_token		*ft_tokenizer(char *str, t_quote_state qs);
  * 
  * @return			A pointer to the newly allocated t_envvar.
  */
-t_envvar    *ft_init_var(char *value);
+t_envvar	*ft_init_var(char *value);
 
 /**
  * @brief			Append var to the vars linked list.
@@ -271,7 +271,7 @@ int			ft_var_size(t_envvar *vars);
  * @return			A pointer to a newly allocated linked list containing
  * 					environment variables, with name and values.
 */
-t_envvar    *ft_setup_env(char **argv, char **envp);
+t_envvar	*ft_setup_env(char **argv, char **envp);
 
 /* T_NODE ******************************************************************* */
 
@@ -342,7 +342,7 @@ void		ft_display_node(t_node *tree);
  * 
  * @return			A pointer to the newly allocated t_command.
  */
-t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar **envp);
+t_command	*ft_init_command(int in, int out, char *raw_cmd, t_envvar **envp);
 
 /**
  * @brief			De-allocate a t_command.

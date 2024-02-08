@@ -59,7 +59,7 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 		}
 	}
 	else
-		return(EC_FAILED);
+		return (EC_FAILED);
 	return (EC_SUCCES);
 }
 

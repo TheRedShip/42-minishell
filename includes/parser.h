@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:17:14 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:18:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,7 @@ void		ft_format_tokens(t_token **tokens);
 */
 void		ft_wildcard_token(t_token **head, t_token **tokens);
 
-
 /* TREE ********************************************************************* */
-
 /**
  * @brief			Recursively build a binary syntax tree.
  * 
@@ -152,7 +150,6 @@ void		ft_wildcard_token(t_token **head, t_token **tokens);
  * @param env		Environment linked list.
 */
 t_node		*ft_build_tree(t_token *tokens, t_envvar **env);
-
 
 void		treeprint(t_node *root, int space);
 

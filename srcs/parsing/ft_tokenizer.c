@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenizer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/07 23:17:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:06:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_is_token(char *str, t_quote_state qs)
 {
 	char		**tmp;
-	static char *tokens[11] = {" ", "(", ")", "||", "&&", \
+	static char	*tokens[11] = {" ", "(", ")", "||", "&&", \
 								"|", ">>", ">", "<<", "<", NULL};
 
 	tmp = tokens;
@@ -43,7 +43,7 @@ t_token_type	ft_ttyper(char *str, t_quote_state qs)
 
 t_token	*ft_tokenizer(char *str, t_quote_state qs)
 {
-	t_token *token;
+	t_token	*token;
 	char	*tstring;
 	char	*tmp;
 	int		len;

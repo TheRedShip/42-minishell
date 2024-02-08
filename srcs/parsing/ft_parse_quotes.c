@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:47:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:05:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_dequote_string(char **str, t_quote_state qs)
 		if (ft_qs_update(*tmp, &qs))
 		{
 			tmp++;
-			continue;
+			continue ;
 		}
 		*(tmpr++) = *(tmp++);
 	}

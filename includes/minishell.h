@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                         :+:      :+:    :+:   */
+/*   minishell.h                                         :+:      :+:    :+:  */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __MINISHELL_H__
-# define __MINISHELL_H__
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -53,7 +53,10 @@
 
 /**
  * @brief				Exit Handler. 
- * (A LAVENIR CETTE MERDE DOIT FREE TOUT LE CODE JAI DEJA UNE IDEE ON VERRA PLUS TARD OUBLIE PAS LES STATIC ET LES DETOURNEMENTS DE NORME)
+ * (A LAVENIR CETTE MERDE DOIT FREE TOUT 
+ * LE CODE JAI DEJA UNE IDEE ON VERRA PLUS 
+ * TARD OUBLIE PAS LES STATIC ET LES 
+ * DETOURNEMENTS DE NORME)
  * 
  * @param exit_code		Exit code.
  * @param ec			Error code (see enum e_error_code).
@@ -62,10 +65,8 @@
 */
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt);
 
-
 /* ************************************************************************** */
 char	*ft_get_pwd(void);
-
 
 /* PARSING ****************************************************************** */
 char	*parse_quotes(char *string);
@@ -84,11 +85,11 @@ char	*ft_open_dquote(t_quote_state qs);
 
 /* SETUP ******************************************************************** */
 
-void		toggle_signal(int toggle);
+void	toggle_signal(int toggle);
 /* ************************************************************************** */
 
 void	ft_display_token(t_token *token);
 
-void start_execve(char *line, t_command *cmd);
+void	start_execve(char *line, t_command *cmd);
 
 #endif

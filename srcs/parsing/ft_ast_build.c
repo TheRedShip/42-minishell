@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ast_build.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:27:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:04:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env)
 {
 	t_node		*cmd_node;
 	t_token		*tmp;
-	int			fds[3];	// fds[0] = input file, fds[1] = output file, fds[2] = hd count
 	char		*raw;
+	int			fds[3];	// fds[0] = input file, fds[1] = output file, fds[2] = hd count
 
 	raw = NULL;
 	tmp = *tokens;
@@ -41,31 +41,31 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env)
 	return (cmd_node);
 }
 
-void treeprint(t_node *root, int space)
+void	treeprint(t_node *root, int space)
 {
-    if (root == NULL)
-        return;
-    space += 8;
-    treeprint(root->right, space);
+	if (root == NULL)
+		return ;
+	space += 8;
+	treeprint(root->right, space);
 	printf("\n");
 	for (int i = 8; i < space; i++)
 	{
-        printf(" ");
+		printf(" ");
 	}
 	if (root->command)
 	{
-    	printf("%s ", root->command->path);
+		printf("%s ", root->command->path);
 		printf("[%d] -> [%d]\n", root->command->infile, root->command->outfile);
 	}
 	if (root->token)
 		printf("%s\n", root->token->str);
-    treeprint(root->left, space);
+	treeprint(root->left, space);
 }
 
 void	ft_brace_tree(t_token **tk, t_node **tree, t_envvar **env)
 {
-	t_node *test;
-	int		level;
+	t_node		*test;
+	int			level;
 
 	test = ft_build_tree((*tk)->next, env);
 	level = 0;

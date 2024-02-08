@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/08 16:47:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:12:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	ft_valid_braces(t_token *tk)
 	if (!tk || !(tk->type & TK_BRACES && !ft_strncmp(tk->str, "(", 2)))
 		return (1);
 	tk = tk->next;
-	while (tk && (!(tk->type & TK_BRACES && !ft_strncmp(tk->str, ")", 2)) || level))
+	while (tk && (!(tk->type & TK_BRACES && \
+		!ft_strncmp(tk->str, ")", 2)) || level))
 	{
 		if (tk->type & TK_BRACES && !ft_strncmp(tk->str, "(", 2))
 			level++;
@@ -81,7 +82,7 @@ void	ft_remove_braces(t_token **tokens)
 				continue ;
 			if (!tmp->prev)
 				*tokens = tmp;
-			continue;
+			continue ;
 		}
 		tmp = tmp->next;
 	}

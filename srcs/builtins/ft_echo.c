@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-char *get_string(char **args)
+char	*get_string(char **args)
 {
-	int i;
-	char *string;
+	int		i;
+	char	*string;
 
 	string = NULL;
 	i = 1;
@@ -32,13 +32,13 @@ char *get_string(char **args)
 
 int	skip_string(char **args)
 {
-	int i;
-	int	j;
-	int total;
+	int		i;
+	int		j;
+	int		total;
 
 	i = 0;
 	total = 0;
-	while(args[i])
+	while (args[i])
 	{
 		j = 0;
 		if (args[i][j] != '-' || (args[i][j] == '-' && args[i][j + 1] == '\0'))
@@ -56,9 +56,10 @@ int	skip_string(char **args)
 
 int	ft_echo(t_command *cmd)
 {
-	int	i;
-	int	trailing;
-	char *string;
+	int		i;
+	int		trailing;
+	char	*string;
+
 	if (!cmd->args[0])
 	{
 		printf("\n");
@@ -67,7 +68,7 @@ int	ft_echo(t_command *cmd)
 	string = get_string(cmd->args);
 	i = skip_string(cmd->args + 1);
 	trailing = i == 0;
-	while(i < (int)(ft_strlen(string)) && string[i])
+	while (i < (int)(ft_strlen(string)) && string[i])
 	{
 		write(cmd->outfile, string + i, 1);
 		i++;
