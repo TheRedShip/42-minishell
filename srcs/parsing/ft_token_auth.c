@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rems <rems@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/08 16:47:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 23:54:45 by rems             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void	ft_remove_braces(t_token **tokens)
 		{
 			ft_remove_token(&tmp);
 			if (!tmp)
+			{
+				*tokens = NULL;
 				continue ;
+			}
 			if (!tmp->prev)
 				*tokens = tmp;
 			continue;

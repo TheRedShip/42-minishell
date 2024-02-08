@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_wildcards.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rems <rems@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:06:50 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 23:48:14 by rems             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_verif_wildcard(char *str)
 	qs = QU_ZERO;
 	if (!str || !*str)
 		return (0);
-	while (*tmp && (*tmp == '*' ^ qs != QU_ZERO))
+	while (*tmp && ((*tmp == '*') ^ (qs != QU_ZERO)))
 	{
 		ft_qs_update(*tmp, &qs);
 		tmp++;
