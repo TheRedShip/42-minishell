@@ -142,7 +142,7 @@ void	ft_prompt(t_envvar **envp)
 		END OF DEBUG
 	*/
 
-	if (tokens && (!ft_valid_token(tokens) || !ft_quote_syntax(line, QU_ZERO)))
+	if (tokens && (!ft_verify_token(tokens) || !ft_quote_syntax(line, QU_ZERO)))
 	{
 		ft_putstr_fd("minishell: syntax error\n", 1);
 		g_exit_code = 2;

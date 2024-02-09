@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/09 00:12:05 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/09 13:17:09 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,23 @@ int	ft_valid_token(t_token *t)
 		t = t->next;
 	}
 	if (t->type & (TK_BRACES | TK_STRING))
-		return (42);
+		return (1);
 	return (0);
 }
 
-int	ft_valid_braces(t_token *tk)
+int	ft_verify_brace(t_token *tokens)
+{
+
+}
+
+int ft_verify_token(t_token *tokens)
+{
+	if (ft_valid_token(tokens) != 42 || ft_verify_brace(tokens))
+		return (0);
+	return (1);
+}
+
+int	ft_verif_binop_brace(t_token *tk)
 {
 	int		isvalid;
 	int		level;
@@ -75,7 +87,7 @@ void	ft_remove_braces(t_token **tokens)
 	tmp = *tokens;
 	while (tmp)
 	{
-		if (!ft_valid_braces(tmp))
+		if (!ft_verif_binop_brace(tmp))
 		{
 			ft_remove_token(&tmp);
 			if (!tmp)
