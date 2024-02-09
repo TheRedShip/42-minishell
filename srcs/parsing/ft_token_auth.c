@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/09 14:01:46 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 15:55:03 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,20 @@ int	ft_valid_token(t_token *t)
 
 int	ft_verify_brace(t_token *tokens)
 {
-	(void) tokens;
+	int	braces;
 
-	return (1);
+	braces = 0;
+	while(tokens != NULL)
+	{
+		if ((tokens->type & TK_BRACES) && !ft_strncmp(tokens->str, "(", 2))
+			braces++;
+		else if ((tokens->type & TK_BRACES) && !ft_strncmp(tokens->str, ")", 2))
+			braces--;
+		if (braces < 0)
+			return (0);
+		tokens = tokens->next;
+	}
+	return (braces == 0);
 }
 
 int ft_verify_token(t_token *tokens)
