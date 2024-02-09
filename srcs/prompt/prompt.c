@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-extern int g_exit_code;
+extern int	g_exit_code;
 
-void start_execve(char *line, t_command *cmd)
+void	start_execve(char *line, t_command *cmd)
 {
-	char **env;
-	pid_t pid;
-	int status;
+	char	**env;
+	pid_t	pid;
+	int		status;
 
 	(void) line;
 	if (!cmd->args)
@@ -58,11 +58,11 @@ void start_execve(char *line, t_command *cmd)
 	toggle_signal(1);
 }
 
-void	builtin_cmd(char *line, t_envvar **envp, char *prompt) //FAUT FREE LA LINE si EXIT
+void	builtin_cmd(char *line, t_envvar **envp, char *prompt)
 {
-	t_command	*test = ft_init_command(0, 1, line, envp);
+	t_command	*test;
 
-	(void) envp;
+	test = ft_init_command(0, 1, line, envp);
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
 		g_exit_code = ft_exit(test, line, prompt);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
@@ -77,8 +77,6 @@ void	builtin_cmd(char *line, t_envvar **envp, char *prompt) //FAUT FREE LA LINE 
 		g_exit_code = ft_pwd(test);
 	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
 		g_exit_code = ft_cd(test);
-	else if (!ft_strncmp(line, "level", 6))									//DEBUG ONLY ne pas toucher
-		printf("le level shell est %s\n", ft_get_var(*envp, "SHLVL")->values[0]);
 	else
 		start_execve(line, test);
 	ft_del_command(test);
@@ -89,11 +87,10 @@ void	ft_prompt(t_envvar **envp)
 	char	*line;
 	char	*prompt;
 	char	*tmp;
-	t_token *tokens;
+	t_token	*tokens;
 
 	prompt = ft_get_prompt_string(*envp);
 	line = readline(prompt);
-	//											A DECOMMENTER POUR ACTIVER LES DQUOTES (VOITR LIGNE 106-108 AUSSI)
 	// toggle_signal(2);
 	// ft_quote_enforcer(&line, QU_ZERO);
 	// toggle_signal(1);
@@ -144,7 +141,7 @@ void	ft_prompt(t_envvar **envp)
 		END OF DEBUG
 	*/
 
-	if (tokens && (!ft_valid_token(tokens) || !ft_quote_syntax(line, QU_ZERO)))
+	if (tokens && (!ft_verify_token(tokens) || !ft_quote_syntax(line, QU_ZERO)))
 	{
 		ft_putstr_fd("minishell: syntax error\n", 1);
 		g_exit_code = 2;
@@ -156,6 +153,7 @@ void	ft_prompt(t_envvar **envp)
 		treeprint(tree, 0);
 		ft_clear_tree(tree);
 		printf("\n");
+		ft_clear_tree(tree);
 		builtin_cmd(line, envp, prompt);
 	}
 	if (line)
@@ -174,9 +172,9 @@ char	*ft_trim_pwd(char *str)
 
 char	*ft_get_prompt_string(t_envvar *envp)
 {
-	static		t_envvar *save = NULL;
-	char		*prompt;
-	char		*pwd;
+	static t_envvar		*save = NULL;
+	char				*prompt;
+	char				*pwd;
 
 	if (envp)
 		save = envp;

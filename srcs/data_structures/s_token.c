@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_token.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rems <rems@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:25:45 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 12:50:12 by rems             ###   ########.fr       */
+/*   Updated: 2024/02/09 00:00:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_add_token(t_token **tokens, t_token *next)
 
 void	ft_remove_token(t_token **tokens)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	if ((*tokens)->prev)
 	{
@@ -93,7 +93,7 @@ void	ft_del_token(t_token *token)
 
 void	ft_clear_token_list(t_token *tokens)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	while (tokens)
 	{

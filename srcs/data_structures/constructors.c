@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   constructors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:14:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 23:58:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_envvar    *ft_init_var(char *value)
+t_envvar	*ft_init_var(char *value)
 {
-	t_envvar    *new_var;
+	t_envvar	*new_var;
 	char		*equal;
-	char        *name;
 	char		**tmp;
 
-	(void) name;
 	new_var = malloc(sizeof(t_envvar));
 	if (!new_var)
 		return (NULL);
@@ -40,7 +38,7 @@ t_envvar    *ft_init_var(char *value)
 	return (new_var);
 }
 
-t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar **envp)
+t_command	*ft_init_command(int in, int out, char *raw_cmd, t_envvar **envp)
 {
 	t_command	*new_command;
 	char		**args;
@@ -48,8 +46,8 @@ t_command	*ft_init_command(int input, int output, char *raw_cmd, t_envvar **envp
 	new_command = malloc(sizeof(t_command));
 	if (!new_command)
 		return (NULL);
-	new_command->infile = input;
-	new_command->outfile = output;
+	new_command->infile = in;
+	new_command->outfile = out;
 	new_command->path = NULL;
 	args = ft_split(raw_cmd, ' ');
 	if (args && args[0])
@@ -75,7 +73,7 @@ t_node	*ft_init_node(t_command *command, t_token *token)
 
 t_token	*ft_init_token(char *str, t_token_type type)
 {
-	t_token *new_token;
+	t_token	*new_token;
 
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)

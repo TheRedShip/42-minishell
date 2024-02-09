@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 14:15:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 23:56:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_show_export_list(t_command *cmd)
 int	ft_export_var(t_command *cmd, char *tmp)
 {
 	char	**var;
-	
+
 	if (ft_strchr(tmp, '='))
 	{
 		var = ft_split(tmp, '=');
@@ -90,7 +90,8 @@ int	ft_export(t_command *cmd)
 		{
 			if (!ft_export_syntaxer(*tmp))
 			{
-				printf("minishell: export: '%s': not a valid identifier\n", *tmp);
+				printf("minishell: export: '%s':\
+					not a valid identifier\n", *tmp);
 				return (EC_FAILED);
 			}
 			if (ft_export_var(cmd, *(tmp)))

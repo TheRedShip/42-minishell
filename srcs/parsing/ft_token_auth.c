@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/09 13:15:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:19:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,23 @@ int	ft_valid_token(t_token *t)
 		t = t->next;
 	}
 	if (t->type & (TK_BRACES | TK_STRING))
-		return (42);
+		return (1);
 	return (0);
 }
 
-int	ft_valid_braces(t_token *tk)
+int	ft_verify_brace(t_token *tokens)
+{
+
+}
+
+int ft_verify_token(t_token *tokens)
+{
+	if (ft_valid_token(tokens) != 42 || ft_verify_brace(tokens))
+		return (0);
+	return (1);
+}
+
+int	ft_verif_binop_brace(t_token *tk)
 {
 	int		isvalid;
 	int		level;
@@ -50,7 +62,8 @@ int	ft_valid_braces(t_token *tk)
 	if (!tk || !(tk->type & TK_BRACES && !ft_strncmp(tk->str, "(", 2)))
 		return (1);
 	tk = tk->next;
-	while (tk && (!(tk->type & TK_BRACES && !ft_strncmp(tk->str, ")", 2)) || level))
+	while (tk && (!(tk->type & TK_BRACES && \
+		!ft_strncmp(tk->str, ")", 2)) || level))
 	{
 		if (tk->type & TK_BRACES && !ft_strncmp(tk->str, "(", 2))
 			level++;
@@ -74,14 +87,17 @@ void	ft_remove_braces(t_token **tokens)
 	tmp = *tokens;
 	while (tmp)
 	{
-		if (!ft_valid_braces(tmp))
+		if (!ft_verif_binop_brace(tmp))
 		{
 			ft_remove_token(&tmp);
 			if (!tmp)
+			{
+				*tokens = NULL;
 				continue ;
+			}
 			if (!tmp->prev)
 				*tokens = tmp;
-			continue;
+			continue ;
 		}
 		tmp = tmp->next;
 	}

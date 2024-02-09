@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setup_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/05 20:19:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:10:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ t_envvar	*ft_update_env(t_envvar **env)
 	return (envlist);
 }
 
-void	ft_create_env(t_envvar **env,  char **argv)
+void	ft_create_env(t_envvar **env, char **argv)
 {
-	(void) env;
 	char	*tmp;
 
 	ft_set_var(env, "OLDPWD", NULL);
@@ -33,13 +32,12 @@ void	ft_create_env(t_envvar **env,  char **argv)
 	ft_set_var(env, "_", tmp);
 }
 
-t_envvar    *ft_setup_env(char **argv, char **envp)
+t_envvar	*ft_setup_env(char **argv, char **envp)
 {
-	t_envvar    *env;
+	t_envvar	*env;
 	char		*tmp;
-	int         i;
+	int			i;
 
-	(void) envp;
 	i = -1;
 	env = NULL;
 	tmp = NULL;

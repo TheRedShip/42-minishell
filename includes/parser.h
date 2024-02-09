@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:17:14 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:01:42 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			ft_is_token(char *str, t_quote_state qs);
  * 
  * @return			1 in case of valid group, 0 otherwise.
 */
-int			ft_valid_braces(t_token *tk);
+int			ft_verif_binop_brace(t_token *tk);
 
 /**
  * @brief			Update linked list, deleting useless brace tokens.
@@ -100,7 +100,7 @@ void		ft_remove_braces(t_token **tokens);
  * 
  * @return			1 if the linked list is valid, 0 otherwise.
 */
-int			ft_valid_token(t_token *tokens);
+int		ft_verify_token(t_token *tokens);
 
 /* WILDCARD ***************************************************************** */
 
@@ -142,9 +142,7 @@ void		ft_format_tokens(t_token **tokens);
 */
 void		ft_wildcard_token(t_token **head, t_token **tokens);
 
-
 /* TREE ********************************************************************* */
-
 /**
  * @brief			Recursively build a binary syntax tree.
  * 
@@ -152,7 +150,6 @@ void		ft_wildcard_token(t_token **head, t_token **tokens);
  * @param env		Environment linked list.
 */
 t_node		*ft_build_tree(t_token *tokens, t_envvar **env);
-
 
 void		treeprint(t_node *root, int space);
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   s_envvar.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:33:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 18:27:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/08 23:58:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    ft_add_var(t_envvar **vars, t_envvar *var)
+void	ft_add_var(t_envvar **vars, t_envvar *var)
 {
 	t_envvar	*tmp;
 
