@@ -17,7 +17,6 @@ extern int	g_exit_code;
 static void	signal_handler(int signal)
 {
     // char    *prompt;
-
 	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
 	if (signal == 2)
 	{

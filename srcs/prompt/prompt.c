@@ -41,7 +41,6 @@ void start_execve(char *line, t_command *cmd)
 	else if (pid < 0)
 		perror("fork");
 	waitpid(pid, &status, 0);
-	toggle_signal(1);
 	g_exit_code = WEXITSTATUS(status);
 	if (!WIFEXITED(status) && WCOREDUMP(status))
 	{
@@ -56,6 +55,7 @@ void start_execve(char *line, t_command *cmd)
 	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
 		ft_print_logo(*(cmd->envp));
 	ft_free_tab((void **)(env));
+	toggle_signal(1);
 }
 
 void	builtin_cmd(char *line, t_envvar **envp, char *prompt) //FAUT FREE LA LINE si EXIT
@@ -96,7 +96,7 @@ void	ft_prompt(t_envvar **envp)
 	//											A DECOMMENTER POUR ACTIVER LES DQUOTES (VOITR LIGNE 106-108 AUSSI)
 	// toggle_signal(2);
 	// ft_quote_enforcer(&line, QU_ZERO);
-	toggle_signal(1);
+	// toggle_signal(1);
 	if (!line)
 	{
 		ft_clear_env(*envp);
@@ -111,8 +111,7 @@ void	ft_prompt(t_envvar **envp)
 	tokens = ft_tokenizer(line, QU_ZERO);
 	
 	/*
-		DEBUG SECTION	
-	
+		DEBUG SECTION
 	*/
 	t_token *t;
 	t = tokens;
@@ -155,6 +154,7 @@ void	ft_prompt(t_envvar **envp)
 		/* regale toi yavin ca affiche larbre apres chaque commande */
 		t_node *tree = ft_build_tree(tokens, envp);
 		treeprint(tree, 0);
+		ft_clear_tree(tree);
 		printf("\n");
 		builtin_cmd(line, envp, prompt);
 	}

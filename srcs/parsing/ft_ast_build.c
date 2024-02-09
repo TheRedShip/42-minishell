@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:27:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:37:19 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env)
 	while (tmp && (tmp->type & (TK_STRING | TK_REDIRS)))
 	{
 		if (tmp->type & TK_REDIRS)
-			ft_manage_inputs(&tmp, &(fds[0]), &(fds[2]));
-		if (tmp->type & TK_REDIRS)
-			ft_manage_outputs(&tmp, &(fds[1]));
-		else if (tmp->type & TK_STRING)
 		{
-			raw = ft_strjoin(raw, tmp->str, " ", 0b01);
-			tmp = tmp->next;
+			ft_manage_inputs(&tmp, &(fds[0]), &(fds[2]));
+			ft_manage_outputs(&tmp, &(fds[1]));
 		}
+		else if (tmp->type & TK_STRING)
+			raw = ft_strjoin(raw, tmp->str, " ", 0b01);
+		tmp = tmp->next;
 	}
 	cmd_node = ft_init_node(ft_init_command(fds[0], fds[1], raw, env), NULL);
 	free(raw);
@@ -142,13 +141,13 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 // 	(void) argc;
 
 // 	// char *str = ft_strdup("echo bonjour && (echo bonjour | (rev || cat && rev | (rev|cat)))");
-// 	char *str = ft_strdup("echo bonjour >> out && (<inf echo bonjour | ((<<EOF revc || cat && rev) | (rev|cat)))");
+// 	char *str = ft_strdup("< Makefile << EOF cat >> out > test > out2");
 // 	// char *str = ft_strdup("echo abcd | rev && echo bef");
 // 	// char *str = ft_strdup("echo bonjour | rev && rev | cat | cat | cat");
 
 
 // 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
-// 	ft_format_tokens(tokens, QU_ZERO);
+// 	ft_format_tokens(&tokens);
 // 	ft_remove_braces(&tokens);
 
 // 	t_token *t;
@@ -181,7 +180,7 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 // 	// printf("\n---------------------------------------------\n");
 
 // 	t_envvar *env = ft_setup_env(argv, envp);
-// 	t_node *tree = ft_build_tree(tokens, 0, &env);
+// 	t_node *tree = ft_build_tree(tokens, &env);
 // 	treeprint(tree, 0);
 // 	// ft_display_node(tree);
 

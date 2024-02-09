@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 22:47:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:43:44 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,10 @@ void	ft_format_tokens(t_token **tokens)
 		og = ft_strdup(tmp->str);
 		if (tmp->type & TK_STRING)
 			ft_dequote_string(&(tmp->str), QU_ZERO);
-		if (!*(tmp->str))
-		{
-			ft_remove_token(&tmp);
-			if (!tmp)
-				*tokens = NULL;
-		}
+		if (ft_verif_wildcard(og))
+			ft_replace_wildcard(tokens, &tmp, &wcs);
 		else
-		{
-			if (ft_verif_wildcard(og))
-				ft_replace_wildcard(tokens, &tmp, &wcs);
-			else
-				tmp = tmp->next;
-		}
+			tmp = tmp->next;
 		free(og);
 	}
 }
