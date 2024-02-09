@@ -32,12 +32,6 @@ void	ign(int signal)
 	(void)signal;
 }
 
-void	testdquote(int signal)
-{
-	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
-	(void) signal;
-}
-
 void	toggle_signal(int toggle)
 {
 	struct termios	term_data;
@@ -56,12 +50,5 @@ void	toggle_signal(int toggle)
 		tcsetattr(0, 0, &term_data);
 		signal(SIGINT, ign);
 		signal(SIGQUIT, ign);
-	}
-	else if (toggle == 2)
-	{
-		term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
-		tcsetattr(0, 0, &term_data);
-		signal(SIGINT, testdquote);
-		signal(SIGQUIT, testdquote);
 	}
 }
