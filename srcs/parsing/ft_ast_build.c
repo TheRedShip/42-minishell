@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/09 13:19:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 15:22:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env)
 	t_node		*cmd_node;
 	t_token		*tmp;
 	char		*raw;
-	int			fds[3];	// fds[0] = input file, fds[1] = output file, fds[2] = hd count
+	int			fds[3];
 
 	raw = NULL;
 	tmp = *tokens;
@@ -31,7 +31,7 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env)
 			ft_manage_outputs(&tmp, &(fds[1]));
 		}
 		else if (tmp->type & TK_STRING)
-			raw = ft_strjoin(raw, tmp->str, " ", 0b01);
+			raw = ft_strjoin(raw, tmp->str, "\05", 0b01);
 		tmp = tmp->next;
 	}
 	cmd_node = ft_init_node(ft_init_command(fds[0], fds[1], raw, env), NULL);
@@ -53,11 +53,11 @@ void	treeprint(t_node *root, int space)
 	}
 	if (root->command)
 	{
-		printf("%s ", root->command->path);
+		printf(" %s ", root->command->path);
 		printf("[%d] -> [%d]\n", root->command->infile, root->command->outfile);
 	}
 	if (root->token)
-		printf("%s\n", root->token->str);
+		printf("[%s]\n", root->token->str);
 	treeprint(root->left, space);
 }
 
@@ -90,6 +90,7 @@ void	ft_connect_ops(t_token **tk, t_node **tree, t_envvar **env)
 	t_token	*tmp;
 
 	tmp = ft_dup_token(*tk);
+	printf("DEBUG : DUPPED TOKEN ADRESS: %p %s %d\n", tmp , tmp->str, tmp->type);
 	if ((*tk)->type & TK_BINOPS)
 		ft_associate(tree, ft_build_tree((*tk)->next, env), NULL, tmp);
 	else if ((*tk)->type & TK_PIPEXS)
@@ -119,7 +120,8 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 		if (!tokens)
 			return (tree);
 		tmp = tokens->type;
-		ft_connect_ops(&tokens, &tree, env);
+		if (tmp & (TK_BINOPS | TK_PIPEXS))
+			ft_connect_ops(&tokens, &tree, env);
 		if (tmp & TK_BINOPS)
 			return (tree);
 	}
@@ -141,7 +143,7 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 // 	(void) argc;
 
 // 	// char *str = ft_strdup("echo bonjour && (echo bonjour | (rev || cat && rev | (rev|cat)))");
-// 	char *str = ft_strdup("< Makefile << EOF cat >> out > test > out2");
+// 	char *str = ft_strdup("(echo a | rev) || (echo a | (cat && rev)) | (echo a | rev) || (echo a | (cat && rev)) && echo bonjour && (echo bonjour | (rev || cat && rev | (rev|cat)))");
 // 	// char *str = ft_strdup("echo abcd | rev && echo bef");
 // 	// char *str = ft_strdup("echo bonjour | rev && rev | cat | cat | cat");
 
@@ -162,7 +164,7 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 // 	printf("\n---------------------------------------------\n");
 
 
-// 	if (tokens && !ft_valid_token(tokens))
+// 	if (tokens && !ft_verify_token(tokens))
 // 	{
 // 		ft_putstr_fd("minishell: syntax error\n", 1);
 // 		exit(EC_FAILED);

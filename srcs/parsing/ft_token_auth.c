@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/09 13:19:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:01:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ int	ft_valid_token(t_token *t)
 
 int	ft_verify_brace(t_token *tokens)
 {
+	(void) tokens;
 
+	return (1);
 }
 
 int ft_verify_token(t_token *tokens)
 {
-	if (ft_valid_token(tokens) != 42 || ft_verify_brace(tokens))
+	if (!ft_valid_token(tokens) || !ft_verify_brace(tokens))
 		return (0);
 	return (1);
 }

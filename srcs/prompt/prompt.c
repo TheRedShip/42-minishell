@@ -58,11 +58,8 @@ void	start_execve(char *line, t_command *cmd)
 	toggle_signal(1);
 }
 
-void	builtin_cmd(char *line, t_envvar **envp, char *prompt)
+void	builtin_cmd(char *line, char *prompt, t_command *test)
 {
-	t_command	*test;
-
-	test = ft_init_command(0, 1, line, envp);
 	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
 		g_exit_code = ft_exit(test, line, prompt);
 	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
@@ -79,7 +76,7 @@ void	builtin_cmd(char *line, t_envvar **envp, char *prompt)
 		g_exit_code = ft_cd(test);
 	else
 		start_execve(line, test);
-	ft_del_command(test);
+	// ft_del_command(test);
 }
 
 void	ft_prompt(t_envvar **envp)
@@ -151,10 +148,14 @@ void	ft_prompt(t_envvar **envp)
 		/* regale toi yavin ca affiche larbre apres chaque commande */
 		t_node *tree = ft_build_tree(tokens, envp);
 		treeprint(tree, 0);
-		ft_clear_tree(tree);
+		ft_display_node(tree);
 		printf("\n");
+		t_node *first_command;
+		first_command = tree;
+		while (!(first_command->command))
+			first_command = first_command->left;
+		builtin_cmd(line, prompt, first_command->command);
 		ft_clear_tree(tree);
-		builtin_cmd(line, envp, prompt);
 	}
 	if (line)
 		free(line);
