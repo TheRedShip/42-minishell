@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_structures.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/09 00:15:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/11 23:13:36 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,12 +337,12 @@ void		ft_display_node(t_node *tree);
  * 
  * @param input		Input file descriptor
  * @param output	Output file descriptor
- * @param raw_cmd	Raw command string
+ * @param args		Args string array.
  * @param envp		Envp linked list adress.
  * 
  * @return			A pointer to the newly allocated t_command.
  */
-t_command	*ft_init_command(int in, int out, char *raw_cmd, t_envvar **envp);
+t_command	*ft_init_command(int in, int out, char **args, t_envvar **envp);
 
 /**
  * @brief			De-allocate a t_command.

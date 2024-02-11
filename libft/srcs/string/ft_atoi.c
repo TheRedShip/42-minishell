@@ -6,37 +6,11 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:38:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/04 14:40:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/11 20:24:37 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-// int	ft_atoi(char *nptr)
-// {
-// 	int	i;
-// 	int	sign;
-// 	int	sum;
-
-// 	i = 0;
-// 	sign = 1;
-// 	sum = 0;
-// 	while (*(nptr + i) == 32 || (*(nptr + i) >= 9 && *(nptr + i) <= 13))
-// 		i++;
-// 	if (*(nptr + i) == 43 || *(nptr + i) == 45)
-// 	{
-// 		if (*(nptr + i) == 45)
-// 			sign = -1;
-// 		i++;
-// 	}
-// 	while (*(nptr + i) >= 48 && *(nptr + i) <= 57)
-// 	{
-// 		sum *= 10;
-// 		sum += (*(nptr + i) - 48);
-// 		i++;
-// 	}
-// 	return (sign * sum);
-// }
 
 int	ft_atoi(char *nptr)
 {
@@ -51,5 +25,40 @@ int	ft_atoi(char *nptr)
 		sign = (int) 2 * (0.5 - (*(nptr++) == '-'));
 	while (ft_isdigit(*nptr))
 		n = n * 10 + (int){*(nptr++) - '0'};
+	return (sign * n);
+}
+
+static inline int	ft_index(char *str, char c)
+{
+	char	*tmp;
+
+	tmp = str;
+	while (*tmp && *tmp != c)
+		tmp++;
+	if (!tmp)
+		return (0);
+	return (tmp - str);
+}
+
+int	ft_atoi_base(char *nptr, int base)
+{
+	static char	base_s[17] = "0123456789abcdef";
+	long		n;
+	int			i;
+	int			sign;
+
+	n = 0;
+	sign = 1;
+	while (ft_isspace(*nptr))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
+		sign = (int) 2 * (0.5 - (*(nptr++) == '-'));
+	while (*nptr)
+	{
+		i = ft_index(base_s, *(nptr++));
+		if (i < 0)
+			return (0);
+		n = n * base + i;
+	}
 	return (sign * n);
 }

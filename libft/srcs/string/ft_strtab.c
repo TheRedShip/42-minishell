@@ -1,18 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_strtab.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 13:47:09 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/11 20:24:47 by rgramati         ###   ########.fr       */
+/*   Created: 2024/02/11 21:35:11 by rgramati          #+#    #+#             */
+/*   Updated: 2024/02/11 23:15:06 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalnum(int c)
+char	**ft_strtab(char *str)
 {
-	return (ft_isalpha(c) || ft_isdigit(c));
+	char	**tab;
+
+	tab = malloc(2 * sizeof(char *));
+	*tab = str;
+	*(tab + 1) = NULL;
+	return (tab);
+}
+
+void	ft_strapp(char ***tab, char *str)
+{
+	char	**tmp;
+	char	**ttmp;
+	char	**res;
+
+	tmp = *tab;
+	while (tmp && *tmp)
+		tmp++;
+	res = malloc((tmp - *tab + 2) * sizeof(char *));
+	tmp = *tab;
+	ttmp = res;
+	while (tmp && *tmp)
+		*(ttmp++) = *(tmp++);
+	*(ttmp++) = str;
+	*ttmp = 0;
+	free(*tab);
+	*tab = res;
 }

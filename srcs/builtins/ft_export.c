@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 23:56:58 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/11 23:33:22 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,26 @@ int	ft_export_var(t_command *cmd, char *tmp)
 
 int	ft_export(t_command *cmd)
 {
-	char	**tmp;
+	char			**tmp;
+	t_error_code	errcode;
+	static	char 	err[] = "minishell: export: `%s': not a valid identifier\n";
 
 	tmp = cmd->args;
-	if (ft_tab_len(tmp) == 1)
-	{
-		if (ft_show_export_list(cmd))
-			return (EC_FAILED);
-	}
+	ft_display_command(cmd);
+	if (ft_tab_len(tmp) == 1 && ft_show_export_list(cmd))
+		errcode = EC_FAILED;
 	else
 	{
 		while (*(++tmp))
 		{
 			if (!ft_export_syntaxer(*tmp))
 			{
-				printf("minishell: export: '%s':\
-					not a valid identifier\n", *tmp);
-				return (EC_FAILED);
+				printf(err, *tmp);
+				errcode = EC_FAILED;
 			}
 			if (ft_export_var(cmd, *(tmp)))
-				return (EC_FAILED);
+				errcode = EC_FAILED;
 		}
 	}
-	return (EC_SUCCES);
+	return (errcode);
 }

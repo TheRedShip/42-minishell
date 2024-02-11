@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 13:16:25 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 19:48:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/11 21:49:44 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ size_t	ft_strlcpy(char *dst, char *src, size_t size);
 char	*ft_strchr(char *s, int c);
 char	*ft_strrchr(char *s, int c);
 int		ft_atoi(char *nptr);
+int		ft_atoi_base(char *nptr, int base);
 double	ft_atof(char *str, int depth);
 char	*ft_strdup(char *s);
 char	*ft_strndup(char *str, int n);
@@ -157,6 +158,8 @@ int		ft_strcspn(char *s, char *rejects);
 char	*ft_strtok(char *str, char *token);
 int		ft_wc(char *str, char delim);
 int		ft_tab_len(char **tab);
+char	**ft_strtab(char *str);
+void	ft_strapp(char ***tab, char *str);
 
 /**
  * @brief		Returns a lowercase copy of a string.

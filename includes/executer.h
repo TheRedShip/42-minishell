@@ -6,12 +6,31 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 16:17:05 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/09 17:45:00 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTER_H
 # define EXECUTER_H
+
+/* TYPEDEFS ***************************************************************** */
+
+/**
+ * @struct			s_envvar
+ * @brief			Environment variable linked list node.
+ * 
+ * @param input		(int)			Input file descriptor.
+ * @param output	(int)			Output file descriptor.
+ * @param pipe_fd	(int[2])		Next element.
+ */
+typedef struct s_executor
+{
+	int	input;
+	int	output;
+	int	pipe_fd[2];
+}	t_executor;
+
+/* MANAGER ****************************************************************** */
 
 /**
  * @brief			Manage input redirections.

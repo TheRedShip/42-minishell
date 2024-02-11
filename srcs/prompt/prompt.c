@@ -148,7 +148,6 @@ void	ft_prompt(t_envvar **envp)
 		/* regale toi yavin ca affiche larbre apres chaque commande */
 		t_node *tree = ft_build_tree(tokens, envp);
 		treeprint(tree, 0);
-		ft_display_node(tree);
 		printf("\n");
 		t_node *first_command;
 		first_command = tree;

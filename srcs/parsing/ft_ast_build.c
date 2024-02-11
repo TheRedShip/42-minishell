@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/09 15:22:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/11 23:15:58 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env)
 {
 	t_node		*cmd_node;
 	t_token		*tmp;
-	char		*raw;
+	char		**args;
 	int			fds[3];
 
-	raw = NULL;
+	args = NULL;
 	tmp = *tokens;
 	ft_memset(fds, 0, 3 * sizeof(int));
 	fds[1] = 1;
@@ -31,11 +31,10 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env)
 			ft_manage_outputs(&tmp, &(fds[1]));
 		}
 		else if (tmp->type & TK_STRING)
-			raw = ft_strjoin(raw, tmp->str, "\05", 0b01);
+			ft_strapp(&args, ft_strdup(tmp->str));
 		tmp = tmp->next;
 	}
-	cmd_node = ft_init_node(ft_init_command(fds[0], fds[1], raw, env), NULL);
-	free(raw);
+	cmd_node = ft_init_node(ft_init_command(fds[0], fds[1], args, env), NULL);
 	*tokens = tmp;
 	return (cmd_node);
 }
@@ -90,7 +89,6 @@ void	ft_connect_ops(t_token **tk, t_node **tree, t_envvar **env)
 	t_token	*tmp;
 
 	tmp = ft_dup_token(*tk);
-	printf("DEBUG : DUPPED TOKEN ADRESS: %p %s %d\n", tmp , tmp->str, tmp->type);
 	if ((*tk)->type & TK_BINOPS)
 		ft_associate(tree, ft_build_tree((*tk)->next, env), NULL, tmp);
 	else if ((*tk)->type & TK_PIPEXS)

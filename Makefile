@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/09 14:23:12 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/11 19:09:23 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRC_PARSING	:=  parsing/ft_ast_build.c \
 				parsing/ft_tokenizer.c \
 				parsing/utils.c
 
-SRC_EXEC	:=	execution/ft_file_manager.c
+SRC_EXEC	:=	execution/ft_file_manager.c \
+				execution/ft_pipe_exec.c
 
 SRC_PROMPT	:=  prompt/prompt.c \
 				prompt/ft_dquotes.c
@@ -67,7 +68,7 @@ OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 HEADERS		:=	includes/builtins.h includes/minishell.h includes/data_structures.h includes/executer.h
 
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -g -pg
+CFLAGS      := -Wall -Wextra -Werror -g
 IFLAGS	    := -I $(LFT_DIR)/includes -I ./includes
 
 RM          := rm -rf
