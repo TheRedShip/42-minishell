@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:38:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/11 20:24:37 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/11 23:50:29 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_atoi_base(char *nptr, int base)
 	{
 		i = ft_index(base_s, *(nptr++));
 		if (i < 0)
-			return (0);
+			return (-1);
 		n = n * base + i;
 	}
 	return (sign * n);

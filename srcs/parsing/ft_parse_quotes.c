@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/09 13:19:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 00:21:51 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	ft_dequote_string(char **str, t_quote_state qs)
 
 void	ft_replace_wildcard(t_token **tokens, t_token **tmp, char **wcs)
 {
+	*wcs = ft_wildcard_string((*tmp)->str);
 	free((*tmp)->str);
-	*wcs = ft_wildcard_string();
 	ft_format_wildcard(wcs);
 	(*tmp)->str = ft_strdup(*wcs);
 	ft_wildcard_token(tokens, tmp);

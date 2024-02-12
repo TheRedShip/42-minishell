@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/09 13:01:42 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/12 00:24:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,11 @@ int			ft_verif_wildcard(char *str);
 /**
  * @brief			Get current directory wildcard string.
  * 
+ * @param wcstr		wilcard string rule.
+ * 
  * @return			Wildcard string, not sorted.
 */
-char		*ft_wildcard_string(void);
+char		*ft_wildcard_string(char *wcstr);
 
 /**
  * @brief			Format a wildcard string by sorting.

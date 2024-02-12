@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_wildcards.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rems <rems@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/09 00:05:57 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/12 00:35:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,21 @@ int	ft_verif_wildcard(char *str)
 	return (!*tmp && (tmp != str));
 }
 
-char	*ft_wildcard_string(void)
+//en construction faut gerer les wildcards un peu plus pousses sinon cest pas bo.
+// int	ft_wc_rule(char *dname, char *wcrule)
+// {
+// 	char	*rule;
+// 	char	*tmp;
+
+// 	rule = ft_strnstr(dname, ft_strrchr(wcrule, '*') + 1, ft_strlen(dname));
+// 	if (!rule)
+// 		return (EC_FAILED);
+// 	tmp = ;
+// 	while (*tmp &&)
+
+// }
+
+char	*ft_wildcard_string(char *wcstr)
 {
 	char			*wildcard;
 	DIR				*cdir;
@@ -44,7 +58,8 @@ char	*ft_wildcard_string(void)
 	cdir_entry = readdir(cdir);
 	while (cdir_entry)
 	{
-		if (*(cdir_entry->d_name) != '.')
+		if (*(cdir_entry->d_name) != '.' && \
+			!ft_wc_rule(cdir_entry->d_name, wcstr))
 		{
 			if (!wildcard)
 				wildcard = ft_strjoin(wildcard, cdir_entry->d_name, NULL, 0b01);

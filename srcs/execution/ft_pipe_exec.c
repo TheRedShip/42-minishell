@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/11 20:50:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 00:09:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,16 @@
 // 	char		*command = NULL;
 // 	t_envvar	*environment = ft_setup_env(argv, envp);
 // 	t_token		*token_list;
-// 	int			fd_command = open("../../commands.tst", O_RDONLY);
-// 	char		**test_commands;
+// 	int			fd_command;;
+// 	char		**test_commands = NULL;
 // 	char		*line;
 
 // 	(void) argc;
+// 	fd_command = open("commands.tst", O_RDONLY);
 // 	printf("%d\n", fd_command);
 // 	while ((line = get_next_line(fd_command)))
-// 		command = ft_strjoin(command, line, NULL, 0b01);
+// 		ft_strapp(&test_commands, ft_strtrim(line, "\n"));
 // 	close(fd_command);
-
-// 	test_commands = ft_split(command, '\n');
 // 	free(command);
 
 // 	while (1)
@@ -80,14 +79,12 @@
 // 		if (!command)
 // 			continue ;
 // 		int cmd_num = ft_atoi_base(command, 16);
+// 		free(command);
+// 		if (cmd_num < 0 || cmd_num > 16)
+// 			continue ;
 // 		if (!cmd_num)
-// 		{
-// 			if (command)
-// 				free(command);
-// 			ft_clear_env(environment);
-// 			exit(EXIT_FAILURE);
-// 		}
-
+// 			continue ;
+// 		command = ft_strdup(*(test_commands + cmd_num));
 // 		token_list = ft_tokenizer(command, QU_ZERO);
 // 		ft_format_tokens(&token_list);
 // 		ft_remove_braces(&token_list);
@@ -105,6 +102,8 @@
 // 		ft_clear_token_list(token_list);
 // 		ft_clear_tree(tree);
 // 		free(command);
+// 		command = readline("");
+// 		printf("\033c");
 // 	}
 // 	ft_clear_env(environment);
 // }
