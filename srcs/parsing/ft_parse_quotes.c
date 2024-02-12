@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 00:21:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:39:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,22 @@ void	ft_dequote_string(char **str, t_quote_state qs)
 	*str = res;
 }
 
-void	ft_replace_wildcard(t_token **tokens, t_token **tmp, char **wcs)
+void	ft_replace_wildcard(t_token **tokens, t_token **tmp)
 {
-	*wcs = ft_wildcard_string((*tmp)->str);
+	char	**files;
+	char	*wcs;
+
+	files = ft_wildcard_array((*tmp)->str);
 	free((*tmp)->str);
-	ft_format_wildcard(wcs);
-	(*tmp)->str = ft_strdup(*wcs);
+	wcs = ft_format_wildcard(&files);
+	(*tmp)->str = ft_strdup(wcs);
 	ft_wildcard_token(tokens, tmp);
-	free(*wcs);
+	free(wcs);
 }
 
 void	ft_format_tokens(t_token **tokens)
 {
 	t_token	*tmp;
-	char	*wcs;
 	char	*og;
 
 	tmp = *tokens;
@@ -94,7 +96,7 @@ void	ft_format_tokens(t_token **tokens)
 		if (tmp->type & TK_STRING)
 			ft_dequote_string(&(tmp->str), QU_ZERO);
 		if (ft_verif_wildcard(og))
-			ft_replace_wildcard(tokens, &tmp, &wcs);
+			ft_replace_wildcard(tokens, &tmp);
 		else
 			tmp = tmp->next;
 		free(og);
@@ -103,7 +105,7 @@ void	ft_format_tokens(t_token **tokens)
 
 // int main(void)
 // {
-// 	char *str = ft_strdup("\"\"");
+// 	char *str = ft_strdup("*");
 
 // 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
 

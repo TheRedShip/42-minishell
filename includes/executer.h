@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/09 17:45:00 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 16:44:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,19 @@ typedef struct s_executor
 	int	pipe_fd[2];
 }	t_executor;
 
-/* MANAGER ****************************************************************** */
+/* EXECUTION **************************************************************** */
+
+void	ft_exec(t_node *root, t_node *tree, t_executor *ex);
+
+void	ft_process_redirs(t_node *root, t_command *cmd, t_executor *ex);
+
+void	ft_exec_or(t_node *root, t_node *tree, t_executor *ex);
+
+void	ft_exec_and(t_node *root, t_node *tree, t_executor *ex);
+
+void	ft_exec_command(t_node *root, t_node *tree, t_executor *ex);
+
+/* FILE MANAGEMENT ********************************************************** */
 
 /**
  * @brief			Manage input redirections.
@@ -52,5 +64,11 @@ int			ft_manage_inputs(t_token **tokens, int *fd, int *hd);
  * @return			EC_SUCCES.
 */
 int			ft_manage_outputs(t_token **tokens, int *fd);
+
+void	ft_close_command(t_node *tree);
+
+void	ft_close_tree_rec(t_node *tree);
+
+void	ft_close_files(t_node *root, t_executor *ex);
 
 #endif

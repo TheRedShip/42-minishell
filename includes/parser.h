@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 00:24:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:33:47 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,16 @@ int			ft_verif_wildcard(char *str);
  * 
  * @param wcstr		wilcard string rule.
  * 
- * @return			Wildcard string, not sorted.
+ * @return			Wildcard string array, not sorted.
 */
-char		*ft_wildcard_string(char *wcstr);
+char		**ft_wildcard_array(char *wcstr);
 
 /**
- * @brief			Format a wildcard string by sorting.
+ * @brief			Format a wildcard string array by sorting.
  * 
- * @param str		String pointer.
+ * @param files		String Array pointer.
 */
-void		ft_format_wildcard(char **str);
+char		*ft_format_wildcard(char ***str);
 
 /**
  * @brief			Format tokens (wildcard && quotes).

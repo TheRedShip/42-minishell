@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_node.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:28:17 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/08 23:59:49 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/12 14:53:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ void	ft_display_node(t_node *tree)
 	if (tree->left)
 	{
 		printf("LEFT    : %p\n", tree->left);
-		ft_display_node(tree->left);
+		// ft_display_node(tree->left);
 	}
 	if (tree->right)
 	{
 		printf("RIGHT   : %p\n", tree->right);
-		ft_display_node(tree->right);
+		// ft_display_node(tree->right);
 	}
 	printf("--------------------------------------\n");
 }

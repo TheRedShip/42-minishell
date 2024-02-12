@@ -6,30 +6,11 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/12 00:09:59 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 16:46:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**str_copy(char **string)
-{
-	char	**new_string;
-	int		i;
-
-	i = 0;
-	while (string[i])
-		i++;
-	new_string = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (string[i])
-	{
-		new_string[i] = ft_strdup(string[i]);
-		i++;
-	}
-	new_string[i] = NULL;
-	return (new_string);
-}
 
 void	ft_print_logo(t_envvar *envp)
 {
@@ -77,17 +58,17 @@ char	*get_temp_file(char *head)
 	return (ft_strjoin(head, rand, "-", 0b00));
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_envvar	*env;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_envvar	*env;
 
-	(void) argc;
-	(void) argv;
-	env = ft_setup_env(argv, envp);
-	ft_update_env(&env);
-	ft_print_logo(env);
-	toggle_signal(1);
-	while (1)
-		ft_prompt(&env);
-	return (0);
-}
+// 	(void) argc;
+// 	(void) argv;
+// 	env = ft_setup_env(argv, envp);
+// 	ft_update_env(&env);
+// 	ft_print_logo(env);
+// 	toggle_signal(1);
+// 	while (1)
+// 		ft_prompt(&env);
+// 	return (0);
+// }

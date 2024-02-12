@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 00:35:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:38:23 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,58 +30,47 @@ int	ft_verif_wildcard(char *str)
 }
 
 //en construction faut gerer les wildcards un peu plus pousses sinon cest pas bo.
-// int	ft_wc_rule(char *dname, char *wcrule)
-// {
-// 	char	*rule;
-// 	char	*tmp;
-
-// 	rule = ft_strnstr(dname, ft_strrchr(wcrule, '*') + 1, ft_strlen(dname));
-// 	if (!rule)
-// 		return (EC_FAILED);
-// 	tmp = ;
-// 	while (*tmp &&)
-
-// }
-
-char	*ft_wildcard_string(char *wcstr)
+int	ft_wc_rule(char *dname, char *wcrule)
 {
-	char			*wildcard;
+	(void) dname;
+	(void) wcrule;
+	return (1);
+}
+
+char	**ft_wildcard_array(char *wcstr)
+{
+	char			*dir;
+	char			**files;
 	DIR				*cdir;
 	struct dirent	*cdir_entry;
 
-	wildcard = ft_get_pwd();
-	cdir = opendir(wildcard);
-	free(wildcard);
-	wildcard = NULL;
+	dir = ft_get_pwd();
+	cdir = opendir(dir);
+	free(dir);
+	dir = NULL;
 	if (!cdir)
 		perror("minishell");
 	cdir_entry = readdir(cdir);
+	files = NULL;
 	while (cdir_entry)
 	{
 		if (*(cdir_entry->d_name) != '.' && \
-			!ft_wc_rule(cdir_entry->d_name, wcstr))
-		{
-			if (!wildcard)
-				wildcard = ft_strjoin(wildcard, cdir_entry->d_name, NULL, 0b01);
-			else
-				wildcard = ft_strjoin(wildcard, cdir_entry->d_name, " ", 0b01);
-		}
+			ft_wc_rule(cdir_entry->d_name, wcstr))
+			ft_strapp(&files, ft_strdup(cdir_entry->d_name));
 		cdir_entry = readdir(cdir);
 	}
 	free(cdir);
-	return (wildcard);
+	return (files);
 }
 
-void	ft_format_wildcard(char **str)
+char	*ft_format_wildcard(char ***files)
 {
-	char	**files;
-	char	**tmp;
 	char	*formatted;
+	char	**tmp;
 
 	formatted = NULL;
-	files = ft_split(*str, ' ');
-	ft_sort_lowstrs_tab(files, ft_tab_len(files));
-	tmp = files;
+	ft_sort_lowstrs_tab(*files, ft_tab_len(*files));
+	tmp = *files;
 	while (*tmp)
 	{
 		if (!formatted)
@@ -89,9 +78,8 @@ void	ft_format_wildcard(char **str)
 		else
 			formatted = ft_strjoin(formatted, *(tmp++), " ", 0b01);
 	}
-	free(*str);
-	ft_free_tab((void **)files);
-	*str = formatted;
+	ft_free_tab((void **)(*files));
+	return (formatted);
 }
 
 void	ft_wildcard_token(t_token **head, t_token **tokens)

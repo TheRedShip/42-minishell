@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/11 23:15:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:51:36 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,14 @@ void	treeprint(t_node *root, int space)
 {
 	if (root == NULL)
 		return ;
-	space += 8;
+	space += 12;
 	treeprint(root->right, space);
 	printf("\n");
-	for (int i = 8; i < space; i++)
+	for (int i = 12; i < space; i++)
 	{
 		printf(" ");
 	}
+	printf("{%p}", root);
 	if (root->command)
 	{
 		printf(" %s ", root->command->path);
