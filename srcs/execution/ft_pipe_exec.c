@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 16:50:34 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/13 00:26:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_exec(t_node *root, t_node *tree, t_executor *ex)
 
 void	ft_process_redirs(t_node *root, t_command *cmd, t_executor *ex)
 {
-	if (ex->pipe_fd[0] < 0)
+	if (!ex->pipes)
 	{
 		if (cmd->infile != STDIN_FILENO)
 			dup2(cmd->infile, STDIN_FILENO);
@@ -82,63 +82,73 @@ void	ft_exec_command(t_node *root, t_node *tree, t_executor *ex)
 	ft_close_command(tree);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	char		*command = NULL;
-	t_envvar	*environment = ft_setup_env(argv, envp);
-	t_token		*token_list;
-	int			fd_command;;
-	char		**test_commands = NULL;
-	char		*line;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	char		*command = NULL;
+// 	t_envvar	*environment = ft_setup_env(argv, envp);
+// 	t_token		*token_list;
+// 	int			fd_command;;
+// 	char		**test_commands = NULL;
+// 	char		*line;
 
-	(void) argc;
-	fd_command = open("commands.tst", O_RDONLY);
-	printf("%d\n", fd_command);
-	while ((line = get_next_line(fd_command)))
-		ft_strapp(&test_commands, ft_strtrim(line, "\n"));
-	close(fd_command);
-	free(command);
+// 	(void) argc;
+// 	fd_command = open("commands.tst", O_RDONLY);
+// 	printf("%d\n", fd_command);
+// 	while ((line = get_next_line(fd_command)))
+// 		ft_strapp(&test_commands, ft_strtrim(line, "\n"));
+// 	close(fd_command);
+// 	free(command);
 
-	while (1)
-	{
-		command = readline("num ?: ");
-		if (!command)
-			continue ;
-		int cmd_num = ft_atoi_base(command, 16);
-		free(command);
-		if (cmd_num < 0)
-			continue ;
-		if (!cmd_num)
-			continue ;
-		command = ft_strdup(*(test_commands + cmd_num - 1));
-		token_list = ft_tokenizer(command, QU_ZERO);
-		ft_format_tokens(&token_list);
-		ft_remove_braces(&token_list);
-		t_token *t;
-		t = token_list;
-		printf("------------- ACTUAL TOKEN LIST -------------\n");
-		while (t)
-		{
-			printf("%s ", t->str);
-			t = t->next;
-		}
-		printf("\n---------------------------------------------\n");
-		t_node *tree = ft_build_tree(token_list, &environment);
-		treeprint(tree, 0);
-		printf("\n");
+// 	while (1)
+// 	{
+// 		command = readline("num ?: ");
+// 		if (!command)
+// 			continue ;
+// 		if (!ft_strncmp("exit", command, 4))
+// 			exit(EXIT_SUCCESS);
+// 		char *tmp = command;
+// 		while (*tmp && ft_isdigit(*tmp))
+// 			tmp++;
+// 		if (*tmp || !*command)
+// 			continue ;
+// 		int cmd_num = ft_atoi_base(command, 10);
+// 		free(command);
+// 		if (cmd_num < 0 || cmd_num > ft_tab_len(test_commands))
+// 			continue ;
+// 		if (!cmd_num)
+// 			continue ;
+// 		command = ft_strdup(*(test_commands + cmd_num - 1));
+// 		token_list = ft_tokenizer(command, QU_ZERO);
+// 		ft_format_tokens(&token_list);
+// 		ft_remove_braces(&token_list);
+// 		t_token *t;
+// 		t = token_list;
+// 		printf("------------- ACTUAL TOKEN LIST -------------\n");
+// 		while (t)
+// 		{
+// 			printf("%s ", t->str);
+// 			t = t->next;
+// 		}
+// 		printf("\n---------------------------------------------\n");
+// 		t_node *tree = ft_build_tree(token_list, &environment);
+// 		treeprint(tree, 0);
+// 		printf("\n");
 
-		t_executor *ex = malloc(sizeof(t_executor));
-		ex->input = 0;
-		ex->output = 1;
-		ex->pipe_fd[0] = 0;
-		ex->pipe_fd[1] = 0;
-		ft_exec(tree, tree, ex);
+// 		if (!tree || (!tree->token && !tree->command))
+// 			continue ;
 
-		ft_clear_token_list(token_list);
-		ft_clear_tree(tree);
-		free(command);
-		command = readline("");
-		printf("\033c");
-	}
-	ft_clear_env(environment);
-}
+// 		t_executor *ex = malloc(sizeof(t_executor));
+// 		ex->input = 0;
+// 		ex->output = 1;
+// 		ex->pipes = NULL;
+// 		ex->pids = NULL;
+// 		ft_exec(tree, tree, ex);
+
+// 		ft_clear_token_list(token_list);
+// 		ft_clear_tree(tree);
+// 		free(command);
+// 		command = readline("");
+// 		printf("\033c");
+// 	}
+// 	ft_clear_env(environment);
+// }

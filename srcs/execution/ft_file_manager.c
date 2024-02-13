@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 14:49:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 21:01:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,9 @@ void	ft_close_files(t_node *root, t_executor *ex)
 		close(ex->input);
 	if (ex->output > 2)
 		close(ex->output);
-	if (ex->pipe_fd[0] > 2)
+	if (ex->pipes)
 	{
-		close(ex->pipe_fd[0]);
-		close(ex->pipe_fd[1]);
+		close(ex->pipes->fd[0]);
+		close(ex->pipes->fd[1]);
 	}
 }

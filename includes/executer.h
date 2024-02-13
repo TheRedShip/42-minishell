@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 16:44:14 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/12 21:01:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,46 @@
 /* TYPEDEFS ***************************************************************** */
 
 /**
- * @struct			s_envvar
- * @brief			Environment variable linked list node.
+ * @struct			s_pipes.
+ * @brief			Pipe Stack (LIFO).
+ * 
+ * @param fd		(int[2])		Pipe array.
+ * @param next		(next)			Previous pipe.
+*/
+typedef struct s_pipes
+{
+	int				fd[2];
+	struct s_pipes	*next;
+}	t_pipes;
+ 
+/** 
+ * @struct			s_pid.
+ * @brief			PID Stack (LIFO).
+ * 
+ * @param pid		(pid_t)			PID.
+ * @param next		(t_pid *)		Previous PID.
+*/
+typedef struct s_pid
+{
+	pid_t			pid;
+	struct s_pid	*next;
+}	t_pid;
+
+/**
+ * @struct			s_executor.
+ * @brief			Execution data, carried during tree reading.
  * 
  * @param input		(int)			Input file descriptor.
  * @param output	(int)			Output file descriptor.
- * @param pipe_fd	(int[2])		Next element.
+ * @param pipes		(t_pipes *)		Pipe stack.
+ * @param pids		(t_pid *)		PID stack.
  */
 typedef struct s_executor
 {
-	int	input;
-	int	output;
-	int	pipe_fd[2];
+	int		input;
+	int		output;
+	t_pipes	*pipes;
+	t_pid	*pids;
 }	t_executor;
 
 /* EXECUTION **************************************************************** */

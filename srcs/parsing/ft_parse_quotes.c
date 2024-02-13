@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 13:39:21 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:35:43 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,17 @@ void	ft_replace_wildcard(t_token **tokens, t_token **tmp)
 	char	*wcs;
 
 	files = ft_wildcard_array((*tmp)->str);
-	free((*tmp)->str);
-	wcs = ft_format_wildcard(&files);
-	(*tmp)->str = ft_strdup(wcs);
-	ft_wildcard_token(tokens, tmp);
-	free(wcs);
+	if (files && *files)
+	{
+		free((*tmp)->str);
+		wcs = ft_format_wildcard(&files);
+		(*tmp)->str = ft_strdup(wcs);
+		ft_wildcard_token(tokens, tmp);
+		free(wcs);
+	}
+	else
+		*tmp = (*tmp)->next;
+	ft_free_tab((void **)(files));
 }
 
 void	ft_format_tokens(t_token **tokens)
@@ -95,7 +101,7 @@ void	ft_format_tokens(t_token **tokens)
 		og = ft_strdup(tmp->str);
 		if (tmp->type & TK_STRING)
 			ft_dequote_string(&(tmp->str), QU_ZERO);
-		if (ft_verif_wildcard(og))
+		if (ft_strchr(tmp->str, '*'))
 			ft_replace_wildcard(tokens, &tmp);
 		else
 			tmp = tmp->next;

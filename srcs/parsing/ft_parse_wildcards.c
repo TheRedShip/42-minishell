@@ -6,35 +6,39 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 13:38:23 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:48:08 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_verif_wildcard(char *str)
+int	ft_regex_wildcard(char *file, char *rule, char *tmp_f, char *tmp_r)
 {
-	char			*tmp;
-	t_quote_state	qs;
+	char	*next;
 
-	tmp = str;
-	qs = QU_ZERO;
-	if (!str || !*str)
-		return (0);
-	while (*tmp && ((*tmp == '*') ^ (qs != QU_ZERO)))
+	tmp_f = file;
+	tmp_r = rule;
+	while (*tmp_f)
 	{
-		ft_qs_update(*tmp, &qs);
-		tmp++;
+		while (*tmp_r == '*')
+			tmp_r++;
+		if (!*tmp_r)
+			return (*(tmp_r - 1) == '*');
+		if (!ft_strchr(tmp_r, '*'))
+			next = ft_strrchr(tmp_f, *tmp_r);
+		else
+			next = ft_strchr(tmp_f, *tmp_r);
+		if (next)
+			tmp_f += (next - tmp_f);
+		else
+			return (0);
+		while (*tmp_f && *tmp_r && *tmp_r != '*' && *tmp_f == *tmp_r)
+		{
+			tmp_f++;
+			tmp_r++;
+		}
 	}
-	return (!*tmp && (tmp != str));
-}
-
-//en construction faut gerer les wildcards un peu plus pousses sinon cest pas bo.
-int	ft_wc_rule(char *dname, char *wcrule)
-{
-	(void) dname;
-	(void) wcrule;
-	return (1);
+	return (!*tmp_f && !*tmp_r);
 }
 
 char	**ft_wildcard_array(char *wcstr)
@@ -55,7 +59,7 @@ char	**ft_wildcard_array(char *wcstr)
 	while (cdir_entry)
 	{
 		if (*(cdir_entry->d_name) != '.' && \
-			ft_wc_rule(cdir_entry->d_name, wcstr))
+			ft_regex_wildcard(cdir_entry->d_name, wcstr, NULL, NULL))
 			ft_strapp(&files, ft_strdup(cdir_entry->d_name));
 		cdir_entry = readdir(cdir);
 	}
@@ -78,7 +82,6 @@ char	*ft_format_wildcard(char ***files)
 		else
 			formatted = ft_strjoin(formatted, *(tmp++), " ", 0b01);
 	}
-	ft_free_tab((void **)(*files));
 	return (formatted);
 }
 
@@ -110,17 +113,21 @@ void	ft_wildcard_token(t_token **head, t_token **tokens)
 
 // int main(void)
 // {
-// 	char *str = ft_strdup("salut * *********** *c *c* c*");
-// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
+// 	char *str = ft_strdup("m*e*e");
 
-// 	ft_replace_wildcard(&tokens, QU_ZERO);
-// 	t_token *tmp = tokens;
-// 	printf("%s\n", str);
-// 	while (tmp)
-// 	{
-// 		printf("[%s] ", tmp->str);
-// 		tmp = tmp->next;
-// 	}
+// 	printf("%d\n", ft_regex_wildcard("makleole", str));
+
+// 	free(str);
+	// t_token *tokens = ft_tokenizer(str, QU_ZERO);
+
+	// ft_format_tokens(&tokens);
+	// t_token *tmp = tokens;
+	// printf("%s\n", str);
+	// while (tmp)
+	// {
+	// 	printf("[%s] ", tmp->str);
+	// 	tmp = tmp->next;
+	// }
 
 	// free(str);
 	// ft_clear_token_list(tokens);
