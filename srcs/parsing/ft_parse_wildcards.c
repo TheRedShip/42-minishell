@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/13 15:48:08 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:12:39 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,24 @@ int	ft_regex_wildcard(char *file, char *rule, char *tmp_f, char *tmp_r)
 	tmp_r = rule;
 	while (*tmp_f)
 	{
+		next = NULL;
 		while (*tmp_r == '*')
 			tmp_r++;
 		if (!*tmp_r)
 			return (*(tmp_r - 1) == '*');
 		if (!ft_strchr(tmp_r, '*'))
 			next = ft_strrchr(tmp_f, *tmp_r);
-		else
+		else if (tmp_r != rule || *tmp_r == *tmp_f)
 			next = ft_strchr(tmp_f, *tmp_r);
 		if (next)
 			tmp_f += (next - tmp_f);
 		else
 			return (0);
 		while (*tmp_f && *tmp_r && *tmp_r != '*' && *tmp_f == *tmp_r)
-		{
-			tmp_f++;
-			tmp_r++;
-		}
+			(void) ((tmp_r++) - (tmp_f++));
 	}
+	while (*tmp_r && *tmp_r == '*')
+		tmp_r++;
 	return (!*tmp_f && !*tmp_r);
 }
 
@@ -67,24 +67,6 @@ char	**ft_wildcard_array(char *wcstr)
 	return (files);
 }
 
-char	*ft_format_wildcard(char ***files)
-{
-	char	*formatted;
-	char	**tmp;
-
-	formatted = NULL;
-	ft_sort_lowstrs_tab(*files, ft_tab_len(*files));
-	tmp = *files;
-	while (*tmp)
-	{
-		if (!formatted)
-			formatted = ft_strjoin(formatted, *(tmp++), NULL, 0b00);
-		else
-			formatted = ft_strjoin(formatted, *(tmp++), " ", 0b01);
-	}
-	return (formatted);
-}
-
 void	ft_wildcard_token(t_token **head, t_token **tokens)
 {
 	t_token		*wctokens;
@@ -111,24 +93,39 @@ void	ft_wildcard_token(t_token **head, t_token **tokens)
 	}
 }
 
-// int main(void)
-// {
-// 	char *str = ft_strdup("m*e*e");
+char	*ft_format_wildcard(char ***files)
+{
+	char	*formatted;
+	char	**tmp;
 
-// 	printf("%d\n", ft_regex_wildcard("makleole", str));
+	formatted = NULL;
+	ft_sort_lowstrs_tab(*files, ft_tab_len(*files));
+	tmp = *files;
+	while (*tmp)
+	{
+		if (!formatted)
+			formatted = ft_strjoin(formatted, *(tmp++), NULL, 0b00);
+		else
+			formatted = ft_strjoin(formatted, *(tmp++), " ", 0b01);
+	}
+	return (formatted);
+}
 
-// 	free(str);
-	// t_token *tokens = ft_tokenizer(str, QU_ZERO);
+void	ft_replace_wildcard(t_token **tokens, t_token **tmp)
+{
+	char	**files;
+	char	*wcs;
 
-	// ft_format_tokens(&tokens);
-	// t_token *tmp = tokens;
-	// printf("%s\n", str);
-	// while (tmp)
-	// {
-	// 	printf("[%s] ", tmp->str);
-	// 	tmp = tmp->next;
-	// }
-
-	// free(str);
-	// ft_clear_token_list(tokens);
-// }
+	files = ft_wildcard_array((*tmp)->str);
+	if (files && *files)
+	{
+		free((*tmp)->str);
+		wcs = ft_format_wildcard(&files);
+		(*tmp)->str = ft_strdup(wcs);
+		ft_wildcard_token(tokens, tmp);
+		free(wcs);
+	}
+	else
+		*tmp = (*tmp)->next;
+	ft_free_tab((void **)(files));
+}

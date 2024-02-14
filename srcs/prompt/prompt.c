@@ -25,7 +25,10 @@ void	start_execve(char *line, t_command *cmd)
 		return ;
 	if (!cmd->path || access(cmd->path, F_OK))
 	{
-		printf("minishell: command not found\n");
+		if (*cmd->args)
+			printf("minishell: %s: command not found\n", *cmd->args);
+		else
+			printf("minishell: command not found\n");
 		g_exit_code = 127;
 		return ;
 	}
@@ -120,7 +123,7 @@ void	ft_prompt(t_envvar **envp)
 		END OF DEBUG
 	*/
 	
-	ft_format_tokens(&tokens);
+	ft_format_tokens(&tokens, ft_get_var(*envp, "HOME"));
 	ft_remove_braces(&tokens);
 
 	/*

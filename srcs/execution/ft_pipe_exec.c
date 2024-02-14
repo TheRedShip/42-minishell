@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/13 00:26:28 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:37:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 extern int	g_exit_code;
 
-void	ft_exec(t_node *root, t_node *tree, t_executor *ex)
+void	ft_exec(t_node *tree, t_executor *ex)
 {
 	printf("DEBUG: execution of %p node\n", tree);
 	// ft_display_node(tree);
 	if (tree->token && tree->token->type & TK_BINOPS)
 	{
 		if (!ft_strncmp(tree->token->str, "&&", 2))
-			ft_exec_and(root, tree, ex);
+			ft_exec_and(tree, ex);
 		if (!ft_strncmp(tree->token->str, "||", 2))
-			ft_exec_or(root, tree, ex);
+			ft_exec_or(tree, ex);
 	}
 	if (tree->command)
-		ft_exec_command(root, tree, ex);
+		ft_exec_command(tree, ex);
 }
 
-void	ft_process_redirs(t_node *root, t_command *cmd, t_executor *ex)
+void	ft_process_redirs(t_command *cmd, t_executor *ex)
 {
 	if (!ex->pipes)
 	{
@@ -43,31 +43,30 @@ void	ft_process_redirs(t_node *root, t_command *cmd, t_executor *ex)
 		dup2(ex->input, STDIN_FILENO);
 		dup2(ex->output, STDOUT_FILENO);
 	}
-	ft_close_files(root, ex);
+	ft_close_files(ex);
 }
 
-void	ft_exec_or(t_node *root, t_node *tree, t_executor *ex)
+void	ft_exec_or(t_node *tree, t_executor *ex)
 {
 	printf("%p OR %p\n", tree->left, tree->right);
-	ft_exec(root, tree->left, ex);
+	ft_exec(tree->left, ex);
 	if (g_exit_code != EC_SUCCES)
-		ft_exec(root, tree->right, ex);
+		ft_exec(tree->right, ex);
 }
 
-void	ft_exec_and(t_node *root, t_node *tree, t_executor *ex)
+void	ft_exec_and(t_node *tree, t_executor *ex)
 {
 	printf("%p AND %p\n", tree->left, tree->right);
-	ft_exec(root, tree->left, ex);
+	ft_exec(tree->left, ex);
 	if (g_exit_code == EC_SUCCES)
-		ft_exec(root, tree->right, ex);
+		ft_exec(tree->right, ex);
 }
 
-void	ft_exec_command(t_node *root, t_node *tree, t_executor *ex)
+void	ft_exec_command(t_node *tree, t_executor *ex)
 {
 	// int		pid;
 	// char	**env;
 
-	(void) root;
 	(void) ex;
 	start_execve(NULL, tree->command);
 	// env = ft_get_var_strs(*(tree->command->envp), 0);

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/13 15:35:43 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:03:23 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,43 +71,6 @@ void	ft_dequote_string(char **str, t_quote_state qs)
 	*str = res;
 }
 
-void	ft_replace_wildcard(t_token **tokens, t_token **tmp)
-{
-	char	**files;
-	char	*wcs;
-
-	files = ft_wildcard_array((*tmp)->str);
-	if (files && *files)
-	{
-		free((*tmp)->str);
-		wcs = ft_format_wildcard(&files);
-		(*tmp)->str = ft_strdup(wcs);
-		ft_wildcard_token(tokens, tmp);
-		free(wcs);
-	}
-	else
-		*tmp = (*tmp)->next;
-	ft_free_tab((void **)(files));
-}
-
-void	ft_format_tokens(t_token **tokens)
-{
-	t_token	*tmp;
-	char	*og;
-
-	tmp = *tokens;
-	while (tmp)
-	{
-		og = ft_strdup(tmp->str);
-		if (tmp->type & TK_STRING)
-			ft_dequote_string(&(tmp->str), QU_ZERO);
-		if (ft_strchr(tmp->str, '*'))
-			ft_replace_wildcard(tokens, &tmp);
-		else
-			tmp = tmp->next;
-		free(og);
-	}
-}
 
 // int main(void)
 // {

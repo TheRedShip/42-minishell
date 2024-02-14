@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 21:01:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:27:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ void	ft_close_tree_rec(t_node *tree)
 	ft_close_command(tree);
 }
 
-void	ft_close_files(t_node *root, t_executor *ex)
+void	ft_close_files(t_executor *ex)
 {
-	ft_close_tree_rec(root);
+	ft_close_tree_rec(ex->root);
 	if (ex->input > 2)
 		close(ex->input);
 	if (ex->output > 2)

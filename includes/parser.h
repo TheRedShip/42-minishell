@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/12 13:33:47 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:17:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,11 @@ int		ft_verify_token(t_token *tokens);
  * @brief			Verify if a string is a wildcard string.
  * 
  * @param str		String to check.
+ * @param qs		Quote state.
  * 
  * @return			1 if the string contains only *, 0 otherwise.
 */
-int			ft_verif_wildcard(char *str);
+int			ft_verify_wildcard(char *str, t_quote_state qs);
 
 /**
  * @brief			Get current directory wildcard string.
@@ -133,8 +134,9 @@ char		*ft_format_wildcard(char ***str);
  * @brief			Format tokens (wildcard && quotes).
  * 
  * @param tokens	Token linked list adress.
+ * @param home		HOME t_envvar pointer.
 */
-void		ft_format_tokens(t_token **tokens);
+void		ft_format_tokens(t_token **tokens, t_envvar *home);
 
 /**
  * @brief			Replace a wildcard token by a list of string tokens.
@@ -143,6 +145,14 @@ void		ft_format_tokens(t_token **tokens);
  * @param tokens	Current position in the linked list (pointer).
 */
 void		ft_wildcard_token(t_token **head, t_token **tokens);
+
+/**
+ * @brief			Replace a tokn by its wildcard equivalent if there is one.
+ * 
+ * @param tokens	Token linked list adress.
+ * @param tmp		Adress of current token.
+*/
+void		ft_replace_wildcard(t_token **tokens, t_token **tmp);
 
 /* TREE ********************************************************************* */
 /**

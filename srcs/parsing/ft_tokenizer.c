@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenizer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/09 00:06:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/14 01:17:04 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,48 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	ft_add_token(&token, ft_tokenizer(str + ft_strlen(tstring), qs));
 	free(tstring);
 	return (token);
+}
+
+int	ft_verify_wildcard(char *str, t_quote_state qs)
+{
+	char	*tmp;
+
+	tmp = str;
+	while (*tmp)
+	{
+		ft_qs_update(*tmp, &qs);
+		if (*tmp == '*' && qs == QU_ZERO)
+			return (1);
+		tmp++;
+	}
+	return (0);
+}
+
+void	ft_format_tokens(t_token **tokens, t_envvar *home)
+{
+	t_token		*tmp;
+	char		*og;
+
+	tmp = *tokens;
+	while (tmp)
+	{
+		og = ft_strdup(tmp->str);
+		if (tmp->type & TK_STRING)
+			ft_dequote_string(&(tmp->str), QU_ZERO);
+		if (ft_verify_wildcard(og, QU_ZERO))
+			ft_replace_wildcard(tokens, &tmp);
+		else if (!ft_strncmp(og, "~", 2))
+		{
+			home = ft_get_var(ft_update_env(NULL), "HOME");
+			if (home)
+			{
+				free(tmp->str);
+				tmp->str = ft_get_varstring(home, 0, 0);
+			}
+			tmp = tmp->next;
+		}
+		else
+			tmp = tmp->next;
+		free(og);
+	}
 }

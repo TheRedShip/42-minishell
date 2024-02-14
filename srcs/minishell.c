@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/13 15:43:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/14 00:31:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_print_logo(t_envvar *envp)
 		line = get_next_line(fd);
 	}
 	printf("\033[0m");
-	printf("\033[37;1;3mby rgramati, ycontre\033[0m\n\n");
+	printf("\033[37;1;3mby rgramati\033[0m\n\n");
 	close(fd);
 }
 
