@@ -81,6 +81,8 @@ int		ft_qs_update(char c, t_quote_state *qs);
 /* PROMPTING **************************************************************** */
 void	ft_prompt(t_envvar **envp);
 
+char	*ft_get_temp_file(char *head);
+
 char	*ft_open_dquote(t_quote_state qs);
 /* ************************************************************************** */
 

@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-static void	signal_handler(int signal)
+void	ft_interactive_handler(int signal)
 {
     // char    *prompt;
 	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
@@ -28,9 +28,15 @@ static void	signal_handler(int signal)
 	}
 }
 
+void	ft_dquote_handler(int signal)
+{
+	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
+	(void) signal;
+}
+
 void	ign(int signal)
 {
-	(void)signal;
+	(void) signal;
 }
 
 void	toggle_signal(int toggle)
@@ -42,8 +48,8 @@ void	toggle_signal(int toggle)
 	{
 		term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
 		tcsetattr(0, 0, &term_data);
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
+		signal(SIGINT, ft_interactive_handler);
+		signal(SIGQUIT, ft_interactive_handler);
 	}
 	else if (toggle == 0)
 	{
@@ -51,5 +57,12 @@ void	toggle_signal(int toggle)
 		tcsetattr(0, 0, &term_data);
 		signal(SIGINT, ign);
 		signal(SIGQUIT, ign);
+	}
+	else if (toggle == 2)
+	{
+		term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
+		tcsetattr(0, 0, &term_data);
+		signal(SIGINT, ft_dquote_handler);
+		signal(SIGQUIT, ft_dquote_handler);
 	}
 }

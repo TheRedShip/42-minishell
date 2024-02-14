@@ -37,6 +37,7 @@ void	start_execve(char *line, t_command *cmd)
 	pid = fork();
 	if (pid == 0)
 	{
+		ft_clear_env(*(cmd->envp));
 		execve(cmd->path, cmd->args, env);
 		perror("execve");
 		exit(EC_FAILED);
@@ -91,9 +92,46 @@ void	ft_prompt(t_envvar **envp)
 
 	prompt = ft_get_prompt_string(*envp);
 	line = readline(prompt);
-	// toggle_signal(2);
-	// ft_quote_enforcer(&line, QU_ZERO);
-	// toggle_signal(1);
+	toggle_signal(2);
+
+	/*
+		DEBUG SECTION
+	*/
+	char *tmp_name = ft_get_temp_file("dquote");
+	int pid = fork();
+	if (pid == 0)
+	{
+		int fd = open(tmp_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		free(prompt);
+		rl_clear_history();
+		ft_clear_env(*envp);
+		ft_quote_enforcer(&line, QU_ZERO);
+		free(tmp_name);
+		write(fd, line, ft_strlen(line));
+		free(line);
+		close(fd);
+		exit(EXIT_SUCCESS);
+	}
+	waitpid(pid, NULL, 0);
+	free(line);
+	int fd = open(tmp_name, O_RDONLY, 0644);
+	line = NULL;
+	char *lineeee;
+	lineeee = get_next_line(fd);
+	while (lineeee)
+	{
+		line = ft_strjoin(line, lineeee, NULL, 0b11);
+		lineeee = get_next_line(fd);
+	}
+	unlink(tmp_name);
+	free(tmp_name);
+	close(fd);
+	toggle_signal(1);
+	/*
+		END OF DEBUG
+	*/
+
+
 	if (!line)
 	{
 		ft_clear_env(*envp);
