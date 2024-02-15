@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/14 01:33:22 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:57:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,9 @@ void		ft_exec_command(t_node *tree, t_executor *ex);
 
 /* FILE MANAGEMENT ********************************************************** */
 
+
+void		ft_close_v(int nb, int fd, ...);
+
 /**
  * @brief			Manage input redirections.
  * 
@@ -202,10 +205,25 @@ int			ft_manage_inputs(t_token **tokens, int *fd, int *hd);
 */
 int			ft_manage_outputs(t_token **tokens, int *fd);
 
-void	ft_close_command(t_node *tree);
+/**
+ * @brief			Close a t_command's fd.
+ * 
+ * @param tree		t_node with command inside.
+*/
+void		ft_close_command(t_node *tree);
 
-void	ft_close_tree_rec(t_node *tree);
+/**
+ * @brief			Close all fds in a tree recursively.
+ * 
+ * @param tree		t_node tree to close.
+*/
+void		ft_close_tree_rec(t_node *tree);
 
-void	ft_close_files(t_executor *ex);
+/**
+ * @brief			Close t_executor
+ * 
+ * @param ex		t_executor to close.
+*/
+void		ft_close_executor(t_executor *ex);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/14 01:27:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/15 17:49:56 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,38 +102,4 @@ int	ft_manage_outputs(t_token **tokens, int *fd)
 		(*tokens) = (*tokens)->next;
 	}
 	return (EC_FAILED);
-}
-
-void	ft_close_command(t_node *tree)
-{
-	if (tree->command)
-	{
-		if (tree->command->infile > 2)
-			close(tree->command->infile);
-		if (tree->command->outfile > 2)
-			close(tree->command->outfile);
-	}
-}
-
-void	ft_close_tree_rec(t_node *tree)
-{
-	if (tree->left)
-		ft_close_tree_rec(tree->left);
-	if (tree->right)
-		ft_close_tree_rec(tree->right);
-	ft_close_command(tree);
-}
-
-void	ft_close_files(t_executor *ex)
-{
-	ft_close_tree_rec(ex->root);
-	if (ex->input > 2)
-		close(ex->input);
-	if (ex->output > 2)
-		close(ex->output);
-	if (ex->pipes)
-	{
-		close(ex->pipes->fd[0]);
-		close(ex->pipes->fd[1]);
-	}
 }

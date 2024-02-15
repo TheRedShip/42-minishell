@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdarg.h>
 # include <fcntl.h>
 # include <signal.h>
 # include <errno.h>
@@ -52,19 +53,19 @@
 #  define OPEN_APPEND O_WRONLY | O_CREAT | O_APPEND
 # endif
 
+# define SIGHANDLER_IGN 0
+# define SIGHANDLER_INT 1
+# define SIGHANDLER_DQU 2
+
 /**
- * @brief				Exit Handler. 
- * (A LAVENIR CETTE MERDE DOIT FREE TOUT 
- * LE CODE JAI DEJA UNE IDEE ON VERRA PLUS 
- * TARD OUBLIE PAS LES STATIC ET LES 
- * DETOURNEMENTS DE NORME)
+ * @brief				Exit Handler.
  * 
  * @param exit_code		Exit code.
  * @param ec			Error code (see enum e_error_code).
  * @param cmd			t_command pointer with command meta-data.
  * @param prompt		Prompt line pointer.
 */
-void	ft_exit_manager(int exit_code, int ec, t_command *cmd, char *prompt);
+void	ft_exit_manager(int exit_code, int ec, t_command *cmd);
 
 /* ************************************************************************** */
 char	*ft_get_pwd(void);
@@ -79,20 +80,23 @@ int		ft_qs_update(char c, t_quote_state *qs);
 /* ************************************************************************** */
 
 /* PROMPTING **************************************************************** */
-void	ft_prompt(t_envvar **envp);
+void	ft_prompt_handle(t_envvar **envp);
 
-char	*ft_get_temp_file(char *head);
+void	ft_prompt_tokenization(char *line, char *prompt, t_envvar **envp);
 
-char	*ft_open_dquote(t_quote_state qs);
+void	ft_prompt_execution(t_token *token_list, t_envvar **envp);
+
 /* ************************************************************************** */
 
 /* SETUP ******************************************************************** */
 
-void	toggle_signal(int toggle);
+char	*ft_static_dq_holder(char *line, char *prompt, int dqfd, int ret);
+
+void	ft_signal_state(int toggle);
 /* ************************************************************************** */
 
 void	ft_display_token(t_token *token);
 
-void	start_execve(char *line, t_command *cmd);
+void	start_execve(t_command *cmd);
 
 #endif

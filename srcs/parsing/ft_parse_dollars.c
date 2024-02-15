@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/08 14:50:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:06:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs)
 		result = ft_insert_var(vars, result, str, &len);
 	else
 	{
-		while (ft_isalnum(*(str + len + 1)) || (*str + len + 1) == '_')
+		while (ft_isalnum(*(str + len + 1)) || *(str + len + 1) == '_')
 			len++;
 		result = ft_strjoin(result, ft_strndup(str, ++len), NULL, 0b11);
 	}

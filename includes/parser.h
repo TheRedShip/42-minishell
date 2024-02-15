@@ -6,12 +6,15 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/14 01:17:46 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/15 20:10:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+
+char		*ft_get_temp_file(char *head);
 
 /* STRING MANIPULATION ****************************************************** */
 
@@ -21,7 +24,7 @@
  * @param str		Pointer to string to check.
  * @param qs		Carried quote state.
 */
-void		ft_quote_enforcer(char **str, t_quote_state qs);
+void		ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
 
 /**
  * @brief			Check for quote syntax error.
@@ -32,6 +35,34 @@ void		ft_quote_enforcer(char **str, t_quote_state qs);
  * @return			0 if qs is different of QU_ZERO, 1 otherwise.		
 */
 int			ft_quote_syntax(char *str, t_quote_state qs);
+
+/**
+ * @brief			Get quoted string from bad input.
+ * 
+ * @param line		Actual prompt line with wrong quote syntax.
+ * @param prompt	Prompt pointer to free it in child.
+ * @param envp		Environment adress to free it in child.
+ * 
+ * @return			Quoted string or NULL if error.
+*/
+int			ft_get_dquote(char *line, char *prompt, t_envvar **env, char *tmp);
+
+/**
+ * @brief			Get dquote line from dquote file
+ * 
+ * @param line		Actual line.
+ * @param tmp_file	File name.
+ * @param status	Error code from dquote fork.
+*/
+char		*ft_get_dquote_line(char *line, char *tmp_file, int status);
+
+/**
+ * @brief			Open dquote prompt, joins and write into tmp file.
+ * 
+ * @param tmp_fd	Temporary file descritpor.
+ * @param qs		Quote state.
+*/
+char		*ft_open_dquote(int tmp_fd, t_quote_state qs);
 
 /**
  * @brief			Recursively replace $VARS by their values.
@@ -59,13 +90,6 @@ char		*ft_insert_var(t_envvar *vars, char *result, char *str, int *len);
  * @param qs		Quote state.
 */
 void		ft_dequote_string(char **str, t_quote_state qs);
-
-/**
- * @brief			Dequote all tokens in a linked list.
- * 
- * @param tokens	Linked list.
-*/
-void		ft_dequote_tokens(t_token *tokens, t_quote_state qs);
 
 /**
  * @brief			Check if a string starts by a token.
@@ -100,7 +124,7 @@ void		ft_remove_braces(t_token **tokens);
  * 
  * @return			1 if the linked list is valid, 0 otherwise.
 */
-int		ft_verify_token(t_token *tokens);
+int			ft_verify_token(t_token *tokens);
 
 /* WILDCARD ***************************************************************** */
 

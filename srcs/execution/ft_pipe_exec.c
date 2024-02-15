@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/14 01:37:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/15 20:10:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_process_redirs(t_command *cmd, t_executor *ex)
 		dup2(ex->input, STDIN_FILENO);
 		dup2(ex->output, STDOUT_FILENO);
 	}
-	ft_close_files(ex);
+	ft_close_executor(ex);
 }
 
 void	ft_exec_or(t_node *tree, t_executor *ex)
@@ -68,7 +68,7 @@ void	ft_exec_command(t_node *tree, t_executor *ex)
 	// char	**env;
 
 	(void) ex;
-	start_execve(NULL, tree->command);
+	start_execve(tree->command);
 	// env = ft_get_var_strs(*(tree->command->envp), 0);
 	// pid = fork();
 	// if (!pid)

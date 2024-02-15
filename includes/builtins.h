@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/05 16:05:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:33:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,10 @@ int			ft_cd(t_command *cmd);
  * @brief			Exits shell.
  * 
  * @param cmd		t_cmd pointer with command meta-data.
- * @param line		Line command pointer.
- * @param prompt	Prompt line pointer.
  * 
  * @return			ft_exit exit code. 
 */
-int			ft_exit(t_command *cmd, char *line, char *prompt);
+int			ft_exit(t_command *cmd);
 
 /**
  * @brief			Display environment variables, no order precised.
@@ -90,6 +88,16 @@ int			ft_export(t_command *cmd);
 int			ft_unset(t_command *cmd);
 
 /* UTILS ******************************************************************** */
+
+/**
+ * @brief			Back-trim a string excluding to char c
+ * 
+ * @param str		String to trim.
+ * @param c			Char excluded.
+ * 
+ * @return			Trimmed string.
+*/
+char		*ft_backtrim(char *str , char c);
 
 /**
  * @brief			Get current working directory.

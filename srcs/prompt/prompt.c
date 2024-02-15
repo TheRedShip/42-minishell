@@ -14,13 +14,12 @@
 
 extern int	g_exit_code;
 
-void	start_execve(char *line, t_command *cmd)
+void	start_execve(t_command *cmd)
 {
 	char	**env;
 	pid_t	pid;
 	int		status;
 
-	(void) line;
 	if (!cmd->args)
 		return ;
 	if (!cmd->path || access(cmd->path, F_OK))
@@ -32,7 +31,7 @@ void	start_execve(char *line, t_command *cmd)
 		g_exit_code = 127;
 		return ;
 	}
-	toggle_signal(0);
+	ft_signal_state(SIGHANDLER_IGN);
 	env = ft_get_var_strs(*(cmd->envp), 0);
 	pid = fork();
 	if (pid == 0)
@@ -59,177 +58,134 @@ void	start_execve(char *line, t_command *cmd)
 	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
 		ft_print_logo(*(cmd->envp));
 	ft_free_tab((void **)(env));
-	toggle_signal(1);
+	ft_signal_state(SIGHANDLER_INT);
 }
 
-void	builtin_cmd(char *line, char *prompt, t_command *test)
+int	ft_quote_handler(char **line, char *prompt, t_envvar **envp, int status)
 {
-	if (!ft_strncmp(line, "exit ", 5) || !ft_strncmp(line, "exit", 5))
-		g_exit_code = ft_exit(test, line, prompt);
-	else if (!ft_strncmp(line, "echo ", 5) || !ft_strncmp(line, "echo", 5))
-		g_exit_code = ft_echo(test);
-	else if (!ft_strncmp(line, "env ", 4) || !ft_strncmp(line, "env", 4))
-		g_exit_code = ft_env(test);
-	else if (!ft_strncmp(line, "export ", 7) || !ft_strncmp(line, "export", 7))
-		g_exit_code = ft_export(test);
-	else if (!ft_strncmp(line, "unset ", 6) || !ft_strncmp(line, "unset", 6))
-		g_exit_code = ft_unset(test);
-	else if (!ft_strncmp(line, "pwd ", 4) || !ft_strncmp(line, "pwd", 4))
-		g_exit_code = ft_pwd(test);
-	else if (!ft_strncmp(line, "cd ", 3) || !ft_strncmp(line, "cd", 3))
-		g_exit_code = ft_cd(test);
-	else
-		start_execve(line, test);
-	// ft_del_command(test);
+	char			*dquote_file;
+	char			*history_line;
+	t_quote_state	qs;
+
+	if (!*line)
+		return (EC_ERRORS);
+	qs = QU_ZERO;
+	history_line = *line;
+	dquote_file = ft_get_temp_file(".dquote");
+	if (ft_quote_syntax(*line, QU_ZERO))
+	{
+		status = ft_get_dquote(*line, prompt, envp, dquote_file);
+		history_line = ft_get_dquote_line(*line, dquote_file, status);
+	}
+	add_history(history_line);
+	free(dquote_file);
+	*line = history_line;
+	if (WEXITSTATUS(status) == 130)
+		return (EC_FAILED);
+	qs = ft_quote_syntax(*line, QU_ZERO);
+	if (qs == QU_SINGLE)
+		printf("minishell: unexpected EOF while looking for matching `\''\n");
+	else if (qs == QU_DOUBLE)
+		printf("minishell: unexpected EOF while looking for matching `\"'\n");
+	return (EC_SUCCES);
 }
 
-void	ft_prompt(t_envvar **envp)
+void	ft_prompt_handle(t_envvar **envp)
 {
 	char	*line;
+	char	*line_holder;
 	char	*prompt;
-	char	*tmp;
-	t_token	*tokens;
+	int		err_code;
 
 	prompt = ft_get_prompt_string(*envp);
 	line = readline(prompt);
-	toggle_signal(2);
-
-	/*
-		DEBUG SECTION
-	*/
-	char *tmp_name = ft_get_temp_file("dquote");
-	int pid = fork();
-	if (pid == 0)
+	ft_signal_state(SIGHANDLER_IGN);
+	err_code = ft_quote_handler(&line, prompt, envp, 0);
+	if (err_code == EC_ERRORS)
 	{
-		int fd = open(tmp_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		free(prompt);
-		rl_clear_history();
 		ft_clear_env(*envp);
-		ft_quote_enforcer(&line, QU_ZERO);
-		free(tmp_name);
-		write(fd, line, ft_strlen(line));
+		ft_exit(NULL);
+	}
+	else if (err_code == EC_FAILED)
+	{
 		free(line);
-		close(fd);
-		exit(EXIT_SUCCESS);
+		line = ft_strdup("");
+		g_exit_code = 130;
 	}
-	waitpid(pid, NULL, 0);
+	ft_signal_state(SIGHANDLER_INT);
+	line_holder = ft_replace_vars(*envp, line, QU_ZERO);
 	free(line);
-	int fd = open(tmp_name, O_RDONLY, 0644);
-	line = NULL;
-	char *lineeee;
-	lineeee = get_next_line(fd);
-	while (lineeee)
-	{
-		line = ft_strjoin(line, lineeee, NULL, 0b11);
-		lineeee = get_next_line(fd);
-	}
-	unlink(tmp_name);
-	free(tmp_name);
-	close(fd);
-	toggle_signal(1);
-	/*
-		END OF DEBUG
-	*/
+	line = line_holder;
+	ft_prompt_tokenization(line, prompt, envp);
+}
 
+void	ft_prompt_tokenization(char *line, char *prompt, t_envvar **envp)
+{
+	t_token	*token_list;
+	int		syntax;
 
-	if (!line)
-	{
-		ft_clear_env(*envp);
-		ft_exit(NULL, line, prompt);
-	}
-	add_history(line);
-	// if (!ft_quote_syntax(line, QU_ZERO))
-	// 	ft_putstr_fd("minishell: unexpected EOF while looking for matching quote\n", 2);
-	tmp = ft_replace_vars(*envp, line, QU_ZERO);
-	free(line);
-	line = tmp;
-	tokens = ft_tokenizer(line, QU_ZERO);
-	
-	/*
-		DEBUG SECTION
-	*/
-	t_token *t;
-	t = tokens;
-	printf("------------- ACTUAL TOKEN LIST -------------\n");
-	while (t)
-	{
-		printf("[%s]->", t->str);
-		t = t->next;
-	}
-	printf("\n---------------------------------------------\n");
-	/*
-		END OF DEBUG
-	*/
-	
-	ft_format_tokens(&tokens, ft_get_var(*envp, "HOME"));
-	ft_remove_braces(&tokens);
-
-	/*
-		DEBUG SECTION	
-	*/
-	t = tokens;
-	printf("------------ REPLACED TOKEN LIST ------------\n");
-	while (t)
-	{
-		printf("[%s]->", t->str);
-		t = t->next;
-	}
-	printf("\n---------------------------------------------\n");
-	/*
-		END OF DEBUG
-	*/
-
-	if (tokens && (!ft_verify_token(tokens) || !ft_quote_syntax(line, QU_ZERO)))
+	syntax = 0;
+	token_list = ft_tokenizer(line, QU_ZERO);
+	if (!token_list)
+		return ;
+	ft_format_tokens(&token_list, ft_get_var(*envp, "HOME"));
+	ft_remove_braces(&token_list);
+	if ((!ft_verify_token(token_list) || ft_quote_syntax(line, QU_ZERO)))
 	{
 		ft_putstr_fd("minishell: syntax error\n", 1);
+		syntax++;
 		g_exit_code = 2;
 	}
-	else if (*line)
-	{
-		/* regale toi yavin ca affiche larbre apres chaque commande */
-		t_node *tree = ft_build_tree(tokens, envp);
-		treeprint(tree, 0);
-		printf("\n");
-		t_node *first_command;
-		first_command = tree;
-		while (!(first_command->command))
-			first_command = first_command->left;
-		builtin_cmd(line, prompt, first_command->command);
-		ft_clear_tree(tree);
-	}
-	if (line)
-		free(line);
-	ft_clear_token_list(tokens);
+	free(line);
 	free(prompt);
+	if (syntax)
+		return ;
+	ft_prompt_execution(token_list, envp);
 }
 
-char	*ft_trim_pwd(char *str)
+void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT EXEC
 {
-	char	*lastb;
+	char		**tmp;
+	t_node		*tree;
+	t_node		*first_command;
+	static int	(*builtins[7])(t_command *) = \
+	{&ft_cd, &ft_pwd, &ft_echo, &ft_env, &ft_export, &ft_unset, &ft_exit};
+	static char	*builtins_str[8] = \
+	{"cd", "pwd", "echo", "env", "export", "unset", "exit", NULL};
 
-	lastb = ft_strrchr(str, '/');
-	return (ft_strdup(lastb));
-}
-
-char	*ft_get_prompt_string(t_envvar *envp)
-{
-	static t_envvar		*save = NULL;
-	char				*prompt;
-	char				*pwd;
-
-	if (envp)
-		save = envp;
-	if (ft_get_var(save, "PWD"))
+	tree = ft_build_tree(token_list, envp);
+	first_command = tree;
+	while (!(first_command->command))
+		first_command = first_command->left;
+	tmp = builtins_str;
+	while (*tmp)
 	{
-		pwd = ft_trim_pwd(ft_get_var(save, "PWD")->values[0]);
-		pwd = ft_strjoin(pwd, " $ ", 0, 0b01);
+		if (!ft_strncmp(ft_backtrim(first_command->command->path, '/'), \
+						*tmp, ft_strlen(*tmp) + 1))
+		{
+			g_exit_code = builtins[tmp - builtins_str](first_command->command);
+			break ;
+		}
+		tmp++;
 	}
-	else
-		pwd = ft_strdup(" > ");
-	if (!g_exit_code)
-		prompt = ft_strjoin(P_SUCCESS, P_TAIL, 0, 0b00);
-	else
-		prompt = ft_strjoin(P_FAIL, P_TAIL, 0, 0b00);
-	prompt = ft_strjoin(prompt, pwd, 0, 3);
-	return (prompt);
+	if (tmp == builtins_str + 7)
+		start_execve(first_command->command);
+	ft_clear_token_list(token_list);
+	ft_clear_tree(tree);
 }
+
+// 	/*
+// 		DEBUG SECTION
+// 	*/
+// 	t_token *t;
+// 	t = tokens;
+// 	printf("------------- ACTUAL TOKEN LIST -------------\n");
+// 	while (t)
+// 	{
+// 		printf("[%s]->", t->str);
+// 		t = t->next;
+// 	}
+// 	printf("\n---------------------------------------------\n");
+// 	/*
+// 		END OF DEBUG
+// 	*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_signals.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 23:42:59 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/22 23:42:59 by marvin           ###   ########.fr       */
+/*   Created: 2024/02/15 18:51:52 by rgramati          #+#    #+#             */
+/*   Updated: 2024/02/15 18:51:52 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 extern int	g_exit_code;
 
-void	ft_interactive_handler(int signal)
+void	ft_h_ignore(int signal)
+{
+	(void) signal;
+}
+
+void	ft_h_inter(int signal)
 {
     // char    *prompt;
 	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
@@ -28,41 +33,36 @@ void	ft_interactive_handler(int signal)
 	}
 }
 
-void	ft_dquote_handler(int signal)
+void	ft_h_quote(int signal)
 {
+	int	fd;
+
+	fd = 0;
 	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
+	if (signal == 2)
+	{
+		printf("^C\n");
+		free(ft_static_dq_holder(NULL, NULL, 0, 0b01));
+		free(ft_static_dq_holder(NULL, NULL, 0, 0b10));
+		fd = *(int *)ft_static_dq_holder(NULL, NULL, 0, 0b11);
+		ft_close_v(3, fd, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
+		g_exit_code = 130;
+		exit(130);
+	}
 	(void) signal;
 }
 
-void	ign(int signal)
+void	ft_signal_state(int state)
 {
-	(void) signal;
-}
+	struct termios	termios_data;
+	static void		(*handlers[3])(int) = {ft_h_ignore, ft_h_inter, ft_h_quote};
 
-void	toggle_signal(int toggle)
-{
-	struct termios	term_data;
-
-	tcgetattr(0, &term_data);
-	if (toggle == 1)
-	{
-		term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
-		tcsetattr(0, 0, &term_data);
-		signal(SIGINT, ft_interactive_handler);
-		signal(SIGQUIT, ft_interactive_handler);
-	}
-	else if (toggle == 0)
-	{
-		term_data.c_lflag = term_data.c_lflag | ECHOCTL;
-		tcsetattr(0, 0, &term_data);
-		signal(SIGINT, ign);
-		signal(SIGQUIT, ign);
-	}
-	else if (toggle == 2)
-	{
-		term_data.c_lflag = term_data.c_lflag & (~ECHOCTL);
-		tcsetattr(0, 0, &term_data);
-		signal(SIGINT, ft_dquote_handler);
-		signal(SIGQUIT, ft_dquote_handler);
-	}
+	tcgetattr(0, &termios_data);
+	if (!state)
+		termios_data.c_lflag = termios_data.c_lflag | ECHOCTL;
+	else
+		termios_data.c_lflag = termios_data.c_lflag & (~ECHOCTL);
+	tcsetattr(0, 0, &termios_data);
+	signal(SIGINT, handlers[state]);
+	signal(SIGQUIT, handlers[state]);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/14 00:45:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:59:47 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,6 +353,11 @@ void		ft_del_command(t_command *cmd);
 
 /**
  * @brief			Get command path.
+ * 
+ * @param cmd		Command string.
+ * @param envp		Environment linked list.
+ * 
+ * @return			Command path.
 */
 char		*ft_get_path(char *cmd, t_envvar *envp);
 

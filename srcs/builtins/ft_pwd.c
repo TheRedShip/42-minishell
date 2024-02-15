@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+extern int	g_exit_code;
+
+char	*ft_backtrim(char *str , char c)
+{
+	char	*lastb;
+
+	lastb = ft_strrchr(str, c);
+	return (lastb + 1);
+}
+
+char	*ft_trim_pwd(char *str)
+{
+	char	*lastb;
+
+	lastb = ft_strrchr(str, '/');
+	return (ft_strdup(lastb));
+}
+
 char	*ft_get_pwd(void)
 {
 	char	cwd[65536];
@@ -34,4 +52,27 @@ int	ft_pwd(t_command *cmd)
 		return (EC_FAILED);
 	}
 	return (EC_SUCCES);
+}
+
+char	*ft_get_prompt_string(t_envvar *envp)
+{
+	static t_envvar		*save = NULL;
+	char				*prompt;
+	char				*pwd;
+
+	if (envp)
+		save = envp;
+	if (ft_get_var(save, "PWD"))
+	{
+		pwd = ft_trim_pwd(ft_get_var(save, "PWD")->values[0]);
+		pwd = ft_strjoin(pwd, " $ ", 0, 0b01);
+	}
+	else
+		pwd = ft_strdup(" > ");
+	if (!g_exit_code)
+		prompt = ft_strjoin(P_SUCCESS, P_TAIL, 0, 0b00);
+	else
+		prompt = ft_strjoin(P_FAIL, P_TAIL, 0, 0b00);
+	prompt = ft_strjoin(prompt, pwd, 0, 3);
+	return (prompt);
 }

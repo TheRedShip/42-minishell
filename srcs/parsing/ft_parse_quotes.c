@@ -6,25 +6,28 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/14 02:30:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/15 18:49:52 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_quote_enforcer(char **str, t_quote_state qs)
+extern int	g_exit_code;
+
+void	ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs)
 {
 	char			*string_holder;
 	char			*dquote_holder;
 
 	if (!*str)
 		return ;
+	ft_static_dq_holder(*str, NULL, 0, 0b00);
 	string_holder = *str;
 	while (**str)
 		ft_qs_update(*((*str)++), &qs);
 	if (qs)
 	{
-		dquote_holder = ft_open_dquote(qs);
+		dquote_holder = ft_open_dquote(tmp_file_fd, qs);
 		if (!dquote_holder)
 		{
 			free(dquote_holder);
@@ -32,7 +35,7 @@ void	ft_quote_enforcer(char **str, t_quote_state qs)
 			return ;
 		}
 		dquote_holder = ft_strjoin(string_holder, dquote_holder, "\n", 0b01);
-		ft_quote_enforcer(&dquote_holder, QU_ZERO);
+		ft_quote_enforcer(&dquote_holder, tmp_file_fd, QU_ZERO);
 		*str = dquote_holder;
 		return ;
 	}
@@ -43,7 +46,7 @@ int	ft_quote_syntax(char *str, t_quote_state qs)
 {
 	while (*str)
 		ft_qs_update(*(str++), &qs);
-	return (!qs);
+	return (qs);
 }
 
 void	ft_dequote_string(char **str, t_quote_state qs)
@@ -70,35 +73,3 @@ void	ft_dequote_string(char **str, t_quote_state qs)
 	free(*str);
 	*str = res;
 }
-
-
-// int main(void)
-// {
-// 	char *str = ft_strdup("*");
-
-// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
-
-// 	t_token *t;
-// 	t = tokens;
-// 	printf("------------- ACTUAL TOKEN LIST -------------\n");
-// 	while (t)
-// 	{
-// 		printf("%p = [%s] ->", t, t->str);
-// 		t = t->next;
-// 	}
-// 	printf("\n---------------------------------------------\n");
-
-// 	ft_format_tokens(&tokens);
-
-// 	t = tokens;
-// 	printf("------------- ACTUAL TOKEN LIST -------------\n");
-// 	while (t)
-// 	{
-// 		printf("%p = [%s] ->", t, t->str);
-// 		t = t->next;
-// 	}
-// 	printf("\n---------------------------------------------\n");
-
-// 	free(str);
-// 	ft_clear_token_list(tokens);
-// }
