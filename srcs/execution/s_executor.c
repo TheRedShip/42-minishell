@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:32:18 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/14 01:41:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:40:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,11 @@ t_executor	*ft_init_executor(t_node *root)
 	new_ex->pipes = NULL;
 	new_ex->root = root;
 	return (new_ex);
+}
+
+void	ft_del_executor(t_executor *ex)
+{
+	if (ex->pipes)
+		ft_del_pipe(ex->pipes);
+	free(ex);
 }

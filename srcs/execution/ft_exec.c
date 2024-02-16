@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipe_exec.c                                     :+:      :+:    :+:   */
+/*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/15 20:10:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:28:55 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,71 +14,101 @@
 
 extern int	g_exit_code;
 
-void	ft_exec(t_node *tree, t_executor *ex)
+void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	printf("DEBUG: execution of %p node\n", tree);
 	// ft_display_node(tree);
 	if (tree->token && tree->token->type & TK_BINOPS)
 	{
 		if (!ft_strncmp(tree->token->str, "&&", 2))
-			ft_exec_and(tree, ex);
+			ft_exec_and(tree, ex, status);
 		if (!ft_strncmp(tree->token->str, "||", 2))
-			ft_exec_or(tree, ex);
+			ft_exec_or(tree, ex, status);
 	}
-	if (tree->command)
-		ft_exec_command(tree, ex);
-}
-
-void	ft_process_redirs(t_command *cmd, t_executor *ex)
-{
-	if (!ex->pipes)
+	if (tree->command && tree->command->path)
+		ft_exec_command(tree, ex, status);
+	if (tree == ex->root)
 	{
-		if (cmd->infile != STDIN_FILENO)
-			dup2(cmd->infile, STDIN_FILENO);
-		if (cmd->outfile != STDOUT_FILENO)
-			dup2(cmd->outfile, STDOUT_FILENO);
+		ft_close_executor(ex);
+		ft_del_executor(ex);
 	}
-	else
-	{ //PAS VRAINMET LE BON CODE MAIS ON TEST PAS CA POUR LINSTANT NIQUE SA MERE
-		dup2(ex->input, STDIN_FILENO);
-		dup2(ex->output, STDOUT_FILENO);
-	}
-	ft_close_executor(ex);
 }
 
-void	ft_exec_or(t_node *tree, t_executor *ex)
+int	ft_process_redirs(t_command *cmd, t_executor *ex)
+{
+	int	in_file;
+	int out_file;
+	
+	in_file = STDIN_FILENO;
+	out_file = STDOUT_FILENO;
+	if (ex->pipes)
+	{
+		in_file = ex->input;
+		out_file = ex->output;
+	}
+	if (cmd->infile != STDIN_FILENO)
+		in_file = cmd->infile;
+	if (cmd->outfile != STDOUT_FILENO)
+		out_file = cmd->outfile;
+	dup2(in_file, STDIN_FILENO);
+	dup2(out_file, STDOUT_FILENO);
+	if (in_file == -1 || out_file == -1)
+	{
+		ft_close_executor(ex);
+		ft_close_command(cmd);
+		return (EC_ERRORS);
+	}
+	return (EC_SUCCES);
+}
+
+void	ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	printf("%p OR %p\n", tree->left, tree->right);
-	ft_exec(tree->left, ex);
+	ft_exec(tree->left, ex, EX_WAIT);
 	if (g_exit_code != EC_SUCCES)
-		ft_exec(tree->right, ex);
+		ft_exec(tree->right, ex, status);
 }
 
-void	ft_exec_and(t_node *tree, t_executor *ex)
+void	ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	printf("%p AND %p\n", tree->left, tree->right);
-	ft_exec(tree->left, ex);
+	ft_exec(tree->left, ex, EX_WAIT);
 	if (g_exit_code == EC_SUCCES)
-		ft_exec(tree->right, ex);
+		ft_exec(tree->right, ex, status);
 }
 
-void	ft_exec_command(t_node *tree, t_executor *ex)
+void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 {
-	// int		pid;
-	// char	**env;
-
 	(void) ex;
-	start_execve(tree->command);
-	// env = ft_get_var_strs(*(tree->command->envp), 0);
-	// pid = fork();
-	// if (!pid)
-	// {
-	// 	ft_process_redirs(root, tree->command, ex);
-	// 	execve(tree->command->path, tree->command->args, env);
-	// }
-	// waitpid(pid, &status);
-	// g_exit_code = WEXITSTATUS(status);
-	ft_close_command(tree);
+	(void) status;
+	if (ft_exec_builtins(tree->command))
+		start_execve(tree->command, ex);
+	ft_close_command(tree->command);
+}
+
+int	ft_exec_builtins(t_command	*cmd)
+{
+	char		*trim;
+	char		**tmp;
+	static int	(*builtins[7])(t_command *) = \
+	{&ft_cd, &ft_pwd, &ft_echo, &ft_env, &ft_export, &ft_unset, &ft_exit};
+	static char	*builtins_str[8] = \
+	{"cd", "pwd", "echo", "env", "export", "unset", "exit", NULL};
+
+	tmp = builtins_str;
+	trim = ft_strrchr(cmd->path, '/') + 1;
+	if (!trim)
+		return (EC_FAILED);
+	while (*tmp && ft_strncmp(trim, *tmp, ft_strlen(*tmp) + 1))
+	{
+		trim = ft_strrchr(cmd->path, '/') + 1;
+		tmp++;
+	}
+	if (!*tmp)
+		return (EC_FAILED);
+	else
+		g_exit_code = builtins[tmp - builtins_str](cmd);
+	return (EC_SUCCES);
 }
 
 // int	main(int argc, char **argv, char **envp)
@@ -118,7 +148,7 @@ void	ft_exec_command(t_node *tree, t_executor *ex)
 // 			continue ;
 // 		command = ft_strdup(*(test_commands + cmd_num - 1));
 // 		token_list = ft_tokenizer(command, QU_ZERO);
-// 		ft_format_tokens(&token_list);
+// 		ft_format_tokens(&token_list, ft_get_var(environment, "HOME"));
 // 		ft_remove_braces(&token_list);
 // 		t_token *t;
 // 		t = token_list;
@@ -140,8 +170,7 @@ void	ft_exec_command(t_node *tree, t_executor *ex)
 // 		ex->input = 0;
 // 		ex->output = 1;
 // 		ex->pipes = NULL;
-// 		ex->pids = NULL;
-// 		ft_exec(tree, tree, ex);
+// 		ft_exec(tree, ex);
 
 // 		ft_clear_token_list(token_list);
 // 		ft_clear_tree(tree);

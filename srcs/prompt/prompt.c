@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-void	start_execve(t_command *cmd)
+void	start_execve(t_command *cmd, t_executor *ex)
 {
 	char	**env;
 	pid_t	pid;
@@ -36,7 +36,17 @@ void	start_execve(t_command *cmd)
 	pid = fork();
 	if (pid == 0)
 	{
-		ft_clear_env(*(cmd->envp));
+		// ft_clear_env(*(cmd->envp));
+		int test = 0;
+		test = ft_process_redirs(cmd, ex);
+		if (test == 2)
+		{
+			ft_free_tab((void **)env);
+			ft_clear_env(*(cmd->envp));
+			ft_clear_tree(ex->root);
+			ft_del_executor(ex);
+			exit(EC_FAILED);
+		}
 		execve(cmd->path, cmd->args, env);
 		perror("execve");
 		exit(EC_FAILED);
@@ -61,32 +71,32 @@ void	start_execve(t_command *cmd)
 	ft_signal_state(SIGHANDLER_INT);
 }
 
-int	ft_quote_handler(char **line, char *prompt, t_envvar **envp, int status)
+int	ft_quote_handler(char **line, t_envvar **envp, int status)
 {
-	char			*dquote_file;
-	char			*history_line;
-	t_quote_state	qs;
+	char	*dquote_file;
+	char	*history_line;
+	char	qs;
 
 	if (!*line)
 		return (EC_ERRORS);
-	qs = QU_ZERO;
 	history_line = *line;
 	dquote_file = ft_get_temp_file(".dquote");
 	if (ft_quote_syntax(*line, QU_ZERO))
 	{
-		status = ft_get_dquote(*line, prompt, envp, dquote_file);
+		status = ft_get_dquote(*line, envp, dquote_file);
 		history_line = ft_get_dquote_line(*line, dquote_file, status);
 	}
 	add_history(history_line);
 	free(dquote_file);
 	*line = history_line;
 	if (WEXITSTATUS(status) == 130)
+	{
+		free(*line);
 		return (EC_FAILED);
+	}
 	qs = ft_quote_syntax(*line, QU_ZERO);
-	if (qs == QU_SINGLE)
-		printf("minishell: unexpected EOF while looking for matching `\''\n");
-	else if (qs == QU_DOUBLE)
-		printf("minishell: unexpected EOF while looking for matching `\"'\n");
+	if (qs)
+		printf("%sunexpected EOF while looking for matching `%c\'\n", MINI, qs);
 	return (EC_SUCCES);
 }
 
@@ -99,27 +109,27 @@ void	ft_prompt_handle(t_envvar **envp)
 
 	prompt = ft_get_prompt_string(*envp);
 	line = readline(prompt);
+	free(prompt);
+	if (line && !ft_isnt_empty(line))
+		return ;
 	ft_signal_state(SIGHANDLER_IGN);
-	err_code = ft_quote_handler(&line, prompt, envp, 0);
-	if (err_code == EC_ERRORS)
-	{
-		ft_clear_env(*envp);
-		ft_exit(NULL);
-	}
-	else if (err_code == EC_FAILED)
-	{
-		free(line);
-		line = ft_strdup("");
-		g_exit_code = 130;
-	}
+	err_code = ft_quote_handler(&line, envp, 0);
 	ft_signal_state(SIGHANDLER_INT);
+	if (err_code == EC_ERRORS)
+		ft_clear_env(*envp);
+	if (err_code == EC_ERRORS)
+		ft_exit(NULL);
+	else if (err_code == EC_FAILED || !line)
+	{
+		g_exit_code = 130;
+		return ;
+	}
 	line_holder = ft_replace_vars(*envp, line, QU_ZERO);
 	free(line);
-	line = line_holder;
-	ft_prompt_tokenization(line, prompt, envp);
+	ft_prompt_tokenization(line_holder, envp);
 }
 
-void	ft_prompt_tokenization(char *line, char *prompt, t_envvar **envp)
+void	ft_prompt_tokenization(char *line, t_envvar **envp)
 {
 	t_token	*token_list;
 	int		syntax;
@@ -128,64 +138,65 @@ void	ft_prompt_tokenization(char *line, char *prompt, t_envvar **envp)
 	token_list = ft_tokenizer(line, QU_ZERO);
 	if (!token_list)
 		return ;
+	/*
+		DEBUG SECTION
+	*/
+	t_token *t;
+	t = token_list;
+	printf("------------- ACTUAL TOKEN LIST -------------\n");
+	while (t)
+	{
+		printf("[%s]->", t->str);
+		t = t->next;
+	}
+	printf("\n---------------------------------------------\n");
+	/*
+		END OF DEBUG
+	*/
 	ft_format_tokens(&token_list, ft_get_var(*envp, "HOME"));
 	ft_remove_braces(&token_list);
 	if ((!ft_verify_token(token_list) || ft_quote_syntax(line, QU_ZERO)))
 	{
-		ft_putstr_fd("minishell: syntax error\n", 1);
+		printf("%ssyntax error\n", MINI);
 		syntax++;
 		g_exit_code = 2;
 	}
 	free(line);
-	free(prompt);
 	if (syntax)
+	{
+		ft_clear_token_list(token_list);
 		return ;
+	}
 	ft_prompt_execution(token_list, envp);
 }
 
 void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT EXEC
 {
-	char		**tmp;
 	t_node		*tree;
 	t_node		*first_command;
-	static int	(*builtins[7])(t_command *) = \
-	{&ft_cd, &ft_pwd, &ft_echo, &ft_env, &ft_export, &ft_unset, &ft_exit};
-	static char	*builtins_str[8] = \
-	{"cd", "pwd", "echo", "env", "export", "unset", "exit", NULL};
 
 	tree = ft_build_tree(token_list, envp);
 	first_command = tree;
+	treeprint(tree, 12);
 	while (!(first_command->command))
 		first_command = first_command->left;
-	tmp = builtins_str;
-	while (*tmp)
-	{
-		if (!ft_strncmp(ft_backtrim(first_command->command->path, '/'), \
-						*tmp, ft_strlen(*tmp) + 1))
-		{
-			g_exit_code = builtins[tmp - builtins_str](first_command->command);
-			break ;
-		}
-		tmp++;
-	}
-	if (tmp == builtins_str + 7)
-		start_execve(first_command->command);
 	ft_clear_token_list(token_list);
+	ft_exec(tree, ft_init_executor(tree), EX_WAIT);
 	ft_clear_tree(tree);
 }
 
-// 	/*
-// 		DEBUG SECTION
-// 	*/
-// 	t_token *t;
-// 	t = tokens;
-// 	printf("------------- ACTUAL TOKEN LIST -------------\n");
-// 	while (t)
-// 	{
-// 		printf("[%s]->", t->str);
-// 		t = t->next;
-// 	}
-// 	printf("\n---------------------------------------------\n");
-// 	/*
-// 		END OF DEBUG
-// 	*/
+	// /*
+	// 	DEBUG SECTION
+	// */
+	// t_token *t;
+	// t = tokens;
+	// printf("------------- ACTUAL TOKEN LIST -------------\n");
+	// while (t)
+	// {
+	// 	printf("[%s]->", t->str);
+	// 	t = t->next;
+	// }
+	// printf("\n---------------------------------------------\n");
+	// /*
+	// 	END OF DEBUG
+	// */

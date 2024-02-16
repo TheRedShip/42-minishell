@@ -14,14 +14,6 @@
 
 extern int	g_exit_code;
 
-char	*ft_backtrim(char *str , char c)
-{
-	char	*lastb;
-
-	lastb = ft_strrchr(str, c);
-	return (lastb + 1);
-}
-
 char	*ft_trim_pwd(char *str)
 {
 	char	*lastb;

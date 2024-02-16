@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/11 23:33:22 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:42:12 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_export(t_command *cmd)
 {
 	char			**tmp;
 	t_error_code	errcode;
-	static	char 	err[] = "minishell: export: `%s': not a valid identifier\n";
+	static	char 	err[] = "%sexport: `%s': not a valid identifier\n";
 
 	tmp = cmd->args;
 	ft_display_command(cmd);
@@ -90,7 +90,7 @@ int	ft_export(t_command *cmd)
 		{
 			if (!ft_export_syntaxer(*tmp))
 			{
-				printf(err, *tmp);
+				printf(err, MINI, *tmp);
 				errcode = EC_FAILED;
 			}
 			if (ft_export_var(cmd, *(tmp)))

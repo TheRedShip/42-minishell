@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 13:16:25 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/15 20:05:22 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:49:15 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ char	*ft_strndup(char *str, int n);
 char	*ft_strnstr(char *big, char *little, size_t len);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strjoin(char *s1, char *s2, char *c, int tofree);
-char	*ft_strsjoin(char **strs, char *sep);
+char	*ft_strsjoin(char **strs, char *sep, int tofree);
 char	*ft_strmapi(char *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	**ft_split(char *s, char c);

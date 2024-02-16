@@ -3,78 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 17:46:06 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/18 17:46:06 by marvin           ###   ########.fr       */
+/*   Created: 2024/02/16 16:55:56 by rgramati          #+#    #+#             */
+/*   Updated: 2024/02/16 16:55:56 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_string(char **args)
+int	ft_is_n_flag(char *str)
 {
-	int		i;
-	char	*string;
-
-	string = NULL;
-	i = 1;
-	while (args[i])
-	{
-		if (string == NULL)
-			string = ft_strdup(args[i]);
-		else
-			string = ft_strjoin(string, args[i], " ", 1);
-		i++;
-	}
-	return (string);
-}
-
-int	skip_string(char **args)
-{
-	int		i;
-	int		j;
-	int		total;
-
-	i = 0;
-	total = 0;
-	while (args[i])
-	{
-		j = 0;
-		if (args[i][j] != '-' || (args[i][j] == '-' && args[i][j + 1] == '\0'))
-			return (total);
-		j++;
-		while (args[i][j] == 'n')
-			j++;
-		if (args[i][j] != '\0')
-			return (total);
-		total += j + 1;
-		i++;
-	}
-	return (total);
+	if (!str || *str != '-')
+		return (0);
+	str++;
+	while (*str == 'n')
+		str++;
+	return (!*str);
 }
 
 int	ft_echo(t_command *cmd)
 {
-	int		i;
-	int		trailing;
-	char	*string;
+	char	**args;
+	char	*msg;
+	int		trail;
 
-	if (!cmd->args[0])
+	args = cmd->args + 1;
+	msg = NULL;
+	trail = 1;
+	if (args)
 	{
+		while (*args && ft_is_n_flag(*args))
+			args++;
+		if (args != cmd->args + 1)
+			trail = 0;
+		msg = ft_strsjoin(args, " ", 0b00);
+		printf("%s", msg);
+	}
+	if (trail)
 		printf("\n");
-		return (0);
-	}
-	string = get_string(cmd->args);
-	i = skip_string(cmd->args + 1);
-	trailing = i == 0;
-	while (i < (int)(ft_strlen(string)) && string[i])
-	{
-		write(cmd->outfile, string + i, 1);
-		i++;
-	}
-	if (trailing)
-		write(1, "\n", 1);
-	free(string);
-	return (0);
+	free(msg);
+	return (EC_SUCCES);
 }

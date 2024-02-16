@@ -6,11 +6,23 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/15 19:35:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 15:01:22 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_isnt_empty(char *str)
+{
+	char	*tmp;
+	
+	if (!*str)
+		return (0);
+	tmp = str;
+	while (ft_isspace(*tmp))
+		tmp++;
+	return (*tmp);
+}
 
 void	ft_print_logo(t_envvar *envp)
 {

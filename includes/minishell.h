@@ -29,9 +29,11 @@
 # include "libft.h"
 
 # include "data_structures.h"
-# include "builtins.h"
 # include "parser.h"
+# include "builtins.h"
 # include "executer.h"
+
+# define MINI "minishell: "
 
 # define P_SUCCESS "\001\033[30;102;1m\002$?\001\033[0m\002 "
 # define P_FAIL "\001\033[30;101;1m\002$?\001\033[0m\002 "
@@ -53,6 +55,10 @@
 #  define OPEN_APPEND O_WRONLY | O_CREAT | O_APPEND
 # endif
 
+# ifndef OPEN_EXCL
+#  define OPEN_EXCL O_WRONLY | O_TRUNC | O_EXCL | O_CREAT
+# endif
+
 # define SIGHANDLER_IGN 0
 # define SIGHANDLER_INT 1
 # define SIGHANDLER_DQU 2
@@ -70,6 +76,8 @@ void	ft_exit_manager(int exit_code, int ec, t_command *cmd);
 /* ************************************************************************** */
 char	*ft_get_pwd(void);
 
+int		ft_isnt_empty(char *str);
+
 /* PARSING ****************************************************************** */
 char	*parse_quotes(char *string);
 // char	*parse_dollar(char *string, t_envvar *envp);
@@ -82,7 +90,7 @@ int		ft_qs_update(char c, t_quote_state *qs);
 /* PROMPTING **************************************************************** */
 void	ft_prompt_handle(t_envvar **envp);
 
-void	ft_prompt_tokenization(char *line, char *prompt, t_envvar **envp);
+void	ft_prompt_tokenization(char *line, t_envvar **envp);
 
 void	ft_prompt_execution(t_token *token_list, t_envvar **envp);
 
@@ -97,6 +105,6 @@ void	ft_signal_state(int toggle);
 
 void	ft_display_token(t_token *token);
 
-void	start_execve(t_command *cmd);
+void	start_execve(t_command *cmd, t_executor *ex);
 
 #endif

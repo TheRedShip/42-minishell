@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/15 17:49:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:39:09 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	ft_manage_inputs(t_token **tokens, int *fd, int *hd)
 			return (EC_FAILED);
 		(*tokens) = (*tokens)->next;
 	}
+	if (*fd == -1)
+		printf("%s%s: No such file or directory", MINI, (*tokens)->str);
 	return (EC_SUCCES);
 }
 
@@ -101,5 +103,7 @@ int	ft_manage_outputs(t_token **tokens, int *fd)
 			*fd = open(((*tokens)->next)->str, OPEN_APPEND, 0644);
 		(*tokens) = (*tokens)->next;
 	}
+	if (*fd == -1)
+		perror(MINI);
 	return (EC_FAILED);
 }

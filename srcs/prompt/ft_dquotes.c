@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:52:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/15 18:53:20 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:32:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*ft_get_dquote_line(char *line, char *tmp_file, int status)
 	return (result);
 }
 
-int	ft_get_dquote(char *line, char *prompt, t_envvar **env, char *tmp)
+int	ft_get_dquote(char *line, t_envvar **env, char *tmp)
 {
 	int		tmp_file_fd;
 	pid_t	quote_pid;
@@ -90,7 +90,6 @@ int	ft_get_dquote(char *line, char *prompt, t_envvar **env, char *tmp)
 		ft_signal_state(SIGHANDLER_DQU);
 		tmp_file_fd = open(tmp, OPEN_CREATE, 0644);
 		ft_static_dq_holder(NULL, NULL, tmp_file_fd, 0b00);
-		free(prompt);
 		rl_clear_history();
 		ft_clear_env(*env);
 		free(tmp);

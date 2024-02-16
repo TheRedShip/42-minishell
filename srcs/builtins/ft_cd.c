@@ -29,7 +29,7 @@ t_envvar	**ft_get_directory_vars(t_envvar *envp)
 int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 {
 	if (!argc && !vars[0])
-		printf("minishell: cd: HOME not set\n");
+		printf("%scd: HOME not set\n", MINI);
 	if ((!argc || (argc == 1 && !ft_strcmp(argv[0], "~"))) && vars[0])
 	{
 		if (chdir(vars[0]->values[0]) == -1)
@@ -46,7 +46,7 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 			chdir(vars[1]->values[0]);
 		}
 		else
-			printf("minishell: cd: OLDPWD not set\n");
+			printf("%scd: OLDPWD not set\n", MINI);
 		if (!vars[1]->values)
 			return (EC_FAILED);
 	}
@@ -76,7 +76,7 @@ int	ft_cd(t_command *cmd)
 	if (argc > 2)
 	{
 		free(vars);
-		printf("minishell: cd: Too many arguments.\n");
+		printf("%scd: Too many arguments.\n", MINI);
 		return (EC_FAILED);
 	}
 	if (ft_manage_cd(argc - 1, cmd->args + 1, vars))

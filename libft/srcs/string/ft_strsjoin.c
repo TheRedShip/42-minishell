@@ -6,33 +6,43 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:26:32 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/25 12:31:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:55:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strsjoin(char **strs, char *sep)
+static void	ft_manage_strings(char **strs, char *sep, int tf)
 {
-	int		i;
-	int		size;
-	char	**cpy;
-	char	*join;
+	if (tf & 0b01)
+		ft_free_tab((void **) strs);
+	if (tf & 0b10)
+		free(sep);
+}
 
-	size = 0;
-	cpy = strs;
-	while (*cpy)
-		size += ft_strlen(*(cpy++));
-	size += ft_tab_len(strs) * ft_strlen(sep);
-	join = ft_calloc(size + 1, sizeof(char));
-	i = 1;
-	if (*strs)
-		ft_strlcat(join, strs[0], ft_strlen(strs[0]), 1);
-	while (strs[i])
+char	*ft_strsjoin(char **strs, char *sep, int tofree)
+{
+	char	**tmp;
+	char	*ns;
+	int		len;
+
+	if (!strs)
+		return (NULL);
+	if (!sep)
+		sep = ft_strdup("");
+	tmp = strs;
+	len = 1;
+	while (*tmp)
+		len += ft_strlen(*(tmp++));
+	ns = malloc((len + (ft_tab_len(strs) - 1) * ft_strlen(sep)) * sizeof(char));
+	*ns = 0;
+	tmp = strs;
+	while (*tmp)
 	{
-		ft_strlcat(join, sep, ft_strlen(sep), 1);
-		ft_strlcat(join, strs[i], ft_strlen(strs[i]), 1);
-		i++;
+		ft_strcat(ns, *(tmp++));
+		if (*tmp)
+			ft_strcat(ns, sep);
 	}
-	return (join);
+	ft_manage_strings(strs, sep, tofree);
+	return (ns);
 }

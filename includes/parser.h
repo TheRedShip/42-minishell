@@ -6,13 +6,12 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/15 20:10:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:20:19 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-
 
 char		*ft_get_temp_file(char *head);
 
@@ -32,27 +31,29 @@ void		ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
  * @param str		String to check.
  * @param qs		Quote_state.
  * 
- * @return			0 if qs is different of QU_ZERO, 1 otherwise.		
+ * @return			Syntax error char.		
 */
-int			ft_quote_syntax(char *str, t_quote_state qs);
+char		ft_quote_syntax(char *str, t_quote_state qs);
 
 /**
  * @brief			Get quoted string from bad input.
  * 
  * @param line		Actual prompt line with wrong quote syntax.
- * @param prompt	Prompt pointer to free it in child.
  * @param envp		Environment adress to free it in child.
+ * @param tmp		Temporary file name.
  * 
  * @return			Quoted string or NULL if error.
 */
-int			ft_get_dquote(char *line, char *prompt, t_envvar **env, char *tmp);
+int			ft_get_dquote(char *line, t_envvar **env, char *tmp);
 
 /**
  * @brief			Get dquote line from dquote file
  * 
  * @param line		Actual line.
- * @param tmp_file	File name.
+ * @param tmp_file	Temporary file name.
  * @param status	Error code from dquote fork.
+ * 
+ * @return			Dquote line.
 */
 char		*ft_get_dquote_line(char *line, char *tmp_file, int status);
 
@@ -61,6 +62,8 @@ char		*ft_get_dquote_line(char *line, char *tmp_file, int status);
  * 
  * @param tmp_fd	Temporary file descritpor.
  * @param qs		Quote state.
+ * 
+ * @return			Dquote readline return.
 */
 char		*ft_open_dquote(int tmp_fd, t_quote_state qs);
 
@@ -70,6 +73,8 @@ char		*ft_open_dquote(int tmp_fd, t_quote_state qs);
  * @param vars		Linked list.
  * @param str		String to format.
  * @param qs		Carried quote state.
+ * 
+ * @return			str but with expanded variables.
 */
 char		*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
 
@@ -80,6 +85,8 @@ char		*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
  * @param result	Actual result string.
  * @param str		String leftovers.
  * @param len		Len pointer (filled with inserted string len).
+ * 
+ * @return			String with inserted var.
 */
 char		*ft_insert_var(t_envvar *vars, char *result, char *str, int *len);
 
@@ -217,7 +224,11 @@ void		ft_print_logo(t_envvar *envp);
 void		ft_sort_lowstrs_tab(char **tab, int size);
 
 /**
+ * @brief			Unquoted string len.
  * 
+ * @param str		String.
+ * 
+ * @return			Unquoted len of the string.
 */
 int			ft_dqstrlen(char *str);
 

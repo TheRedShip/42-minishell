@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 00:48:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 17:10:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:51:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strcat(char *dest, char *src)
 	char	*tmp;
 
 	tmp = dest;
+	if (!dest)
+		return (NULL);
 	while (*dest)
 		dest++;
 	while (*src)

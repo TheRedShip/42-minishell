@@ -6,12 +6,24 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/15 19:57:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:13:16 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTER_H
 # define EXECUTER_H
+
+/* ENUMS ******************************************************************** */
+
+/**
+ * @enum			e_exec_status.
+ * @brief			Execution status.
+ */
+typedef enum e_exec_status
+{
+	EX_WAIT = 0,
+	EX_PIPE = 1
+}	t_exec_status;
 
 /* TYPEDEFS ***************************************************************** */
 
@@ -124,7 +136,7 @@ t_pipes		*ft_pipes_pop(t_pipes **head);
  * @brief			De-allocate a t_pipes, closing file descriptors, and call
  * 					ft_del_pid_list on waitlist attribute.
  * 
- * @param p			t_pipes pointer.
+ * @param p			t_pipes to free.
 */
 void		ft_del_pipe(t_pipes *p);
 
@@ -135,7 +147,15 @@ void		ft_del_pipe(t_pipes *p);
  * 
  * @return			A pointer to the newly allocated t_executor.
 */
-t_executor	*ft_init_executor();
+t_executor	*ft_init_executor(t_node *root);
+
+/**
+ * @brief			De-allocate a t_executor, calling ft_del_pipe on pipes
+ * 					attribute if not NULL.
+ * 
+ * @param ex		t_executor to free.
+*/
+void		ft_del_executor(t_executor *ex);
 
 /* EXECUTION **************************************************************** */
 
@@ -145,7 +165,7 @@ t_executor	*ft_init_executor();
  * @param tree		Actual t_node.
  * @param ex		t_executor carried data for execution.
 */
-void		ft_exec(t_node *tree, t_executor *ex);
+void		ft_exec(t_node *tree, t_executor *ex, t_exec_status status);
 
 /**
  * @brief			Process redirections for a COMMAND t_node.
@@ -153,7 +173,7 @@ void		ft_exec(t_node *tree, t_executor *ex);
  * @param cmd		Actual COMMAND t_node.
  * @param ex		t_executor carried data for execution.
 */
-void		ft_process_redirs(t_command *cmd, t_executor *ex);
+int			ft_process_redirs(t_command *cmd, t_executor *ex);
 
 /**
  * @brief			Execute an OR t_node.
@@ -161,7 +181,7 @@ void		ft_process_redirs(t_command *cmd, t_executor *ex);
  * @param tree		Actual OR t_node.
  * @param ex		t_executor carried data for execution.
 */
-void		ft_exec_or(t_node *tree, t_executor *ex);
+void		ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status);
 
 /**
  * @brief			Execute an AND t_node.
@@ -169,7 +189,7 @@ void		ft_exec_or(t_node *tree, t_executor *ex);
  * @param tree		Actual AND t_node.
  * @param ex		t_executor carried data for execution.
 */
-void		ft_exec_and(t_node *tree, t_executor *ex);
+void		ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status);
 
 /**
  * @brief			Execute a COMMAND t_node
@@ -177,7 +197,16 @@ void		ft_exec_and(t_node *tree, t_executor *ex);
  * @param tree		Actual COMMAND t_node.
  * @param ex		t_executor carried data for execution.
 */
-void		ft_exec_command(t_node *tree, t_executor *ex);
+void		ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status);
+
+/**
+ * @brief			Try to fetch builtin commands.
+ * 
+ * @param command	t_command to test.
+ * 
+ * @return			EC_SUCCES if it did execute a builtin, EC_FAILED otherwise.
+*/
+int			ft_exec_builtins(t_command *cmd);
 
 /* FILE MANAGEMENT ********************************************************** */
 
@@ -206,11 +235,20 @@ int			ft_manage_inputs(t_token **tokens, int *fd, int *hd);
 int			ft_manage_outputs(t_token **tokens, int *fd);
 
 /**
+ * @brief			Get heredoc file descriptor.
+ * 
+ * @param delim		Heredoc delimiter.
+ * 
+ * @return			Heredoc file descriptor, -1 if failed.
+*/
+int			ft_get_heredoc(char *delim);
+
+/**
  * @brief			Close a t_command's fd.
  * 
- * @param tree		t_node with command inside.
+ * @param command	t_command to close.
 */
-void		ft_close_command(t_node *tree);
+void		ft_close_command(t_command *command);
 
 /**
  * @brief			Close all fds in a tree recursively.
