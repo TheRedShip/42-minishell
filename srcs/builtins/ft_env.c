@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/01/30 14:38:44 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:55:43 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,23 @@ int	ft_var_size(t_envvar *vars)
 
 char	*ft_get_varstring(t_envvar *var, int format, int named)
 {
-	char	*string;
+	char	*str;
 	int		i;
 
-	string = NULL;
+	str = NULL;
 	if (var == NULL)
 		return (NULL);
 	i = 0;
 	if (!var->values)
 		return (ft_strdup(var->name));
 	if (named)
-		string = ft_strjoin(ft_strdup(var->name), "=", NULL, 0b01);
+		str = ft_strjoin(ft_strdup(var->name), "=", NULL, 0b01);
 	if (format)
-		string = ft_strjoin(string, "\"", NULL, 1);
-	while (var->values[i])
-	{
-		if (!i)
-			string = ft_strjoin(string, var->values[i++], NULL, 0b01);
-		else
-			string = ft_strjoin(string, var->values[i++], ":", 0b01);
-	}
+		str = ft_strjoin(str, "\"", NULL, 1);
+	str = ft_strjoin(str, ft_strsjoin(var->values, ":", 0b00), NULL, 0b11);
 	if (format)
-		string = ft_strjoin(string, "\"", NULL, 0b01);
-	return (string);
+		str = ft_strjoin(str, "\"", NULL, 0b01);
+	return (str);
 }
 
 char	**ft_get_var_strs(t_envvar *vars, int format)

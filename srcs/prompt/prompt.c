@@ -47,6 +47,7 @@ void	start_execve(t_command *cmd, t_executor *ex)
 			ft_del_executor(ex);
 			exit(EC_FAILED);
 		}
+		ft_close_command(cmd);
 		execve(cmd->path, cmd->args, env);
 		perror("execve");
 		exit(EC_FAILED);
@@ -103,7 +104,6 @@ int	ft_quote_handler(char **line, t_envvar **envp, int status)
 void	ft_prompt_handle(t_envvar **envp)
 {
 	char	*line;
-	char	*line_holder;
 	char	*prompt;
 	int		err_code;
 
@@ -124,9 +124,8 @@ void	ft_prompt_handle(t_envvar **envp)
 		g_exit_code = 130;
 		return ;
 	}
-	line_holder = ft_replace_vars(*envp, line, QU_ZERO);
-	free(line);
-	ft_prompt_tokenization(line_holder, envp);
+	ft_replace_vars(*envp, &line, QU_ZERO);
+	ft_prompt_tokenization(line, envp);
 }
 
 void	ft_prompt_tokenization(char *line, t_envvar **envp)

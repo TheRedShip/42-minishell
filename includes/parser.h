@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 16:20:19 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/16 22:35:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,8 @@ char		*ft_open_dquote(int tmp_fd, t_quote_state qs);
  * @param vars		Linked list.
  * @param str		String to format.
  * @param qs		Carried quote state.
- * 
- * @return			str but with expanded variables.
 */
-char		*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
+void		ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs);
 
 /**
  * @brief			Insert environment variable into a string.
@@ -85,10 +83,8 @@ char		*ft_replace_vars(t_envvar *vars, char *str, t_quote_state qs);
  * @param result	Actual result string.
  * @param str		String leftovers.
  * @param len		Len pointer (filled with inserted string len).
- * 
- * @return			String with inserted var.
 */
-char		*ft_insert_var(t_envvar *vars, char *result, char *str, int *len);
+void		ft_insert_var(t_envvar *vars, char ***new, char *start, char **tmp);
 
 /**
  * @brief			Dequote a string.
