@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 15:38:37 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 15:48:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ void	ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs)
 	if (qs)
 	{
 		dquote_holder = ft_open_dquote(tmp_file_fd, qs);
-		ft_static_dq_holder(dquote_holder, NULL, 0, 0b00);
 		if (!dquote_holder)
 		{
 			free(dquote_holder);
 			*str = string_holder;
 			return ;
 		}
-		dquote_holder = ft_strjoin(string_holder, dquote_holder, "\n", 0b01);
+		dquote_holder = ft_strjoin(string_holder, dquote_holder, "\n", 0b11);
 		ft_quote_enforcer(&dquote_holder, tmp_file_fd, QU_ZERO);
+		ft_static_dq_holder(dquote_holder, NULL, 0, 0b00);
 		*str = dquote_holder;
 		return ;
 	}
