@@ -42,7 +42,6 @@ void	ft_h_quote(int signal)
 	if (signal == 2)
 	{
 		printf("^C\n");
-		free(rl_line_buffer);
 		free(ft_static_dq_holder(NULL, NULL, 0, 0b01));
 		free(ft_static_dq_holder(NULL, NULL, 0, 0b10));
 		fd = *(int *)ft_static_dq_holder(NULL, NULL, 0, 0b11);
