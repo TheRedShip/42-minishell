@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 18:13:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:37:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,14 @@ void		ft_exec(t_node *tree, t_executor *ex, t_exec_status status);
 int			ft_process_redirs(t_command *cmd, t_executor *ex);
 
 /**
+ * @brief			Process redirections for a builtin COMMAND t_node.
+ * 
+ * @param cmd		Actual COMMAND t_node.
+ * @param ex		t_executor carried data for execution.
+*/
+int			ft_process_bredirs(t_command *cmd, t_executor *ex, int **tmps);
+
+/**
  * @brief			Execute an OR t_node.
  * 
  * @param tree		Actual OR t_node.
@@ -206,11 +214,16 @@ void		ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status);
  * 
  * @return			EC_SUCCES if it did execute a builtin, EC_FAILED otherwise.
 */
-int			ft_exec_builtins(t_command *cmd);
+int			ft_exec_builtins(t_command *cmd, t_executor *ex, int **btemps);
 
 /* FILE MANAGEMENT ********************************************************** */
 
-
+/**
+ * @brief			Variadic close.
+ * 
+ * @param nb		How many files to close.
+ * @param fd		First fd, then vararg.
+*/
 void		ft_close_v(int nb, int fd, ...);
 
 /**
@@ -263,5 +276,9 @@ void		ft_close_tree_rec(t_node *tree);
  * @param ex		t_executor to close.
 */
 void		ft_close_executor(t_executor *ex);
+
+/* UTILS ******************************************************************** */
+
+void		ft_command_checker(t_command *cmd);
 
 #endif

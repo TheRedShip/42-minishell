@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 23:02:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 14:48:56 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	**ft_wildcard_array(char *wcstr)
 			ft_strapp(&files, ft_strdup(cdir_entry->d_name));
 		cdir_entry = readdir(cdir);
 	}
-	free(cdir);
+	closedir(cdir);
 	return (files);
 }
 
@@ -115,8 +115,12 @@ void	ft_replace_wildcard(t_token **tokens, t_token **tmp)
 {
 	char	**files;
 	char	*wcs;
+	char	*deq;
 
-	files = ft_wildcard_array((*tmp)->str);
+	deq = ft_strdup((*tmp)->str);
+	ft_dequote_string(&deq, QU_ZERO);
+	files = ft_wildcard_array(deq);
+	free(deq);
 	if (files && *files)
 	{
 		free((*tmp)->str);

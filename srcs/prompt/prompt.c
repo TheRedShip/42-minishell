@@ -124,19 +124,12 @@ void	ft_prompt_handle(t_envvar **envp)
 		g_exit_code = 130;
 		return ;
 	}
-	ft_replace_vars(*envp, &line, QU_ZERO);
+	// ft_replace_vars(*envp, &line, QU_ZERO, 0);
 	ft_prompt_tokenization(line, envp);
 }
 
-void	ft_prompt_tokenization(char *line, t_envvar **envp)
+void	ft_display_token_list(t_token *token_list)
 {
-	t_token	*token_list;
-	int		syntax;
-
-	syntax = 0;
-	token_list = ft_tokenizer(line, QU_ZERO);
-	if (!token_list)
-		return ;
 	/*
 		DEBUG SECTION
 	*/
@@ -152,8 +145,20 @@ void	ft_prompt_tokenization(char *line, t_envvar **envp)
 	/*
 		END OF DEBUG
 	*/
+}
+
+void	ft_prompt_tokenization(char *line, t_envvar **envp)
+{
+	t_token	*token_list;
+	int		syntax;
+
+	syntax = 0;
+	token_list = ft_tokenizer(line, QU_ZERO);
+	if (!token_list)
+		return ;
 	ft_format_tokens(&token_list, ft_get_var(*envp, "HOME"));
 	ft_remove_braces(&token_list);
+	ft_display_token_list(token_list);
 	if ((!ft_verify_token(token_list) || ft_quote_syntax(line, QU_ZERO)))
 	{
 		printf("%ssyntax error\n", MINI);

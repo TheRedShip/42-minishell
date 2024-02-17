@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/16 10:52:18 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/17 13:38:18 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRC_PARSING	:=  parsing/ft_ast_build.c \
 
 SRC_EXEC	:=	execution/ft_file_manager.c \
 				execution/ft_close_manager.c \
+				execution/ft_formatting.c \
 				execution/ft_exec.c \
 				execution/s_pid.c \
 				execution/s_pipes.c \

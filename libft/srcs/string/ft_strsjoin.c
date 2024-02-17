@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:26:32 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 14:55:48 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 09:50:43 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ char	*ft_strsjoin(char **strs, char *sep, int tofree)
 
 	if (!strs)
 		return (NULL);
+	if (!*strs)
+		return (ft_strdup(""));
+	if (!sep)
+		tofree |= 0b10;
 	if (!sep)
 		sep = ft_strdup("");
 	tmp = strs;
@@ -35,6 +39,8 @@ char	*ft_strsjoin(char **strs, char *sep, int tofree)
 	while (*tmp)
 		len += ft_strlen(*(tmp++));
 	ns = malloc((len + (ft_tab_len(strs) - 1) * ft_strlen(sep)) * sizeof(char));
+	if (!ns)
+		return (NULL);
 	*ns = 0;
 	tmp = strs;
 	while (*tmp)

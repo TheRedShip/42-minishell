@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 22:35:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:00:26 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,23 @@ char		*ft_get_dquote_line(char *line, char *tmp_file, int status);
 char		*ft_open_dquote(int tmp_fd, t_quote_state qs);
 
 /**
- * @brief			Recursively replace $VARS by their values.
+ * @brief			Replace $VARS by their values if existing.
  * 
  * @param vars		Linked list.
  * @param str		String to format.
  * @param qs		Carried quote state.
 */
-void		ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs);
+void
+ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs, int cut);
 
 /**
- * @brief			Insert environment variable into a string.
+ * @brief			Insert environment variable into a string array.
  * 
  * @param vars		Linked list.
- * @param result	Actual result string.
- * @param str		String leftovers.
- * @param len		Len pointer (filled with inserted string len).
+ * @param new		String array to adress.
+ * @param str		String.
 */
-void		ft_insert_var(t_envvar *vars, char ***new, char *start, char **tmp);
+void		ft_insert_var(t_envvar *vars, char ***new, char *start, int cut);
 
 /**
  * @brief			Dequote a string.
@@ -227,5 +227,14 @@ void		ft_sort_lowstrs_tab(char **tab, int size);
  * @return			Unquoted len of the string.
 */
 int			ft_dqstrlen(char *str);
+
+/**
+ * @brief			Skip a part of a string, updating its pointer and qs
+ * 
+ * @param str		String adress.
+ * @param len		Len to skip.
+ * @param qs		Quote state.
+*/
+void		ft_quoted_skip(char **str, int len, t_quote_state *qs);
 
 #endif

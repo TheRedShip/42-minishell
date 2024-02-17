@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 21:25:37 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:35:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,31 @@ int	ft_process_redirs(t_command *cmd, t_executor *ex)
 	return (EC_SUCCES);
 }
 
+int	ft_process_bredirs(t_command *cmd, t_executor *ex, int **tmps)
+{
+	int	in_file;
+	int	out_file;
+
+	in_file = STDIN_FILENO;
+	out_file = STDOUT_FILENO;
+	(*tmps)[STDIN_FILENO] = dup(STDIN_FILENO);
+	(*tmps)[STDOUT_FILENO] = dup(STDOUT_FILENO);
+	if (ex->pipes)
+	{
+		in_file = ex->input;
+		out_file = ex->output;
+	}
+	if (cmd->infile != STDIN_FILENO)
+		in_file = cmd->infile;
+	if (cmd->outfile != STDOUT_FILENO)
+		out_file = cmd->outfile;
+	dup2(in_file, STDIN_FILENO);
+	dup2(out_file, STDOUT_FILENO);
+	if (in_file == -1 || out_file == -1)
+		return (EC_ERRORS);
+	return (EC_SUCCES);
+}
+
 void	ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	printf("%p OR %p\n", tree->left, tree->right);
@@ -81,12 +106,26 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	(void) ex;
 	(void) status;
-	if (ft_exec_builtins(tree->command))
+	int	*btemps;
+	int	built;
+
+	btemps = ft_calloc(2, sizeof(int));
+	ft_command_checker(tree->command);
+	built = ft_exec_builtins(tree->command, ex, &btemps);
+	if (built)
 		start_execve(tree->command, ex);
+	else
+	{
+		dup2(btemps[0], STDIN_FILENO);
+		dup2(btemps[1], STDOUT_FILENO);
+		close(btemps[0]);
+		close(btemps[1]);
+	}
+	free(btemps);
 	ft_close_command(tree->command);
 }
 
-int	ft_exec_builtins(t_command	*cmd)
+int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int **btemps)
 {
 	char		*trim;
 	char		**tmp;
@@ -107,7 +146,10 @@ int	ft_exec_builtins(t_command	*cmd)
 	if (!*tmp)
 		return (EC_FAILED);
 	else
-		g_exit_code = builtins[tmp - builtins_str](cmd);
+	{
+		if (ft_process_bredirs(cmd, ex, btemps) != 2)
+			g_exit_code = builtins[tmp - builtins_str](cmd);
+	}
 	return (EC_SUCCES);
 }
 

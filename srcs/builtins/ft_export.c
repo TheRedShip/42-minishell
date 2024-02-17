@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 13:42:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 14:17:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,17 @@ int	ft_export_var(t_command *cmd, char *tmp)
 {
 	char	**var;
 
+	var =NULL;
 	if (ft_strchr(tmp, '='))
 	{
-		var = ft_split(tmp, '=');
+		ft_strapp(&var, ft_strndup(tmp, ft_strcspn(tmp, "=")));
+		ft_strapp(&var, ft_strdup(tmp + ft_strlen(*var) + 1));
 		if (ft_strlen(var[0]) && var[0][ft_strlen(var[0]) - 1] == '+')
-			ft_append_var(cmd->envp, var[0], ft_strtrim(var[1], "\"'"));
+			ft_append_var(cmd->envp, var[0], ft_strtrim(var[1], "\""));
 		else
 		{
 			if (var[1])
-				ft_set_var(cmd->envp, var[0], ft_strtrim(var[1], "\"'"));
+				ft_set_var(cmd->envp, var[0], ft_strtrim(var[1], "\""));
 			else
 				ft_set_var(cmd->envp, var[0], "");
 		}
@@ -82,6 +84,7 @@ int	ft_export(t_command *cmd)
 
 	tmp = cmd->args;
 	ft_display_command(cmd);
+	errcode = EC_SUCCES;
 	if (ft_tab_len(tmp) == 1 && ft_show_export_list(cmd))
 		errcode = EC_FAILED;
 	else
