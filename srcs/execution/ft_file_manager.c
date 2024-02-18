@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 13:12:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:36:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,6 @@ t_open_status	ft_manage_outputs(t_token **tokens, int *fd, int type)
 t_open_status	ft_open_files(t_token **list, t_token **tk, int *stds)
 {
 	t_open_status	state;
-	t_open_status	carry;
 
 	state = OP_FILEOK;
 	if (!ft_strncmp((*tk)->str, ">", 2) || !ft_strncmp((*tk)->str, ">>", 3))

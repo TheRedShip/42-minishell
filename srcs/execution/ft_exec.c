@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 14:30:53 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:38:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,9 @@ int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int **btemps)
 	{"cd", "pwd", "echo", "env", "export", "unset", "exit", NULL};
 
 	tmp = builtins_str;
-	trim = ft_strrchr(cmd->path, '/');
+	trim = ft_strrchr(cmd->path, '/') + 1;
 	if (!trim)
 		return (EC_FAILED);
-	trim += 1;
 	while (*tmp && ft_strncmp(trim, *tmp, ft_strlen(*tmp) + 1))
 	{
 		trim = ft_strrchr(cmd->path, '/') + 1;

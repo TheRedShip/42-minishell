@@ -196,6 +196,11 @@ void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT E
 		exit(EC_ERRORS);
 	}
 	if (check & 2)
+	{
+		printf("WIJFWAFHAW");
+		ft_clear_tree(tree);
+		return ;
+	}
 	first_command = tree;
 	treeprint(tree, 12);
 	while (!(first_command->command))
