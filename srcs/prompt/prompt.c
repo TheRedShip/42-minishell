@@ -119,10 +119,9 @@ void	ft_prompt_handle(t_envvar **envp)
 	err_code = ft_quote_handler(&line, envp, 0);
 	ft_signal_state(SIGHANDLER_INT);
 	if (err_code == EC_ERRORS)
-	{
 		ft_clear_env(*envp);
+	if (err_code == EC_ERRORS)
 		ft_exit(NULL);
-	}
 	else if (err_code == EC_FAILED || !line)
 	{
 		g_exit_code = 130;
@@ -198,7 +197,6 @@ void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT E
 	if (check & 2)
 	{
 		printf("WIJFWAFHAW");
-		ft_clear_tree(tree);
 		return ;
 	}
 	first_command = tree;

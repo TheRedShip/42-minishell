@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 13:28:34 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:41:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env, t_token *tmp, int *hd_fai
 				ft_free_tab((void **)args);
 				return (ft_init_node(NULL, NULL));
 			}
-			*hd_failed = (stds[0] == -3);
+			*hd_failed = ((stds[0] == OP_HDOCKO) << 1) | (stds[0] == OP_FILEKO);
 		}
 		else if (tmp->type & TK_STRING)
 			ft_strapp(&args, ft_strdup(tmp->str));
@@ -108,7 +108,9 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 	static int		hd_failed = 0;
 
 	tree = NULL;
-	while (tokens && !hd_failed)
+	if (!tokens->prev)
+		hd_failed = 0;
+	while (tokens)
 	{
 		if (tokens->type & TK_BRACES)
 		{
@@ -127,8 +129,6 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 		if (tmp & TK_BINOPS)
 			return (tree);
 	}
-	if (hd_failed)
-		hd_failed = 0;
 	return (tree);
 }
 

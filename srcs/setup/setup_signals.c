@@ -29,6 +29,7 @@ void	ft_h_inter(int signal)
 		printf("^C\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
+
 		rl_redisplay();
 	}
 }
@@ -45,7 +46,7 @@ void	ft_h_quote(int signal)
 		free(ft_dq_holder(NULL, 0));
 		free(ft_dq_holder(NULL, 1));
 		fd = *(int *)ft_dq_holder(NULL, 2);
-		ft_close_v(4, fd, STDIN_FILENO, STDOUT_FILENO, 2);
+		ft_close_v(4, fd, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
 		g_exit_code = 130;
 		exit(130);
 	}
@@ -61,11 +62,12 @@ void	ft_h_heredoc(int signal)
 	if (signal == 2)
 	{
 		printf("^C\n");
+		unlink(ft_hd_holder(NULL, 0));
 		free(ft_hd_holder(NULL, 0));
 		free(ft_hd_holder(NULL, 1));
 		free(ft_hd_holder(NULL, 2));
 		fd = *(int *)ft_hd_holder(NULL, 3);
-		ft_close_v(4, fd, STDIN_FILENO, STDOUT_FILENO, 2);
+		ft_close_v(4, fd, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
 		g_exit_code = 130;
 		exit(130);
 	}

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 14:36:27 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:34:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_heredoc_line(char *delim, char *hd_file, int hd_fd)
 	ft_hd_holder(hd_file, 0);
 	ft_hd_holder(delim, 2);
 	ft_hd_holder((char *)&hd_fd, 3);
-	while (line && ft_strncmp(line, delim, ft_strlen(delim)) && !access(hd_file, F_OK))
+	while (line && ft_strncmp(line, delim, ft_strlen(delim) + 1) && !access(hd_file, F_OK))
 	{
 		write(hd_fd, line, ft_strlen(line));
 		if (prompt)
@@ -88,16 +88,18 @@ int	ft_heredoc_line(char *delim, char *hd_file, int hd_fd)
 
 int	ft_heredoc_exit(char *hd_file, char *delim, int err_code)
 {
-	char	*line;
-	int		hd_fd;
+	int	hd_fd;
 
-	hd_fd = open(hd_file, OPEN_READ);
-	line = get_next_line(hd_fd);
+	free(delim);
 	if (err_code == 130)
+	{
+		unlink(hd_file);
+		free(hd_file);
 		return (OP_HDOCKO);
+	}
+	hd_fd = open(hd_file, OPEN_READ);
 	unlink(hd_file);
 	free(hd_file);
-	free(delim);
 	return (hd_fd);
 }
 
@@ -146,7 +148,7 @@ t_open_status	ft_manage_inputs(t_token **tokens, int *fd, int type)
 		ft_signal_state(SIGHANDLER_INT);
 	}
 	(*tokens) = (*tokens)->next;
-	if (*fd == OP_FILEKO)
+	if (*fd == -OP_FILEKO)
 	{
 		printf("%s%s: No such file or directory", MINI, (*tokens)->str);
 		return (OP_FILEKO);
