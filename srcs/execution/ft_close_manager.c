@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:40 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 21:27:03 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 11:34:55 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,17 @@ void	ft_close_v(int nb, int fd, ...)
 {
 	va_list	files;
 	int		i;
+	int		curr;
 
 	i = 0;
-	if (fd > 2)
-		close(fd);
+	close(fd);
 	va_start(files, fd);
 	while (i++ < nb)
-		close(va_arg(files, int));
+	{
+		curr = va_arg(files, int);
+		if (curr >= 0)
+			close(curr);
+	}
 	va_end(files);
 }
 

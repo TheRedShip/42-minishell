@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/16 15:01:22 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 01:09:23 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,26 @@ void	ft_print_logo(t_envvar *envp)
 	close(fd);
 }
 
-char	*ft_get_temp_file(char *head)
+char	*ft_get_temp_file(char *head, int size)
 {
 	int		urandom;
-	char	rand[11];
-	int		i;
+	char	*rand;
+	char	*tmp;
 
-	i = 0;
-	rand[10] = 0;
+	rand = ft_calloc((size + 1), sizeof(char));
 	urandom = open("/dev/urandom", O_RDONLY);
 	if (urandom < 0)
 		return (NULL);
-	read(urandom, rand, 10);
+	read(urandom, rand, size);
 	close(urandom);
-	while (i < 10)
+	tmp = rand;
+	while (size--)
 	{
-		while (!(ft_isalnum(rand[i])))
-			rand[i] = (unsigned char) rand[i] % 93 + 33;
-		i++;
+		while (!(ft_isalnum(*rand)))
+			*rand = (unsigned char) *rand % 93 + 33;
+		rand++;
 	}
-	return (ft_strjoin(head, rand, "-", 0b00));
+	return (ft_strjoin(head, tmp, "-", 0b10));
 }
 
 int	main(int argc, char **argv, char **envp)

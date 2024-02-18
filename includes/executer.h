@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 13:37:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 12:33:39 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ typedef enum e_exec_status
 	EX_WAIT = 0,
 	EX_PIPE = 1
 }	t_exec_status;
+
+typedef enum e_open_status
+{
+	OP_HDOCKO = -3,
+	OP_FILEHD = -2,
+	OP_FILEOK = 0,
+	OP_FILEKO,
+	OP_FILEXX
+}	t_open_status;
 
 /* TYPEDEFS ***************************************************************** */
 
@@ -224,18 +233,18 @@ int			ft_exec_builtins(t_command *cmd, t_executor *ex, int **btemps);
  * @param nb		How many files to close.
  * @param fd		First fd, then vararg.
 */
-void		ft_close_v(int nb, int fd, ...);
+void			ft_close_v(int nb, int fd, ...);
 
 /**
  * @brief			Manage input redirections.
  * 
  * @param tokens	Linked list loop pointer.
  * @param fd		Infile fd pointer for current command.
- * @param hd		Heredoc counter pointer.
+ * @param type		Redirection type.
  * 
- * @return			EC_FAILED if more than 16 heredocs, EC_SUCCES otherwise.
+ * @return			OP_FILEOK | OPFILEKO depending on opening result.
 */
-int			ft_manage_inputs(t_token **tokens, int *fd, int *hd);
+t_open_status	ft_manage_inputs(t_token **tokens, int *fd, int type);
 
 /**
  * @brief			Manage output redirections.
@@ -243,42 +252,51 @@ int			ft_manage_inputs(t_token **tokens, int *fd, int *hd);
  * @param tokens	Linked list loop pointer.
  * @param fd		Outfile fd pointer for current command.
  * 
- * @return			EC_SUCCES.
+ * @return			OP_FILEOK | OPFILEKO depending on opening result.
+ * 					OP_FILEXX on opening error for an outfile.
 */
-int			ft_manage_outputs(t_token **tokens, int *fd);
+t_open_status	ft_manage_outputs(t_token **tokens, int *fd, int type);
+
+/**
+ * @brief			Manage file opening and redirections.
+*/
+t_open_status	ft_open_files(t_token **list, t_token **tk, int *stds);
 
 /**
  * @brief			Get heredoc file descriptor.
  * 
  * @param delim		Heredoc delimiter.
+ * @param hd_file	Temporary file name.
  * 
  * @return			Heredoc file descriptor, -1 if failed.
 */
-int			ft_get_heredoc(char *delim);
+int	ft_get_heredoc(char *delim, char *hd_file);
 
 /**
  * @brief			Close a t_command's fd.
  * 
  * @param command	t_command to close.
 */
-void		ft_close_command(t_command *command);
+void			ft_close_command(t_command *command);
 
 /**
  * @brief			Close all fds in a tree recursively.
  * 
  * @param tree		t_node tree to close.
 */
-void		ft_close_tree_rec(t_node *tree);
+void			ft_close_tree_rec(t_node *tree);
 
 /**
  * @brief			Close t_executor
  * 
  * @param ex		t_executor to close.
 */
-void		ft_close_executor(t_executor *ex);
+void			ft_close_executor(t_executor *ex);
 
 /* UTILS ******************************************************************** */
 
 void		ft_command_checker(t_command *cmd);
+
+t_token		*ft_head_token(t_token *head);
 
 #endif

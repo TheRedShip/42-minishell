@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/17 13:38:18 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/18 12:01:01 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRC_BUILTIN :=	builtins/ft_cd.c \
 				builtins/ft_export.c \
 				builtins/ft_unset.c
 
-SRC_PARSING	:=  parsing/ft_ast_build.c \
+SRC_PARSING	:=  parsing/ft_tree_build.c \
+				parsing/ft_tree_auth.c \
 				parsing/ft_parse_dollars.c \
 				parsing/ft_parse_quotes.c \
 				parsing/ft_parse_wildcards.c \
@@ -60,7 +61,8 @@ SRC_EXEC	:=	execution/ft_file_manager.c \
 				execution/s_executor.c
 
 SRC_PROMPT	:=  prompt/prompt.c \
-				prompt/ft_dquotes.c
+				prompt/ft_dquotes.c \
+				prompt/ft_holder.c
 
 SRC_SETUP	:=  setup/ft_setup_env.c \
 				setup/setup_signals.c

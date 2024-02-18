@@ -42,10 +42,30 @@ void	ft_h_quote(int signal)
 	if (signal == 2)
 	{
 		printf("^C\n");
-		free(ft_static_dq_holder(NULL, NULL, 0, 0b01));
-		free(ft_static_dq_holder(NULL, NULL, 0, 0b10));
-		fd = *(int *)ft_static_dq_holder(NULL, NULL, 0, 0b11);
-		ft_close_v(3, fd, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
+		free(ft_dq_holder(NULL, 0));
+		free(ft_dq_holder(NULL, 1));
+		fd = *(int *)ft_dq_holder(NULL, 2);
+		ft_close_v(4, fd, STDIN_FILENO, STDOUT_FILENO, 2);
+		g_exit_code = 130;
+		exit(130);
+	}
+	(void) signal;
+}
+
+void	ft_h_heredoc(int signal)
+{
+	int	fd;
+
+	fd = 0;
+	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 39);
+	if (signal == 2)
+	{
+		printf("^C\n");
+		free(ft_hd_holder(NULL, 0));
+		free(ft_hd_holder(NULL, 1));
+		free(ft_hd_holder(NULL, 2));
+		fd = *(int *)ft_hd_holder(NULL, 3);
+		ft_close_v(4, fd, STDIN_FILENO, STDOUT_FILENO, 2);
 		g_exit_code = 130;
 		exit(130);
 	}
@@ -55,7 +75,8 @@ void	ft_h_quote(int signal)
 void	ft_signal_state(int state)
 {
 	struct termios	termios_data;
-	static void		(*handlers[3])(int) = {ft_h_ignore, ft_h_inter, ft_h_quote};
+	static void		(*handlers[4])(int) = {\
+	ft_h_ignore, ft_h_inter, ft_h_quote, ft_h_heredoc};
 
 	tcgetattr(0, &termios_data);
 	if (!state)

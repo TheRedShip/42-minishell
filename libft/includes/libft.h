@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 13:16:25 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 14:49:15 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:31:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ int		ft_wc(char *str, char delim);
 int		ft_tab_len(char **tab);
 char	**ft_strtab(char *str);
 void	ft_strapp(char ***tab, char *str);
+void	ft_strtabjoin(char ***tab, char **next);
 
 /**
  * @brief		Returns a lowercase copy of a string.

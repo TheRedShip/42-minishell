@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:35:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 14:48:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:35:34 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ char	**ft_strtab(char *str)
 	*tab = str;
 	*(tab + 1) = NULL;
 	return (tab);
+}
+
+void	ft_strtabjoin(char ***tab, char **next)
+{
+	char	**tmp;
+
+	tmp = next;
+	while (*tmp)
+		ft_strapp(tab, *(tmp++));
+	free(next);
 }
 
 void	ft_strapp(char ***tab, char *str)

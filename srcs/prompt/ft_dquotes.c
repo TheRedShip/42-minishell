@@ -6,34 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:52:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 15:46:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 12:04:49 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
-
-char	*ft_static_dq_holder(char *line, char *prompt, int dqfd, int ret)
-{
-	static char	*line_save = NULL;
-	static char *prompt_save = NULL;
-	static int	dqfd_save = -1;
-
-	if (!line_save || line)
-		line_save = line;
-	if (!prompt_save || prompt)
-		prompt_save = prompt;
-	if (dqfd_save == -1 || dqfd)
-		dqfd_save = dqfd;
-	if (ret == 0b01)
-		return (line_save);
-	else if (ret == 0b10)
-		return (prompt_save);
-	else if (ret == 0b11)
-		return ((char *)&dqfd_save);
-	return (NULL);
-}
 
 char	*ft_open_dquote(int tmp_file_fd, t_quote_state qs)
 {
@@ -43,13 +22,13 @@ char	*ft_open_dquote(int tmp_file_fd, t_quote_state qs)
 	if (qs == QU_SINGLE)
 	{
 		prompt = ft_strjoin(P_SDQUOTE, P_ENDQUOTE, NULL, 0);
-		ft_static_dq_holder(NULL, prompt, 0, 0b00);
+		ft_dq_holder(prompt, 1);
 		line = readline(prompt);
 	}
 	if (qs == QU_DOUBLE)
 	{
 		prompt = ft_strjoin(P_DDQUOTE, P_ENDQUOTE, NULL, 0);
-		ft_static_dq_holder(NULL, prompt, 0, 0b00);
+		ft_dq_holder(prompt, 1);
 		line = readline(prompt);
 	}
 	write(tmp_file_fd, "\n", 1);
@@ -89,7 +68,7 @@ int	ft_get_dquote(char *line, t_envvar **env, char *tmp)
 	{
 		ft_signal_state(SIGHANDLER_DQU);
 		tmp_file_fd = open(tmp, OPEN_CREATE, 0644);
-		ft_static_dq_holder(NULL, NULL, tmp_file_fd, 0b00);
+		ft_dq_holder((char *)&tmp_file_fd, 2);
 		rl_clear_history();
 		ft_clear_env(*env);
 		free(tmp);

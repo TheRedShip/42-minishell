@@ -43,6 +43,9 @@
 # define P_DDQUOTE "\001\033[30;104;1m\002\"\"\001\033[0m\002 "
 # define P_ENDQUOTE "\001\033[30;47;3;1m\002/!\\  [dquote]:\001\033[0m\002 > "
 
+# define P_HEREDOC "\001\033[30;105;1m\002HD\001\033[0m\002 "
+# define P_HD_TAIL "\001\033[30;47;3;1m\002here-document:\001\033[0m\002 > "
+
 # ifndef OPEN_READ
 #  define OPEN_READ O_RDONLY
 # endif
@@ -59,9 +62,13 @@
 #  define OPEN_EXCL O_WRONLY | O_TRUNC | O_EXCL | O_CREAT
 # endif
 
-# define SIGHANDLER_IGN 0
-# define SIGHANDLER_INT 1
-# define SIGHANDLER_DQU 2
+typedef enum e_handler_state
+{
+	SIGHANDLER_IGN,
+	SIGHANDLER_INT,
+	SIGHANDLER_DQU,
+	SIGHANDLER_H_D
+}	t_handler_state;
 
 /**
  * @brief				Exit Handler.
@@ -98,7 +105,9 @@ void	ft_prompt_execution(t_token *token_list, t_envvar **envp);
 
 /* SETUP ******************************************************************** */
 
-char	*ft_static_dq_holder(char *line, char *prompt, int dqfd, int ret);
+char	*ft_dq_holder(char *addr, int type);
+
+char	*ft_hd_holder(char *addr, int type);
 
 void	ft_signal_state(int toggle);
 /* ************************************************************************** */

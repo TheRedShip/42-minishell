@@ -6,14 +6,14 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 13:00:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 13:12:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-char		*ft_get_temp_file(char *head);
+char		*ft_get_temp_file(char *head, int size);
 
 /* STRING MANIPULATION ****************************************************** */
 
@@ -26,14 +26,14 @@ char		*ft_get_temp_file(char *head);
 void		ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
 
 /**
- * @brief			Check for quote syntax error.
+ * @brief			Check for syntax error.
  * 
  * @param str		String to check.
  * @param qs		Quote_state.
  * 
  * @return			Syntax error char.		
 */
-char		ft_quote_syntax(char *str, t_quote_state qs);
+char		ft_syntax_errors(char *str, t_quote_state qs);
 
 /**
  * @brief			Get quoted string from bad input.
@@ -191,6 +191,8 @@ void		ft_replace_wildcard(t_token **tokens, t_token **tmp);
 t_node		*ft_build_tree(t_token *tokens, t_envvar **env);
 
 void		treeprint(t_node *root, int space);
+
+int			ft_check_commands(t_node *tree);
 
 /* UTILS ******************************************************************** */
 

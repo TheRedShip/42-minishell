@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 11:49:29 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 01:06:09 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ t_envvar	*ft_update_env(t_envvar **env)
 	if (!envlist || env)
 		envlist = *env;
 	return (envlist);
+}
+
+t_token	*ft_head_token(t_token *head)
+{
+	static t_token	*head_save = NULL;
+
+	if (!head_save || head)
+		head_save = head;
+	return (head_save);
 }
 
 void	ft_create_env(t_envvar **env, char **argv)

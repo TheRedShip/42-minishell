@@ -81,8 +81,8 @@ int	ft_quote_handler(char **line, t_envvar **envp, int status)
 	if (!*line)
 		return (EC_ERRORS);
 	history_line = *line;
-	dquote_file = ft_get_temp_file(".dquote");
-	if (ft_quote_syntax(*line, QU_ZERO))
+	dquote_file = ft_get_temp_file(".dquote", 16);
+	if (ft_syntax_errors(*line, QU_ZERO))
 	{
 		status = ft_get_dquote(*line, envp, dquote_file);
 		history_line = ft_get_dquote_line(*line, dquote_file, status);
@@ -95,7 +95,7 @@ int	ft_quote_handler(char **line, t_envvar **envp, int status)
 		free(*line);
 		return (EC_FAILED);
 	}
-	qs = ft_quote_syntax(*line, QU_ZERO);
+	qs = ft_syntax_errors(*line, QU_ZERO);
 	if (qs)
 		printf("%sunexpected EOF while looking for matching `%c\'\n", MINI, qs);
 	return (EC_SUCCES);
@@ -116,15 +116,15 @@ void	ft_prompt_handle(t_envvar **envp)
 	err_code = ft_quote_handler(&line, envp, 0);
 	ft_signal_state(SIGHANDLER_INT);
 	if (err_code == EC_ERRORS)
+	{
 		ft_clear_env(*envp);
-	if (err_code == EC_ERRORS)
 		ft_exit(NULL);
+	}
 	else if (err_code == EC_FAILED || !line)
 	{
 		g_exit_code = 130;
 		return ;
 	}
-	// ft_replace_vars(*envp, &line, QU_ZERO, 0);
 	ft_prompt_tokenization(line, envp);
 }
 
@@ -159,7 +159,7 @@ void	ft_prompt_tokenization(char *line, t_envvar **envp)
 	ft_format_tokens(&token_list, ft_get_var(*envp, "HOME"));
 	ft_remove_braces(&token_list);
 	ft_display_token_list(token_list);
-	if ((!ft_verify_token(token_list) || ft_quote_syntax(line, QU_ZERO)))
+	if ((!ft_verify_token(token_list) || ft_syntax_errors(line, QU_ZERO)))
 	{
 		printf("%ssyntax error\n", MINI);
 		syntax++;
@@ -178,13 +178,25 @@ void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT E
 {
 	t_node		*tree;
 	t_node		*first_command;
+	int			check;
 
+	ft_head_token(token_list);
 	tree = ft_build_tree(token_list, envp);
+	ft_clear_token_list(token_list);
+	check = ft_check_commands(tree);
+	if (check)
+		ft_clear_tree(tree);
+	if (check == 1)
+	{
+		ft_clear_env(*envp);
+		rl_clear_history();
+		exit(EC_ERRORS);
+	}
+	if (check & 2)
 	first_command = tree;
 	treeprint(tree, 12);
 	while (!(first_command->command))
 		first_command = first_command->left;
-	ft_clear_token_list(token_list);
 	ft_exec(tree, ft_init_executor(tree), EX_WAIT);
 	ft_clear_tree(tree);
 }

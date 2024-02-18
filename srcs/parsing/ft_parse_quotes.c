@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 15:48:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 12:05:39 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs)
 	if (!*str)
 		return ;
 	string_holder = *str;
+	ft_dq_holder(*str, 0);
 	while (**str)
 		ft_qs_update(*((*str)++), &qs);
 	if (qs)
@@ -35,24 +36,26 @@ void	ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs)
 		}
 		dquote_holder = ft_strjoin(string_holder, dquote_holder, "\n", 0b11);
 		ft_quote_enforcer(&dquote_holder, tmp_file_fd, QU_ZERO);
-		ft_static_dq_holder(dquote_holder, NULL, 0, 0b00);
+		ft_dq_holder(dquote_holder, 0);
 		*str = dquote_holder;
 		return ;
 	}
 	*str = string_holder;
 }
 
-char	ft_quote_syntax(char *str, t_quote_state qs)
+char	ft_syntax_errors(char *str, t_quote_state qs)
 {
 	char	ret;
 
 	ret = 0;
-	while (*str)
+	while (*str && *str != '\\')
 	{
 		if (ft_qs_update(*str, &qs))
 			ret = *str;
 		str++;
 	}
+	if (*str == '\\')
+		return (0);
 	if (ret && qs)
 		return (ret);
 	return (0);
