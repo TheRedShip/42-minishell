@@ -111,7 +111,10 @@ void	ft_prompt_handle(t_envvar **envp)
 	line = readline(prompt);
 	free(prompt);
 	if (line && !ft_isnt_empty(line))
+	{
+		free(line);
 		return ;
+	}
 	ft_signal_state(SIGHANDLER_IGN);
 	err_code = ft_quote_handler(&line, envp, 0);
 	ft_signal_state(SIGHANDLER_INT);
