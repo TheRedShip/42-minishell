@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/17 23:07:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:30:15 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,15 @@ int	ft_valid_token(t_token *t)
 			return (0);
 		else if (!ft_strncmp(t->str, "(", 2) && (t->next->type & bops))
 			return (0);
-		else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & strs))
+		else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & TK_STRING))
 			return (0);
-		else if (t->type == TK_REDIRS && !(t->next->type & TK_STRING))
+		else if (t->type == TK_REDIRS && !(t->next->type & (TK_STRING | TK_BRACES)))
 			return (0);
 		else if (t->type == TK_PIPEXS && (t->next->type & bops))
 			return (0);
 		t = t->next;
 	}
-	if (t->type & (TK_BRACES | TK_STRING))
-		return (1);
-	return (0);
+	return (t->type & (TK_BRACES | TK_STRING));
 }
 
 int	ft_verify_brace(t_token *tokens)
