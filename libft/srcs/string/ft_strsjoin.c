@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:26:32 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 09:50:43 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 18:10:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,36 @@ static void	ft_manage_strings(char **strs, char *sep, int tf)
 		free(sep);
 }
 
+static char	*ft_manage_join(char **strs, char **sep, int *tofree)
+{
+	if (!*sep)
+	{
+		*tofree |= 0b10;
+		*sep = ft_strdup("");
+	}
+	if (!strs)
+	{
+		free(*sep);
+		return (NULL);
+	}
+	if (!*strs)
+	{
+		free(*sep);
+		return (ft_strdup(""));
+	}
+	return (*sep);
+}
+
 char	*ft_strsjoin(char **strs, char *sep, int tofree)
 {
 	char	**tmp;
+	char	*check;
 	char	*ns;
 	int		len;
 
-	if (!strs)
-		return (NULL);
-	if (!*strs)
-		return (ft_strdup(""));
-	if (!sep)
-		tofree |= 0b10;
-	if (!sep)
-		sep = ft_strdup("");
+	check = ft_manage_join(strs, &sep, &tofree);
+	if (check != sep)
+		return (check);
 	tmp = strs;
 	len = 1;
 	while (*tmp)

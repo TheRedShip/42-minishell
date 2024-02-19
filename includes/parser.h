@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 13:12:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:08:51 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,9 @@ void		ft_replace_wildcard(t_token **tokens, t_token **tmp);
  * 
  * @param tokens	Tokens linked list.
  * @param env		Environment linked list.
+ * @param hd		Heredoc and opening status.
 */
-t_node		*ft_build_tree(t_token *tokens, t_envvar **env);
+t_node		*ft_build_tree(t_token *tokens, t_envvar **env, int *hd);
 
 void		treeprint(t_node *root, int space);
 
@@ -237,6 +238,6 @@ int			ft_dqstrlen(char *str);
  * @param len		Len to skip.
  * @param qs		Quote state.
 */
-void		ft_quoted_skip(char **str, int len, t_quote_state *qs);
+void		ft_quoted_skip(char **str, int *len, t_quote_state *qs);
 
 #endif

@@ -37,7 +37,7 @@ int	ft_echo(t_command *cmd)
 			args++;
 		if (args != cmd->args + 1)
 			trail = 0;
-		msg = ft_strsjoin(args, " ", 0b00);
+		msg = ft_strsjoin(args, ft_strdup(" "), 0b10);
 		printf("%s", msg);
 	}
 	if (trail)

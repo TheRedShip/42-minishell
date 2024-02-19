@@ -47,9 +47,10 @@ void	start_execve(t_command *cmd, t_executor *ex)
 			ft_del_executor(ex);
 			exit(EC_FAILED);
 		}
-		ft_close_command(cmd);
+		ft_close_executor(ex);
 		execve(cmd->path, cmd->args, env);
 		perror("execve");
+		rl_clear_history();
 		exit(EC_FAILED);
 	}
 	else if (pid < 0)
@@ -182,9 +183,16 @@ void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT E
 	t_node		*first_command;
 	int			check;
 
+	check = 0;
 	ft_head_token(token_list);
-	tree = ft_build_tree(token_list, envp);
+	tree = ft_build_tree(token_list, envp, &check);
 	ft_clear_token_list(token_list);
+	if (check & 2)
+	{
+		ft_clear_tree(tree);
+		g_exit_code = 1;
+		return ;
+	}
 	check = ft_check_commands(tree);
 	if (check)
 		ft_clear_tree(tree);
@@ -194,13 +202,8 @@ void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT E
 		rl_clear_history();
 		exit(EC_ERRORS);
 	}
-	if (check & 2)
-	{
-		printf("WIJFWAFHAW");
-		return ;
-	}
 	first_command = tree;
-	treeprint(tree, 12);
+	// treeprint(tree, 12);
 	while (!(first_command->command))
 		first_command = first_command->left;
 	ft_exec(tree, ft_init_executor(tree), EX_WAIT);

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/17 13:01:06 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:27:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 extern int	g_exit_code;
 
-// $ tout seul -> afficher
-// $$ laisser
-// $unknown -> ne PAS effacer mais ne pas remplacer
-// $known -> REMPLACER
-
-void	ft_quoted_skip(char **str, int len, t_quote_state *qs)
+void	ft_quoted_skip(char **str, int *len, t_quote_state *qs)
 {
-	while (*str && **str && (len-- > 0))
+	while (*str && **str && ((*len) > 0))
+	{
 		ft_qs_update(*(*str)++, qs);
+		(*len)--;
+	}
 }
 
 void	ft_insert_var(t_envvar *vars, char ***new, char *tmp, int cut)
@@ -61,20 +59,24 @@ void	ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs, int cut)
 
 	tmp = *str;
 	new = NULL;
+	if (!tmp)
+		return ;
 	while (*tmp)
 	{
 		len = ft_strcspn(tmp, "$");
 		ft_strapp(&new, ft_strndup(tmp, len));
-		ft_quoted_skip(&tmp, len, &qs);
+		ft_quoted_skip(&tmp, &len, &qs);
 		if (!*tmp)
 			break;
-		if (qs != QU_SINGLE)
-			ft_insert_var(vars, &new, tmp, cut);
-		len = 0;
-		tmp++;
-		while (*(tmp + len) && (ft_isalnum(*(tmp + len)) || ft_strchr("_?", *(tmp + len))))
-			ft_qs_update(*(tmp + len++), &qs);
-		if (*(tmp - 1) != '?' && qs == QU_SINGLE)
+		if (*(tmp++) && qs != QU_SINGLE)
+			ft_insert_var(vars, &new, tmp - 1, cut);
+		while (*(tmp + len) && (ft_isalnum(*(tmp + len)) || ft_strchr("_?\"", *(tmp + len))))
+		{
+			ft_qs_update(*(tmp + len), &qs);
+			if (*(tmp + len++) == '?' && *(tmp + 1))
+				break ;
+		}
+		if (qs == QU_SINGLE)
 			ft_strapp(&new, ft_strndup(tmp - 1, len + 1));
 		tmp += len;
 	}

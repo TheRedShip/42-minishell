@@ -70,6 +70,11 @@ typedef enum e_handler_state
 	SIGHANDLER_H_D
 }	t_handler_state;
 
+// typedef enum e_error
+// {
+// 	ERR_
+// }
+
 /**
  * @brief				Exit Handler.
  * 
@@ -108,6 +113,8 @@ void	ft_prompt_execution(t_token *token_list, t_envvar **envp);
 char	*ft_dq_holder(char *addr, int type);
 
 char	*ft_hd_holder(char *addr, int type);
+
+t_node	*ft_tree_holder(int reset, t_node *root);
 
 void	ft_signal_state(int toggle);
 /* ************************************************************************** */

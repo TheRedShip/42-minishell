@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:51:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 12:02:29 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 17:09:59 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,15 @@ char	*ft_hd_holder(char *addr, int type)
 	if (type == 2)
 		return (delim_save);
 	return ((char *)&hdfd_save);
+}
+
+t_node	*ft_tree_holder(int reset, t_node *root)
+{
+	static t_node	*tree_root = NULL;
+
+	if (!tree_root || root)
+		tree_root = root;
+	if (reset)
+		tree_root = NULL;
+	return (tree_root);
 }

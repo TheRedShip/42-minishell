@@ -6,11 +6,38 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 17:13:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 21:13:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**ft_quoted_split(char *str, char *sep)
+{
+	t_quote_state	qs;
+	char			**new;
+	char			*tmp;
+	char			*hold;
+
+	new = NULL;
+	qs = QU_ZERO;
+	if (!str || !sep)
+		return (NULL);
+	tmp = str;
+	while (*str && *tmp)
+	{
+		tmp = str;
+		while (*tmp && (!ft_strchr(sep, *tmp) || qs != QU_ZERO))
+			ft_qs_update(*(tmp++), &qs);
+		hold = ft_strndup(str, tmp - str);
+		ft_dequote_string(&hold, QU_ZERO);
+		ft_strapp(&new, hold);
+		str = tmp;
+		while (*str && ft_strchr(sep, *str))
+			str++;
+	}
+	return (new);
+}
 
 void	ft_command_checker(t_command *cmd)
 {
@@ -25,7 +52,7 @@ void	ft_command_checker(t_command *cmd)
 		if (ft_strchr(*tmp, '$'))
 		{
 			ft_replace_vars(*cmd->envp, tmp, QU_ZERO, 1);
-			raw = ft_split(*(tmp++), ' ');
+			raw = ft_quoted_split(*(tmp++), " ");
 			ft_strtabjoin(&new_args, raw);
 		}
 		else

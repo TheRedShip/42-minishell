@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 12:33:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:06:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ void			ft_close_v(int nb, int fd, ...);
  * 
  * @return			OP_FILEOK | OPFILEKO depending on opening result.
 */
-t_open_status	ft_manage_inputs(t_token **tokens, int *fd, int type);
+t_open_status	ft_manage_inputs(t_token **tokens, int *fd, int type, int *hd);
 
 /**
  * @brief			Manage output redirections.
@@ -255,12 +255,12 @@ t_open_status	ft_manage_inputs(t_token **tokens, int *fd, int type);
  * @return			OP_FILEOK | OPFILEKO depending on opening result.
  * 					OP_FILEXX on opening error for an outfile.
 */
-t_open_status	ft_manage_outputs(t_token **tokens, int *fd, int type);
+t_open_status	ft_manage_outputs(t_token **tokens, int *fd, int type, int *hd);
 
 /**
  * @brief			Manage file opening and redirections.
 */
-t_open_status	ft_open_files(t_token **list, t_token **tk, int *stds);
+t_open_status	ft_open_files(t_token **list, t_token **tk, int *stds, int *hd);
 
 /**
  * @brief			Get heredoc file descriptor.
