@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 17:30:06 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:55:56 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_node	*ft_cmd_token(t_token **tokens, t_envvar **env, t_token *tmp, int *hd_fai
 	}
 	*tokens = tmp;
 	if (stds[0] == -1)
-		printf("%s%s: No such file or directory\n", MINI, failed_name);
+		ft_error_message(ERR_NOFORD, failed_name);
 	return (ft_init_node(ft_init_command(stds[0], stds[1], args, env), NULL));
 }
 
@@ -144,7 +144,7 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env, int *hd_failed)
 // 	if (tokens && !ft_verify_token(tokens))
 // 	{
 // 		ft_putstr_fd("minishell: syntax error\n", 1);
-// 		exit(EC_FAILED);
+// 		exit(ERR_FAILED);
 // 	}
 
 // 	// t_token *t;

@@ -41,9 +41,9 @@ int	ft_pwd(t_command *cmd)
 	else
 	{
 		perror("getcwd() error");
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	}
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }
 
 char	*ft_get_prompt_string(t_envvar *envp)

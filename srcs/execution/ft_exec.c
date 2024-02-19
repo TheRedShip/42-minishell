@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 21:22:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:52:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	ft_process_redirs(t_command *cmd, t_executor *ex)
 	{
 		ft_close_executor(ex);
 		ft_close_command(cmd);
-		return (EC_ERRORS);
+		return (ERR_ERRORS);
 	}
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }
 
 int	ft_process_bredirs(t_command *cmd, t_executor *ex, int **tmps)
@@ -82,15 +82,15 @@ int	ft_process_bredirs(t_command *cmd, t_executor *ex, int **tmps)
 	dup2(in_file, STDIN_FILENO);
 	dup2(out_file, STDOUT_FILENO);
 	if (in_file == -1 || out_file == -1)
-		return (EC_ERRORS);
-	return (EC_SUCCES);
+		return (ERR_ERRORS);
+	return (ERR_NOERRS);
 }
 
 void	ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	printf("%p OR %p\n", tree->left, tree->right);
 	ft_exec(tree->left, ex, EX_WAIT);
-	if (g_exit_code != EC_SUCCES)
+	if (g_exit_code != ERR_NOERRS)
 		ft_exec(tree->right, ex, status);
 }
 
@@ -98,7 +98,7 @@ void	ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	printf("%p AND %p\n", tree->left, tree->right);
 	ft_exec(tree->left, ex, EX_WAIT);
-	if (g_exit_code == EC_SUCCES)
+	if (g_exit_code == ERR_NOERRS)
 		ft_exec(tree->right, ex, status);
 }
 
@@ -116,8 +116,6 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 	}
 	btemps = ft_calloc(2, sizeof(int));
 	ft_command_checker(tree->command);
-	ft_display_node(tree);
-	printf("\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n\n");
 	built = ft_exec_builtins(tree->command, ex, &btemps);
 	if (built)
 		start_execve(tree->command, ex);
@@ -128,7 +126,6 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 		close(btemps[0]);
 		close(btemps[1]);
 	}
-	printf("\n\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n");
 	free(btemps);
 	ft_close_command(tree->command);
 }
@@ -145,7 +142,7 @@ int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int **btemps)
 	tmp = builtins_str;
 	trim = ft_strrchr(cmd->path, '/');
 	if (!trim || !(trim + 1))
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	trim++;
 	while (*tmp && ft_strncmp(trim, *tmp, ft_strlen(*tmp) + 1))
 	{
@@ -153,13 +150,13 @@ int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int **btemps)
 		tmp++;
 	}
 	if (!*tmp)
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	else
 	{
 		if (ft_process_bredirs(cmd, ex, btemps) != 2)
 			g_exit_code = builtins[tmp - builtins_str](cmd);
 	}
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }
 
 // int	main(int argc, char **argv, char **envp)

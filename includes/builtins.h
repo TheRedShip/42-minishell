@@ -6,21 +6,12 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 01:06:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:06:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
-
-typedef enum e_error_code
-{
-	EC_SUCCES = 0,
-	EC_FAILED = 1,
-	EC_ERRORS = 2,
-	EC_NOTNUM = 3,
-	EC_TOMAAR = 4
-}	t_error_code;
 
 /* MAIN COMMANDS ************************************************************ */
 
@@ -198,7 +189,7 @@ void		ft_sort_strs_tab(char **tab, int size);
  * 
  * @param cmd		t_cmd pointer with command meta-data.
  * 
- * @return			EC_SUCCES normally, EC_FAILED in case of NULL allocation.
+ * @return			ERR_NOERRS normally, ERR_FAILED in case of NULL allocation.
 */
 int			ft_show_export_list(t_command *cmd);
 

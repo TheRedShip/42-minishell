@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 14:17:28 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 23:02:31 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_show_export_list(t_command *cmd)
 
 	vars_array = ft_get_var_strs(*(cmd->envp), 1);
 	if (!vars_array)
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	ft_sort_strs_tab(vars_array, ft_tab_len(vars_array));
 	tmp = vars_array;
 	while (*tmp)
@@ -48,7 +48,7 @@ int	ft_show_export_list(t_command *cmd)
 		tmp++;
 	}
 	ft_free_tab((void **)vars_array);
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }
 
 int	ft_export_var(t_command *cmd, char *tmp)
@@ -73,31 +73,29 @@ int	ft_export_var(t_command *cmd, char *tmp)
 	}
 	else
 		ft_set_var(cmd->envp, tmp, NULL);
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }
 
 int	ft_export(t_command *cmd)
 {
 	char			**tmp;
 	t_error_code	errcode;
-	static	char 	err[] = "%sexport: `%s': not a valid identifier\n";
 
 	tmp = cmd->args;
-	ft_display_command(cmd);
-	errcode = EC_SUCCES;
+	errcode = ERR_NOERRS;
 	if (ft_tab_len(tmp) == 1 && ft_show_export_list(cmd))
-		errcode = EC_FAILED;
+		errcode = ERR_FAILED;
 	else
 	{
 		while (*(++tmp))
 		{
 			if (!ft_export_syntaxer(*tmp))
 			{
-				printf(err, MINI, *tmp);
-				errcode = EC_FAILED;
+				ft_error_message(ERR_NOTVAL, *tmp);
+				errcode = ERR_FAILED;
 			}
 			if (ft_export_var(cmd, *(tmp)))
-				errcode = EC_FAILED;
+				errcode = ERR_FAILED;
 		}
 	}
 	return (errcode);

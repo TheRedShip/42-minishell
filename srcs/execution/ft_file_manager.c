@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 19:45:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:34:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 // 			(*fds)[2]++;
 // 		}
 // 		else
-// 			return (EC_FAILED);
+// 			return (ERR_FAILED);
 // 		printf("FILE OPENED: fd = [%d]\n", (*fds)[0]);
 // 	}
 // 	state = !ft_strncmp((*tokens)->str, ">", 2) + 2 * !ft_strncmp((*tokens)->str, ">>", 3);
@@ -54,7 +54,7 @@
 // 		printf("FILE OPENED: fd = [%d]\n", (*fds)[1]);
 // 	}
 // 	(*tokens) = (*tokens)->next;
-// 	return (EC_SUCCES);
+// 	return (ERR_NOERRS);
 // }
 
 void	ft_parse_heredoc_line(char **line, char **prompt, int hd_fd, int exp)
@@ -89,9 +89,9 @@ int	ft_heredoc_line(char *delim, char *hd_file, int hd_fd)
 	free(delim);
 	free(hd_file);
 	if (!line)
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	free(line);
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }
 
 int	ft_heredoc_exit(char *hd_file, char *delim, int err_code)
@@ -133,10 +133,7 @@ int	ft_get_heredoc(char *delim, char *hd_file)
 	}
 	waitpid(hd_pid, &err_code, 0);
 	if (WEXITSTATUS(err_code) == 1)
-	{
-		printf("%swarning here-document delimited by end-of-file", MINI);
-		printf(" (wanted`%s')\n", delim);
-	}
+		ft_error_message(ERR_HDSTOP, delim);
 	return (ft_heredoc_exit(hd_file, delim, WEXITSTATUS(err_code)));
 }
 

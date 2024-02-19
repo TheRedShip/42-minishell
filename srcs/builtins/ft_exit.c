@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/15 19:36:10 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:46:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,17 @@ int	ft_is_numeric(char *str)
 
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd)
 {
-	if (ec == EC_NOTNUM)
-		printf("exit: %s: numeric argument required\n", cmd->args[1]);
-	if (ec == EC_TOMAAR)
+	char	*msg;
+
+	if (ec == ERR_NOTNUM)
 	{
-		printf("exit: too many arguments\n");
+		msg = ft_strjoin("exit: ", cmd->args[1], NULL, 0b00);
+		ft_error_message(ERR_NOTNUM, msg);
+		free(msg);
+	}
+	if (ec == ERR_TMARGS)
+	{
+		ft_error_message(ERR_TMARGS, "exit");
 		return ;
 	}
 	if (cmd)
@@ -80,12 +86,12 @@ int	ft_exit(t_command *cmd)
 	if (cmd)
 		argc = ft_tab_len(cmd->args) - 1;
 	if (!cmd || !argc)
-		ft_exit_manager(g_exit_code, EC_SUCCES, cmd);
+		ft_exit_manager(g_exit_code, ERR_NOERRS, cmd);
 	if (!ft_is_numeric(cmd->args[1]))
-		ft_exit_manager(EC_ERRORS, EC_NOTNUM, cmd);
+		ft_exit_manager(ERR_ERRORS, ERR_NOTNUM, cmd);
 	if (argc > 1)
-		ft_exit_manager(EC_FAILED, EC_TOMAAR, cmd);
+		ft_exit_manager(ERR_FAILED, ERR_TMARGS, cmd);
 	else
-		ft_exit_manager(ft_exit_atoi(cmd->args[1]), EC_SUCCES, cmd);
+		ft_exit_manager(ft_exit_atoi(cmd->args[1]), ERR_NOERRS, cmd);
 	return (argc > 1);
 }

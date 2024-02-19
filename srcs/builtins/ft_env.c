@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 08:59:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:06:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_env(t_command *cmd)
 	vars = *(cmd->envp);
 	vars_array = ft_get_var_strs(vars, 0);
 	if (!vars_array)
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	tmp = vars_array;
 	while (*tmp)
 	{
@@ -89,5 +89,5 @@ int	ft_env(t_command *cmd)
 		tmp++;
 	}
 	ft_free_tab((void **)vars_array);
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }

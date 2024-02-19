@@ -25,9 +25,9 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	if (!cmd->path || access(cmd->path, F_OK))
 	{
 		if (*cmd->args)
-			printf("minishell: %s: command not found\n", *cmd->args);
+			ft_error_message(ERR_NOTCMD, *cmd->args);
 		else
-			printf("minishell: command not found\n");
+			ft_error_message(ERR_NOTCMD, NULL);
 		g_exit_code = 127;
 		return ;
 	}
@@ -45,13 +45,13 @@ void	start_execve(t_command *cmd, t_executor *ex)
 			ft_clear_env(*(cmd->envp));
 			ft_clear_tree(ex->root);
 			ft_del_executor(ex);
-			exit(EC_FAILED);
+			exit(ERR_FAILED);
 		}
 		ft_close_executor(ex);
 		execve(cmd->path, cmd->args, env);
 		perror("execve");
 		rl_clear_history();
-		exit(EC_FAILED);
+		exit(ERR_FAILED);
 	}
 	else if (pid < 0)
 		perror("fork");
@@ -80,7 +80,7 @@ int	ft_quote_handler(char **line, t_envvar **envp, int status)
 	char	qs;
 
 	if (!*line)
-		return (EC_ERRORS);
+		return (ERR_ERRORS);
 	history_line = *line;
 	dquote_file = ft_get_temp_file(".dquote", 16);
 	if (ft_syntax_errors(*line, QU_ZERO))
@@ -94,12 +94,12 @@ int	ft_quote_handler(char **line, t_envvar **envp, int status)
 	if (WEXITSTATUS(status) == 130)
 	{
 		free(*line);
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	}
 	qs = ft_syntax_errors(*line, QU_ZERO);
 	if (qs)
-		printf("%sunexpected EOF while looking for matching `%c\'\n", MINI, qs);
-	return (EC_SUCCES);
+		ft_error_message(ERR_DQSTOP, (char *)&qs);
+	return (ERR_NOERRS);
 }
 
 void	ft_prompt_handle(t_envvar **envp)
@@ -119,11 +119,11 @@ void	ft_prompt_handle(t_envvar **envp)
 	ft_signal_state(SIGHANDLER_IGN);
 	err_code = ft_quote_handler(&line, envp, 0);
 	ft_signal_state(SIGHANDLER_INT);
-	if (err_code == EC_ERRORS)
+	if (err_code == ERR_ERRORS)
 		ft_clear_env(*envp);
-	if (err_code == EC_ERRORS)
+	if (err_code == ERR_ERRORS)
 		ft_exit(NULL);
-	else if (err_code == EC_FAILED || !line)
+	else if (err_code == ERR_FAILED || !line)
 	{
 		g_exit_code = 130;
 		return ;
@@ -161,10 +161,9 @@ void	ft_prompt_tokenization(char *line, t_envvar **envp)
 		return ;
 	ft_format_tokens(&token_list, ft_get_var(*envp, "HOME"));
 	ft_remove_braces(&token_list);
-	ft_display_token_list(token_list);
 	if ((!ft_verify_token(token_list) || ft_syntax_errors(line, QU_ZERO)))
 	{
-		printf("%ssyntax error\n", MINI);
+		ft_error_message(ERR_SYNTAX, NULL);
 		syntax++;
 		g_exit_code = 2;
 	}
@@ -200,7 +199,7 @@ void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT E
 	{
 		ft_clear_env(*envp);
 		rl_clear_history();
-		exit(EC_ERRORS);
+		exit(ERR_ERRORS);
 	}
 	first_command = tree;
 	// treeprint(tree, 12);

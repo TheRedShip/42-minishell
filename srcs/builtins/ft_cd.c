@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+// TODO REMETTRE CA AU GOUT DU JOUR CA COMMENCE A SE FAIRE VIEUX ET PAS A LA NORME
+
 t_envvar	**ft_get_directory_vars(t_envvar *envp)
 {
 	t_envvar	**vars;
@@ -29,15 +31,9 @@ t_envvar	**ft_get_directory_vars(t_envvar *envp)
 int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 {
 	if (!argc && !vars[0])
-		printf("%scd: HOME not set\n", MINI);
+		ft_error_message(ERR_NOTSET, "HOME");
 	if ((!argc || (argc == 1 && !ft_strcmp(argv[0], "~"))) && vars[0])
-	{
-		if (chdir(vars[0]->values[0]) == -1)
-		{
-			perror("minishell");
-			return (EC_FAILED);
-		}
-	}
+		chdir(vars[0]->values[0]);
 	else if (argc == 1 && !ft_strcmp(argv[0], "-") && vars[1])
 	{
 		if (vars[1]->values)
@@ -46,21 +42,21 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 			chdir(vars[1]->values[0]);
 		}
 		else
-			printf("%scd: OLDPWD not set\n", MINI);
+			ft_error_message(ERR_NOTSET, "OLDPWD");
 		if (!vars[1]->values)
-			return (EC_FAILED);
+			return (ERR_FAILED);
 	}
 	else if (argv[0])
 	{
 		if (chdir(argv[0]) == -1)
 		{
-			perror("minishell");
-			return (EC_FAILED);
+			ft_error_message(ERR_NOFORD, argv[0]);
+			return (ERR_FAILED);
 		}
 	}
 	else
-		return (EC_FAILED);
-	return (EC_SUCCES);
+		return (ERR_FAILED);
+	return (ERR_NOERRS);
 }
 
 int	ft_cd(t_command *cmd)
@@ -72,17 +68,17 @@ int	ft_cd(t_command *cmd)
 	argc = ft_tab_len(cmd->args);
 	vars = ft_get_directory_vars(*(cmd->envp));
 	if (!vars)
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	if (argc > 2)
 	{
 		free(vars);
-		printf("%scd: Too many arguments.\n", MINI);
-		return (EC_FAILED);
+		ft_error_message(ERR_TMARGS, "cd");
+		return (ERR_FAILED);
 	}
 	if (ft_manage_cd(argc - 1, cmd->args + 1, vars))
 	{
 		free(vars);
-		return (EC_FAILED);
+		return (ERR_FAILED);
 	}
 	if (vars[2])
 		ft_set_var(cmd->envp, "OLDPWD", ft_strdup(vars[2]->values[0]));
@@ -90,5 +86,5 @@ int	ft_cd(t_command *cmd)
 	if (newdir)
 		ft_set_var(cmd->envp, "PWD", newdir);
 	free(vars);
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }

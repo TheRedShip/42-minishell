@@ -46,6 +46,12 @@
 # define P_HEREDOC "\001\033[30;105;1m\002HD\001\033[0m\002 "
 # define P_HD_TAIL "\001\033[30;47;3;1m\002here-document:\001\033[0m\002 > "
 
+# define P_ERROR "\001\033[30;47;1m\002!!\001\033[0m\002 "
+# define P_ERR_TAIL "\001\033[37;41;1m\002[   ERROR!   ]\001\033[0m\002 > "
+
+# define P_WARNING "\001\033[30;47;1m\002!!\001\033[0m\002 "
+# define P_WNG_TAIL "\001\033[37;43;1m\002[  WARNING!  ]\001\033[0m\002 > "
+
 # ifndef OPEN_READ
 #  define OPEN_READ O_RDONLY
 # endif
@@ -69,6 +75,22 @@ typedef enum e_handler_state
 	SIGHANDLER_DQU,
 	SIGHANDLER_H_D
 }	t_handler_state;
+
+typedef enum e_error_code
+{
+	ERR_NOERRS = 0,
+	ERR_FAILED,
+	ERR_ERRORS,
+	ERR_NOTNUM,
+	ERR_TMARGS,
+	ERR_NOTSET,
+	ERR_NOFORD,
+	ERR_NOTVAL,
+	ERR_HDSTOP,
+	ERR_DQSTOP,
+	ERR_NOTCMD,
+	ERR_SYNTAX,
+}	t_error_code;
 
 // typedef enum e_error
 // {
@@ -122,5 +144,7 @@ void	ft_signal_state(int toggle);
 void	ft_display_token(t_token *token);
 
 void	start_execve(t_command *cmd, t_executor *ex);
+
+void	ft_error_message(t_error_code err, char *str);
 
 #endif

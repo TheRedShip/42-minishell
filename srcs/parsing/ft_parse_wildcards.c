@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 14:48:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:35:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ char	**ft_wildcard_array(char *wcstr)
 
 	dir = ft_get_pwd();
 	cdir = opendir(dir);
-	free(dir);
-	dir = NULL;
 	if (!cdir)
-		perror("minishell");
+	{
+		ft_error_message(ERR_NOFORD, dir);
+		free(dir);
+		return (NULL);
+	}
+	free(dir);
 	cdir_entry = readdir(cdir);
 	files = NULL;
 	while (cdir_entry)

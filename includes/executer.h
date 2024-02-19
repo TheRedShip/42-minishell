@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 18:06:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:06:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ void		ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status);
  * 
  * @param command	t_command to test.
  * 
- * @return			EC_SUCCES if it did execute a builtin, EC_FAILED otherwise.
+ * @return			ERR_NOERRS if it did execute a builtin, ERR_FAILED otherwise.
 */
 int			ft_exec_builtins(t_command *cmd, t_executor *ex, int **btemps);
 

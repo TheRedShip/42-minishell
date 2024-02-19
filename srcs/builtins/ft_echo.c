@@ -43,5 +43,5 @@ int	ft_echo(t_command *cmd)
 	if (trail)
 		printf("\n");
 	free(msg);
-	return (EC_SUCCES);
+	return (ERR_NOERRS);
 }

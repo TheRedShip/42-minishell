@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/18 12:01:01 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/19 22:01:36 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,45 +29,45 @@ SRCS_DIR	:=	srcs
 OBJS_DIR	:=	.objs
 LFT_DIR 	:= ./libft
 
-SRC_DATA	:=	data_structures/constructors.c \
-				data_structures/s_envvar.c \
-				data_structures/s_token.c \
-				data_structures/s_node.c \
+SRC_DATA	:=	data_structures/constructors.c	\
+				data_structures/s_envvar.c		\
+				data_structures/s_token.c		\
+				data_structures/s_node.c		\
 				data_structures/s_command.c
 
-SRC_BUILTIN :=	builtins/ft_cd.c \
-				builtins/ft_echo.c \
-				builtins/ft_exit.c \
-				builtins/ft_pwd.c \
-				builtins/ft_env.c \
-				builtins/ft_export.c \
+SRC_BUILTIN :=	builtins/ft_cd.c				\
+				builtins/ft_echo.c				\
+				builtins/ft_exit.c				\
+				builtins/ft_pwd.c				\
+				builtins/ft_env.c				\
+				builtins/ft_export.c			\
 				builtins/ft_unset.c
 
-SRC_PARSING	:=  parsing/ft_tree_build.c \
-				parsing/ft_tree_auth.c \
-				parsing/ft_parse_dollars.c \
-				parsing/ft_parse_quotes.c \
-				parsing/ft_parse_wildcards.c \
-				parsing/ft_token_auth.c \
-				parsing/ft_tokenizer.c \
+SRC_PARSING	:=  parsing/ft_tree_build.c			\
+				parsing/ft_tree_auth.c			\
+				parsing/ft_parse_dollars.c		\
+				parsing/ft_parse_quotes.c		\
+				parsing/ft_parse_wildcards.c	\
+				parsing/ft_token_auth.c			\
+				parsing/ft_tokenizer.c			\
 				parsing/utils.c
 
-SRC_EXEC	:=	execution/ft_file_manager.c \
-				execution/ft_close_manager.c \
-				execution/ft_formatting.c \
-				execution/ft_exec.c \
-				execution/s_pid.c \
-				execution/s_pipes.c \
+SRC_EXEC	:=	execution/ft_file_manager.c		\
+				execution/ft_close_manager.c	\
+				execution/ft_formatting.c		\
+				execution/ft_exec.c				\
+				execution/s_pid.c				\
+				execution/s_pipes.c				\
 				execution/s_executor.c
 
-SRC_PROMPT	:=  prompt/prompt.c \
-				prompt/ft_dquotes.c \
+SRC_PROMPT	:=  prompt/prompt.c					\
+				prompt/ft_dquotes.c				\
 				prompt/ft_holder.c
 
-SRC_SETUP	:=  setup/ft_setup_env.c \
+SRC_SETUP	:=  setup/ft_setup_env.c			\
 				setup/setup_signals.c
 
-ALL_SRCS	:=	$(SRC_DATA) $(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) $(SRC_EXEC) $(SRC_SETUP) global.c minishell.c
+ALL_SRCS	:=	$(SRC_DATA) $(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) $(SRC_EXEC) $(SRC_SETUP) global.c minishell.c ft_error_handling.c
 SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
