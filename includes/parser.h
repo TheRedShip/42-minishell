@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 20:08:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:50:08 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char		*ft_get_temp_file(char *head, int size);
  * @param str		Pointer to string to check.
  * @param qs		Carried quote state.
 */
-void		ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
+void			ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
 
 /**
  * @brief			Check for syntax error.
@@ -33,7 +33,7 @@ void		ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
  * 
  * @return			Syntax error char.		
 */
-char		ft_syntax_errors(char *str, t_quote_state qs);
+t_quote_state	ft_quote_error(char *str, t_quote_state qs);
 
 /**
  * @brief			Get quoted string from bad input.
@@ -124,10 +124,11 @@ void		ft_remove_braces(t_token **tokens);
  * @brief			Check if a token linked list is valid.
  * 
  * @param tokens	Token linked list.
+ * @param err_token	Error token string.
  * 
  * @return			1 if the linked list is valid, 0 otherwise.
 */
-int			ft_verify_token(t_token *tokens);
+int			ft_verify_token(t_token *tokens, char **err_token);
 
 /* WILDCARD ***************************************************************** */
 
@@ -187,9 +188,8 @@ void		ft_replace_wildcard(t_token **tokens, t_token **tmp);
  * 
  * @param tokens	Tokens linked list.
  * @param env		Environment linked list.
- * @param hd		Heredoc and opening status.
 */
-t_node		*ft_build_tree(t_token *tokens, t_envvar **env, int *hd);
+t_node		*ft_build_tree(t_token *tokens, t_envvar **env);
 
 void		treeprint(t_node *root, int space);
 

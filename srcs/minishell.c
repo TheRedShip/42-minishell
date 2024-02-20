@@ -6,11 +6,14 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/19 21:10:43 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:08:50 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	DEBUG;
+extern int	g_exit_code;
 
 int	ft_isnt_empty(char *str)
 {
@@ -69,19 +72,69 @@ char	*ft_get_temp_file(char *head, int size)
 	return (ft_strjoin(head, tmp, "-", 0b10));
 }
 
+void	ft_exec_single_command(char *line, t_envvar **envp)
+{
+	t_token	*tokens;
+	t_node	*tree;
+
+	if (ft_to_tokens(&tokens, line, envp))
+		return ;
+	if (ft_to_tree(&tokens, &tree, envp))
+	{
+		ft_clear_tree(tree);
+		exit(ERR_FAILED);
+	}
+	if (ft_file_opening(tree, envp))
+		return ;
+	ft_exec(tree, ft_init_executor(tree), EX_WAIT);
+	ft_clear_tree(tree);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_envvar	*env;
 
 	(void) argc;
 	(void) argv;
+	if (argc > 3)
+		exit(ERR_FAILED);
 	env = ft_setup_env(argv, envp);
+	if (argc == 2 && !ft_strncmp(argv[1], "DEBUG", 6))
+		DEBUG = 1;
+	else if (argc == 3 && !ft_strncmp(argv[1], "-c", 3))
+	{
+		ft_exec_single_command(ft_strdup(argv[2]), &env);
+		exit(g_exit_code);
+	}
+	else if (argc > 1)
+	{
+		ft_clear_env(env);
+		exit(ERR_FAILED);
+	}
 	ft_print_logo(env);
 	ft_signal_state(SIGHANDLER_INT);
 	while (1)
 	{
 		ft_update_env(&env);
-		ft_prompt_handle(&env);
+		ft_prompt_handler(&env);
 	}
 	return (0);
 }
+
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_envvar *env;
+	
+// 	(void) argc;
+// 	env = ft_setup_env(argv, envp);
+// 	ft_update_env(&env);
+// 	int fd = ft_get_heredoc(ft_strdup("EOF"), ft_get_temp_file(".heredoc", 16));
+
+// 	char buffer[4096];
+
+// 	read(fd, buffer, 4096);
+
+// 	printf("%s\n", buffer);
+
+// 	close(fd);
+// }

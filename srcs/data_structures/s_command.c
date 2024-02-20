@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 16:34:46 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:21:39 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	ft_del_command(t_command *cmd)
 		close(cmd->infile);
 	if (cmd->outfile > 2)
 		close(cmd->outfile);
+	ft_clear_redir_list(cmd->redirs);
 	free(cmd->path);
 	ft_free_tab((void **)cmd->args);
 	free(cmd);
@@ -55,12 +56,20 @@ void	ft_display_command(t_command *cmd)
 	printf("- COMMAND --- %p\n", cmd);
 	printf("INFILE FD : %d\n", cmd->infile);
 	printf("OUTFILE FD : %d\n", cmd->outfile);
+	printf("REDIRS : \n");
+	t_redir *red;
+	red = cmd->redirs;
+	while (red)
+	{
+		printf("    file : %s, type = %d\n",red->file, red->type);
+		red = red->next;
+	}
 	if (cmd->path)
 		printf("PATH : %s\n", cmd->path);
 	if (cmd->args)
 	{
 		tmp = cmd->args;
-		printf("ARGS :\n");
+		printf("ARGS : %p\n", cmd->args);
 		while (*tmp)
 			printf("  val : %s\n", *(tmp++));
 	}

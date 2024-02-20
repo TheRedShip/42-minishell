@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 12:05:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:50:59 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,11 @@ void	ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs)
 	*str = string_holder;
 }
 
-char	ft_syntax_errors(char *str, t_quote_state qs)
+t_quote_state	ft_quote_error(char *str, t_quote_state qs)
 {
-	char	ret;
-
-	ret = 0;
-	while (*str && *str != '\\')
-	{
-		if (ft_qs_update(*str, &qs))
-			ret = *str;
-		str++;
-	}
-	if (*str == '\\')
-		return (0);
-	if (ret && qs)
-		return (ret);
-	return (0);
+	while (*str)
+		ft_qs_update(*(str++), &qs);
+	return (qs);
 }
 
 void	ft_dequote_string(char **str, t_quote_state qs)

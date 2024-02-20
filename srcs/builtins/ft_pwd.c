@@ -57,10 +57,10 @@ char	*ft_get_prompt_string(t_envvar *envp)
 	if (ft_get_var(save, "PWD"))
 	{
 		pwd = ft_trim_pwd(ft_get_var(save, "PWD")->values[0]);
-		pwd = ft_strjoin(pwd, " $ ", 0, 0b01);
+		pwd = ft_strjoin(pwd, " ~ ", 0, 0b01);
 	}
 	else
-		pwd = ft_strdup(" > ");
+		pwd = ft_strdup(" ~ ");
 	if (!g_exit_code)
 		prompt = ft_strjoin(P_SUCCESS, P_TAIL, 0, 0b00);
 	else

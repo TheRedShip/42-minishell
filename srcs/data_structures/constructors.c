@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 09:45:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:12:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,16 @@ t_envvar	*ft_init_var(char *value)
 	return (new_var);
 }
 
-t_command	*ft_init_command(int in, int out, char **args, t_envvar **envp)
+t_command	*ft_init_command(t_redir *redirs, char **args, t_envvar **envp)
 {
 	t_command	*new_command;
 
 	new_command = malloc(sizeof(t_command));
 	if (!new_command)
 		return (NULL);
-	new_command->infile = in;
-	new_command->outfile = out;
+	new_command->infile = 0;
+	new_command->outfile = 1;
+	new_command->redirs = redirs;
 	new_command->path = NULL;
 	if (args)
 		new_command->path = ft_get_path(*args, *envp);

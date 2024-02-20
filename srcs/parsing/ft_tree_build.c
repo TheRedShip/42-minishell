@@ -6,51 +6,42 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 22:55:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:58:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	*ft_cmd_token(t_token **tokens, t_envvar **env, t_token *tmp, int *hd_failed)
+t_node	*ft_cmd_token(t_token **tokens, t_envvar **env, t_token *tmp)
 {
 	char	*failed_name;
 	char	**args;
-	int		stds[2];
+	t_redir	*redirs;
 
 	args = NULL;
-	stds[0] = 0;
-	stds[1] = 1;
 	failed_name = NULL;
+	redirs = NULL;
 	while (tmp && (tmp->type & (TK_STRING | TK_REDIRS)))
 	{
 		if (tmp->type & TK_REDIRS)
 		{
-			if (ft_open_files(tokens, &tmp, stds, hd_failed) == OP_FILEXX)
-			{
-				ft_free_tab((void **)args);
-				return (ft_init_node(NULL, NULL));
-			}
-			*hd_failed |= ((stds[0] == OP_HDOCKO) << 1) | (stds[0] == -OP_FILEKO);
-			if ((*hd_failed & 0b01))
-				failed_name = tmp->str;
+			ft_add_redir(&redirs, ft_init_redir(tmp));
+			tmp = tmp->next;
 		}
 		else if (tmp->type & TK_STRING)
 			ft_strapp(&args, ft_strdup(tmp->str));
 		tmp = tmp->next;
 	}
 	*tokens = tmp;
-	if (stds[0] == -1)
-		ft_error_message(ERR_NOFORD, failed_name);
-	return (ft_init_node(ft_init_command(stds[0], stds[1], args, env), NULL));
+	return (ft_init_node(ft_init_command(redirs, args, env), NULL));
 }
 
-void	ft_brace_tree(t_token **tk, t_node **tree, t_envvar **env, int *hd)
+void	ft_brace_tree(t_token **tk, t_node **tree, t_envvar **env)
 {
 	t_node		*test;
 	int			level;
 
-	test = ft_build_tree((*tk)->next, env, hd);
+	test = ft_build_tree((*tk)->next, env);
 	level = 0;
 	if (!tree)
 		*tree = test;
@@ -69,14 +60,14 @@ void	ft_brace_tree(t_token **tk, t_node **tree, t_envvar **env, int *hd)
 	(*tk) = (*tk)->next;
 }
 
-void	ft_connect_ops(t_token **tk, t_node **tree, t_envvar **env, int *hd)
+void	ft_connect_ops(t_token **tk, t_node **tree, t_envvar **env)
 {
 	t_node	*next;
 
 	next = NULL;
 	if ((*tk)->type & TK_BINOPS)
 	{
-		next = ft_build_tree((*tk)->next, env, hd);
+		next = ft_build_tree((*tk)->next, env);
 		ft_associate(tree, next, NULL, ft_dup_token(*tk));
 	}
 	else if ((*tk)->type & TK_PIPEXS)
@@ -86,7 +77,7 @@ void	ft_connect_ops(t_token **tk, t_node **tree, t_envvar **env, int *hd)
 	}
 }
 
-t_node	*ft_build_tree(t_token *tokens, t_envvar **env, int *hd_failed)
+t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 {
 	t_node			*tree;
 	t_token_type	tmp;
@@ -98,17 +89,17 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env, int *hd_failed)
 		if (tokens->type & TK_BRACES)
 		{
 			if (!ft_strncmp(tokens->str, "(", 2))
-				ft_brace_tree(&tokens, &tree, env, hd_failed);
+				ft_brace_tree(&tokens, &tree, env);
 			else
 				return (tree);
 		}
 		else if (tokens->type & (TK_STRING | TK_REDIRS))
-			ft_insert_child(&tree, ft_cmd_token(&tokens, env, tokens, hd_failed), RIGHT);
+			ft_insert_child(&tree, ft_cmd_token(&tokens, env, tokens), RIGHT);
 		if (!tokens)
 			return (tree);
 		tmp = tokens->type;
 		if (tmp & (TK_BINOPS | TK_PIPEXS))
-			ft_connect_ops(&tokens, &tree, env, hd_failed);
+			ft_connect_ops(&tokens, &tree, env);
 		if (tmp & TK_BINOPS)
 			return (tree);
 	}

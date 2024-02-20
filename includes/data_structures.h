@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 12:44:00 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:22:31 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ typedef enum e_token_type
 	TK_REDIRS = 0b10000
 }	t_token_type;
 
+typedef enum e_redir_type
+{
+	RD_INFILES,
+	RD_HEREDOC,
+	RD_OUTPUTS,
+	RD_APPENDS
+}	t_redir_type;
+
 /**
  * @enum			e_quote_state
  * @brief			Quote state.
@@ -39,8 +47,28 @@ typedef enum e_quote_state
 {
 	QU_ZERO = 0,
 	QU_SINGLE,
-	QU_DOUBLE
+	QU_DOUBLE,
+	QU_IGNORE
 }	t_quote_state;
+
+/**
+ * @enum			e_exec_status.
+ * @brief			Execution status.
+ */
+typedef enum e_exec_status
+{
+	EX_WAIT = 0,
+	EX_PIPE = 1
+}	t_exec_status;
+
+typedef enum e_open_status
+{
+	OP_HDOCKO = -3,
+	OP_FILEHD = -2,
+	OP_FILEOK = 0,
+	OP_FILEKO,
+	OP_FILEXX
+}	t_open_status;
 
 /* TYPEDEFS ***************************************************************** */
 
@@ -77,6 +105,21 @@ typedef struct s_envvar
 }	t_envvar;
 
 /**
+ * @struct			s_redir
+ * @brief			Redirection linked list.
+ * 
+ * @param type		(t_redir_type)	Redirection type.
+ * @param filename	(char *)		File name or Here-doc delimiter.
+ * @param next		(t_redir *)		Next redirection.
+*/
+typedef struct s_redir
+{
+	t_redir_type	type;
+	char			*file;
+	struct s_redir	*next;
+}	t_redir;
+
+/**
  * @struct			s_command
  * @brief			Command descriptor.
  * 
@@ -92,6 +135,7 @@ typedef struct s_command
 	int			outfile;
 	char		*path;
 	char		**args;
+	t_redir		*redirs;
 	t_envvar	**envp;
 }	t_command;
 
@@ -112,6 +156,50 @@ typedef struct s_node
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
+
+/** 
+ * @struct			s_pid.
+ * @brief			PID Stack (LIFO).
+ * 
+ * @param pid		(pid_t)			PID.
+ * @param next		(t_pid *)		Previous PID.
+*/
+typedef struct s_pid
+{
+	pid_t			pid;
+	struct s_pid	*next;
+}	t_pid;
+
+/**
+ * @struct			s_pipes.
+ * @brief			Pipe Stack (LIFO).
+ * 
+ * @param fd		(int[2])		Pipe array.
+ * @param next		(next)			Previous pipe.
+*/
+typedef struct s_pipes
+{
+	int				fd[2];
+	t_pid			*waitlist;
+	struct s_pipes	*next;
+}	t_pipes;
+
+/**
+ * @struct			s_executor.
+ * @brief			Execution data, carried during tree reading.
+ * 
+ * @param input		(int)			Input file descriptor.
+ * @param output	(int)			Output file descriptor.
+ * @param pipes		(t_pipes *)		Pipe stack.
+ * @param pids		(t_node *)		PID .
+ */
+typedef struct s_executor
+{
+	int		input;
+	int		output;
+	t_pipes	*pipes;
+	t_node	*root;
+}	t_executor;
 
 /* T_TOKEN ****************************************************************** */
 
@@ -273,6 +361,14 @@ int			ft_var_size(t_envvar *vars);
 */
 t_envvar	*ft_setup_env(char **argv, char **envp);
 
+/* T_REDIR ****************************************************************** */
+
+t_redir		*ft_init_redir(t_token *tmp);
+
+void		ft_add_redir(t_redir **redirs, t_redir *next);
+
+void		ft_clear_redir_list(t_redir *redir);
+
 /* T_NODE ******************************************************************* */
 
 /**
@@ -335,14 +431,13 @@ void		ft_display_node(t_node *tree);
 /**
  * @brief			Initializes a new t_command.
  * 
- * @param input		Input file descriptor
- * @param output	Output file descriptor
+ * @param redirs	Redirections linked list.
  * @param args		Args string array.
  * @param envp		Envp linked list adress.
  * 
  * @return			A pointer to the newly allocated t_command.
  */
-t_command	*ft_init_command(int in, int out, char **args, t_envvar **envp);
+t_command	*ft_init_command(t_redir *redirs, char **args, t_envvar **envp);
 
 /**
  * @brief			De-allocate a t_command.

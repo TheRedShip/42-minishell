@@ -13,6 +13,26 @@
 #include "minishell.h"
 
 extern int	g_exit_code;
+extern int	DEBUG;
+
+void	ft_display_token_list(t_token *tokens)
+{
+		/*
+		DEBUG SECTION
+	*/
+	t_token *t;
+	t = tokens;
+	printf("------------- ACTUAL TOKEN LIST -------------\n");
+	while (t)
+	{
+		printf("[%s]->", t->str);
+		t = t->next;
+	}
+	printf("\n---------------------------------------------\n");
+	/*
+		END OF DEBUG
+	*/
+}
 
 void	start_execve(t_command *cmd, t_executor *ex)
 {
@@ -38,6 +58,7 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	{
 		// ft_clear_env(*(cmd->envp));
 		int test = 0;
+		rl_clear_history();
 		test = ft_process_redirs(cmd, ex);
 		if (test == 2)
 		{
@@ -50,7 +71,6 @@ void	start_execve(t_command *cmd, t_executor *ex)
 		ft_close_executor(ex);
 		execve(cmd->path, cmd->args, env);
 		perror("execve");
-		rl_clear_history();
 		exit(ERR_FAILED);
 	}
 	else if (pid < 0)
@@ -73,138 +93,123 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	ft_signal_state(SIGHANDLER_INT);
 }
 
-int	ft_quote_handler(char **line, t_envvar **envp, int status)
+t_error_code	ft_prompt_line(t_envvar **envp, char **line)
 {
-	char	*dquote_file;
-	char	*history_line;
-	char	qs;
-
-	if (!*line)
-		return (ERR_ERRORS);
-	history_line = *line;
-	dquote_file = ft_get_temp_file(".dquote", 16);
-	if (ft_syntax_errors(*line, QU_ZERO))
-	{
-		status = ft_get_dquote(*line, envp, dquote_file);
-		history_line = ft_get_dquote_line(*line, dquote_file, status);
-	}
-	add_history(history_line);
-	free(dquote_file);
-	*line = history_line;
-	if (WEXITSTATUS(status) == 130)
-	{
-		free(*line);
-		return (ERR_FAILED);
-	}
-	qs = ft_syntax_errors(*line, QU_ZERO);
-	if (qs)
-		ft_error_message(ERR_DQSTOP, (char *)&qs);
-	return (ERR_NOERRS);
-}
-
-void	ft_prompt_handle(t_envvar **envp)
-{
-	char	*line;
 	char	*prompt;
 	int		err_code;
 
 	prompt = ft_get_prompt_string(*envp);
-	line = readline(prompt);
+	*line = readline(prompt);
 	free(prompt);
-	if (line && !ft_isnt_empty(line))
+	if (*line && !ft_isnt_empty(*line))
 	{
-		free(line);
-		return ;
+		free(*line);
+		return (ERR_FAILED);
 	}
 	ft_signal_state(SIGHANDLER_IGN);
-	err_code = ft_quote_handler(&line, envp, 0);
+	err_code = ft_quote_handler(line, envp, 0);
 	ft_signal_state(SIGHANDLER_INT);
 	if (err_code == ERR_ERRORS)
+	{
 		ft_clear_env(*envp);
-	if (err_code == ERR_ERRORS)
 		ft_exit(NULL);
-	else if (err_code == ERR_FAILED || !line)
+	}
+	else if (err_code == ERR_FAILED || !*line)
 	{
 		g_exit_code = 130;
-		return ;
+		return (ERR_DQSTOP);
 	}
-	ft_prompt_tokenization(line, envp);
+	return (ERR_NOERRS);
 }
 
-void	ft_display_token_list(t_token *token_list)
+t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 {
-	/*
-		DEBUG SECTION
-	*/
-	t_token *t;
-	t = token_list;
-	printf("------------- ACTUAL TOKEN LIST -------------\n");
-	while (t)
-	{
-		printf("[%s]->", t->str);
-		t = t->next;
-	}
-	printf("\n---------------------------------------------\n");
-	/*
-		END OF DEBUG
-	*/
-}
+	t_error_code	syntax;
+	char			*err_token;
 
-void	ft_prompt_tokenization(char *line, t_envvar **envp)
-{
-	t_token	*token_list;
-	int		syntax;
-
-	syntax = 0;
-	token_list = ft_tokenizer(line, QU_ZERO);
-	if (!token_list)
-		return ;
-	ft_format_tokens(&token_list, ft_get_var(*envp, "HOME"));
-	ft_remove_braces(&token_list);
-	if ((!ft_verify_token(token_list) || ft_syntax_errors(line, QU_ZERO)))
+	syntax = (!!ft_quote_error(line, QU_ZERO) << 1);
+	*tokens = ft_tokenizer(line, QU_ZERO);
+	syntax |= ft_verify_token(*tokens, &err_token);
+	if (!*tokens)
+		return (ERR_FAILED);
+	ft_format_tokens(tokens, ft_get_var(*envp, "HOME"));
+	ft_remove_braces(tokens);
+	if (DEBUG)
+		ft_display_token_list(*tokens);
+	if (syntax & 0b011)
 	{
-		ft_error_message(ERR_SYNTAX, NULL);
-		syntax++;
+		if (syntax & 0b10)
+			ft_error_message(ERR_SYNTXQ, ": unexcepted end of file");
+		else
+			ft_error_message(ERR_SYNTXT, err_token);
+		ft_clear_token_list(*tokens);
+		free(line);
 		g_exit_code = 2;
+		return (ERR_FAILED);
 	}
 	free(line);
-	if (syntax)
-	{
-		ft_clear_token_list(token_list);
-		return ;
-	}
-	ft_prompt_execution(token_list, envp);
+	if (syntax & 0b100)
+		ft_heredoc_limit(*tokens, envp);
+	return (ERR_NOERRS);
 }
 
-void	ft_prompt_execution(t_token *token_list, t_envvar **envp) // REALLY LIGHT EXEC
+t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp)
 {
-	t_node		*tree;
-	t_node		*first_command;
-	int			check;
+	*tree = ft_build_tree(*tokens, envp);
+	ft_clear_token_list(*tokens);
+	if (ft_check_commands(*tree))
+		return (ERR_FAILED);
+	if (DEBUG)
+		treeprint(*tree, 0);
+	return (ERR_NOERRS);
+}
 
-	check = 0;
-	ft_head_token(token_list);
-	tree = ft_build_tree(token_list, envp, &check);
-	ft_clear_token_list(token_list);
-	if (check & 2)
+t_error_code	ft_file_opening(t_node *tree, t_envvar **envp)
+{
+	int	hd_done;
+
+	hd_done = 1;
+	ft_signal_state(SIGHANDLER_IGN);
+	if (ft_open_heredocs(tree, tree, &hd_done))
 	{
+		ft_close_tree_rec(tree);
 		ft_clear_tree(tree);
-		g_exit_code = 1;
-		return ;
+		ft_signal_state(SIGHANDLER_INT);
+		return (ERR_FAILED);
 	}
-	check = ft_check_commands(tree);
-	if (check)
-		ft_clear_tree(tree);
-	if (check == 1)
+	ft_signal_state(SIGHANDLER_INT);
+	if (ft_open_outputs(tree))
 	{
+		ft_close_tree_rec(tree);
+		ft_clear_tree(tree);
 		ft_clear_env(*envp);
 		rl_clear_history();
-		exit(ERR_ERRORS);
+		exit(ERR_FAILED);
 	}
-	first_command = tree;
-	// treeprint(tree, 12);
-	while (!(first_command->command))
-		first_command = first_command->left;
+	return (ERR_NOERRS);
+}
+
+
+void	ft_prompt_handler(t_envvar **envp)
+{
+	char	*line;
+	t_token	*tokens;
+	t_node	*tree;
+
+	line = NULL;
+	tokens = NULL;
+	tree = NULL;
+	if (ft_prompt_line(envp, &line))
+		return ;
+	if (ft_to_tokens(&tokens, line, envp))
+		return ;
+	if (ft_to_tree(&tokens, &tree, envp))
+	{
+		ft_clear_tree(tree);
+		exit(ERR_FAILED);
+	}
+	if (ft_file_opening(tree, envp))
+		return ;
 	ft_exec(tree, ft_init_executor(tree), EX_WAIT);
 	ft_clear_tree(tree);
 }

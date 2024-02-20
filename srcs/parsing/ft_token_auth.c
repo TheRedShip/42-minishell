@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/19 15:30:15 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/20 18:17:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_valid_token(t_token *t)
+extern int	DEBUG;
+
+int	ft_valid_token(t_token *t, char **err_token)
 {
 	t_token_type	bops;
 	t_token_type	strs;
@@ -23,15 +25,18 @@ int	ft_valid_token(t_token *t)
 		return (0);
 	while (t->next)
 	{
+		*err_token = t->next->str;
 		if ((t->type & TK_BINOPS) && (t->next->type & bops))
+			return (0);
+		else if (t->type == TK_REDIRS && !(t->next->type & TK_STRING))
+			return (0);
+		else if (t->type == TK_PIPEXS && (t->next->type & bops))
 			return (0);
 		else if (!ft_strncmp(t->str, "(", 2) && (t->next->type & bops))
 			return (0);
+		else if (t->type == TK_STRING && (t->next->type & TK_BRACES))
+			return (0);
 		else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & TK_STRING))
-			return (0);
-		else if (t->type == TK_REDIRS && !(t->next->type & (TK_STRING | TK_BRACES)))
-			return (0);
-		else if (t->type == TK_PIPEXS && (t->next->type & bops))
 			return (0);
 		t = t->next;
 	}
@@ -56,13 +61,14 @@ int	ft_verify_brace(t_token *tokens)
 	return (braces == 0);
 }
 
-int ft_verify_token(t_token *tokens)
+int ft_verify_token(t_token *tokens, char **err_token)
 {
 	t_token	*tmp;
 	int		hdcount;
 
-	if (!ft_valid_token(tokens) || !ft_verify_brace(tokens))
-		return (0);
+	*err_token = NULL;
+	if (!ft_valid_token(tokens, err_token) || !ft_verify_brace(tokens))
+		return (ERR_FAILED);
 	tmp = tokens;
 	hdcount = 0;
 	while (tmp)
@@ -70,7 +76,11 @@ int ft_verify_token(t_token *tokens)
 		hdcount += ((tmp->type & TK_REDIRS) && !ft_strncmp(tmp->str, "<<", 3));
 		tmp = tmp->next;
 	}
-	return (hdcount < 17);
+	if (DEBUG)
+		printf("HEREDOC COUNT = [%d]\n", hdcount);
+	if (hdcount > 16)
+		return (0b100);
+	return (ERR_NOERRS);
 }
 
 int	ft_verif_binop_brace(t_token *tk)

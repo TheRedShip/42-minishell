@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:52:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/18 12:04:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:11:05 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,31 @@ int	ft_get_dquote(char *line, t_envvar **env, char *tmp)
 	return (tmp_file_fd);
 }
 
+int	ft_quote_handler(char **line, t_envvar **envp, int status)
+{
+	char	*dquote_file;
+	char	*history_line;
+	char	qs;
+
+	if (!*line)
+		return (ERR_ERRORS);
+	history_line = *line;
+	dquote_file = ft_get_temp_file(".dquote", 16);
+	if (ft_quote_error(*line, QU_ZERO))
+	{
+		status = ft_get_dquote(*line, envp, dquote_file);
+		history_line = ft_get_dquote_line(*line, dquote_file, status);
+	}
+	add_history(history_line);
+	free(dquote_file);
+	*line = history_line;
+	if (WEXITSTATUS(status) == 130)
+	{
+		free(*line);
+		return (ERR_FAILED);
+	}
+	qs = ft_quote_error(*line, QU_ZERO);
+	if (qs)
+		ft_error_message(ERR_DQSTOP, (char *)&qs);
+	return (ERR_NOERRS);
+}

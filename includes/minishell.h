@@ -30,27 +30,24 @@
 
 # include "data_structures.h"
 # include "parser.h"
+# include "ft_file_manager.h"
 # include "builtins.h"
 # include "executer.h"
 
-# define MINI "minishell: "
+# define P_SUCCESS "\001\033[32;1m\002$?\001\033[0m\002 "
+# define P_FAIL "\001\033[31;1m\002$?\001\033[0m\002 "
+# define P_TAIL "\001\033[37;1m\002 Minishell$\001\033[0m\002 "
 
-# define P_SUCCESS "\001\033[30;102;1m\002$?\001\033[0m\002 "
-# define P_FAIL "\001\033[30;101;1m\002$?\001\033[0m\002 "
-# define P_TAIL "\001\033[30;47;3;1m\002[MinishellRC]:\001\033[0m\002 "
+# define P_SDQUOTE "\001\033[36;1m\002''\001\033[0m\002 "
+# define P_DDQUOTE "\001\033[34;1m\002\"\"\001\033[0m\002 "
+# define P_ENDQUOTE "\001\033[39;1m\002 dquote:\001\033[0m\002 > "
 
-# define P_SDQUOTE "\001\033[30;106;1m\002''\001\033[0m\002 "
-# define P_DDQUOTE "\001\033[30;104;1m\002\"\"\001\033[0m\002 "
-# define P_ENDQUOTE "\001\033[30;47;3;1m\002/!\\  [dquote]:\001\033[0m\002 > "
+# define P_HEREDOC "\001\033[35;1m\002HD\001\033[0m\002 "
+# define P_HD_TAIL "\001\033[39;1m\002 here-doc:\001\033[0m\002 > "
 
-# define P_HEREDOC "\001\033[30;105;1m\002HD\001\033[0m\002 "
-# define P_HD_TAIL "\001\033[30;47;3;1m\002here-document:\001\033[0m\002 > "
+# define P_ERROR "\001\033[31;1m\002/!\\ ERROR! > "
 
-# define P_ERROR "\001\033[30;47;1m\002!!\001\033[0m\002 "
-# define P_ERR_TAIL "\001\033[37;41;1m\002[   ERROR!   ]\001\033[0m\002 > "
-
-# define P_WARNING "\001\033[30;47;1m\002!!\001\033[0m\002 "
-# define P_WNG_TAIL "\001\033[37;43;1m\002[  WARNING!  ]\001\033[0m\002 > "
+# define P_WARNING "\001\033[33;1m\002/!\\ WARNING! > "
 
 # ifndef OPEN_READ
 #  define OPEN_READ O_RDONLY
@@ -78,7 +75,7 @@ typedef enum e_handler_state
 
 typedef enum e_error_code
 {
-	ERR_NOERRS = 0,
+	ERR_NOERRS,
 	ERR_FAILED,
 	ERR_ERRORS,
 	ERR_NOTNUM,
@@ -89,7 +86,9 @@ typedef enum e_error_code
 	ERR_HDSTOP,
 	ERR_DQSTOP,
 	ERR_NOTCMD,
-	ERR_SYNTAX,
+	ERR_SYNTXQ,
+	ERR_SYNTXT,
+	ERR_HLIMIT
 }	t_error_code;
 
 // typedef enum e_error
@@ -113,20 +112,21 @@ char	*ft_get_pwd(void);
 int		ft_isnt_empty(char *str);
 
 /* PARSING ****************************************************************** */
-char	*parse_quotes(char *string);
-// char	*parse_dollar(char *string, t_envvar *envp);
 int		ft_qs_update(char c, t_quote_state *qs);
-// char	*str_add(char *dest, char *src, size_t place);
-// char	*str_append(char *str, char c);
-// char	*str_add(char *dest, char *src, size_t place);
+
+int		ft_quote_handler(char **line, t_envvar **envp, int status);
 /* ************************************************************************** */
 
 /* PROMPTING **************************************************************** */
-void	ft_prompt_handle(t_envvar **envp);
+t_error_code	ft_prompt_line(t_envvar **envp, char **line);
 
-void	ft_prompt_tokenization(char *line, t_envvar **envp);
+t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp);
 
-void	ft_prompt_execution(t_token *token_list, t_envvar **envp);
+t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp);
+
+t_error_code	ft_file_opening(t_node *tree, t_envvar **envp);
+
+void			ft_prompt_handler(t_envvar **envp);
 
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ char	*ft_hd_holder(char *addr, int type);
 t_node	*ft_tree_holder(int reset, t_node *root);
 
 void	ft_signal_state(int toggle);
+
 /* ************************************************************************** */
 
 void	ft_display_token(t_token *token);
@@ -146,5 +147,11 @@ void	ft_display_token(t_token *token);
 void	start_execve(t_command *cmd, t_executor *ex);
 
 void	ft_error_message(t_error_code err, char *str);
+
+t_error_code	ft_open_heredocs(t_node *tree, t_node *root, int *not_failed);
+
+t_error_code	ft_open_outputs(t_node *tree);
+
+t_error_code	ft_open_inputs(t_node *tree);
 
 #endif
