@@ -56,7 +56,7 @@ void	ft_h_heredoc(int signal)
 	int	fd;
 
 	fd = 0;
-	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 30);
+	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 16);
 	if (signal == 2)
 	{
 		printf("^C\n");

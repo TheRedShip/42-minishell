@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 21:23:08 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:25:29 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,16 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 	int	built;
 
 	(void) status;
+	if (ft_open_outputs(tree))
+	{
+		ft_close_executor(ex);
+		ft_del_executor(ex);
+		ft_close_tree_rec(tree);
+		ft_clear_tree(tree);
+		ft_clear_env(*(tree->command->envp));
+		rl_clear_history();
+		exit(ERR_FAILED);
+	}
 	if (ft_open_inputs(tree))
 	{
 		ft_close_command(tree->command);

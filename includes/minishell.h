@@ -38,12 +38,12 @@
 # define P_FAIL "\001\033[31;1m\002$?\001\033[0m\002 "
 # define P_TAIL "\001\033[37;1m\002 Minishell$\001\033[0m\002 "
 
-# define P_SDQUOTE "\001\033[36;1m\002''\001\033[0m\002 "
-# define P_DDQUOTE "\001\033[34;1m\002\"\"\001\033[0m\002 "
-# define P_ENDQUOTE "\001\033[39;1m\002 dquote:\001\033[0m\002 > "
+# define P_SDQUOTE "\001\033[36;1m\002'' "
+# define P_DDQUOTE "\001\033[34;1m\002\"\" "
+# define P_ENDQUOTE " dquote:\001\033[0m\002 > "
 
-# define P_HEREDOC "\001\033[35;1m\002HD\001\033[0m\002 "
-# define P_HD_TAIL "\001\033[39;1m\002 here-doc:\001\033[0m\002 > "
+# define P_HEREDOC "\001\033[35;1m\002HD "
+# define P_HD_TAIL " here-doc:\001\033[0m\002 > "
 
 # define P_ERROR "\001\033[31;1m\002/!\\ ERROR! > "
 
@@ -124,7 +124,7 @@ t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp);
 
 t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp);
 
-t_error_code	ft_file_opening(t_node *tree, t_envvar **envp);
+t_error_code	ft_heredoc_opening(t_node *tree);
 
 void			ft_prompt_handler(t_envvar **envp);
 

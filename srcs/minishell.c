@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/20 18:08:50 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:38:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_exec_single_command(char *line, t_envvar **envp)
 		ft_clear_tree(tree);
 		exit(ERR_FAILED);
 	}
-	if (ft_file_opening(tree, envp))
+	if (ft_heredoc_opening(tree))
 		return ;
 	ft_exec(tree, ft_init_executor(tree), EX_WAIT);
 	ft_clear_tree(tree);

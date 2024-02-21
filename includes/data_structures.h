@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 19:22:31 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:27:16 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ typedef enum e_exec_status
 typedef enum e_open_status
 {
 	OP_HDOCKO = -3,
-	OP_FILEHD = -2,
-	OP_FILEOK = 0,
+	OP_FILEHD,
 	OP_FILEKO,
+	OP_FILEOK,
 	OP_FILEXX
 }	t_open_status;
 

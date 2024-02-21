@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 22:03:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:44:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,17 @@ t_error_code	ft_open_heredocs(t_node *tree, t_node *root, int *not_failed)
 		{
 			hd_file = ft_get_temp_file(".heredoc", 16);
 			if (tree->command->infile != STDIN_FILENO)
+			{
+				printf("CLOSING [%d]\n", tree->command->infile);
 				close(tree->command->infile);
+			}
 			tree->command->infile = \
 			ft_get_heredoc(ft_strdup(tmp->file), hd_file, root);
 			*not_failed = (tree->command->infile != OP_HDOCKO);
 		}
 		tmp = tmp->next;
 	}
-	return (tree->command->infile == -1 && *not_failed);
+	return (tree->command->infile == OP_FILEKO || !*not_failed);
 }
 
 void	ft_open_file(t_command *cmd, char *file, int mode)
@@ -54,7 +57,7 @@ void	ft_open_file(t_command *cmd, char *file, int mode)
 		fd = &(cmd->outfile);
 	if (*fd > 2)
 		close(*fd);
-	if (mode != OPEN_READ && *fd != -1)
+	if (mode != OPEN_READ && *fd != OP_FILEKO)
 		*fd = open(file, mode, 0644);
 	else if (*fd != -1)
 		*fd = open(file, mode);
@@ -76,7 +79,7 @@ t_error_code	ft_open_outputs(t_node *tree)
 		return (err);
 	}
 	tmp = tree->command->redirs;
-	while (tmp && tree->command->outfile != -1)
+	while (tmp && tree->command->outfile != OP_FILEKO)
 	{
 		if (tmp->type == RD_INFILES && access(tmp->file, R_OK))
 			break ;
@@ -86,7 +89,7 @@ t_error_code	ft_open_outputs(t_node *tree)
 			ft_open_file(tree->command, ft_strdup(tmp->file), OPEN_APPEND);
 		tmp = tmp->next;
 	}
-	return (tree->command->outfile == -1 && access(tmp->file, R_OK));
+	return (tree->command->outfile == OP_FILEKO && access(tmp->file, R_OK));
 }
 
 t_error_code	ft_open_inputs(t_node *tree)
@@ -96,13 +99,13 @@ t_error_code	ft_open_inputs(t_node *tree)
 	if (!tree->command->redirs)
 		return (ERR_NOERRS);
 	tmp = tree->command->redirs;
-	while (tmp && tree->command->infile != -1)
+	while (tmp && tree->command->infile != OP_FILEKO)
 	{
 		if (tmp->type == RD_INFILES)
 			ft_open_file(tree->command, ft_strdup(tmp->file), OPEN_READ);
 		tmp = tmp->next;
 	}
-	return (tree->command->infile == -1);
+	return (tree->command->infile == OP_FILEKO);
 }
 
 

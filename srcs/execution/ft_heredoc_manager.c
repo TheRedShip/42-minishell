@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:32:59 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 20:08:37 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:45:49 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_parse_line(char **line, char **prompt, int hd_fd, int exp)
 {
 	if (exp)
 		ft_replace_vars(ft_update_env(NULL), line, QU_IGNORE, 1);
+	printf("DEBUG WRITING [%s] into fd [%d]\n", *line, hd_fd);
 	write(hd_fd, *line, ft_strlen(*line));
 	if (*prompt)
 		write(hd_fd, "\n", 1);
@@ -77,6 +78,7 @@ int	ft_heredoc_exit(char *hd_file, char *delim, int err_code)
 		return (OP_HDOCKO);
 	}
 	hd_fd = open(hd_file, OPEN_READ);
+	printf("HEREDOC [%s] in OPEN_READ: [%d]\n", hd_file, hd_fd);
 	unlink(hd_file);
 	free(hd_file);
 	return (hd_fd);
@@ -95,6 +97,7 @@ int	ft_get_heredoc(char *delim, char *hd_file, t_node *root)
 	{
 		ft_signal_state(SIGHANDLER_H_D);
 		hd_fd = open(hd_file, OPEN_EXCL, 0644);
+		printf("HEREDOC [%s] in OPEN_EXCL: [%d]\n", hd_file, hd_fd);
 		ft_clear_tree(root);
 		rl_clear_history();
 		err_code = ft_heredoc_line(delim, hd_file, hd_fd);

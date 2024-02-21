@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/20 18:17:05 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:40:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	ft_valid_token(t_token *t, char **err_token)
 			return (0);
 		else if (!ft_strncmp(t->str, "(", 2) && (t->next->type & bops))
 			return (0);
-		else if (t->type == TK_STRING && (t->next->type & TK_BRACES))
+		else if (t->type == TK_STRING && (t->next->type & TK_BRACES) && !ft_strncmp(t->next->str, "(", 2))
 			return (0);
-		else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & TK_STRING))
+		else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & strs || !ft_strncmp(t->next->str, "(", 2)))
 			return (0);
 		t = t->next;
 	}

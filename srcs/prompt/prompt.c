@@ -164,7 +164,7 @@ t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp)
 	return (ERR_NOERRS);
 }
 
-t_error_code	ft_file_opening(t_node *tree, t_envvar **envp)
+t_error_code	ft_heredoc_opening(t_node *tree)
 {
 	int	hd_done;
 
@@ -178,14 +178,6 @@ t_error_code	ft_file_opening(t_node *tree, t_envvar **envp)
 		return (ERR_FAILED);
 	}
 	ft_signal_state(SIGHANDLER_INT);
-	if (ft_open_outputs(tree))
-	{
-		ft_close_tree_rec(tree);
-		ft_clear_tree(tree);
-		ft_clear_env(*envp);
-		rl_clear_history();
-		exit(ERR_FAILED);
-	}
 	return (ERR_NOERRS);
 }
 
@@ -208,7 +200,7 @@ void	ft_prompt_handler(t_envvar **envp)
 		ft_clear_tree(tree);
 		exit(ERR_FAILED);
 	}
-	if (ft_file_opening(tree, envp))
+	if (ft_heredoc_opening(tree))
 		return ;
 	ft_exec(tree, ft_init_executor(tree), EX_WAIT);
 	ft_clear_tree(tree);
