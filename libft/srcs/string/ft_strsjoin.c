@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:26:32 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 18:10:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:52:04 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static char	*ft_manage_join(char **strs, char **sep, int *tofree)
 	}
 	if (!*strs)
 	{
-		free(*sep);
+		if (*tofree & 0b10)
+			free(*sep);
 		return (ft_strdup(""));
 	}
 	return (*sep);
