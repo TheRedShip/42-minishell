@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/21 18:50:50 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/21 19:35:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ int	ft_var_size(t_envvar *vars)
 char	*ft_get_varstring(t_envvar *var, int format, int named)
 {
 	char	*str;
-	int		i;
 
 	str = NULL;
 	if (var == NULL)
 		return (NULL);
-	i = 0;
 	if (!var->values)
 		return (ft_strdup(var->name));
 	if (named)

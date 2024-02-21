@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tree_build.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 18:58:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:36:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 t_node	*ft_cmd_token(t_token **tokens, t_envvar **env, t_token *tmp)
 {
-	char	*failed_name;
 	char	**args;
 	t_redir	*redirs;
 
 	args = NULL;
-	failed_name = NULL;
 	redirs = NULL;
 	while (tmp && (tmp->type & (TK_STRING | TK_REDIRS)))
 	{
