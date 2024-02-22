@@ -21,7 +21,6 @@ void	ft_h_ignore(int signal)
 
 void	ft_h_inter(int signal)
 {
-	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 30);
 	if (signal == 2)
 	{
 		g_exit_code = 130;
@@ -30,6 +29,7 @@ void	ft_h_inter(int signal)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	(void) signal;
 }
 
 void	ft_h_quote(int signal)
@@ -37,7 +37,6 @@ void	ft_h_quote(int signal)
 	int	fd;
 
 	fd = 0;
-	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 30);
 	if (signal == 2)
 	{
 		printf("^C\n");
@@ -56,7 +55,6 @@ void	ft_h_heredoc(int signal)
 	int	fd;
 
 	fd = 0;
-	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 15);
 	if (signal == 2)
 	{
 		printf("^C\n");
