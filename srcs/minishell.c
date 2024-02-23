@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/22 19:01:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:37:26 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_envvar	*env;
 
+	rl_catch_signals = 0;
 	(void) argc;
 	(void) argv;
 	if (argc > 3)
