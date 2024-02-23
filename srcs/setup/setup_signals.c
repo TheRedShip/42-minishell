@@ -37,6 +37,7 @@ void	ft_h_quote(int signal)
 	int	fd;
 
 	fd = 0;
+	rl_catch_signals = 1;
 	if (signal == 2)
 	{
 		printf("^C\n");
@@ -55,6 +56,7 @@ void	ft_h_heredoc(int signal)
 	int	fd;
 
 	fd = 0;
+	rl_catch_signals = 1;
 	if (signal == 2)
 	{
 		printf("^C\n");
