@@ -38,9 +38,8 @@
 # define P_FAIL "\001\033[31;1m\002$?\001\033[0m\002 "
 # define P_TAIL "\001\033[37;1m\002 Minishell$\001\033[0m\002 "
 
-# define P_SDQUOTE "\001\033[36;1m\002'' "
-# define P_DDQUOTE "\001\033[34;1m\002\"\" "
-# define P_ENDQUOTE " dquote:\001\033[0m\002 > "
+# define P_SDQUOTE "\001\033[36;1m\002''  dquote:\001\033[0m\002 > "
+# define P_DDQUOTE "\001\033[34;1m\002\"\"  dquote:\001\033[0m\002 > "
 
 # define P_HEREDOC "\001\033[35;1m\002HD "
 # define P_HD_TAIL " here-doc:\001\033[0m\002 > "
@@ -88,7 +87,8 @@ typedef enum e_error_code
 	ERR_NOTCMD,
 	ERR_SYNTXQ,
 	ERR_SYNTXT,
-	ERR_HLIMIT
+	ERR_HLIMIT,
+	ERR_NOPERM
 }	t_error_code;
 
 // typedef enum e_error

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 21:13:45 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 11:05:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ char	**ft_quoted_split(char *str, char *sep)
 
 	new = NULL;
 	qs = QU_ZERO;
-	if (!str || !sep)
-		return (NULL);
+	if (!str || !sep || !*str)
+		return (ft_strtab(ft_strdup("")));
 	tmp = str;
 	while (*str && *tmp)
 	{
@@ -47,6 +47,8 @@ void	ft_command_checker(t_command *cmd)
 
 	tmp = cmd->args;
 	new_args = NULL;
+	if (!tmp)
+		return ;
 	while (*tmp)
 	{
 		if (ft_strchr(*tmp, '$'))

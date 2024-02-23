@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 17:50:08 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:22:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ void			ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
  * @brief			Check for syntax error.
  * 
  * @param str		String to check.
+ * @param end		String ending.
  * @param qs		Quote_state.
  * 
  * @return			Syntax error char.		
 */
-t_quote_state	ft_quote_error(char *str, t_quote_state qs);
+t_quote_state	ft_quote_error(char *str, char *end, t_quote_state qs);
 
 /**
  * @brief			Get quoted string from bad input.

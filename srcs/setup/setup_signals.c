@@ -42,8 +42,8 @@ void	ft_h_quote(int signal)
 	{
 		printf("^C\n");
 		free(ft_dq_holder(NULL, 0));
-		free(ft_dq_holder(NULL, 1));
-		fd = *(int *)ft_dq_holder(NULL, 2);
+		fd = *(int *)ft_dq_holder(NULL, 1);
+		printf("dquote fd = %d\n", fd);
 		ft_close_v(4, fd, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
 		g_exit_code = 130;
 		exit(130);
@@ -63,9 +63,9 @@ void	ft_h_heredoc(int signal)
 		unlink(ft_hd_holder(NULL, 0));
 		ft_clear_env(ft_update_env(NULL));
 		free(ft_hd_holder(NULL, 0));
+		printf("DELIM ADRESS IS [%p]\n", ft_hd_holder(NULL, 1));
 		free(ft_hd_holder(NULL, 1));
-		free(ft_hd_holder(NULL, 2));
-		fd = *(int *)ft_hd_holder(NULL, 3);
+		fd = *(int *)ft_hd_holder(NULL, 2);
 		ft_close_v(4, fd, STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO);
 		g_exit_code = 130;
 		exit(130);

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 19:21:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:13:31 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ char	*ft_get_path(char *cmd, t_envvar *envp)
 	char	*path;
 	char	*bin;
 
-	if (ft_strchr(cmd, '/') && !access(cmd, F_OK))
+	if (!cmd)
+		return (ft_strdup(""));
+	if (!*cmd || ft_strchr(cmd, '/') )
 		return (ft_strdup(cmd));
 	while (envp && ft_strncmp(envp->name, "PATH", 5))
 		envp = envp->next;
@@ -38,10 +40,6 @@ char	*ft_get_path(char *cmd, t_envvar *envp)
 
 void	ft_del_command(t_command *cmd)
 {
-	if (cmd->infile > 2)
-		close(cmd->infile);
-	if (cmd->outfile > 2)
-		close(cmd->outfile);
 	ft_clear_redir_list(cmd->redirs);
 	free(cmd->path);
 	ft_free_tab((void **)cmd->args);

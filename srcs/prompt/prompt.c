@@ -34,65 +34,6 @@ void	ft_display_token_list(t_token *tokens)
 	*/
 }
 
-void	start_execve(t_command *cmd, t_executor *ex)
-{
-	char	**env;
-	pid_t	pid;
-	int		status;
-
-	if (!cmd->args)
-		return ;
-	if (!cmd->path || access(cmd->path, F_OK))
-	{
-		if (*cmd->args)
-			ft_error_message(ERR_NOTCMD, *cmd->args);
-		else
-			ft_error_message(ERR_NOTCMD, NULL);
-		g_exit_code = 127;
-		return ;
-	}
-	ft_signal_state(SIGHANDLER_IGN);
-	env = ft_get_var_strs(*(cmd->envp), 0);
-	pid = fork();
-	if (pid == 0)
-	{
-		// ft_clear_env(*(cmd->envp));
-		int test = 0;
-		rl_clear_history();
-		test = ft_process_redirs(cmd, ex);
-		if (test == 2)
-		{
-			ft_free_tab((void **)env);
-			ft_clear_env(*(cmd->envp));
-			ft_clear_tree(ex->root);
-			ft_del_executor(ex);
-			exit(ERR_FAILED);
-		}
-		ft_close_executor(ex);
-		execve(cmd->path, cmd->args, env);
-		perror("execve");
-		exit(ERR_FAILED);
-	}
-	else if (pid < 0)
-		perror("fork");
-	waitpid(pid, &status, 0);
-	g_exit_code = WEXITSTATUS(status);
-	if (!WIFEXITED(status) && WCOREDUMP(status))
-	{
-		printf("Quit (core dumped)\n");
-		g_exit_code = 131;
-	}
-	else if (WTERMSIG(status) == 2)
-	{
-		printf("\n");
-		g_exit_code = 130;
-	}
-	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
-		ft_print_logo(*(cmd->envp));
-	ft_free_tab((void **)(env));
-	ft_signal_state(SIGHANDLER_INT);
-}
-
 t_error_code	ft_prompt_line(t_envvar **envp, char **line)
 {
 	char	*prompt;
@@ -127,7 +68,7 @@ t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 	t_error_code	syntax;
 	char			*err_token;
 
-	syntax = (!!ft_quote_error(line, QU_ZERO) << 1);
+	syntax = (!!ft_quote_error(line, NULL, QU_ZERO) << 1);
 	*tokens = ft_tokenizer(line, QU_ZERO);
 	syntax |= ft_verify_token(*tokens, &err_token);
 	if (!*tokens)
@@ -157,8 +98,6 @@ t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp)
 {
 	*tree = ft_build_tree(*tokens, envp);
 	ft_clear_token_list(*tokens);
-	if (ft_check_commands(*tree))
-		return (ERR_FAILED);
 	if (DEBUG)
 		treeprint(*tree, 0);
 	return (ERR_NOERRS);

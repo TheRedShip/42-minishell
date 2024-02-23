@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:52:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 16:11:05 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:57:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,12 @@ extern int	g_exit_code;
 char	*ft_open_dquote(int tmp_file_fd, t_quote_state qs)
 {
 	char	*line;
-	char	*prompt;
 
 	if (qs == QU_SINGLE)
-	{
-		prompt = ft_strjoin(P_SDQUOTE, P_ENDQUOTE, NULL, 0);
-		ft_dq_holder(prompt, 1);
-		line = readline(prompt);
-	}
+		line = readline(P_SDQUOTE);
 	if (qs == QU_DOUBLE)
-	{
-		prompt = ft_strjoin(P_DDQUOTE, P_ENDQUOTE, NULL, 0);
-		ft_dq_holder(prompt, 1);
-		line = readline(prompt);
-	}
+		line = readline(P_DDQUOTE);
 	write(tmp_file_fd, "\n", 1);
-	free(prompt);
 	write(tmp_file_fd, line, ft_strlen(line));
 	return (line);
 }
@@ -68,7 +58,7 @@ int	ft_get_dquote(char *line, t_envvar **env, char *tmp)
 	{
 		ft_signal_state(SIGHANDLER_DQU);
 		tmp_file_fd = open(tmp, OPEN_CREATE, 0644);
-		ft_dq_holder((char *)&tmp_file_fd, 2);
+		ft_dq_holder((char *)&tmp_file_fd, 1);
 		rl_clear_history();
 		ft_clear_env(*env);
 		free(tmp);
@@ -85,15 +75,15 @@ int	ft_get_dquote(char *line, t_envvar **env, char *tmp)
 
 int	ft_quote_handler(char **line, t_envvar **envp, int status)
 {
-	char	*dquote_file;
-	char	*history_line;
-	char	qs;
+	char		*dquote_file;
+	char		*history_line;
+	char		*qs;
 
 	if (!*line)
 		return (ERR_ERRORS);
 	history_line = *line;
 	dquote_file = ft_get_temp_file(".dquote", 16);
-	if (ft_quote_error(*line, QU_ZERO))
+	if (ft_quote_error(*line, NULL, QU_ZERO))
 	{
 		status = ft_get_dquote(*line, envp, dquote_file);
 		history_line = ft_get_dquote_line(*line, dquote_file, status);
@@ -102,12 +92,12 @@ int	ft_quote_handler(char **line, t_envvar **envp, int status)
 	free(dquote_file);
 	*line = history_line;
 	if (WEXITSTATUS(status) == 130)
-	{
 		free(*line);
+	if (WEXITSTATUS(status) == 130)
 		return (ERR_FAILED);
-	}
-	qs = ft_quote_error(*line, QU_ZERO);
-	if (qs)
-		ft_error_message(ERR_DQSTOP, (char *)&qs);
+	qs = ft_strdup(" ");
+	if (ft_quote_error(*line, qs, QU_ZERO))
+		ft_error_message(ERR_DQSTOP, qs);
+	free(qs);
 	return (ERR_NOERRS);
 }

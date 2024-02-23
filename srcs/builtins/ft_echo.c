@@ -38,7 +38,7 @@ int	ft_echo(t_command *cmd)
 		if (args != cmd->args + 1)
 			trail = 0;
 		msg = ft_strsjoin(args, ft_strdup(" "), 0b10);
-		printf("%s", msg);
+		write(cmd->outfile, msg, ft_strlen(msg));
 	}
 	if (trail)
 		printf("\n");

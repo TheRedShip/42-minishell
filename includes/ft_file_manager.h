@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:02:22 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 19:22:30 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:13:52 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 */
 int				ft_get_heredoc(char *delim, char *hd_file, t_node *root);
 
-int				ft_heredoc_exit(char *hd_file, char *delim, int err_code);
+int				ft_heredoc_exit(char *delim, char *hd_file, int err_code);
 
 int				ft_heredoc_line(char *delim, char *hd_file, int hd_fd);
 

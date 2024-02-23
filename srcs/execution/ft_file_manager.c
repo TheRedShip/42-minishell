@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/21 17:44:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:12:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ t_error_code	ft_open_heredocs(t_node *tree, t_node *root, int *not_failed)
 		{
 			hd_file = ft_get_temp_file(".heredoc", 16);
 			if (tree->command->infile != STDIN_FILENO)
-			{
-				printf("CLOSING [%d]\n", tree->command->infile);
 				close(tree->command->infile);
-			}
 			tree->command->infile = \
 			ft_get_heredoc(ft_strdup(tmp->file), hd_file, root);
 			*not_failed = (tree->command->infile != OP_HDOCKO);

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/21 18:25:29 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:35:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ extern int	DEBUG;
 void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	// printf("DEBUG: execution of %p node\n", tree);
-	if (DEBUG)
-		ft_display_node(tree);
 	if (tree->token && tree->token->type & TK_BINOPS)
 	{
 		if (!ft_strncmp(tree->token->str, "&&", 2))
@@ -27,7 +25,12 @@ void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
 		if (!ft_strncmp(tree->token->str, "||", 2))
 			ft_exec_or(tree, ex, status);
 	}
-	if (tree->command && tree->command->path)
+	if (tree->token && tree->token->type & TK_PIPEXS)
+	{
+		ft_exec(tree->left, ex, status);
+		ft_exec(tree->right, ex, status);
+	}
+	if (tree->command)
 		ft_exec_command(tree, ex, status);
 	if (tree == ex->root)
 	{
@@ -52,20 +55,22 @@ int	ft_process_redirs(t_command *cmd, t_executor *ex)
 		in_file = cmd->infile;
 	if (cmd->outfile != STDOUT_FILENO)
 		out_file = cmd->outfile;
-	dup2(in_file, STDIN_FILENO);
-	dup2(out_file, STDOUT_FILENO);
+	if (in_file != STDIN_FILENO)
+		dup2(in_file, STDIN_FILENO);
+	if (out_file != STDOUT_FILENO)
+		dup2(out_file, STDOUT_FILENO);
 	return (ERR_NOERRS);
 }
 
-void	ft_process_bredirs(t_command *cmd, t_executor *ex, int **tmps)
+void	ft_process_bredirs(t_command *cmd, t_executor *ex, int *tmps)
 {
 	int	in_file;
 	int	out_file;
 
 	in_file = STDIN_FILENO;
 	out_file = STDOUT_FILENO;
-	(*tmps)[STDIN_FILENO] = dup(STDIN_FILENO);
-	(*tmps)[STDOUT_FILENO] = dup(STDOUT_FILENO);
+	tmps[0] = dup(STDIN_FILENO);
+	tmps[1] = dup(STDOUT_FILENO);
 	if (ex->pipes)
 	{
 		in_file = ex->input;
@@ -97,12 +102,97 @@ void	ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status)
 		ft_exec(tree->right, ex, status);
 }
 
+void	start_execve(t_command *cmd, t_executor *ex)
+{
+	char	**env;
+	pid_t	pid;
+	int		status;
+	DIR		*file_check;
+
+	if (!cmd->args)
+		return ;
+	if (!cmd->path || access(cmd->path, F_OK))
+	{
+		if (*cmd->args)
+			ft_error_message(ERR_NOTCMD, *cmd->args);
+		else
+			ft_error_message(ERR_NOTCMD, NULL);
+		g_exit_code = 127;
+		return ;
+	}
+	ft_signal_state(SIGHANDLER_IGN);
+	env = ft_get_var_strs(*(cmd->envp), 0);
+	pid = fork();
+	if (pid == 0)
+	{
+		// ft_clear_env(*(cmd->envp));
+		int test = 0;
+		rl_clear_history();
+		test = ft_process_redirs(cmd, ex);
+		if (test == 2)
+		{
+			ft_free_tab((void **)env);
+			ft_clear_env(*(cmd->envp));
+			ft_clear_tree(ex->root);
+			ft_del_executor(ex);
+			exit(ERR_FAILED);
+		}
+		ft_close_executor(ex);
+		file_check = opendir(cmd->path);
+		if (errno != ENOTDIR)
+		{
+			ft_error_message(ERR_NOPERM, cmd->path);
+			closedir(file_check);
+			ft_free_tab((void **)env);
+			ft_clear_env(*(cmd->envp));
+			ft_clear_tree(ex->root);
+			ft_del_executor(ex);
+			exit(126);
+		}
+		execve(cmd->path, cmd->args, env);
+		perror("execve");
+		exit(ERR_FAILED);
+	}
+	else if (pid < 0)
+		perror("fork");
+	waitpid(pid, &status, 0);
+	g_exit_code = WEXITSTATUS(status);
+	if (!WIFEXITED(status) && WCOREDUMP(status))
+	{
+		printf("Quit (core dumped)\n");
+		g_exit_code = 131;
+	}
+	else if (WTERMSIG(status) == 2)
+	{
+		printf("\n");
+		g_exit_code = 130;
+	}
+	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
+		ft_print_logo(*(cmd->envp));
+	ft_free_tab((void **)(env));
+	ft_signal_state(SIGHANDLER_INT);
+}
+
 void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 {
-	int	*btemps;
+	int	btemps[2];
 	int	built;
 
 	(void) status;
+	btemps[0] = 0;
+	btemps[1] = 1;
+	ft_command_checker(tree->command);
+	if (DEBUG)
+	{
+		ft_display_node(tree);
+		ft_display_command(tree->command);
+	}
+	if (tree->command->path && !*(tree->command->path))
+	{
+		ft_close_command(tree->command);
+		g_exit_code = 0;
+		return ;
+	}
 	if (ft_open_outputs(tree))
 	{
 		ft_close_executor(ex);
@@ -119,9 +209,12 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 		g_exit_code = 1;
 		return ;
 	}
-	btemps = ft_calloc(2, sizeof(int));
-	ft_command_checker(tree->command);
-	built = ft_exec_builtins(tree->command, ex, &btemps);
+	if (!tree->command->path)
+	{
+		ft_close_command(tree->command);
+		return ;
+	}
+	built = ft_exec_builtins(tree->command, ex, (int *)btemps);
 	if (built)
 		start_execve(tree->command, ex);
 	else
@@ -131,11 +224,10 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 		close(btemps[0]);
 		close(btemps[1]);
 	}
-	free(btemps);
 	ft_close_command(tree->command);
 }
 
-int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int **btemps)
+int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *btemps)
 {
 	char		*trim;
 	char		**tmp;

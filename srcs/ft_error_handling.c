@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 22:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 22:08:09 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:39:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,15 @@ void	ft_error_message(t_error_code err, char *str)
 		printf("%s%s: numeric argument required\n", P_ERROR, str);
 	else if (err == ERR_NOTVAL)
 		printf("%sexport: `%s': not a valid identifier\n", P_ERROR, str);
+	else if (err == ERR_NOPERM)
+		printf("%s%s: Permission denied\n", P_ERROR, str);
 	else if (err == ERR_HDSTOP)
 	{
 		printf("%s here-document delimited by end-of", P_WARNING);
-		printf("-file, (wanted`%s')\001\033[0m\002\n", str);
+		printf("-file, (wanted `%s')\001\033[0m\002\n", str);
 	}
 	else if (err == ERR_DQSTOP)
-		printf("%sunexpected EOF while looking for matching `%c\'\n",\
-				P_WARNING, *str);
+		printf("%sunexpected EOF while looking for matching `%s\'\n",\
+				P_WARNING, str);
 	ft_errors_end(err, str);
 }

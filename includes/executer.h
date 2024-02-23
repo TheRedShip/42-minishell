@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 21:13:24 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:50:52 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int			ft_process_redirs(t_command *cmd, t_executor *ex);
  * @param cmd		Actual COMMAND t_node.
  * @param ex		t_executor carried data for execution.
 */
-void		ft_process_bredirs(t_command *cmd, t_executor *ex, int **tmps);
+void		ft_process_bredirs(t_command *cmd, t_executor *ex, int *tmps);
 
 /**
  * @brief			Execute an OR t_node.
@@ -156,7 +156,7 @@ void		ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status);
  * 
  * @return			ERR_NOERRS if it did execute a builtin, ERR_FAILED otherwise.
 */
-int			ft_exec_builtins(t_command *cmd, t_executor *ex, int **btemps);
+int			ft_exec_builtins(t_command *cmd, t_executor *ex, int *btemps);
 
 /* FILE MANAGEMENT ********************************************************** */
 

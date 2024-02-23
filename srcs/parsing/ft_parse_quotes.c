@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 16:50:59 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:49:15 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,14 @@ void	ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs)
 	*str = string_holder;
 }
 
-t_quote_state	ft_quote_error(char *str, t_quote_state qs)
+t_quote_state	ft_quote_error(char *str, char *end, t_quote_state qs)
 {
 	while (*str)
 		ft_qs_update(*(str++), &qs);
+	if (end && qs == QU_SINGLE)
+		*end = '\'';
+	else if (end && qs == QU_DOUBLE)
+		*end = '"';	
 	return (qs);
 }
 

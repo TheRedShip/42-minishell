@@ -19,6 +19,8 @@ char	*ft_trim_pwd(char *str)
 	char	*lastb;
 
 	lastb = ft_strrchr(str, '/');
+	if (!lastb)
+		return (ft_strdup(""));
 	return (ft_strdup(lastb));
 }
 

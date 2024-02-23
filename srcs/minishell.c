@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/21 17:38:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:01:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,11 @@ int	main(int argc, char **argv, char **envp)
 		exit(ERR_FAILED);
 	}
 	ft_print_logo(env);
+	// rl_catch_signals = 0;
 	ft_signal_state(SIGHANDLER_INT);
 	while (1)
 	{
+		g_exit_code &= 0x00FFFFFF;
 		ft_update_env(&env);
 		ft_prompt_handler(&env);
 	}
@@ -124,7 +126,6 @@ int	main(int argc, char **argv, char **envp)
 // int main(int argc, char **argv, char **envp)
 // {
 // 	t_envvar *env;
-	
 // 	(void) argc;
 // 	env = ft_setup_env(argv, envp);
 // 	ft_update_env(&env);
