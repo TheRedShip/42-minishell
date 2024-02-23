@@ -38,7 +38,7 @@ int	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 	{
 		if (vars[1]->values)
 		{
-			printf("%s\n", vars[1]->values[0]);
+			ft_printf("\033\001[37;1m\002CD: moved to %s\001\033[0m\002\n", vars[1]->values[0]);
 			chdir(vars[1]->values[0]);
 		}
 		else

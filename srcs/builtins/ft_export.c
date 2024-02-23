@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 23:02:31 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:30:37 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_show_export_list(t_command *cmd)
 		if (ft_strncmp(*tmp, "_=", 2))
 		{
 			string = ft_strjoin("declare -x ", *tmp, NULL, 0);
-			printf("%s\n", string);
+			ft_dprintf(cmd->outfile, "%s\n", string);
 			free(string);
 		}
 		tmp++;

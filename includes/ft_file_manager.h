@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:02:22 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 10:13:52 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:15:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				ft_heredoc_exit(char *delim, char *hd_file, int err_code);
 
 int				ft_heredoc_line(char *delim, char *hd_file, int hd_fd);
 
-void			ft_parse_line(char **line, char **prompt, int hd_fd, int exp);
+void			ft_parse_line(char **line, int hd_fd, int exp);
 
 void			ft_heredoc_limit(t_token *tokens, t_envvar **envp);
 

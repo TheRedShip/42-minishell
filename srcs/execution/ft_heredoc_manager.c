@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:32:59 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 10:15:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:32:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,23 @@ void	ft_heredoc_limit(t_token *tokens, t_envvar **envp)
 	exit(ERR_ERRORS);
 }
 
-void	ft_parse_line(char **line, char **prompt, int hd_fd, int exp)
+void	ft_parse_line(char **line, int hd_fd, int exp)
 {
-	int test;
+	int			test;
+	static int	firstline = 0;
 
 	if (exp)
 		ft_replace_vars(ft_update_env(NULL), line, QU_IGNORE, 1);
 	test = write(hd_fd, *line, ft_strlen(*line));
-	if (*prompt)
+	if (firstline++)
 		write(hd_fd, "\n", 1);
 	free(*line);
-	*prompt = ft_strjoin(P_HEREDOC, P_HD_TAIL, NULL, 0b00);
-	ft_hd_holder(*prompt, 1);
-	*line = readline(*prompt);
-	free(*prompt);
+	*line = readline(P_HEREDOC);
 }
 
 int	ft_heredoc_line(char *delim, char *hd_file, int hd_fd)
 {
 	char	*line;
-	char	*prompt;
 	int		exp;
 
 	if (hd_fd == -1)
@@ -50,14 +47,13 @@ int	ft_heredoc_line(char *delim, char *hd_file, int hd_fd)
 		return (ERR_FAILED);
 	}
 	line = ft_strdup("");
-	prompt = NULL;
 	exp = !(ft_strchr(delim, '"') || ft_strchr(delim, '\''));
 	ft_dequote_string(&delim, QU_ZERO);
 	ft_hd_holder(hd_file, 0);
 	ft_hd_holder(delim, 1);
 	ft_hd_holder((char *)&hd_fd, 2);
 	while (line && ft_strncmp(line, delim, ft_strlen(delim) + 1) && !access(hd_file, F_OK))
-		ft_parse_line(&line, &prompt, hd_fd, exp);
+		ft_parse_line(&line, hd_fd, exp);
 	free(delim);
 	free(hd_file);
 	if (!line)
@@ -102,6 +98,7 @@ int	ft_get_heredoc(char *delim, char *hd_file, t_node *root)
 		return (-1);
 	if (hd_pid == 0)
 	{
+		rl_catch_signals = 1;
 		ft_signal_state(SIGHANDLER_H_D);
 		hd_fd = open(hd_file, OPEN_EXCL, 0644);
 		ft_clear_tree(root);

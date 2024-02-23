@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tree_build.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/21 19:36:14 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:32:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,60 +103,6 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 	}
 	return (tree);
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	(void) argc;
-
-// 	// char *str = ft_strdup("echo bonjour && (echo bonjour | (rev || cat && rev | (rev|cat)))");
-// 	char *str = ft_strdup("(echo a | rev) || (echo a | (cat && rev)) | (echo a | rev) || (echo a | (cat && rev)) && echo bonjour && (echo bonjour | (rev || cat && rev | (rev|cat)))");
-// 	// char *str = ft_strdup("echo abcd | rev && echo bef");
-// 	// char *str = ft_strdup("echo bonjour | rev && rev | cat | cat | cat");
-
-
-// 	t_token *tokens = ft_tokenizer(str, QU_ZERO);
-// 	ft_format_tokens(&tokens);
-// 	ft_remove_braces(&tokens);
-
-// 	t_token *t;
-
-// 	t = tokens;
-// 	printf("------------- ACTUAL TOKEN LIST -------------\n");
-// 	while (t)
-// 	{
-// 		printf("%s ", t->str);
-// 		t = t->next;
-// 	}
-// 	printf("\n---------------------------------------------\n");
-
-
-// 	if (tokens && !ft_verify_token(tokens))
-// 	{
-// 		ft_putstr_fd("minishell: syntax error\n", 1);
-// 		exit(ERR_FAILED);
-// 	}
-
-// 	// t_token *t;
-
-// 	// t = tokens;
-// 	// printf("------------- ACTUAL TOKEN LIST -------------\n");
-// 	// while (t)
-// 	// {
-// 	// 	ft_display_token(t);
-// 	// 	t = t->next;
-// 	// }
-// 	// printf("\n---------------------------------------------\n");
-
-// 	t_envvar *env = ft_setup_env(argv, envp);
-// 	t_node *tree = ft_build_tree(tokens, &env);
-// 	treeprint(tree, 0);
-// 	// ft_display_node(tree);
-
-// 	ft_clear_token_list(tokens);
-// 	ft_clear_tree(tree);
-// 	ft_clear_env(env);
-// 	free(str);
-// }
 
 void	treeprint(t_node *root, int space)
 {

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:52:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/22 18:57:45 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:59:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	ft_get_dquote(char *line, t_envvar **env, char *tmp)
 		return (-1);
 	if (quote_pid == 0)
 	{
+		rl_catch_signals = 1;
 		ft_signal_state(SIGHANDLER_DQU);
 		tmp_file_fd = open(tmp, OPEN_CREATE, 0644);
 		ft_dq_holder((char *)&tmp_file_fd, 1);

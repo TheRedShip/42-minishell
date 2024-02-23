@@ -41,8 +41,7 @@
 # define P_SDQUOTE "\001\033[36;1m\002''  dquote:\001\033[0m\002 > "
 # define P_DDQUOTE "\001\033[34;1m\002\"\"  dquote:\001\033[0m\002 > "
 
-# define P_HEREDOC "\001\033[35;1m\002HD "
-# define P_HD_TAIL " here-doc:\001\033[0m\002 > "
+# define P_HEREDOC "\001\033[35;1m\002HD  here-doc:\001\033[0m\002 > "
 
 # define P_ERROR "\001\033[31;1m\002/!\\ ERROR! > "
 
@@ -137,6 +136,8 @@ char	*ft_dq_holder(char *addr, int type);
 char	*ft_hd_holder(char *addr, int type);
 
 t_node	*ft_tree_holder(int reset, t_node *root);
+
+t_executor	*ft_executor_holder(int reset, t_executor *ex);
 
 void	ft_signal_state(int toggle);
 

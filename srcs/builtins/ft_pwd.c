@@ -39,7 +39,7 @@ int	ft_pwd(t_command *cmd)
 
 	(void) cmd;
 	if (getcwd(cwd, sizeof(cwd)))
-		printf("%s\n", cwd);
+		ft_dprintf(cmd->outfile, "%s\n", cwd);
 	else
 	{
 		perror("getcwd() error");

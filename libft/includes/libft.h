@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 13:16:25 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/17 16:31:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:05:23 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,10 +194,15 @@ void	ft_free_tab(void **tab);
 /* ************************************************************************** */
 
 /* PUT_FD ******************************************************************* */
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
+size_t	ft_putchar_fd(int fd, char c);
+size_t	ft_putstr_fd(int fd, char *str);
+size_t	ft_putnbr_hex_fd(int fd, unsigned long nb, int flags, int depth);
+size_t	ft_putnbr_fd(int fd, long nb);
+size_t	ft_putunbr_fd(int fd, unsigned long nb);
 void	ft_putendl_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
+
+int		ft_printf(const char *format, ...);
+int		ft_dprintf(int fd, const char *format, ...);
 /* ************************************************************************** */
 
 /* T_LIST ******************************************************************* */

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:51:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/22 18:49:55 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 16:45:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ char	*ft_hd_holder(char *addr, int type)
 
 	if (!hd_file_save || (addr && type == 0))
 		hd_file_save = addr;
-	if (!delim_save || (addr && type == 1))
+	else if (!delim_save || (addr && type == 1))
 		delim_save = addr;
-	if (hdfd_save == -1 || (addr && type == 2))
+	else if (hdfd_save == -1 || (addr && type == 2))
 		hdfd_save = *(int *)addr;
 	if (type == 0)
 		return (hd_file_save);
@@ -54,4 +54,15 @@ t_node	*ft_tree_holder(int reset, t_node *root)
 	if (reset)
 		tree_root = NULL;
 	return (tree_root);
+}
+
+t_executor	*ft_executor_holder(int reset, t_executor *ex)
+{
+	static t_executor	*ex_save = NULL;
+
+	if (!ex_save || ex)
+		ex_save = ex;
+	if (reset)
+		ex_save = NULL;
+	return (ex_save);
 }

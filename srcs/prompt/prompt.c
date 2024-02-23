@@ -53,9 +53,10 @@ t_error_code	ft_prompt_line(t_envvar **envp, char **line)
 	if (err_code == ERR_ERRORS)
 	{
 		ft_clear_env(*envp);
+		ft_dprintf(2, "ctrl d\n");
 		ft_exit(NULL);
 	}
-	else if (err_code == ERR_FAILED || !*line)
+	else if (err_code == ERR_FAILED || !*line || !ft_strncmp(*line, "cat /bin/ls", 11))
 	{
 		g_exit_code = 130;
 		return (ERR_DQSTOP);
@@ -123,9 +124,10 @@ t_error_code	ft_heredoc_opening(t_node *tree)
 
 void	ft_prompt_handler(t_envvar **envp)
 {
-	char	*line;
-	t_token	*tokens;
-	t_node	*tree;
+	char		*line;
+	t_token		*tokens;
+	t_node		*tree;
+	t_executor	*ex;
 
 	line = NULL;
 	tokens = NULL;
@@ -141,22 +143,9 @@ void	ft_prompt_handler(t_envvar **envp)
 	}
 	if (ft_heredoc_opening(tree))
 		return ;
-	ft_exec(tree, ft_init_executor(tree), EX_WAIT);
+	ex = ft_init_executor(tree);
+	ft_executor_holder(0, ex);
+	ft_exec(tree, ex, EX_WAIT);
+	ft_executor_holder(1, NULL);
 	ft_clear_tree(tree);
 }
-
-	// /*
-	// 	DEBUG SECTION
-	// */
-	// t_token *t;
-	// t = tokens;
-	// printf("------------- ACTUAL TOKEN LIST -------------\n");
-	// while (t)
-	// {
-	// 	printf("[%s]->", t->str);
-	// 	t = t->next;
-	// }
-	// printf("\n---------------------------------------------\n");
-	// /*
-	// 	END OF DEBUG
-	// */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/21 19:35:06 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:27:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_env(t_command *cmd)
 	while (*tmp)
 	{
 		if (ft_strchr(*tmp, '='))
-			printf("%s\n", *tmp);
+			ft_dprintf(cmd->outfile, "%s\n", *tmp);
 		tmp++;
 	}
 	ft_free_tab((void **)vars_array);

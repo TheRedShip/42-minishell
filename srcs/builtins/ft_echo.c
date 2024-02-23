@@ -38,10 +38,10 @@ int	ft_echo(t_command *cmd)
 		if (args != cmd->args + 1)
 			trail = 0;
 		msg = ft_strsjoin(args, ft_strdup(" "), 0b10);
-		write(cmd->outfile, msg, ft_strlen(msg));
+		ft_dprintf(cmd->outfile, "%s", msg);
 	}
 	if (trail)
-		printf("\n");
+		ft_dprintf(cmd->outfile, "\n");
 	free(msg);
 	return (ERR_NOERRS);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/21 20:19:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:21:11 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	ft_is_numeric(char *str)
 
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd)
 {
-	char	*msg;
+	char		*msg;
+	t_executor	*ex;
 
 	if (ec == ERR_NOTNUM)
 	{
@@ -68,13 +69,16 @@ void	ft_exit_manager(int exit_code, int ec, t_command *cmd)
 		ft_error_message(ERR_TMARGS, "exit");
 		return ;
 	}
-	if (cmd)
-	{
-		ft_clear_env(*(cmd->envp));
-		ft_close_command(cmd);
-		ft_del_command(cmd);
-	}
 	rl_clear_history();
+	ex = ft_executor_holder(0, NULL);
+	if (cmd)
+		ft_clear_env(*(cmd->envp));
+	if (ex)
+	{
+		ft_close_executor(ex);
+		ft_clear_tree(ex->root);
+		ft_del_executor(ex);
+	}
 	exit(exit_code);
 }
 
@@ -83,7 +87,7 @@ int	ft_exit(t_command *cmd)
 	int			argc;
 
 	argc = 0;
-	printf("exit\n");
+	ft_dprintf(2, "exit\n");
 	if (cmd)
 		argc = ft_tab_len(cmd->args) - 1;
 	if (!cmd || !argc)

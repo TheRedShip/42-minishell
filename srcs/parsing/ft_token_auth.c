@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/21 18:40:48 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:32:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ int ft_verify_token(t_token *tokens, char **err_token)
 		hdcount += ((tmp->type & TK_REDIRS) && !ft_strncmp(tmp->str, "<<", 3));
 		tmp = tmp->next;
 	}
-	if (DEBUG)
-		printf("HEREDOC COUNT = [%d]\n", hdcount);
 	if (hdcount > 16)
 		return (0b100);
 	return (ERR_NOERRS);

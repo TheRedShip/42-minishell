@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 13:35:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:22:36 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ extern int	DEBUG;
 
 void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
 {
-	// printf("DEBUG: execution of %p node\n", tree);
+	if (DEBUG)
+		printf("DEBUG: execution of %p node\n", tree);
 	if (tree->token && tree->token->type & TK_BINOPS)
 	{
 		if (!ft_strncmp(tree->token->str, "&&", 2))
@@ -164,7 +165,7 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	}
 	else if (WTERMSIG(status) == 2)
 	{
-		printf("\n");
+		ft_printf("\n");
 		g_exit_code = 130;
 	}
 	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
@@ -219,10 +220,12 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 		start_execve(tree->command, ex);
 	else
 	{
-		dup2(btemps[0], STDIN_FILENO);
-		dup2(btemps[1], STDOUT_FILENO);
-		close(btemps[0]);
-		close(btemps[1]);
+		dup2(STDIN_FILENO, btemps[0]);
+		dup2(STDOUT_FILENO, btemps[1]);
+		if (btemps[0] > 2)
+			close(btemps[0]);
+		if (btemps[1] > 2)
+			close(btemps[1]);
 	}
 	ft_close_command(tree->command);
 }
@@ -248,11 +251,11 @@ int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *btemps)
 	}
 	if (!*tmp)
 		return (ERR_FAILED);
-	else
-	{
+	if (tmp - builtins_str != 6)
 		ft_process_bredirs(cmd, ex, btemps);
-		g_exit_code = builtins[tmp - builtins_str](cmd);
-	}
+	if (DEBUG)
+		ft_dprintf(2, "SALUT JEXEC UN BUILTIN\n");
+	g_exit_code = builtins[tmp - builtins_str](cmd);
 	return (ERR_NOERRS);
 }
 

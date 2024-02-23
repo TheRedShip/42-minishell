@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/23 13:37:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:08:19 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ void	ft_print_logo(t_envvar *envp)
 	if (fd < 0)
 		return ;
 	line = get_next_line(fd);
-	printf("\033c\033[31m");
+	ft_printf("\033c\033[31m");
 	while (line)
 	{
 		usleep(20000);
-		printf("%s", line);
+		ft_printf("%s", line);
 		free(line);
 		line = get_next_line(fd);
 	}
-	printf("\033[0m\n");
+	ft_printf("\033[0m\n");
 	close(fd);
 }
 
@@ -117,26 +117,8 @@ int	main(int argc, char **argv, char **envp)
 	ft_signal_state(SIGHANDLER_INT);
 	while (1)
 	{
-		g_exit_code &= 0x00FFFFFF;
 		ft_update_env(&env);
 		ft_prompt_handler(&env);
 	}
 	return (0);
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_envvar *env;
-// 	(void) argc;
-// 	env = ft_setup_env(argv, envp);
-// 	ft_update_env(&env);
-// 	int fd = ft_get_heredoc(ft_strdup("EOF"), ft_get_temp_file(".heredoc", 16));
-
-// 	char buffer[4096];
-
-// 	read(fd, buffer, 4096);
-
-// 	printf("%s\n", buffer);
-
-// 	close(fd);
-// }
