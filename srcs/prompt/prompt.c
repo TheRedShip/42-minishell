@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 extern int	g_exit_code;
-extern int	DEBUG;
 
 void	ft_display_token_list(t_token *tokens)
 {
@@ -53,7 +52,6 @@ t_error_code	ft_prompt_line(t_envvar **envp, char **line)
 	if (err_code == ERR_ERRORS)
 	{
 		ft_clear_env(*envp);
-		ft_dprintf(2, "ctrl d\n");
 		ft_exit(NULL);
 	}
 	else if (err_code == ERR_FAILED || !*line || !ft_strncmp(*line, "cat /bin/ls", 11))
@@ -87,8 +85,6 @@ t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 	ft_remove_braces(tokens);
 	if (!*tokens)
 		return (ERR_FAILED);
-	if (DEBUG)
-		ft_display_token_list(*tokens);
 	free(line);
 	if (syntax & 0b100)
 		ft_heredoc_limit(*tokens, envp);
@@ -99,8 +95,6 @@ t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp)
 {
 	*tree = ft_build_tree(*tokens, envp);
 	ft_clear_token_list(*tokens);
-	if (DEBUG)
-		treeprint(*tree, 0);
 	return (ERR_NOERRS);
 }
 

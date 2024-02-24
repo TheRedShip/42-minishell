@@ -6,13 +6,12 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/23 17:08:19 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 15:09:12 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	DEBUG;
 extern int	g_exit_code;
 
 int	ft_isnt_empty(char *str)
@@ -100,9 +99,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 3)
 		exit(ERR_FAILED);
 	env = ft_setup_env(argv, envp);
-	if (argc == 2 && !ft_strncmp(argv[1], "DEBUG", 6))
-		DEBUG = 1;
-	else if (argc == 3 && !ft_strncmp(argv[1], "-c", 3))
+	if (argc == 3 && !ft_strncmp(argv[1], "-c", 3))
 	{
 		ft_exec_single_command(ft_strdup(argv[2]), &env);
 		exit(g_exit_code);

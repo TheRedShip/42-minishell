@@ -6,19 +6,16 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 14:25:55 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 15:09:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
-extern int	DEBUG;
 
 void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
 {
-	if (DEBUG)
-		printf("DEBUG: execution of %p node\n", tree);
 	if (tree->token && tree->token->type & TK_BINOPS)
 	{
 		if (!ft_strncmp(tree->token->str, "&&", 2))
@@ -87,8 +84,6 @@ void	ft_process_bredirs(t_command *cmd, t_executor *ex, int *tmps)
 
 void	ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status)
 {
-	if (DEBUG)
-		printf("%p OR %p\n", tree->left, tree->right);
 	ft_exec(tree->left, ex, EX_WAIT);
 	if (g_exit_code != ERR_NOERRS)
 		ft_exec(tree->right, ex, status);
@@ -96,8 +91,6 @@ void	ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status)
 
 void	ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status)
 {
-	if (DEBUG)
-		printf("%p AND %p\n", tree->left, tree->right);
 	ft_exec(tree->left, ex, EX_WAIT);
 	if (g_exit_code == ERR_NOERRS)
 		ft_exec(tree->right, ex, status);
@@ -172,13 +165,7 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 	btemps[0] = 0;
 	btemps[1] = 1;
 	ft_command_checker(tree->command);
-	if (DEBUG)
-	{
-		ft_display_node(tree);
-		ft_display_command(tree->command);
-	}
-	flags = (tree->command->path && !*(tree->command->path)); // COMMANDE VIDE
-	ft_printf("SALUT %d\n", flags);
+	flags = (tree->command->path && !*(tree->command->path));
 	flags |= (ft_open_outputs(tree) || ft_open_inputs(tree)) << 1;
 	flags |= (!tree->command->path || access(tree->command->path, F_OK)) << 2;
 	g_exit_code = (flags & 0b0010);
@@ -231,7 +218,6 @@ int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *btemps)
 		return (ERR_FAILED);
 	if (tmp - builtins_str != 6)
 		ft_process_bredirs(cmd, ex, btemps);
-	if (DEBUG)
 	g_exit_code = builtins[tmp - builtins_str](cmd);
 	return (ERR_NOERRS);
 }

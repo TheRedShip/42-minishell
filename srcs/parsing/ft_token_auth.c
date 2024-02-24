@@ -6,13 +6,11 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/24 15:06:36 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 15:08:01 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	DEBUG;
 
 int	ft_valid_token(t_token *t, char **err_token)
 {
