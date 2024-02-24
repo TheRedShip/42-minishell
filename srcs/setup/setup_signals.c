@@ -37,7 +37,7 @@ void	ft_h_quote(int signal)
 	int	fd;
 
 	fd = 0;
-	ft_printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 16);
+	ft_printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 15);
 	if (signal == 2)
 	{
 		ft_printf("^C\n");
@@ -55,7 +55,7 @@ void	ft_h_heredoc(int signal)
 	int	fd;
 
 	fd = 0;
-	printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 15);
+	ft_printf("\001\033[%dC\002", (int) ft_strlen(rl_prompt) + rl_point - 15);
 	if (signal == 2)
 	{
 		ft_printf("^C\n");
