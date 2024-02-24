@@ -6,7 +6,11 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/02/24 15:36:16 by ycontre          ###   ########.fr       */
+=======
+/*   Updated: 2024/02/24 15:23:35 by rgramati         ###   ########.fr       */
+>>>>>>> a6f446ac6541fdefd11b31c6f5817c0a48d26a51
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +28,7 @@ void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
 			ft_exec_or(tree, ex, status);
 	}
 	// if (tree->token && tree->token->type & TK_PIPEXS)
-	// 	ft_exec_pipe(tree, ex, status);
+		// ft_exec_pipe(tree, ex, status);
 	if (tree->command)
 		ft_exec_command(tree, ex, status);
 	if (tree == ex->root)
