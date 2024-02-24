@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/22 18:12:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 13:23:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ t_error_code	ft_open_outputs(t_node *tree)
 			ft_open_file(tree->command, ft_strdup(tmp->file), OPEN_CREATE);
 		else if (tmp->type == RD_APPENDS)
 			ft_open_file(tree->command, ft_strdup(tmp->file), OPEN_APPEND);
-		tmp = tmp->next;
+		if (tree->command->outfile != OP_FILEKO)
+			tmp = tmp->next;
 	}
 	return (tree->command->outfile == OP_FILEKO && access(tmp->file, R_OK));
 }

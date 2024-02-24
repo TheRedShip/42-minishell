@@ -28,11 +28,6 @@
 # include <dirent.h>
 # include "libft.h"
 
-# include "data_structures.h"
-# include "parser.h"
-# include "ft_file_manager.h"
-# include "builtins.h"
-# include "executer.h"
 
 # define P_SUCCESS "\001\033[32;1m\002$?\001\033[0m\002 "
 # define P_FAIL "\001\033[31;1m\002$?\001\033[0m\002 "
@@ -90,6 +85,11 @@ typedef enum e_error_code
 	ERR_NOPERM
 }	t_error_code;
 
+# include "data_structures.h"
+# include "parser.h"
+# include "ft_file_manager.h"
+# include "builtins.h"
+# include "executer.h"
 // typedef enum e_error
 // {
 // 	ERR_

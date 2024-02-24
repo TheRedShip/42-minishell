@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:40 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 16:30:33 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 13:28:03 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	ft_close_v(int nb, int fd, ...)
 
 void	ft_close_command(t_command *command)
 {
+	if (!command)
+		return ;
 	if (command->infile > 2)
 		close(command->infile);
 	if (command->outfile > 2)
@@ -40,6 +42,8 @@ void	ft_close_command(t_command *command)
 
 void	ft_close_tree_rec(t_node *tree)
 {
+	if (!tree)
+		return ;
 	if (tree->left)
 		ft_close_tree_rec(tree->left);
 	if (tree->right)
@@ -50,6 +54,8 @@ void	ft_close_tree_rec(t_node *tree)
 
 void	ft_close_executor(t_executor *ex)
 {
+	if (!ex)
+		return ;
 	ft_close_tree_rec(ex->root);
 	if (ex->input > 2)
 		close(ex->input);

@@ -106,25 +106,25 @@ CTRL \
 >tkt <<oui cat
 CTRL C
 	-> ne pas créer tkt + $? = 130 ✅
----------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------ok
 <<'<lol'
 	-> limiter <lol ✅
----------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------ok
 <<""
 	-> doit quitter au \n ✅
----------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------ok
 cat <<HEREDOC
 oi
 HEREDOC
 	-> doit cat le contenu du heredoc ✅
----------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------ok
 cat <<HERE <<DOC
 oi
 HERE
 time
 DOC
 	-> doit seulement cat le contenu du deuxième heredoc ✅
----------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------ok
 cat <<HERE | ls
 oi
 HERE
@@ -215,9 +215,9 @@ echo hi | < |
 ---------------------------------------------------------------------------------------------
 For these tests, you will need to clone this repo (https://github.com/LucasKuhn/minishell_tester) and only save the test_files directory and put it in you minishell directory.
 
-grep hi <./test_files/infile
+grep hi <./test_files/infile		OKKKKK
 	-> hi + $? = 0 ✅
-grep hi "<infile" <	./test_files/infile
+grep hi "<infile" < ./test_files/infile
 	-> grep: <infile: No such file or directory + $? = 2 ✅
 echo hi <./test_files/infile bye bye
 	-> hi bye bye + $? = 0 ✅
@@ -232,35 +232,35 @@ cat <./test_files/infile_big ./test_files/infile
 cat <"1""2""3""4""5"
 	-> 12345: No such file or directory + $? = 1 ✅
 echo <"./test_files/infile" <missing <"./test_files/infile"
-	-> missing: No such file or directory +$? = 1 ❌ (wrong exit code)
+	-> missing: No such file or directory +$? = 1 ✅
 echo <missing <"./test_files/infile" <missing
-	-> missing: No such file or directory +$? = 1 ❌ (wrong exit code)
+	-> missing: No such file or directory +$? = 1 ✅
 cat <"./test_files/infile"
 	-> affiche le contenu du fichier "infile" + $? = 0 ✅
 echo <"./test_files/infile_big" | cat <"./test_files/infile"
-	-> affiche seulement le contenu du fichier "infile" + $? = 0 ✅
+	-> affiche seulement le contenu du fichier "infile" + $? = 0 
 echo <"./test_files/infile_big" | cat "./test_files/infile"
-	-> affiche seulement le contenu du fichier "infile" + $? = 0 ✅
+	-> affiche seulement le contenu du fichier "infile" + $? = 0 
 echo <"./test_files/infile_big" | echo <"./test_files/infile"
-	-> \n + $? = 0 ✅
+	-> \n + $? = 0 
 echo hi | cat <"./test_files/infile"
-	-> affiche seulement le contenu du fichier "infile" + $? = 0 ✅
+	-> affiche seulement le contenu du fichier "infile" + $? = 0 
 echo hi | cat "./test_files/infile"
-	-> affiche seulement le contenu du fichier "infile" + $? = 0 ✅
+	-> affiche seulement le contenu du fichier "infile" + $? = 0 
 cat <"./test_files/infile" | echo hi
-	-> hi + $? = 0 ✅
+	-> hi + $? = 0 
 cat <"./test_files/infile" | grep hello
-	-> hello + $? = 0 ✅
+	-> hello + $? = 0 
 cat <"./test_files/infile_big" | echo hi
-	-> hi + $? = 0 ✅
+	-> hi + $? = 0 
 cat <missing
-	-> missing: No such file or directory + $? = 1 ✅
+	-> missing: No such file or directory + $? = 1 
 cat <missing | cat
-	-> missing: No such file or directory + $? = 0 ✅
+	-> missing: No such file or directory + $? = 0 
 cat <missing | echo oi
-	-> affiche oi et missing: No such file or directory+ $? = 0 ✅
+	-> affiche oi et missing: No such file or directory+ $? = 0 
 cat <missing | cat <"./test_files/infile"
-	-> missing: No such file or directory et affiche le contenu du fichier "infile" + $? = 0 ✅
+	-> missing: No such file or directory et affiche le contenu du fichier "infile" + $? = 0 
 echo <123 <456 hi | echo 42
 	-> affiche 42 et 123: No such file or directory + $? = 0 ❌ (too many error messages)
 ls >./outfiles/outfile01
@@ -409,11 +409,11 @@ echo 'exit_code -> $? user -> $USER home -> $HOME'
 echo $?
 	-> 0 ✅
 echo "$"
-	-> $ ✅ FAILLLLLLLLLLLLLLLL
+	-> $ ❌ FAILLLLLLLLLLLLLLLL
 echo '$'
 	-> $ ✅
 echo $
-	-> $ ✅
+	-> $ ❌
 ---------------------------------------------------------------------------------------------
 export lol="echo <lol"
 $lol
@@ -430,10 +430,10 @@ echo $?coucou
 PIPE
 =============================================================================================
 |
-	-> syntax error + $? = 2 ✅
+	-> syntax error + $? = 2 
 ---------------------------------------------------------------------------------------------
 $tkt
-	-> \n + $? = 127 ✅ (wrong exit code mais oklm)
+	-> \n + $? = ✅127 (wrong exit code mais oklm)
 ---------------------------------------------------------------------------------------------
 $tkt | $tkt
 	-> \n + $? = 0 ✅

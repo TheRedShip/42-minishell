@@ -17,6 +17,8 @@ int	ft_is_n_flag(char *str)
 	if (!str || *str != '-')
 		return (0);
 	str++;
+	if (!*str)
+		return (0);
 	while (*str == 'n')
 		str++;
 	return (!*str);

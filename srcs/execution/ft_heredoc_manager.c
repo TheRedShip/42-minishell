@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:32:59 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 15:32:14 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 11:59:43 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ int	ft_heredoc_line(char *delim, char *hd_file, int hd_fd)
 		free(delim);
 		return (ERR_FAILED);
 	}
-	line = ft_strdup("");
+	line = NULL;
 	exp = !(ft_strchr(delim, '"') || ft_strchr(delim, '\''));
 	ft_dequote_string(&delim, QU_ZERO);
 	ft_hd_holder(hd_file, 0);
 	ft_hd_holder(delim, 1);
 	ft_hd_holder((char *)&hd_fd, 2);
+	ft_parse_line(&line, hd_fd, exp);
 	while (line && ft_strncmp(line, delim, ft_strlen(delim) + 1) && !access(hd_file, F_OK))
 		ft_parse_line(&line, hd_fd, exp);
 	free(delim);

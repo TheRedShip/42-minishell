@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/19 22:06:46 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 14:57:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,10 @@ char		*ft_get_pwd(void);
  * @brief			Get directory related environment variables.
  *
  * @param envp		Environment variables linked list.
- * 
- * @return			A t_envvar[4] pointer containing references to variables
- * 					HOME, OLDPWD, PWD and SHELL.
+ * @param vars		A t_envvar[4] pointer containing references to variables
+ * 					HOME, OLDPWD, PWD.
 */
-t_envvar	**ft_get_directory_vars(t_envvar *envp);
+void		ft_get_directory_vars(t_envvar *envp, t_envvar **vars);
 
 /**
  * @brief			Updates and returns environment variables linked list.
@@ -130,7 +129,7 @@ void		ft_create_env(t_envvar **env, char **argv);
  * 
  * @return			chdir exit code.
 */
-int			ft_manage_cd(int argc, char **argv, t_envvar **vars);
+t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars);
 
 /**
  * @brief			atoi for exit codes.

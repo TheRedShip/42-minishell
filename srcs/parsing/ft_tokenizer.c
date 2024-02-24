@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/20 13:07:37 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:25:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_is_token(char *str, t_quote_state qs)
 	tmp = tokens;
 	if (!str || !*str)
 		return (0);
+	if (ft_isspace(*str) && qs == QU_ZERO)
+		return (1);
 	while (*tmp && (ft_strncmp(str, *tmp, ft_strlen(*tmp)) || qs != QU_ZERO))
 		tmp++;
 	return (ft_strlen(*tmp));
@@ -53,7 +55,7 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 		return (NULL);
 	tmp = str;
 	len = ft_is_token(tmp, qs);
-	while (*tmp && (!len || (*tmp == ' ' && qs != QU_ZERO)))
+	while (*tmp && (!len || (ft_isspace(*tmp) && qs != QU_ZERO)))
 	{
 		ft_qs_update(*(tmp++), &qs);
 		len = ft_is_token(tmp, qs);

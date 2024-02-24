@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/23 15:32:20 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:12:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int ft_verify_token(t_token *tokens, char **err_token)
 	t_token	*tmp;
 	int		hdcount;
 
-	*err_token = NULL;
+	*err_token = tokens->str;
 	if (!ft_valid_token(tokens, err_token) || !ft_verify_brace(tokens))
 		return (ERR_FAILED);
 	tmp = tokens;

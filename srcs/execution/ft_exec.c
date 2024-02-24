@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 17:22:36 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 14:25:55 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,17 +110,6 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	int		status;
 	DIR		*file_check;
 
-	if (!cmd->args)
-		return ;
-	if (!cmd->path || access(cmd->path, F_OK))
-	{
-		if (*cmd->args)
-			ft_error_message(ERR_NOTCMD, *cmd->args);
-		else
-			ft_error_message(ERR_NOTCMD, NULL);
-		g_exit_code = 127;
-		return ;
-	}
 	ft_signal_state(SIGHANDLER_IGN);
 	env = ft_get_var_strs(*(cmd->envp), 0);
 	pid = fork();
@@ -177,7 +166,7 @@ void	start_execve(t_command *cmd, t_executor *ex)
 void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	int	btemps[2];
-	int	built;
+	int flags;
 
 	(void) status;
 	btemps[0] = 0;
@@ -188,46 +177,35 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 		ft_display_node(tree);
 		ft_display_command(tree->command);
 	}
-	if (tree->command->path && !*(tree->command->path))
+	flags = (tree->command->path && !*(tree->command->path)); // COMMANDE VIDE
+	ft_printf("SALUT %d\n", flags);
+	flags |= (ft_open_outputs(tree) || ft_open_inputs(tree)) << 1;
+	flags |= (!tree->command->path || access(tree->command->path, F_OK)) << 2;
+	g_exit_code = (flags & 0b0010);
+	if ((flags & 0b0011))
+		return ;
+	if (flags & 0b0110)
+		g_exit_code = 127;
+	flags |= ft_exec_builtins(tree->command, ex, (int *)btemps) << 3;
+	if ((flags & 0b0100) && (flags & 0b1000))
 	{
-		ft_close_command(tree->command);
-		g_exit_code = 0;
+		if (*tree->command->args)
+			ft_error_message(ERR_NOTCMD, *tree->command->args);
+		else
+			ft_error_message(ERR_NOTCMD, NULL);
 		return ;
 	}
-	if (ft_open_outputs(tree))
-	{
-		ft_close_executor(ex);
-		ft_del_executor(ex);
-		ft_close_tree_rec(tree);
-		ft_clear_tree(tree);
-		ft_clear_env(*(tree->command->envp));
-		rl_clear_history();
-		exit(ERR_FAILED);
-	}
-	if (ft_open_inputs(tree))
-	{
-		ft_close_command(tree->command);
-		g_exit_code = 1;
-		return ;
-	}
-	if (!tree->command->path)
-	{
-		ft_close_command(tree->command);
-		return ;
-	}
-	built = ft_exec_builtins(tree->command, ex, (int *)btemps);
-	if (built)
+	if (flags & 0b1000)
 		start_execve(tree->command, ex);
 	else
 	{
-		dup2(STDIN_FILENO, btemps[0]);
-		dup2(STDOUT_FILENO, btemps[1]);
+		dup2(btemps[0], STDIN_FILENO);
+		dup2(btemps[1], STDOUT_FILENO);
 		if (btemps[0] > 2)
 			close(btemps[0]);
 		if (btemps[1] > 2)
 			close(btemps[1]);
 	}
-	ft_close_command(tree->command);
 }
 
 int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *btemps)
@@ -254,7 +232,6 @@ int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *btemps)
 	if (tmp - builtins_str != 6)
 		ft_process_bredirs(cmd, ex, btemps);
 	if (DEBUG)
-		ft_dprintf(2, "SALUT JEXEC UN BUILTIN\n");
 	g_exit_code = builtins[tmp - builtins_str](cmd);
 	return (ERR_NOERRS);
 }
