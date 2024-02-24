@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 15:09:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 15:22:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
 		if (!ft_strncmp(tree->token->str, "||", 2))
 			ft_exec_or(tree, ex, status);
 	}
-	if (tree->token && tree->token->type & TK_PIPEXS)
-	{
-		ft_exec(tree->left, ex, status);
-		ft_exec(tree->right, ex, status);
-	}
+	// if (tree->token && tree->token->type & TK_PIPEXS)
+	// 	ft_exec_pipe(tree, ex, status);
 	if (tree->command)
 		ft_exec_command(tree, ex, status);
 	if (tree == ex->root)
@@ -82,6 +79,13 @@ void	ft_process_bredirs(t_command *cmd, t_executor *ex, int *tmps)
 	dup2(out_file, STDOUT_FILENO);
 }
 
+// void	ft_exec_pipe(t_node *tree, t_executor *ex, t_exec_status status)
+// {
+// 	t_pipes	*pipe;
+
+	
+// }
+
 void	ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status)
 {
 	ft_exec(tree->left, ex, EX_WAIT);
@@ -96,6 +100,23 @@ void	ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status)
 		ft_exec(tree->right, ex, status);
 }
 
+void	ft_command_exit(t_command *cmd, t_executor *ex, t_exec_status status)
+{
+	g_exit_code = WEXITSTATUS(status);
+	if (!WIFEXITED(status) && WCOREDUMP(status))
+	{
+		printf("Quit (core dumped)\n");
+		g_exit_code = 131;
+	}
+	else if (WTERMSIG(status) == 2)
+	{
+		ft_printf("\n");
+		g_exit_code = 130;
+	}
+	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
+		ft_print_logo(*(cmd->envp));
+}
+
 void	start_execve(t_command *cmd, t_executor *ex)
 {
 	char	**env;
@@ -104,12 +125,12 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	DIR		*file_check;
 
 	ft_signal_state(SIGHANDLER_IGN);
-	env = ft_get_var_strs(*(cmd->envp), 0);
 	pid = fork();
 	if (pid == 0)
 	{
 		// ft_clear_env(*(cmd->envp));
 		int test = 0;
+		env = ft_get_var_strs(*(cmd->envp), 0);
 		rl_clear_history();
 		test = ft_process_redirs(cmd, ex);
 		if (test == 2)
@@ -138,22 +159,8 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	}
 	else if (pid < 0)
 		perror("fork");
-	waitpid(pid, &status, 0);
-	g_exit_code = WEXITSTATUS(status);
-	if (!WIFEXITED(status) && WCOREDUMP(status))
-	{
-		printf("Quit (core dumped)\n");
-		g_exit_code = 131;
-	}
-	else if (WTERMSIG(status) == 2)
-	{
-		ft_printf("\n");
-		g_exit_code = 130;
-	}
-	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
-		ft_print_logo(*(cmd->envp));
-	ft_free_tab((void **)(env));
 	ft_signal_state(SIGHANDLER_INT);
+	waitpid(pid, &status, 0);
 }
 
 void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
