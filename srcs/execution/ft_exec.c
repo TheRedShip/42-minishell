@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 15:22:21 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 15:23:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
 			ft_exec_or(tree, ex, status);
 	}
 	// if (tree->token && tree->token->type & TK_PIPEXS)
-	// 	ft_exec_pipe(tree, ex, status);
+		// ft_exec_pipe(tree, ex, status);
 	if (tree->command)
 		ft_exec_command(tree, ex, status);
 	if (tree == ex->root)
@@ -161,6 +161,7 @@ void	start_execve(t_command *cmd, t_executor *ex)
 		perror("fork");
 	ft_signal_state(SIGHANDLER_INT);
 	waitpid(pid, &status, 0);
+	ft_command_exit(cmd, ex, status);
 }
 
 void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
