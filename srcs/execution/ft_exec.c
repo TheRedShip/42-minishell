@@ -6,7 +6,7 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 18:42:23 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/24 18:59:52 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,12 +178,10 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 	flags |= (ft_open_outputs(tree) || ft_open_inputs(tree)) << 1;
 	flags |= (!tree->command->path || access(tree->command->path, F_OK)) << 2;
 	g_exit_code = (flags & 0b0010);
-	if ((flags & 0b0011))
+	if ((flags & 0b0111))
 		return ;
 	if (flags & 0b0110)
 		g_exit_code = 127;
-	if (!tree->command->path) // j'ai rajoute ca, ca regle les trucs du genre "> out" faudra peut etre regler plus proprement
-		return ;
 	flags |= ft_exec_builtins(tree->command, ex, (int *)btemps) << 3;
 	if ((flags & 0b0100) && (flags & 0b1000))
 	{
