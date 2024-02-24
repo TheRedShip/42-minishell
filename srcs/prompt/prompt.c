@@ -72,12 +72,6 @@ t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 	syntax = (!!ft_quote_error(line, NULL, QU_ZERO) << 1);
 	*tokens = ft_tokenizer(line, QU_ZERO);
 	syntax |= ft_verify_token(*tokens, &err_token);
-	if (!*tokens)
-		return (ERR_FAILED);
-	ft_format_tokens(tokens, ft_get_var(*envp, "HOME"));
-	ft_remove_braces(tokens);
-	if (DEBUG)
-		ft_display_token_list(*tokens);
 	if (syntax & 0b011)
 	{
 		if (syntax & 0b10)
@@ -89,6 +83,12 @@ t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 		g_exit_code = 2;
 		return (ERR_FAILED);
 	}
+	ft_format_tokens(tokens, ft_get_var(*envp, "HOME"));
+	ft_remove_braces(tokens);
+	if (!*tokens)
+		return (ERR_FAILED);
+	if (DEBUG)
+		ft_display_token_list(*tokens);
 	free(line);
 	if (syntax & 0b100)
 		ft_heredoc_limit(*tokens, envp);
