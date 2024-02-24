@@ -6,7 +6,7 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 15:38:01 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/02/24 18:42:23 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status)
 		ft_exec(tree->right, ex, status);
 }
 
-void	ft_command_exit(t_command *cmd, t_executor *ex, t_exec_status status)
+void	ft_command_exit(t_command *cmd, t_executor *ex, int status)
 {
 	g_exit_code = WEXITSTATUS(status);
 	if (!WIFEXITED(status) && WCOREDUMP(status))
@@ -159,6 +159,7 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	}
 	else if (pid < 0)
 		perror("fork");
+	status = 0;
 	waitpid(pid, &status, 0);
 	ft_signal_state(SIGHANDLER_INT);
 	ft_command_exit(cmd, ex, status);
@@ -181,6 +182,8 @@ void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 		return ;
 	if (flags & 0b0110)
 		g_exit_code = 127;
+	if (!tree->command->path) // j'ai rajoute ca, ca regle les trucs du genre "> out" faudra peut etre regler plus proprement
+		return ;
 	flags |= ft_exec_builtins(tree->command, ex, (int *)btemps) << 3;
 	if ((flags & 0b0100) && (flags & 0b1000))
 	{
