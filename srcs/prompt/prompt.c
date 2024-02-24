@@ -134,7 +134,7 @@ void	ft_prompt_handler(t_envvar **envp)
 	tree = NULL;
 	if (ft_prompt_line(envp, &line))
 		return ;
-	if (ft_to_tokens(&tokens, line, envp))
+	if (ft_to_tokens(&tokens, line, envp) || !tokens)
 		return ;
 	if (ft_to_tree(&tokens, &tree, envp))
 	{
