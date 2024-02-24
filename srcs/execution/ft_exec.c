@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 15:22:21 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/24 15:36:16 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,9 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	}
 	else if (pid < 0)
 		perror("fork");
-	ft_signal_state(SIGHANDLER_INT);
 	waitpid(pid, &status, 0);
+	ft_signal_state(SIGHANDLER_INT);
+	ft_command_exit(cmd, ex, status);
 }
 
 void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
