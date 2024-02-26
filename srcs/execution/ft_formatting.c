@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 11:05:33 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/25 21:25:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,13 @@ void	ft_command_checker(t_command *cmd)
 	{
 		if (ft_strchr(*tmp, '$'))
 		{
-			ft_replace_vars(*cmd->envp, tmp, QU_ZERO, 1);
+			ft_replace_vars(*cmd->envp, tmp, QU_ZERO);
 			raw = ft_quoted_split(*(tmp++), " ");
 			ft_strtabjoin(&new_args, raw);
+			continue ;
 		}
-		else
-		{
-			ft_dequote_string(tmp, QU_ZERO);
-			ft_strapp(&new_args, ft_strdup(*(tmp++)));
-		}
+		ft_dequote_string(tmp, QU_ZERO);
+		ft_strapp(&new_args, ft_strdup(*(tmp++)));
 	}
 	free(cmd->path);
 	if (*new_args)

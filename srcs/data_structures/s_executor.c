@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:32:18 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/16 11:40:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:05:58 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_executor	*ft_init_executor(t_node *root)
 	new_ex->output = -1;
 	new_ex->pipes = NULL;
 	new_ex->root = root;
+	new_ex->base = -1;
 	return (new_ex);
 }
 

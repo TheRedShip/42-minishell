@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/22 18:22:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/25 21:25:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char		*ft_open_dquote(int tmp_fd, t_quote_state qs);
  * @param qs		Carried quote state.
 */
 void
-ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs, int cut);
+ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs);
 
 /**
  * @brief			Insert environment variable into a string array.
@@ -85,7 +85,7 @@ ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs, int cut);
  * @param new		String array to adress.
  * @param str		String.
 */
-void		ft_insert_var(t_envvar *vars, char ***new, char *start, int cut);
+void		ft_insert_var(t_envvar *vars, char *start, char ***new, int len);
 
 /**
  * @brief			Dequote a string.

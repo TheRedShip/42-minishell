@@ -115,6 +115,11 @@ t_error_code	ft_heredoc_opening(t_node *tree)
 	return (ERR_NOERRS);
 }
 
+void	ft_test(t_node *tree)
+{
+	ft_display_node(tree);
+	treeprint(tree, 0);
+}
 
 void	ft_prompt_handler(t_envvar **envp)
 {
@@ -139,7 +144,18 @@ void	ft_prompt_handler(t_envvar **envp)
 		return ;
 	ex = ft_init_executor(tree);
 	ft_executor_holder(0, ex);
-	ft_exec(tree, ex, EX_WAIT);
+
+	t_node	*tmp;
+	tmp = tree;
+	while (tmp && !tmp->command)
+		tmp = tmp->left;
+	if (tmp)
+		ft_exec_command(tree, ex, EX_WAIT);
+
+	// ft_test(tree);
+
+	ft_close_executor(ex);
+	ft_del_executor(ex);
 	ft_executor_holder(1, NULL);
 	ft_clear_tree(tree);
 }

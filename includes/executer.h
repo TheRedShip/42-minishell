@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 10:50:52 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/25 18:56:34 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,16 @@ void		ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status);
 void		ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status);
 
 /**
- * @brief			Execute a COMMAND t_node
+ * @brief			Startup for a COMMAND t_node execution
  * 
  * @param tree		Actual COMMAND t_node.
  * @param ex		t_executor carried data for execution.
+ * 
+ * @return			ERR_FAILED in case of errors, ERR_NOTCMD if not a builtin
+ * 					ERR_NOERRS if it was a builtin.
 */
+int			ft_cmd_start(t_node *tree, t_executor *ex, int *b_fds);
+
 void		ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status);
 
 /**

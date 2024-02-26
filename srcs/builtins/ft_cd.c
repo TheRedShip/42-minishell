@@ -27,9 +27,7 @@ t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 	char	*target;
 
 	target = NULL;
-	if (!argc && !vars[0])
-		ft_error_message(ERR_NOTSET, "HOME");
-	else if (!argc)
+	if (!argc)
 		target = *(vars[0]->values);
 	else if (argc == 1)
 	{
@@ -65,7 +63,9 @@ int	ft_cd(t_command *cmd)
 	if (argc > 2)
 		ft_error_message(ERR_TMARGS, "cd");
 	ft_get_directory_vars(*(cmd->envp), (t_envvar **) &vars);
-	if (ft_manage_cd(argc - 1, cmd->args + 1, vars) == ERR_FAILED)
+	if (!(argc - 1) && !vars[0])
+		ft_error_message(ERR_NOTSET, "HOME");
+	else if (ft_manage_cd(argc - 1, cmd->args + 1, vars) == ERR_FAILED)
 		return (ERR_FAILED);
 	if (vars[2])
 		ft_set_var(cmd->envp, "OLDPWD", ft_strdup(vars[2]->values[0]));

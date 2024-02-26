@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/24 15:09:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:26:47 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_exec_single_command(char *line, t_envvar **envp)
 	}
 	if (ft_heredoc_opening(tree))
 		return ;
-	ft_exec(tree, ft_init_executor(tree), EX_WAIT);
+	// ft_exec(tree, ft_init_executor(tree), EX_WAIT);
 	ft_clear_tree(tree);
 }
 

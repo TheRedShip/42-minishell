@@ -145,7 +145,7 @@ void	ft_signal_state(int toggle);
 
 void	ft_display_token(t_token *token);
 
-void	start_execve(t_command *cmd, t_executor *ex);
+void	start_execve(t_command *cmd, t_executor *ex, t_exec_status status);
 
 void	ft_error_message(t_error_code err, char *str);
 

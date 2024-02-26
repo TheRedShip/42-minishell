@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 15:23:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:26:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 extern int	g_exit_code;
 
-void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
-{
-	if (tree->token && tree->token->type & TK_BINOPS)
-	{
-		if (!ft_strncmp(tree->token->str, "&&", 2))
-			ft_exec_and(tree, ex, status);
-		if (!ft_strncmp(tree->token->str, "||", 2))
-			ft_exec_or(tree, ex, status);
-	}
-	// if (tree->token && tree->token->type & TK_PIPEXS)
-		// ft_exec_pipe(tree, ex, status);
-	if (tree->command)
-		ft_exec_command(tree, ex, status);
-	if (tree == ex->root)
-	{
-		ft_close_executor(ex);
-		ft_del_executor(ex);
-	}
-}
+// void	ft_exec(t_node *tree, t_executor *ex, t_exec_status status)
+// {
+// 	if (tree->token && tree->token->type & TK_BINOPS)
+// 	{
+// 		if (!ft_strncmp(tree->token->str, "&&", 2))
+// 			ft_exec_and(tree, ex, status);
+// 		if (!ft_strncmp(tree->token->str, "||", 2))
+// 			ft_exec_or(tree, ex, status);
+// 	}
+// 	if (tree->token && tree->token->type & TK_PIPEXS)
+// 		ft_exec_pipe(tree, ex, status);
+// 	if (tree->command)
+// 		ft_exec_command(tree, ex, status);
+// 	if (tree == ex->root)
+// 	{
+// 		ft_close_executor(ex);
+// 		ft_del_executor(ex);
+// 	}
+// }
 
 int	ft_process_redirs(t_command *cmd, t_executor *ex)
 {
@@ -81,34 +81,42 @@ void	ft_process_bredirs(t_command *cmd, t_executor *ex, int *tmps)
 
 // void	ft_exec_pipe(t_node *tree, t_executor *ex, t_exec_status status)
 // {
-// 	t_pipes	*pipe;
-
-	
+// 	if (status == EX_WAIT)
+// 		ft_pipes_push(&(ex->pipes), ft_init_pipes());
+// 	ft_exec(tree->left, ex, EX_PIPE);
+// 	ft_exec(tree->right, ex, EX_PIPE);
+// 	ft_pipeline_exit(ex);
 // }
 
-void	ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status)
-{
-	ft_exec(tree->left, ex, EX_WAIT);
-	if (g_exit_code != ERR_NOERRS)
-		ft_exec(tree->right, ex, status);
-}
+// void	ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status)
+// {
+// 	ft_exec(tree->left, ex, EX_WAIT);
+// 	if (g_exit_code != ERR_NOERRS)
+// 		ft_exec(tree->right, ex, status);
+// }
 
-void	ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status)
-{
-	ft_exec(tree->left, ex, EX_WAIT);
-	if (g_exit_code == ERR_NOERRS)
-		ft_exec(tree->right, ex, status);
-}
+// void	ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status)
+// {
+// 	ft_exec(tree->left, ex, EX_WAIT);
+// 	if (g_exit_code == ERR_NOERRS)
+// 		ft_exec(tree->right, ex, status);
+// }
 
-void	ft_command_exit(t_command *cmd, t_executor *ex, t_exec_status status)
+void	ft_command_exit(t_command *cmd, t_executor *ex)
 {
-	g_exit_code = WEXITSTATUS(status);
-	if (!WIFEXITED(status) && WCOREDUMP(status))
+	int err_code;
+
+	if (!ex->pipes)
+		waitpid(ex->base, &err_code, 0);
+	else
+		waitpid(ex->pipes->waitlist->pid, &err_code, 0);
+	g_exit_code = WEXITSTATUS(err_code);
+	if (!WIFEXITED(err_code) && WCOREDUMP(err_code))
 	{
 		printf("Quit (core dumped)\n");
 		g_exit_code = 131;
 	}
-	else if (WTERMSIG(status) == 2)
+	else if (WTERMSIG(err_code) == 2)
 	{
 		ft_printf("\n");
 		g_exit_code = 130;
@@ -117,23 +125,54 @@ void	ft_command_exit(t_command *cmd, t_executor *ex, t_exec_status status)
 		ft_print_logo(*(cmd->envp));
 }
 
-void	start_execve(t_command *cmd, t_executor *ex)
+// void	ft_pipeline_exit(t_executor *ex)
+// {
+// 	t_pid	*curr;
+// 	int		err_code;
+
+// 	curr = NULL;
+// 	while (ex->pipes->waitlist)
+// 	{
+// 		curr = ft_pid_pop(&(ex->pipes->waitlist));
+// 		waitpid(curr->pid, &err_code, 0);
+// 		free(curr);
+// 	}
+// 	g_exit_code = WEXITSTATUS(err_code);
+// 	if (!WIFEXITED(err_code) && WCOREDUMP(err_code))
+// 	{
+// 		printf("Quit (core dumped)\n");
+// 		g_exit_code = 131;
+// 	}
+// 	else if (WTERMSIG(err_code) == 2)
+// 	{
+// 		ft_printf("\n");
+// 		g_exit_code = 130;
+// 	}
+// 	free(ft_pipes_pop(&(ex->pipes)));
+// }
+
+void	start_execve(t_command *cmd, t_executor *ex, t_exec_status status)
 {
 	char	**env;
 	pid_t	pid;
-	int		status;
 	DIR		*file_check;
 
 	ft_signal_state(SIGHANDLER_IGN);
-	pid = fork();
+	if (!ex->pipes)
+	{
+		ex->base = fork();
+		pid = ex->base;
+	}
+	else
+	{
+		ft_pid_push(&(ex->pipes->waitlist), ft_init_pid(fork()));
+		pid = ex->pipes->waitlist->pid;
+	}
 	if (pid == 0)
 	{
-		// ft_clear_env(*(cmd->envp));
-		int test = 0;
 		env = ft_get_var_strs(*(cmd->envp), 0);
 		rl_clear_history();
-		test = ft_process_redirs(cmd, ex);
-		if (test == 2)
+		if (ft_process_redirs(cmd, ex) == ERR_ERRORS)
 		{
 			ft_free_tab((void **)env);
 			ft_clear_env(*(cmd->envp));
@@ -153,6 +192,7 @@ void	start_execve(t_command *cmd, t_executor *ex)
 			ft_del_executor(ex);
 			exit(126);
 		}
+		closedir(file_check);
 		execve(cmd->path, cmd->args, env);
 		perror("execve");
 		exit(ERR_FAILED);
@@ -160,50 +200,64 @@ void	start_execve(t_command *cmd, t_executor *ex)
 	else if (pid < 0)
 		perror("fork");
 	ft_signal_state(SIGHANDLER_INT);
-	waitpid(pid, &status, 0);
-	ft_command_exit(cmd, ex, status);
+	if (status == EX_WAIT)
+		ft_command_exit(cmd, ex);
+}
+
+int	ft_cmd_start(t_node *tree, t_executor *ex, int *b_fds)
+{
+	int		flags;
+	char	*err_str;
+
+	flags = 0b0000;
+	err_str = NULL;
+	ft_command_checker(tree->command);
+	flags |= (tree->command->path && !*tree->command->path);
+	flags |= (ft_open_outputs(tree) || ft_open_inputs(tree)) << 1;
+	flags |= (!tree->command->path || access(tree->command->path, F_OK)) << 2;
+	g_exit_code = (flags & 0b0010);
+	if (flags & 0b0011)
+		return (ERR_FAILED);
+	if (flags & 0b0100)
+		g_exit_code = 127;
+	flags |= ft_exec_builtins(tree->command, ex, b_fds) << 3;
+	if ((flags & 0b0100) && (flags & 0b1000))
+	{
+		if (tree->command->args && *tree->command->args)
+			err_str = *tree->command->args;
+		ft_error_message(ERR_NOTCMD, err_str);
+		return (ERR_FAILED);
+	}
+	if (flags & 0b1000)
+		return (ERR_NOTCMD);
+	return (ERR_NOERRS);
 }
 
 void	ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status)
 {
-	int	btemps[2];
-	int flags;
+	int				b_fds[2];
+	t_error_code	err_code;
 
 	(void) status;
-	btemps[0] = 0;
-	btemps[1] = 1;
-	ft_command_checker(tree->command);
-	flags = (tree->command->path && !*(tree->command->path));
-	flags |= (ft_open_outputs(tree) || ft_open_inputs(tree)) << 1;
-	flags |= (!tree->command->path || access(tree->command->path, F_OK)) << 2;
-	g_exit_code = (flags & 0b0010);
-	if ((flags & 0b0011))
+	b_fds[0] = STDIN_FILENO;
+	b_fds[1] = STDOUT_FILENO;
+	err_code = ft_cmd_start(tree, ex, (int *)b_fds);
+	if (err_code == ERR_FAILED)
 		return ;
-	if (flags & 0b0110)
-		g_exit_code = 127;
-	flags |= ft_exec_builtins(tree->command, ex, (int *)btemps) << 3;
-	if ((flags & 0b0100) && (flags & 0b1000))
-	{
-		if (*tree->command->args)
-			ft_error_message(ERR_NOTCMD, *tree->command->args);
-		else
-			ft_error_message(ERR_NOTCMD, NULL);
-		return ;
-	}
-	if (flags & 0b1000)
-		start_execve(tree->command, ex);
+	else if (err_code == ERR_NOTCMD)
+		start_execve(tree->command, ex, status);
 	else
 	{
-		dup2(btemps[0], STDIN_FILENO);
-		dup2(btemps[1], STDOUT_FILENO);
-		if (btemps[0] > 2)
-			close(btemps[0]);
-		if (btemps[1] > 2)
-			close(btemps[1]);
+		dup2(b_fds[0], STDIN_FILENO);
+		dup2(b_fds[1], STDOUT_FILENO);
+		if (b_fds[0] > 2)
+			close(b_fds[0]);
+		if (b_fds[1] > 2)
+			close(b_fds[1]);
 	}
 }
 
-int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *btemps)
+int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *b_fds)
 {
 	char		*trim;
 	char		**tmp;
@@ -218,14 +272,11 @@ int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *btemps)
 		return (ERR_FAILED);
 	trim++;
 	while (*tmp && ft_strncmp(trim, *tmp, ft_strlen(*tmp) + 1))
-	{
-		trim = ft_strrchr(cmd->path, '/') + 1;
 		tmp++;
-	}
 	if (!*tmp)
 		return (ERR_FAILED);
 	if (tmp - builtins_str != 6)
-		ft_process_bredirs(cmd, ex, btemps);
+		ft_process_bredirs(cmd, ex, b_fds);
 	g_exit_code = builtins[tmp - builtins_str](cmd);
 	return (ERR_NOERRS);
 }

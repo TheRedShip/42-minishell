@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/21 18:27:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:05:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ typedef enum e_exec_status
 	EX_PIPE = 1
 }	t_exec_status;
 
+/**
+ * @enum			e_open_status.
+ * @brief			File opening status.
+ */
 typedef enum e_open_status
 {
 	OP_HDOCKO = -3,
@@ -197,6 +201,7 @@ typedef struct s_executor
 {
 	int		input;
 	int		output;
+	pid_t	base;
 	t_pipes	*pipes;
 	t_node	*root;
 }	t_executor;
