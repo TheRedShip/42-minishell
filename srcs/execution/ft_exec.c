@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/26 12:18:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:33:18 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,10 +216,10 @@ int	ft_cmd_start(t_node *tree, t_executor *ex, int *b_fds)
 	flags |= (ft_open_outputs(tree) || ft_open_inputs(tree)) << 1;
 	flags |= (!tree->command->path || access(tree->command->path, F_OK)) << 2;
 	g_exit_code = (flags & 0b0010);
+	if (flags & 0b0110)
+		g_exit_code = 127;
 	if (flags & 0b0011)
 		return (ERR_FAILED);
-	if (flags & 0b0100)
-		g_exit_code = 127;
 	flags |= ft_exec_builtins(tree->command, ex, b_fds) << 3;
 	if ((flags & 0b0100) && (flags & 0b1000))
 	{
@@ -266,6 +266,8 @@ int	ft_exec_builtins(t_command	*cmd, t_executor *ex, int *b_fds)
 	static char	*builtins_str[8] = \
 	{"cd", "pwd", "echo", "env", "export", "unset", "exit", NULL};
 
+	if (!cmd->path)
+		return (ERR_FAILED);
 	tmp = builtins_str;
 	trim = ft_strrchr(cmd->path, '/');
 	if (!trim || !(trim + 1))
