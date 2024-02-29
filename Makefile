@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/25 18:11:27 by rgramati         ###   ########.fr        #
+#    Updated: 2024/02/29 14:07:36 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ SRC_DATA	:=	data_structures/constructors.c	\
 				data_structures/s_command.c		\
 				data_structures/s_pid.c			\
 				data_structures/s_pipes.c		\
-				data_structures/s_executor.c	\
 				data_structures/s_redir.c		\
+				data_structures/s_executer.c
 
 SRC_BUILTIN :=	builtins/ft_cd.c				\
 				builtins/ft_echo.c				\
@@ -60,7 +60,9 @@ SRC_EXEC	:=	execution/ft_file_manager.c		\
 				execution/ft_close_manager.c	\
 				execution/ft_heredoc_manager.c 	\
 				execution/ft_formatting.c		\
-				execution/ft_exec.c				\
+				execution/ft_exec_pipeline.c	\
+				execution/ft_exec_command.c		\
+				execution/ft_exec_decider.c
 
 SRC_PROMPT	:=  prompt/prompt.c					\
 				prompt/ft_dquotes.c				\

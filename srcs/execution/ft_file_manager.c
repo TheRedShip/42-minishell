@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 15:01:33 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:59:09 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,3 @@ t_error_code	ft_open_inputs(t_node *tree)
 	}
 	return (tree->command->infile == OP_FILEKO);
 }
-
-
-//ON VA CHANGER BCP DE CHOSES ICI !

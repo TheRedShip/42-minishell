@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:59:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/25 19:13:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:30:37 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_pipes	*ft_init_pipes(void)
 	new_pipe = malloc(sizeof(t_pipes));
 	if (!new_pipe)
 		return (NULL);
-	pipe(new_pipe->fd);
-	new_pipe->waitlist = NULL;
+	new_pipe->fd[0] = -1;
+	new_pipe->fd[1] = -1;
 	new_pipe->next = NULL;
 	return (new_pipe);
 }

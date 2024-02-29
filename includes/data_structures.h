@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/25 19:05:48 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:31:19 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ typedef enum e_quote_state
  * @enum			e_exec_status.
  * @brief			Execution status.
  */
-typedef enum e_exec_status
+typedef enum e_mode
 {
 	EX_WAIT = 0,
 	EX_PIPE = 1
-}	t_exec_status;
+}	t_mode;
 
 /**
  * @enum			e_open_status.
@@ -184,27 +184,14 @@ typedef struct s_pid
 typedef struct s_pipes
 {
 	int				fd[2];
-	t_pid			*waitlist;
 	struct s_pipes	*next;
 }	t_pipes;
 
-/**
- * @struct			s_executor.
- * @brief			Execution data, carried during tree reading.
- * 
- * @param input		(int)			Input file descriptor.
- * @param output	(int)			Output file descriptor.
- * @param pipes		(t_pipes *)		Pipe stack.
- * @param pids		(t_node *)		PID .
- */
-typedef struct s_executor
+typedef struct s_executer
 {
-	int		input;
-	int		output;
-	pid_t	base;
 	t_pipes	*pipes;
-	t_node	*root;
-}	t_executor;
+	t_pid	*pids;
+}	t_executer;
 
 /* T_TOKEN ****************************************************************** */
 
@@ -373,6 +360,10 @@ t_redir		*ft_init_redir(t_token *tmp);
 void		ft_add_redir(t_redir **redirs, t_redir *next);
 
 void		ft_clear_redir_list(t_redir *redir);
+
+/* T_EXECUTER *************************************************************** */
+
+t_executer	*ft_init_executer(void);
 
 /* T_NODE ******************************************************************* */
 

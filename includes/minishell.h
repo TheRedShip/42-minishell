@@ -123,8 +123,6 @@ t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp);
 
 t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp);
 
-t_error_code	ft_heredoc_opening(t_node *tree);
-
 void			ft_prompt_handler(t_envvar **envp);
 
 /* ************************************************************************** */
@@ -137,22 +135,12 @@ char	*ft_hd_holder(char *addr, int type);
 
 t_node	*ft_tree_holder(int reset, t_node *root);
 
-t_executor	*ft_executor_holder(int reset, t_executor *ex);
-
 void	ft_signal_state(int toggle);
 
 /* ************************************************************************** */
 
 void	ft_display_token(t_token *token);
 
-void	start_execve(t_command *cmd, t_executor *ex, t_exec_status status);
-
 void	ft_error_message(t_error_code err, char *str);
-
-t_error_code	ft_open_heredocs(t_node *tree, t_node *root, int *not_failed);
-
-t_error_code	ft_open_outputs(t_node *tree);
-
-t_error_code	ft_open_inputs(t_node *tree);
 
 #endif

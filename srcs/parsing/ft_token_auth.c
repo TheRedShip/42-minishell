@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/24 15:12:22 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:52:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_verif_binop_brace(t_token *tk)
 			level++;
 		if (tk->type & TK_BRACES && !ft_strncmp(tk->str, ")", 2))
 			level--;
-		if (!level && tk->type & (TK_BINOPS | TK_PIPEXS))
+		if (!level && (tk->type & TK_BINOPS))
 			isvalid = 1;
 		tk = tk->next;
 	}

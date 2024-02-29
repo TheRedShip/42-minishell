@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:51:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 16:45:35 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:01:52 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,4 @@ t_node	*ft_tree_holder(int reset, t_node *root)
 	if (reset)
 		tree_root = NULL;
 	return (tree_root);
-}
-
-t_executor	*ft_executor_holder(int reset, t_executor *ex)
-{
-	static t_executor	*ex_save = NULL;
-
-	if (!ex_save || ex)
-		ex_save = ex;
-	if (reset)
-		ex_save = NULL;
-	return (ex_save);
 }

@@ -115,18 +115,11 @@ t_error_code	ft_heredoc_opening(t_node *tree)
 	return (ERR_NOERRS);
 }
 
-void	ft_test(t_node *tree)
-{
-	ft_display_node(tree);
-	treeprint(tree, 0);
-}
-
 void	ft_prompt_handler(t_envvar **envp)
 {
 	char		*line;
 	t_token		*tokens;
 	t_node		*tree;
-	t_executor	*ex;
 
 	line = NULL;
 	tokens = NULL;
@@ -135,6 +128,7 @@ void	ft_prompt_handler(t_envvar **envp)
 		return ;
 	if (ft_to_tokens(&tokens, line, envp) || !tokens)
 		return ;
+	ft_display_token_list(tokens);
 	if (ft_to_tree(&tokens, &tree, envp))
 	{
 		ft_clear_tree(tree);
@@ -142,20 +136,15 @@ void	ft_prompt_handler(t_envvar **envp)
 	}
 	if (ft_heredoc_opening(tree))
 		return ;
-	ex = ft_init_executor(tree);
-	ft_executor_holder(0, ex);
 
-	t_node	*tmp;
-	tmp = tree;
-	while (tmp && !tmp->command)
-		tmp = tmp->left;
-	if (tmp)
-		ft_exec_command(tree, ex, EX_WAIT);
+	treeprint(tree, 0);
 
-	// ft_test(tree);
+	int fdtest[2] = {0, 1};
+	t_executer *exe = ft_init_executer();
 
-	ft_close_executor(ex);
-	ft_del_executor(ex);
-	ft_executor_holder(1, NULL);
+	ft_exec_mux(tree, (int *) fdtest, exe, EX_WAIT);
+
+	free(exe);
+
 	ft_clear_tree(tree);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 17:21:11 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:02:14 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	ft_is_numeric(char *str)
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd)
 {
 	char		*msg;
-	t_executor	*ex;
 
 	if (ec == ERR_NOTNUM)
 	{
@@ -70,15 +69,9 @@ void	ft_exit_manager(int exit_code, int ec, t_command *cmd)
 		return ;
 	}
 	rl_clear_history();
-	ex = ft_executor_holder(0, NULL);
 	if (cmd)
 		ft_clear_env(*(cmd->envp));
-	if (ex)
-	{
-		ft_close_executor(ex);
-		ft_clear_tree(ex->root);
-		ft_del_executor(ex);
-	}
+	ft_clear_tree(ft_tree_holder(0, NULL));
 	exit(exit_code);
 }
 

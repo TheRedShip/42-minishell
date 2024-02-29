@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/25 18:56:34 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:49:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,90 +82,37 @@ t_pipes		*ft_pipes_pop(t_pipes **head);
 */
 void		ft_del_pipe(t_pipes *p);
 
-/* S_EXECUTOR *************************************************************** */
-
-/**
- * @brief			Initializes a new t_executor.
- * 
- * @return			A pointer to the newly allocated t_executor.
-*/
-t_executor	*ft_init_executor(t_node *root);
-
-/**
- * @brief			De-allocate a t_executor, calling ft_del_pipe on pipes
- * 					attribute if not NULL.
- * 
- * @param ex		t_executor to free.
-*/
-void		ft_del_executor(t_executor *ex);
-
 /* EXECUTION **************************************************************** */
 
-/**
- * @brief			Execution dispatcher, called for every t_node.
- * 
- * @param tree		Actual t_node.
- * @param ex		t_executor carried data for execution.
-*/
-void		ft_exec(t_node *tree, t_executor *ex, t_exec_status status);
+void	ft_exec_mux(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
 
-/**
- * @brief			Process redirections for a COMMAND t_node.
- * 
- * @param cmd		Actual COMMAND t_node.
- * @param ex		t_executor carried data for execution.
-*/
-int			ft_process_redirs(t_command *cmd, t_executor *ex);
+void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
 
-/**
- * @brief			Process redirections for a builtin COMMAND t_node.
- * 
- * @param cmd		Actual COMMAND t_node.
- * @param ex		t_executor carried data for execution.
-*/
-void		ft_process_bredirs(t_command *cmd, t_executor *ex, int *tmps);
+void	ft_and_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
 
-/**
- * @brief			Execute an OR t_node.
- * 
- * @param tree		Actual OR t_node.
- * @param ex		t_executor carried data for execution.
-*/
-void		ft_exec_or(t_node *tree, t_executor *ex, t_exec_status status);
+void	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex);
 
-/**
- * @brief			Execute an AND t_node.
- * 
- * @param tree		Actual AND t_node.
- * @param ex		t_executor carried data for execution.
-*/
-void		ft_exec_and(t_node *tree, t_executor *ex, t_exec_status status);
+void	ft_or_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
 
-/**
- * @brief			Startup for a COMMAND t_node execution
- * 
- * @param tree		Actual COMMAND t_node.
- * @param ex		t_executor carried data for execution.
- * 
- * @return			ERR_FAILED in case of errors, ERR_NOTCMD if not a builtin
- * 					ERR_NOERRS if it was a builtin.
-*/
-int			ft_cmd_start(t_node *tree, t_executor *ex, int *b_fds);
+void	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex);
 
-void		ft_exec_command(t_node *tree, t_executor *ex, t_exec_status status);
+void	ft_cmd_handler(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
 
-/**
- * @brief			Try to fetch builtin commands.
- * 
- * @param command	t_command to test.
- * 
- * @return			ERR_NOERRS if it did execute a builtin, ERR_FAILED otherwise.
-*/
-int			ft_exec_builtins(t_command *cmd, t_executor *ex, int *btemps);
+void	ft_exec_cmd(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
+
+t_error_code	ft_builtin_handler(t_command *cmd);
+
+t_error_code	ft_verify_command(t_node *tree);
 
 /* FILE MANAGEMENT ********************************************************** */
 
+t_error_code	ft_heredoc_opening(t_node *tree);
 
+t_error_code	ft_open_heredocs(t_node *tree, t_node *root, int *not_failed);
+
+t_error_code	ft_open_outputs(t_node *tree);
+
+t_error_code	ft_open_inputs(t_node *tree);
 
 /* UTILS ******************************************************************** */
 

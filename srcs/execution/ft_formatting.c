@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/25 21:25:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:56:19 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**ft_quoted_split(char *str, char *sep)
 		while (*tmp && (!ft_strchr(sep, *tmp) || qs != QU_ZERO))
 			ft_qs_update(*(tmp++), &qs);
 		hold = ft_strndup(str, tmp - str);
-		ft_dequote_string(&hold, QU_ZERO);
+		// ft_dequote_string(&hold, QU_ZERO);
 		ft_strapp(&new, hold);
 		str = tmp;
 		while (*str && ft_strchr(sep, *str))
