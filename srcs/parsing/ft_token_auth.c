@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/28 18:52:14 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:30:35 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_valid_token(t_token *t, char **err_token)
 			return (0);
 		else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & strs || !ft_strncmp(t->next->str, "(", 2)))
 			return (0);
+		// else if (!ft_strncmp(t->str, "<<"))
 		t = t->next;
 	}
 	return (t->type & (TK_BRACES | TK_STRING));
