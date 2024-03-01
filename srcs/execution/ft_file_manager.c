@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_file_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 10:18:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:29:38 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_open_file(t_command *cmd, char *file, int mode)
 	int	*fd;
 
 	if (mode == OPEN_READ)
-		fd = &(cmd->infile);		
+		fd = &(cmd->infile);
 	else
 		fd = &(cmd->outfile);
 	if (*fd > 2)

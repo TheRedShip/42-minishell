@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_command.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 09:21:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:00:59 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_get_path(char *cmd, t_envvar *envp)
 
 	if (!cmd)
 		return (ft_strdup(""));
-	if (!*cmd || ft_strchr(cmd, '/') )
+	if (!*cmd || ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
 	while (envp && ft_strncmp(envp->name, "PATH", 5))
 		envp = envp->next;
@@ -49,17 +49,17 @@ void	ft_del_command(t_command *cmd)
 void	ft_display_command(t_command *cmd)
 {
 	char	**tmp;
+	t_redir	*red;
 
 	tmp = NULL;
 	printf("- COMMAND --- %p\n", cmd);
 	printf("INFILE FD : %d\n", cmd->infile);
 	printf("OUTFILE FD : %d\n", cmd->outfile);
 	printf("REDIRS : \n");
-	t_redir *red;
 	red = cmd->redirs;
 	while (red)
 	{
-		printf("    file : %s, type = %d\n",red->file, red->type);
+		printf("    file : %s, type = %d\n", red->file, red->type);
 		red = red->next;
 	}
 	if (cmd->path)

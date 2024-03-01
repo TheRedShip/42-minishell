@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_dollars.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/29 17:53:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:20:37 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ extern int	g_exit_code;
 
 int	ft_var_len(char *str)
 {
-	char *tmp;
+	char	*tmp;
 
-	tmp = str;
-	tmp++;
+	tmp = str + 1;
 	if (!*tmp)
 		return (1);
 	if (ft_isdigit(*tmp) || (!ft_isalnum(*tmp) && !ft_strchr("_?", *tmp)))

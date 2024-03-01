@@ -16,10 +16,8 @@ extern int	g_exit_code;
 
 void	ft_display_token_list(t_token *tokens)
 {
-		/*
-		DEBUG SECTION
-	*/
-	t_token *t;
+	t_token	*t;
+
 	t = tokens;
 	printf("------------- ACTUAL TOKEN LIST -------------\n");
 	while (t)
@@ -28,9 +26,6 @@ void	ft_display_token_list(t_token *tokens)
 		t = t->next;
 	}
 	printf("\n---------------------------------------------\n");
-	/*
-		END OF DEBUG
-	*/
 }
 
 t_error_code	ft_prompt_line(t_envvar **envp, char **line)
@@ -54,7 +49,7 @@ t_error_code	ft_prompt_line(t_envvar **envp, char **line)
 		ft_clear_env(*envp);
 		ft_exit(NULL);
 	}
-	else if (err_code == ERR_FAILED || !*line || !ft_strncmp(*line, "cat /bin/ls", 11))
+	else if (err_code == ERR_FAILED || !*line)
 	{
 		g_exit_code = 130;
 		return (ERR_DQSTOP);
@@ -137,9 +132,7 @@ void	ft_prompt_handler(t_envvar **envp)
 	ft_tree_holder(0, tree);
 	if (ft_heredoc_opening(tree))
 		return ;
-
 	treeprint(tree, 0);
-
 	int fdtest[2] = {0, 1};
 	t_executer *exe = ft_init_executer();
 

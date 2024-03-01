@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// TODO REMETTRE CA AU GOUT DU JOUR CA COMMENCE A SE FAIRE VIEUX ET PAS A LA NORME
-
 void	ft_get_directory_vars(t_envvar *envp, t_envvar **vars)
 {
 	vars[0] = ft_get_var(envp, "HOME");

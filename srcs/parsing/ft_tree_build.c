@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tree_build.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 15:32:28 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:34:15 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,18 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 
 void	treeprint(t_node *root, int space)
 {
+	int	i;
+
 	if (root == NULL)
 		return ;
 	space += 12;
 	treeprint(root->right, space);
 	printf("\n");
-	for (int i = 12; i < space; i++)
+	i = 12;
+	while (i < space)
 	{
 		printf(" ");
+		i++;
 	}
 	printf("{%p}", root);
 	if (root->command)

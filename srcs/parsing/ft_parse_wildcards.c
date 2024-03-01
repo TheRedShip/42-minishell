@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_wildcards.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/22 17:09:52 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:28:42 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	ft_regex_wildcard(char *file, char *rule, char *tmp_f, char *tmp_r)
 			tmp_f += (next - tmp_f);
 		else
 			return (0);
-		while (*tmp_f && *tmp_r && *tmp_r != '*' && *tmp_f == *tmp_r)
-			(void) ((tmp_r++) - (tmp_f++));
+		while (*tmp_f && *tmp_r && *tmp_r != '*' && *(tmp_f++) == *(tmp_r++))
+			;
 	}
 	while (*tmp_r && *tmp_r == '*')
 		tmp_r++;

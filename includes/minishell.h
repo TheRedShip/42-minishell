@@ -29,7 +29,6 @@
 # include <dirent.h>
 # include "libft.h"
 
-
 # define P_SUCCESS "\001\033[32;1m\002$?\001\033[0m\002 "
 # define P_FAIL "\001\033[31;1m\002$?\001\033[0m\002 "
 # define P_TAIL "\001\033[37;1m\002 Minishell$\001\033[0m\002 "
@@ -44,7 +43,7 @@
 # define P_WARNING "\001\033[33;1m\002/!\\ WARNING! > "
 
 # ifndef OPEN_READ
-#  define OPEN_READ O_RDONLY
+#  define OPEN_READ 00
 # endif
 
 # ifndef OPEN_CREATE

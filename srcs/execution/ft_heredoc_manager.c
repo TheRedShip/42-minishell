@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc_manager.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:32:59 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/28 18:36:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:19:08 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	ft_heredoc_line(char *delim, char *hd_file, int hd_fd)
 	ft_hd_holder(delim, 1);
 	ft_hd_holder((char *)&hd_fd, 2);
 	ft_parse_line(&line, hd_fd, exp);
-	while (line && ft_strncmp(line, delim, ft_strlen(delim) + 1) && !access(hd_file, F_OK))
+	while (line && ft_strncmp(line, delim, ft_strlen(delim) + 1) \
+		&& !access(hd_file, F_OK))
 		ft_parse_line(&line, hd_fd, exp);
 	free(delim);
 	free(hd_file);

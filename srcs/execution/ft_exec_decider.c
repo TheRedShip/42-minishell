@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_decider.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:48:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 15:15:06 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:09:31 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int g_exit_code;
+extern int	g_exit_code;
 
 void	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex)
 {
@@ -21,7 +21,6 @@ void	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex)
 
 	ft_printf("[EXEC] : AND branching left to <%p> \n[%d]->[%d]\n", tree->left, node_fd[0], node_fd[1]);
 	ft_exec_mux(tree->left, node_fd, ex, EX_PIPE);
-
 	towait = ft_pid_pop(&(ex->pids));
 	if (towait)
 	{
@@ -58,7 +57,6 @@ void	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex)
 
 	ft_printf("[EXEC] : OR branching left to <%p> \n[%d]->[%d]\n", tree->left, node_fd[0], node_fd[1]);
 	ft_exec_mux(tree->left, node_fd, ex, EX_PIPE);
-
 	towait = ft_pid_pop(&(ex->pids));
 	if (towait)
 	{
