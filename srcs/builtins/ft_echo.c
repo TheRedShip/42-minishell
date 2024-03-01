@@ -40,10 +40,10 @@ int	ft_echo(t_command *cmd)
 		if (args != cmd->args + 1)
 			trail = 0;
 		msg = ft_strsjoin(args, ft_strdup(" "), 0b10);
-		ft_printf("%s", msg);
+		ft_dprintf(cmd->outfile, "%s", msg);
 	}
 	if (trail)
-		ft_printf("\n");
+		ft_dprintf(cmd->outfile, "\n");
 	free(msg);
 	return (ERR_NOERRS);
 }

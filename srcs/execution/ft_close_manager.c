@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:40 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/28 16:03:09 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:46:02 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,50 @@ void	ft_close_tree_rec(t_node *tree)
 		ft_close_tree_rec(tree->right);
 	if (tree->command)
 		ft_close_command(tree->command);
+}
+
+void	ft_close_executer(t_executer *ex)
+{
+	t_pipes	*tmp_pipe;
+	t_pid	*tmp_pid;
+
+	if (!ex)
+		return ;
+	while (ex->pipes)
+	{
+		tmp_pipe = ft_pipes_pop(&(ex->pipes));
+		if (tmp_pipe->fd[0] > 2)
+			close(tmp_pipe->fd[0]);
+		if (tmp_pipe->fd[1] > 2)
+			close(tmp_pipe->fd[1]);
+		free(tmp_pipe);
+	}
+	while (ex->pids)
+	{
+		tmp_pid = ft_pid_pop(&(ex->pids));
+		free(tmp_pid);
+	}
+}
+
+void	ft_close_pipes(t_pipes *tmp_pipe)
+{
+	if (!tmp_pipe)
+		return ;
+	while (tmp_pipe)
+	{
+		if (tmp_pipe->fd[0] > 2)
+			close(tmp_pipe->fd[0]);
+		if (tmp_pipe->fd[1] > 2)
+			close(tmp_pipe->fd[1]);
+		tmp_pipe = tmp_pipe->next;
+	}
+}
+
+void	ft_fork_exit(t_executer *ex)
+{
+	ft_close_executer(ex);
+	free(ex);
+	rl_clear_history();
+	ft_clear_env(ft_update_env(NULL));
+	ft_clear_tree(ft_tree_holder(0, NULL));
 }

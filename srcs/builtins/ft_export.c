@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 15:30:37 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:43:12 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_export_var(t_command *cmd, char *tmp)
 {
 	char	**var;
 
-	var =NULL;
+	var = NULL;
 	if (ft_strchr(tmp, '='))
 	{
 		ft_strapp(&var, ft_strndup(tmp, ft_strcspn(tmp, "=")));
@@ -65,13 +65,13 @@ int	ft_export_var(t_command *cmd, char *tmp)
 		else
 		{
 			if (var[1])
-				ft_set_var(cmd->envp, var[0], ft_strtrim(var[1], "\""));
+				ft_set_var(cmd->envp, var[0], ft_strdup(var[1]));
 			else
 				ft_set_var(cmd->envp, var[0], "");
 		}
 		ft_free_tab((void **)var);
 	}
-	else
+	else if (!ft_get_var(*(cmd->envp), tmp))
 		ft_set_var(cmd->envp, tmp, NULL);
 	return (ERR_NOERRS);
 }

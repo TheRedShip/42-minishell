@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 15:27:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:16:26 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_get_varstring(t_envvar *var, int format, int named)
 	str = NULL;
 	if (var == NULL)
 		return (NULL);
-	if (!var->values)
+	if (!var->values && named)
 		return (ft_strdup(var->name));
 	if (named)
 		str = ft_strjoin(ft_strdup(var->name), "=", NULL, 0b01);

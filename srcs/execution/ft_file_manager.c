@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/28 15:59:09 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:18:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,45 +63,37 @@ void	ft_open_file(t_command *cmd, char *file, int mode)
 	free(file);
 }
 
-t_error_code	ft_open_outputs(t_node *tree)
+t_error_code	ft_open_outputs(t_command *cmd)
 {
 	t_redir			*tmp;
-	t_error_code	err;
 
-	err = ERR_NOERRS;
-	if (!tree->command)
-	{
-		err |= ft_open_outputs(tree->left);
-		err |= ft_open_outputs(tree->right);
-		return (err);
-	}
-	tmp = tree->command->redirs;
-	while (tmp && tree->command->outfile != OP_FILEKO)
+	tmp = cmd->redirs;
+	while (tmp && cmd->outfile != OP_FILEKO)
 	{
 		if (tmp->type == RD_INFILES && access(tmp->file, R_OK))
 			break ;
 		if (tmp->type == RD_OUTPUTS)
-			ft_open_file(tree->command, ft_strdup(tmp->file), OPEN_CREATE);
+			ft_open_file(cmd, ft_strdup(tmp->file), OPEN_CREATE);
 		else if (tmp->type == RD_APPENDS)
-			ft_open_file(tree->command, ft_strdup(tmp->file), OPEN_APPEND);
-		if (tree->command->outfile != OP_FILEKO)
+			ft_open_file(cmd, ft_strdup(tmp->file), OPEN_APPEND);
+		if (cmd->outfile != OP_FILEKO)
 			tmp = tmp->next;
 	}
-	return (tree->command->outfile == OP_FILEKO && access(tmp->file, R_OK));
+	return (cmd->outfile == OP_FILEKO && access(tmp->file, R_OK));
 }
 
-t_error_code	ft_open_inputs(t_node *tree)
+t_error_code	ft_open_inputs(t_command *cmd)
 {
 	t_redir			*tmp;
 
-	if (!tree->command->redirs)
+	if (!cmd->redirs)
 		return (ERR_NOERRS);
-	tmp = tree->command->redirs;
-	while (tmp && tree->command->infile != OP_FILEKO)
+	tmp = cmd->redirs;
+	while (tmp && cmd->infile != OP_FILEKO)
 	{
 		if (tmp->type == RD_INFILES)
-			ft_open_file(tree->command, ft_strdup(tmp->file), OPEN_READ);
+			ft_open_file(cmd, ft_strdup(tmp->file), OPEN_READ);
 		tmp = tmp->next;
 	}
-	return (tree->command->infile == OP_FILEKO);
+	return (cmd->infile == OP_FILEKO);
 }

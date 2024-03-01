@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 22:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/29 14:04:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:56:25 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	ft_error_message(t_error_code err, char *str)
 		ft_dprintf(2, "%sexport: `%s': not a valid identifier\n", P_ERROR, str);
 	else if (err == ERR_NOPERM)
 		ft_dprintf(2, "%s%s: Permission denied\n", P_ERROR, str);
+	else if (err == ERR_ISADIR)
+		ft_dprintf(2, "%s%s: Is a directory\n", P_ERROR, str);
 	else if (err == ERR_HDSTOP)
 	{
 		ft_dprintf(2, "%s here-document delimited by end-of", P_WARNING);

@@ -24,6 +24,7 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <termios.h>
 # include <dirent.h>
 # include "libft.h"
@@ -82,7 +83,8 @@ typedef enum e_error_code
 	ERR_SYNTXQ,
 	ERR_SYNTXT,
 	ERR_HLIMIT,
-	ERR_NOPERM
+	ERR_NOPERM,
+	ERR_ISADIR
 }	t_error_code;
 
 # include "data_structures.h"

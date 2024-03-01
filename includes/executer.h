@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/29 15:49:27 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:05:24 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ void		ft_pipes_push(t_pipes **head, t_pipes *top);
 t_pipes		*ft_pipes_pop(t_pipes **head);
 
 /**
- * @brief			De-allocate a t_pipes, closing file descriptors, and call
- * 					ft_del_pid_list on waitlist attribute.
+ * @brief			De-allocate a t_pipes, closing file descriptors
  * 
  * @param p			t_pipes to free.
 */
@@ -98,9 +97,13 @@ void	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex);
 
 void	ft_cmd_handler(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
 
-void	ft_exec_cmd(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
+void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex);
 
-t_error_code	ft_builtin_handler(t_command *cmd);
+void	ft_command_exit(int err_code);
+
+void	ft_exec_builtin(int (*f)(t_command *), t_command *cmd, t_mode mode);
+
+t_error_code	ft_builtin_handler(t_command *cmd, int *node_fd, t_executer *ex, t_mode mode);
 
 t_error_code	ft_verify_command(t_node *tree);
 
@@ -110,12 +113,18 @@ t_error_code	ft_heredoc_opening(t_node *tree);
 
 t_error_code	ft_open_heredocs(t_node *tree, t_node *root, int *not_failed);
 
-t_error_code	ft_open_outputs(t_node *tree);
+t_error_code	ft_open_outputs(t_command *cmd);
 
-t_error_code	ft_open_inputs(t_node *tree);
+t_error_code	ft_open_inputs(t_command *cmd);
 
 /* UTILS ******************************************************************** */
 
-void		ft_command_checker(t_command *cmd);
+void			ft_args_updater(t_command *cmd);
+
+void			ft_path_updater(t_command *cmd);
+
+t_error_code	ft_command_updater(t_command *cmd);
+
+t_error_code	ft_command_startup(t_command *cmd);
 
 #endif

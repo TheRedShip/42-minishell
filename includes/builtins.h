@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/24 14:57:33 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:18:28 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void		ft_create_env(t_envvar **env, char **argv);
  * 
  * @return			chdir exit code.
 */
-t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars);
+t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars, int out);
 
 /**
  * @brief			atoi for exit codes.

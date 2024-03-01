@@ -22,7 +22,7 @@ void	ft_get_directory_vars(t_envvar *envp, t_envvar **vars)
 	vars[3] = NULL;
 }
 
-t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars)
+t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars, int out)
 {
 	char	*target;
 
@@ -37,7 +37,7 @@ t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars)
 		{
 			if (vars[1]->values)
 			{
-				ft_printf("\033[37;1m--> %s\033[0m\n", *(vars[1]->values));
+				ft_dprintf(out, "\033[37;1m-> %s\033[0m\n", *(vars[1]->values));
 				target = *(vars[1]->values);
 			}
 			else
@@ -65,7 +65,7 @@ int	ft_cd(t_command *cmd)
 	ft_get_directory_vars(*(cmd->envp), (t_envvar **) &vars);
 	if (!(argc - 1) && !vars[0])
 		ft_error_message(ERR_NOTSET, "HOME");
-	else if (ft_manage_cd(argc - 1, cmd->args + 1, vars) == ERR_FAILED)
+	else if (ft_manage_cd(argc - 1, cmd->args + 1, vars, cmd->outfile))
 		return (ERR_FAILED);
 	if (vars[2])
 		ft_set_var(cmd->envp, "OLDPWD", ft_strdup(vars[2]->values[0]));

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/29 15:31:39 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:22:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ft_update_env(&env);
+		ft_tree_holder(1, NULL);
 		ft_prompt_handler(&env);
 	}
 	return (0);

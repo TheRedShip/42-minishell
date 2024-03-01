@@ -6,30 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/29 15:58:03 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:16:40 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "minishell.h"
 
 // extern int	g_exit_code;
-
-// void	ft_command_exit(t_command *cmd, int err_code)
-// {
-// 	g_exit_code = WEXITSTATUS(err_code);
-// 	if (!WIFEXITED(err_code) && WCOREDUMP(err_code))
-// 	{
-// 		ft_dprintf(2, "Quit (core dumped)\n");
-// 		g_exit_code = 131;
-// 	}
-// 	else if (WTERMSIG(err_code) == 2)
-// 	{
-// 		ft_dprintf(2, "\n");
-// 		g_exit_code = 130;
-// 	}
-// 	if (ft_strnstr(cmd->path, "clear", ft_strlen(cmd->path)) && !g_exit_code)
-// 		ft_print_logo(*(cmd->envp));
-// }
 
 // void	ft_command_error(char **env, t_command *cmd, t_executor *ex)
 // {

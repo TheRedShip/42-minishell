@@ -134,6 +134,7 @@ void	ft_prompt_handler(t_envvar **envp)
 		ft_clear_tree(tree);
 		exit(ERR_FAILED);
 	}
+	ft_tree_holder(0, tree);
 	if (ft_heredoc_opening(tree))
 		return ;
 
@@ -144,6 +145,16 @@ void	ft_prompt_handler(t_envvar **envp)
 
 	ft_exec_mux(tree, (int *) fdtest, exe, EX_WAIT);
 
+	int err_code = 0;
+	while (exe->pids)
+	{
+		t_pid *test = ft_pid_pop(&(exe->pids));
+		waitpid(test->pid, &err_code, 0);
+		ft_printf("[EXEC] : MAIN waiting for pid [%d] at <%p>\n", test->pid, test);
+		ft_printf("command returned %d\n", WEXITSTATUS(err_code));
+		ft_command_exit(err_code);
+		free(test);
+	}
 	free(exe);
 
 	ft_clear_tree(tree);
