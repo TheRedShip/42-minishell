@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_formatting.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 11:04:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:38:51 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_args_updater(t_command *cmd)
 
 	tmp = cmd->args;
 	new_args = NULL;
-	while (*tmp)
+	while (tmp && *tmp)
 	{
 		if (ft_strchr(*tmp, '$'))
 		{
