@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_dollars.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/03/01 18:20:37 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/02 20:02:09 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	ft_var_len(char *str)
 		return (1);
 	if (ft_isdigit(*tmp) || (!ft_isalnum(*tmp) && !ft_strchr("_?", *tmp)))
 		return (1);
+	if (*tmp == '?')
+		return (2);
 	tmp++;
 	while (*tmp && (ft_isalnum(*tmp) && !ft_strchr("_?", *tmp)))
 		tmp++;
@@ -38,17 +40,20 @@ void	ft_quoted_skip(char **str, int *len, t_quote_state *qs)
 	}
 }
 
-void	ft_insert_var(t_envvar *vars, char *start, char ***new, int len)
+void	ft_insert_var(t_envvar *vars, char *start, char ***new, t_quote_state qs)
 {
 	t_envvar	*var_ptr;
 	char		*name;
+	int			len;
 
+	(void) qs;
 	if (*start && *(start + 1) == '?')
 	{
 		ft_strapp(new, ft_itoa(g_exit_code));
 		return ;
 	}
 	start++;
+	len = ft_var_len(start - 1);
 	name = ft_strndup(start, len - 1);
 	var_ptr = ft_get_var(vars, name);
 	if (!var_ptr)
@@ -75,12 +80,11 @@ void	ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs)
 		ft_quoted_skip(&tmp, &len, &qs);
 		if (!*tmp)
 			break ;
-		len = ft_var_len(tmp);
-		if (qs != QU_SINGLE && len > 1)
-			ft_insert_var(vars, tmp, &new, len);
+		if (qs != QU_SINGLE && ft_var_len(tmp) > 1)
+			ft_insert_var(vars, tmp, &new, qs);
 		else
-			ft_strapp(&new, ft_strndup(tmp, len));
-		tmp += len;
+			ft_strapp(&new, ft_strndup(tmp, ft_var_len(tmp)));
+		tmp += ft_var_len(tmp);
 	}
 	free(*str);
 	*str = ft_strsjoin(new, NULL, 0b01);

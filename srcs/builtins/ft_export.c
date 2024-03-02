@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/29 17:43:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 21:53:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ int	ft_export(t_command *cmd)
 				errcode = ERR_FAILED;
 		}
 	}
+	ft_update_env(cmd->envp);
 	return (errcode);
 }

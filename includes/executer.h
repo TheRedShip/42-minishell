@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 16:10:44 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 22:16:24 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex);
 
 void	ft_command_exit(int err_code);
 
-void	ft_exec_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex, t_mode mode);
+void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex);
+
+void	ft_wait_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex);
 
 t_error_code	ft_builtin_handler(t_command *cmd, int *node_fd, t_executer *ex, t_mode mode);
 
@@ -115,6 +117,6 @@ void			ft_path_updater(t_command *cmd);
 
 t_error_code	ft_command_updater(t_command *cmd);
 
-t_error_code	ft_command_startup(t_command *cmd);
+t_error_code	ft_command_startup(t_command *cmd, t_executer *ex);
 
 #endif

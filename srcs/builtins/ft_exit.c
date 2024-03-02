@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 16:08:10 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 21:46:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ int	ft_exit(t_command *cmd)
 	argc = 0;
 	if (cmd)
 		argc = ft_tab_len(cmd->args) - 1;
+	else
+		ft_dprintf(2, "exit\n");
 	if (!cmd || !argc)
-		ft_exit_manager(g_exit_code, ERR_NOERRS, cmd);
+		ft_exit_manager(0, ERR_NOERRS, cmd);
 	if (!ft_is_numeric(cmd->args[1]))
 		ft_exit_manager(ERR_ERRORS, ERR_NOTNUM, cmd);
 	if (argc > 1)

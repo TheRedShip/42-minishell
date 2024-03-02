@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 16:10:36 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 22:21:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 {
 	int		err_code;
 	int		fds[2];
+	int		first;
 	t_pid	*tmp;
 	t_pid	*test;
 	t_pipes	*test2;
 
+	first = 0;
 	if (mode == EX_WAIT)
 		tmp = ex->pids;
 	ft_pipes_push(&(ex->pipes), ft_init_pipes());
@@ -62,6 +64,8 @@ void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 		test = ft_pid_pop(&(ex->pids));
 		waitpid(test->pid, &err_code, 0);
 		ft_command_exit(err_code);
+		if (!first++)
+			g_exit_code = WEXITSTATUS(err_code);
 		free(test);
 	}
 }

@@ -47,7 +47,13 @@ t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars, int out)
 	if (!target)
 		return (ERR_FAILED);
 	if (chdir(target) == -1)
-		ft_error_message(ERR_NOFORD, target);
+	{
+		if (errno == EACCES)
+			ft_error_message(ERR_NOPERM, target);
+		else
+			ft_error_message(ERR_NOFORD, target);
+		return (ERR_FAILED);
+	}
 	return (ERR_NOERRS);
 }
 

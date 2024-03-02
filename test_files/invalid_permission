@@ -1,4 +1,14 @@
+a.out
+filename.out
+includes
+libft
+logo
+Makefile
+minishell
+minitest.souffrance
+readline.supp
+README.md
+srcs
+test.c
+test_files
 hi
-hello
-world
-42

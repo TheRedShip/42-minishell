@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 17:48:28 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 18:19:01 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,14 @@ void	ft_path_updater(t_command *cmd)
 
 t_error_code	ft_command_updater(t_command *cmd)
 {
+	char	**tmp;
+
 	ft_args_updater(cmd);
+	tmp = cmd->args;
+	while (tmp && *tmp)
+		ft_dequote_string(tmp++, QU_ZERO);
 	ft_path_updater(cmd);
-	if (!cmd->path)
+	if (!cmd->path && !cmd->redirs)
 		return (ERR_NOTCMD);
 	return (ERR_NOERRS);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/25 21:25:28 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 18:03:12 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs);
  * @param new		String array to adress.
  * @param str		String.
 */
-void		ft_insert_var(t_envvar *vars, char *start, char ***new, int len);
+void		ft_insert_var(t_envvar *vars, char *start, char ***new, t_quote_state qs);
 
 /**
  * @brief			Dequote a string.

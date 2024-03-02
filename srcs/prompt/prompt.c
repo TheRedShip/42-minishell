@@ -110,12 +110,14 @@ t_error_code	ft_heredoc_opening(t_node *tree)
 void	ft_prompt_handler(t_envvar **envp)
 {
 	char		*line;
+	int			first;
 	t_token		*tokens;
 	t_node		*tree;
 
 	line = NULL;
 	tokens = NULL;
 	tree = NULL;
+	first = 0;
 	if (ft_prompt_line(envp, &line))
 		return ;
 	if (ft_to_tokens(&tokens, line, envp) || !tokens)
@@ -143,9 +145,11 @@ void	ft_prompt_handler(t_envvar **envp)
 		t_pid *test = ft_pid_pop(&(exe->pids));
 		waitpid(test->pid, &err_code, 0);
 		ft_command_exit(err_code);
+		if (!first++)
+			g_exit_code = WEXITSTATUS(err_code);
 		free(test);
 	}
 	free(exe);
-
+	ft_close_tree_rec(tree);
 	ft_clear_tree(tree);
 }
