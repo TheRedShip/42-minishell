@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/22 18:49:15 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:19:58 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_quote_state	ft_quote_error(char *str, char *end, t_quote_state qs)
 	if (end && qs == QU_SINGLE)
 		*end = '\'';
 	else if (end && qs == QU_DOUBLE)
-		*end = '"';	
+		*end = '"';
 	return (qs);
 }
 

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:45:23 by rgramati          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/02 15:59:46 by rgramati         ###   ########.fr       */
+=======
+/*   Updated: 2024/03/01 18:37:52 by ycontre          ###   ########.fr       */
+>>>>>>> fe10ec837ec90aa55d37c83cec495baf6bc848dc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +37,6 @@ void	ft_process_redirs(t_command *cmd, int *node_fd)
 
 void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 {
-	(void) node_fd;
 	char	**env;
 	pid_t	child;
 
@@ -50,7 +53,12 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 	ft_signal_state(SIGHANDLER_INT);
 	ft_close_command(cmd);
 	ft_pid_push(&(ex->pids), ft_init_pid(child));
+<<<<<<< HEAD
 	// ft_printf("[EXEC] : Command pushed pid <%p> [pid=%d]\n", ex->pids, ex->pids->pid);
+=======
+	ft_printf("[EXEC] : Command pushed pid <%p> [pid=%d]\n", \
+		ex->pids, ex->pids->pid);
+>>>>>>> fe10ec837ec90aa55d37c83cec495baf6bc848dc
 }
 
 void	ft_exec_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex, t_mode mode)
@@ -187,7 +195,6 @@ char	*ft_backtrim(char *str, char c)
 	chr = ft_strrchr(str, c);
 	tmp = NULL;
 	if (chr && *chr && *(chr + 1))
-		tmp = ft_strndup(chr + 1 , ft_strlen(str) - (chr - str));
+		tmp = ft_strndup(chr + 1, ft_strlen(str) - (chr - str));
 	return (tmp);
 }
-

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 16:08:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:10:50 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_open_file(t_command *cmd, char *file, int mode)
 	int	*fd;
 
 	if (mode == OPEN_READ)
-		fd = &(cmd->infile);		
+		fd = &(cmd->infile);
 	else
 		fd = &(cmd->outfile);
 	if (*fd > 2)

@@ -6,7 +6,7 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:21:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 17:23:51 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:03:03 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 // 	DIR		*file_check;
 
 	// ft_signal_state(SIGHANDLER_IGN);
-	
 // 	if (pid == 0)
 // 	{
 // 		env = ft_get_var_strs(*(cmd->envp), 0);

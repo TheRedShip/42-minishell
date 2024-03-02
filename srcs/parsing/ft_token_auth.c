@@ -6,7 +6,7 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/03/01 17:30:35 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:33:08 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_valid_token(t_token *t, char **err_token)
 			return (0);
 		else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & strs || !ft_strncmp(t->next->str, "(", 2)))
 			return (0);
-		// else if (!ft_strncmp(t->str, "<<"))
 		t = t->next;
 	}
 	return (t->type & (TK_BRACES | TK_STRING));
@@ -47,7 +46,7 @@ int	ft_verify_brace(t_token *tokens)
 	int	braces;
 
 	braces = 0;
-	while(tokens != NULL)
+	while (tokens != NULL)
 	{
 		if ((tokens->type & TK_BRACES) && !ft_strncmp(tokens->str, "(", 2))
 			braces++;
@@ -60,7 +59,7 @@ int	ft_verify_brace(t_token *tokens)
 	return (braces == 0);
 }
 
-int ft_verify_token(t_token *tokens, char **err_token)
+int	ft_verify_token(t_token *tokens, char **err_token)
 {
 	t_token	*tmp;
 	int		hdcount;
