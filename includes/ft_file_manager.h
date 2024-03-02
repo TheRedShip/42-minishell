@@ -6,23 +6,39 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:02:22 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 13:00:56 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:47:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_FILE_MANAGER_H
 # define FT_FILE_MANAGER_H
 
+
+/* FILE MANAGEMENT ********************************************************** */
+
+t_error_code	ft_heredoc_opening(t_node *tree);
+
+t_error_code	ft_manage_heredocs(t_node *nd, int *hd);
+
+t_error_code	ft_open_heredocs(t_command *cmd);
+
+void			ft_open_file(t_command *cmd, char *file, int mode);
+
+t_error_code	ft_open_outputs(t_command *cmd);
+
+t_error_code	ft_open_inputs(t_command *cmd);
+
+/* HEREDOC ****************************************************************** */
+
 /**
  * @brief			Get heredoc file descriptor.
  * 
  * @param delim		Heredoc delimiter.
  * @param hd_file	Temporary file name.
- * @param root		Root of the binary tree.
  * 
  * @return			Heredoc file descriptor, -1 if failed.
 */
-int				ft_get_heredoc(char *delim, char *hd_file, t_node *root);
+int				ft_get_heredoc(char *delim, char *hd_file);
 
 int				ft_heredoc_exit(char *delim, char *hd_file, int err_code);
 

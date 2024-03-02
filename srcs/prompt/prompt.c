@@ -102,16 +102,13 @@ t_error_code	ft_heredoc_opening(t_node *tree)
 {
 	int	hd_done;
 
-	hd_done = 1;
-	ft_signal_state(SIGHANDLER_IGN);
-	if (ft_open_heredocs(tree, tree, &hd_done))
+	hd_done = 0;
+	if (ft_manage_heredocs(tree, &hd_done) == ERR_HDSTOP)
 	{
 		ft_close_tree_rec(tree);
 		ft_clear_tree(tree);
-		ft_signal_state(SIGHANDLER_INT);
 		return (ERR_FAILED);
 	}
-	ft_signal_state(SIGHANDLER_INT);
 	return (ERR_NOERRS);
 }
 
@@ -128,7 +125,7 @@ void	ft_prompt_handler(t_envvar **envp)
 		return ;
 	if (ft_to_tokens(&tokens, line, envp) || !tokens)
 		return ;
-	ft_display_token_list(tokens);
+	// ft_display_token_list(tokens);
 	if (ft_to_tree(&tokens, &tree, envp))
 	{
 		ft_clear_tree(tree);
@@ -138,7 +135,7 @@ void	ft_prompt_handler(t_envvar **envp)
 	if (ft_heredoc_opening(tree))
 		return ;
 
-	treeprint(tree, 0);
+	// treeprint(tree, 0);
 
 	int fdtest[2] = {0, 1};
 	t_executer *exe = ft_init_executer();
@@ -150,8 +147,6 @@ void	ft_prompt_handler(t_envvar **envp)
 	{
 		t_pid *test = ft_pid_pop(&(exe->pids));
 		waitpid(test->pid, &err_code, 0);
-		ft_printf("[EXEC] : MAIN waiting for pid [%d] at <%p>\n", test->pid, test);
-		ft_printf("command returned %d\n", WEXITSTATUS(err_code));
 		ft_command_exit(err_code);
 		free(test);
 	}

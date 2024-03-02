@@ -29,7 +29,6 @@
 # include <dirent.h>
 # include "libft.h"
 
-
 # define P_SUCCESS "\001\033[32;1m\002$?\001\033[0m\002 "
 # define P_FAIL "\001\033[31;1m\002$?\001\033[0m\002 "
 # define P_TAIL "\001\033[37;1m\002 Minishell$\001\033[0m\002 "
@@ -43,20 +42,24 @@
 
 # define P_WARNING "\001\033[33;1m\002/!\\ WARNING! > "
 
+// O_RDONLY = 00
 # ifndef OPEN_READ
-#  define OPEN_READ O_RDONLY
+#  define OPEN_READ 00
 # endif
 
+// O_WRONLY = 01 | O_CREAT = 0100 | O_TRUNC = 01000
 # ifndef OPEN_CREATE
-#  define OPEN_CREATE O_WRONLY | O_TRUNC | O_CREAT
+#  define OPEN_CREATE 01101
 # endif
 
+// O_WRONLY = 01 | O_CREAT = 0100 | O_APPEND = 02000
 # ifndef OPEN_APPEND
-#  define OPEN_APPEND O_WRONLY | O_CREAT | O_APPEND
+#  define OPEN_APPEND 02101
 # endif
 
+// O_WRONLY = 01 | O_EXCL = 0200 | O_CREAT = 0100 | O_TRUNC = 01000
 # ifndef OPEN_EXCL
-#  define OPEN_EXCL O_WRONLY | O_TRUNC | O_EXCL | O_CREAT
+#  define OPEN_EXCL 01301
 # endif
 
 typedef enum e_handler_state
@@ -92,10 +95,6 @@ typedef enum e_error_code
 # include "ft_file_manager.h"
 # include "builtins.h"
 # include "executer.h"
-// typedef enum e_error
-// {
-// 	ERR_
-// }
 
 /**
  * @brief				Exit Handler.
@@ -103,7 +102,6 @@ typedef enum e_error_code
  * @param exit_code		Exit code.
  * @param ec			Error code (see enum e_error_code).
  * @param cmd			t_command pointer with command meta-data.
- * @param prompt		Prompt line pointer.
 */
 void	ft_exit_manager(int exit_code, int ec, t_command *cmd);
 

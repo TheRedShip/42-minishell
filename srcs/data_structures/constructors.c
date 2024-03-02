@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/29 17:42:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:36:08 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_command	*ft_init_command(t_redir *redirs, char **args, t_envvar **envp)
 		return (NULL);
 	new_command->infile = 0;
 	new_command->outfile = 1;
+	new_command->heredoc = -42;
 	new_command->redirs = redirs;
 	new_command->path = NULL;
 	if (args)

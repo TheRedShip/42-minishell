@@ -6,42 +6,51 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 10:18:42 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:08:01 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_error_code	ft_open_heredocs(t_node *tree, t_node *root, int *not_failed)
+t_error_code	ft_manage_heredocs(t_node *nd, int *hd)
+{
+	t_error_code	err;
+
+	err = ERR_NOERRS;
+	if (*hd)
+		return (ERR_HDSTOP);
+	if (!nd->command)
+	{
+		err |= ft_manage_heredocs(nd->left, hd);
+		err |= ft_manage_heredocs(nd->right, hd);
+		return (err);
+	}
+	err = ft_open_heredocs(nd->command);
+	return (err);
+}
+
+t_error_code	ft_open_heredocs(t_command *cmd)
 {
 	t_error_code	err;
 	t_redir			*tmp;
 	char			*hd_file;
 
 	err = ERR_NOERRS;
-	if (!*not_failed)
-		return (ERR_ERRORS);
-	if (!tree->command)
-	{
-		err |= !!ft_open_heredocs(tree->left, root, not_failed);
-		err |= !!ft_open_heredocs(tree->right, root, not_failed);
-		return (err);
-	}
-	tmp = tree->command->redirs;
-	while (tmp && tree->command->infile != -1 && *not_failed)
+	tmp = cmd->redirs;
+	while (tmp && cmd->heredoc != -1)
 	{
 		if (tmp->type == RD_HEREDOC)
 		{
 			hd_file = ft_get_temp_file(".heredoc", 16);
-			if (tree->command->infile != STDIN_FILENO)
-				close(tree->command->infile);
-			tree->command->infile = \
-			ft_get_heredoc(ft_strdup(tmp->file), hd_file, root);
-			*not_failed = (tree->command->infile != OP_HDOCKO);
+			if (cmd->heredoc > 2)
+				close(cmd->heredoc);
+			cmd->heredoc = ft_get_heredoc(ft_strdup(tmp->file), hd_file);
+			if (cmd->heredoc == OP_HDOCKO)
+				return (ERR_HDSTOP);
 		}
 		tmp = tmp->next;
 	}
-	return (tree->command->infile == OP_FILEKO || !*not_failed);
+	return (cmd->heredoc == OP_FILEKO);
 }
 
 void	ft_open_file(t_command *cmd, char *file, int mode)
@@ -82,18 +91,41 @@ t_error_code	ft_open_outputs(t_command *cmd)
 	return (cmd->outfile == OP_FILEKO && access(tmp->file, R_OK));
 }
 
+void	ft_connect_input(t_command *cmd, int hd_last)
+{
+	if (hd_last)
+	{
+		if (cmd->infile != STDIN_FILENO)
+			close(cmd->infile);
+		cmd->infile = cmd->heredoc;
+	}
+	else
+	{
+		if (cmd->heredoc > 2)
+			close(cmd->heredoc);
+	}
+}
+
 t_error_code	ft_open_inputs(t_command *cmd)
 {
-	t_redir			*tmp;
+	t_redir	*tmp;
+	int		hd_last;
 
 	if (!cmd->redirs)
 		return (ERR_NOERRS);
 	tmp = cmd->redirs;
+	hd_last = 0;
 	while (tmp && cmd->infile != OP_FILEKO)
 	{
 		if (tmp->type == RD_INFILES)
+		{
+			hd_last = 0;
 			ft_open_file(cmd, ft_strdup(tmp->file), OPEN_READ);
+		}
+		if (tmp->type != RD_OUTPUTS && tmp->type != RD_APPENDS)
+			hd_last |= (tmp->type == RD_HEREDOC);
 		tmp = tmp->next;
 	}
+	ft_connect_input(cmd, hd_last);
 	return (cmd->infile == OP_FILEKO);
 }

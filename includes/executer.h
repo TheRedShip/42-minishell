@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 14:05:24 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 13:59:44 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,21 +101,11 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex);
 
 void	ft_command_exit(int err_code);
 
-void	ft_exec_builtin(int (*f)(t_command *), t_command *cmd, t_mode mode);
+void	ft_exec_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex, t_mode mode);
 
 t_error_code	ft_builtin_handler(t_command *cmd, int *node_fd, t_executer *ex, t_mode mode);
 
 t_error_code	ft_verify_command(t_node *tree);
-
-/* FILE MANAGEMENT ********************************************************** */
-
-t_error_code	ft_heredoc_opening(t_node *tree);
-
-t_error_code	ft_open_heredocs(t_node *tree, t_node *root, int *not_failed);
-
-t_error_code	ft_open_outputs(t_command *cmd);
-
-t_error_code	ft_open_inputs(t_command *cmd);
 
 /* UTILS ******************************************************************** */
 

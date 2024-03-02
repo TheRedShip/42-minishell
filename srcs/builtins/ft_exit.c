@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:38:34 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 11:17:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:08:10 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	ft_exit(t_command *cmd)
 	int			argc;
 
 	argc = 0;
-	ft_dprintf(2, "exit\n");
 	if (cmd)
 		argc = ft_tab_len(cmd->args) - 1;
 	if (!cmd || !argc)

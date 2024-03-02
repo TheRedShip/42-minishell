@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:59:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 13:26:58 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 15:42:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_pipes	*ft_pipes_pop(t_pipes **head)
 
 void	ft_del_pipe(t_pipes *p)
 {
-	// ft_del_pid_list(p->waitlist);
 	if (p->fd[0] > 2)
 		close(p->fd[0]);
 	if (p->fd[1] > 2)

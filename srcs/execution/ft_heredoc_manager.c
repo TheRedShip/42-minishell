@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:32:59 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/28 18:36:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:34:47 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,13 @@ int	ft_heredoc_exit(char *delim, char *hd_file, int err_code)
 	return (hd_fd);
 }
 
-int	ft_get_heredoc(char *delim, char *hd_file, t_node *root)
+int	ft_get_heredoc(char *delim, char *hd_file)
 {
 	pid_t	hd_pid;
 	int		hd_fd;
 	int		err_code;
 
+	ft_signal_state(SIGHANDLER_IGN);
 	hd_pid = fork();
 	if (hd_pid == -1)
 		return (-1);
@@ -102,7 +103,7 @@ int	ft_get_heredoc(char *delim, char *hd_file, t_node *root)
 		rl_catch_signals = 1;
 		ft_signal_state(SIGHANDLER_H_D);
 		hd_fd = open(hd_file, OPEN_EXCL, 0644);
-		ft_clear_tree(root);
+		ft_clear_tree(ft_tree_holder(0, NULL));
 		rl_clear_history();
 		err_code = ft_heredoc_line(delim, hd_file, hd_fd);
 		ft_clear_env(ft_update_env(NULL));
@@ -110,6 +111,7 @@ int	ft_get_heredoc(char *delim, char *hd_file, t_node *root)
 		exit(err_code);
 	}
 	waitpid(hd_pid, &err_code, 0);
+	ft_signal_state(SIGHANDLER_INT);
 	hd_fd = ft_heredoc_exit(delim, hd_file, err_code);
 	return (hd_fd);
 }

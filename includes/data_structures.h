@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/28 19:31:19 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:51:22 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ typedef struct s_command
 {
 	int			infile;
 	int			outfile;
+	int			heredoc;
 	char		*path;
 	char		**args;
 	t_redir		*redirs;

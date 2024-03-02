@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:45:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 15:28:45 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/02 15:59:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 	char	**env;
 	pid_t	child;
 
+	// ft_display_command(cmd);
+	ft_signal_state(SIGHANDLER_IGN);
 	child = fork();
 	if (child == 0)
 	{
@@ -45,15 +47,46 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 		ft_close_pipes(ex->pipes);
 		execve(cmd->path, cmd->args, env);
 	}
+	ft_signal_state(SIGHANDLER_INT);
 	ft_close_command(cmd);
 	ft_pid_push(&(ex->pids), ft_init_pid(child));
-	ft_printf("[EXEC] : Command pushed pid <%p> [pid=%d]\n", ex->pids, ex->pids->pid);
+	// ft_printf("[EXEC] : Command pushed pid <%p> [pid=%d]\n", ex->pids, ex->pids->pid);
 }
 
-void	ft_exec_builtin(int (*f)(t_command *), t_command *cmd, t_mode mode)
+void	ft_exec_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex, t_mode mode)
 {
-	(void) mode;
-	f(cmd);
+	pid_t	child;
+
+	if (mode == EX_PIPE)
+	{
+		ft_signal_state(SIGHANDLER_IGN);
+		child = fork();
+		if (child == 0)
+		{
+			ft_close_executer(ex);
+			free(ex);
+			ex = NULL;
+			g_exit_code = f(cmd);
+			if (f != &ft_exit)
+				ft_fork_exit(ex);
+			exit(g_exit_code);
+		}
+		ft_signal_state(SIGHANDLER_INT);
+		ft_close_command(cmd);
+		ft_pid_push(&(ex->pids), ft_init_pid(child));
+		// ft_printf("[EXEC] : BUILTIN Command pushed pid <%p> [pid=%d]\n", ex->pids, ex->pids->pid);
+	}
+	else
+	{
+		if (f == &ft_exit)
+		{
+			ft_close_executer(ex);
+			free(ex);
+			ft_dprintf(2, "exit\n");
+		}
+		g_exit_code = f(cmd);
+		ft_close_command(cmd);
+	}
 }
 
 t_error_code	ft_builtin_handler(t_command *cmd, int *node_fd, t_executer *ex, t_mode mode)
@@ -72,13 +105,11 @@ t_error_code	ft_builtin_handler(t_command *cmd, int *node_fd, t_executer *ex, t_
 	free(trim);
 	if (!*tmp)
 		return (ERR_ERRORS);
-	if (tmp - builtins_str == 6)
-		free(ex);
 	if (cmd->infile == STDIN_FILENO && node_fd[0] != STDIN_FILENO)
 		cmd->infile = node_fd[0];
 	if (cmd->outfile == STDOUT_FILENO && node_fd[1] != STDOUT_FILENO)
 		cmd->outfile = node_fd[1];
-	ft_exec_builtin(builtins[tmp - builtins_str], cmd, mode);
+	ft_exec_builtin(builtins[tmp - builtins_str], cmd, ex, mode);
 	return (ERR_NOERRS);
 }
 
@@ -121,6 +152,7 @@ void	ft_cmd_handler(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 		return ;
 	if (!ft_builtin_handler(tree->command, node_fd, ex, mode))
 		return ;
+	ft_dprintf(2, "JEXECUTE UNE COMMANDE PAS BUILTIN\n");
 	if (access(tree->command->path, F_OK))
 	{
 		g_exit_code = 127;
