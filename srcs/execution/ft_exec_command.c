@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:45:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:10:04 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:30:51 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 	child = fork();
 	if (child == 0)
 	{
-		ft_dprintf(2, "\001\033[31;1m\002");
 		env = ft_get_var_strs(*(cmd->envp), 0);
 		ft_process_redirs(cmd, node_fd);
 		ft_close_pipes(ex->pipes);
