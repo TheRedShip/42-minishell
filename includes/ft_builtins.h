@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   ft_builtins.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:08:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:04:52 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef FT_BUILTINS_H
+# define FT_BUILTINS_H
 
 /* MAIN COMMANDS ************************************************************ */
 
@@ -88,7 +88,7 @@ int			ft_unset(t_command *cmd);
  * 
  * @return			Trimmed string.
 */
-char		*ft_backtrim(char *str , char c);
+char		*ft_backtrim(char *str, char c);
 
 /**
  * @brief			Get current working directory.
@@ -129,7 +129,7 @@ void		ft_create_env(t_envvar **env, char **argv);
  * 
  * @return			chdir exit code.
 */
-t_error	ft_manage_cd(int argc, char **argv, t_envvar **vars, int out);
+t_error		ft_manage_cd(int argc, char **argv, t_envvar **vars, int out);
 
 /**
  * @brief			atoi for exit codes.
@@ -149,6 +149,15 @@ long		ft_exit_atoi(char *str);
  * @return			1 if str is a number, 0 otherwise.
 */
 int			ft_is_numeric(char *str);
+
+/**
+ * @brief				Exit Handler.
+ * 
+ * @param exit_code		Exit code.
+ * @param ec			Error code (see enum e_error_code).
+ * @param cmd			t_command pointer with command meta-data.
+*/
+void		ft_exit_manager(int exit_code, int ec, t_command *cmd);
 
 /**
  * @brief			Get environment variable string.

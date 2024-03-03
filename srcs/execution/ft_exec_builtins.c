@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 14:50:05 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:09:19 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:31:16 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_error	ft_builtin_checker(t_command *cmd)
 	if (*tmp)
 	{
 		ft_error_message(ERR_INVOPT, *tmp);
-		g_exit_code = 1;
+		g_exit_code = 125;
 		return (ERR_INVOPT);
 	}
 	return (ERR_NOERRS);

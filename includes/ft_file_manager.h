@@ -6,27 +6,76 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:02:22 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:08:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:26:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_FILE_MANAGER_H
 # define FT_FILE_MANAGER_H
 
-
 /* FILE MANAGEMENT ********************************************************** */
 
-t_error	ft_heredoc_opening(t_node *tree);
+/**
+ * @brief			Get a temporary filename.
+ * 
+ * @param head		Start of the filename.
+ * 					(consider always using "." starting names)
+ * @param size		Number of random characters.
+ * 
+ * @return			Temporary filename allocated string.
+*/
+char		*ft_get_temp_file(char *head, int size);
 
-t_error	ft_manage_heredocs(t_node *nd, int *hd);
+/**
+ * @brief			Manage heredoc opening.
+ * 
+ * @param tree		Tree pointer.
+ * 
+ * @return			ERR_FAILED if ^C in any heredoc, ERR_NOERRS otherwise.
+*/
+t_error		ft_heredoc_opening(t_node *tree);
 
-t_error	ft_open_heredocs(t_command *cmd);
+/**
+ * @brief			Opens recursively all heredocs in a tree.
+ * 
+ * @param nd		Node to open.
+ * @param hd		Pointer to the failed heredoc boolean.
+ * 
+ * @return			ERR_HDSTOP in case of error, ERR_NOERRS otherwise.
+*/
+t_error		ft_manage_heredocs(t_node *nd, int *hd);
 
-void			ft_open_file(t_command *cmd, char *file, int mode);
+/**
+ * @brief			Open heredocs for one command.
+ * 
+ * @param cmd		t_command pointer.
+ * 
+ * @return			ERR_HDSTOP in case of error, ERR_NOERRS otherwise.
+*/
+t_error		ft_open_heredocs(t_command *cmd);
 
-t_error	ft_open_outputs(t_command *cmd);
+/**
+ * 
+*/
+void		ft_open_file(t_command *cmd, char *file, int mode);
 
-t_error	ft_open_inputs(t_command *cmd);
+/**
+ * @brief			Open output files for one command.
+ * 
+ * @param cmd		t_command pointer.
+ * 
+ * @return			ERR_FAILED in case of error, ERR_NOERRS otherwise.
+*/
+t_error		ft_open_outputs(t_command *cmd);
+
+/**
+ * @brief			Open input files for one command.
+ * 
+ * @param cmd		t_command pointer.
+ * 
+ * @return			ERR_FAILED in case of error, ERR_NOERRS otherwise.
+*/
+t_error		ft_open_inputs(t_command *cmd);
 
 /* HEREDOC ****************************************************************** */
 
@@ -38,15 +87,35 @@ t_error	ft_open_inputs(t_command *cmd);
  * 
  * @return			Heredoc file descriptor, -1 if failed.
 */
-int				ft_get_heredoc(char *delim, char *hd_file);
+int			ft_get_heredoc(char *delim, char *hd_file);
 
-int				ft_heredoc_exit(char *delim, char *hd_file, int err_code);
+/**
+ * @brief			Manage return code from heredoc fork.
+ * 
+ * @param delim		Delimiter string pointer.
+ * @param hd_file	File name string pointer.
+ * @param err_code	Exit status from fork.
+*/
+int			ft_heredoc_exit(char *delim, char *hd_file, int err_code);
 
-int				ft_heredoc_line(char *delim, char *hd_file, int hd_fd);
+/**
+ * @brief			Line up all heredoc lines and manage memory from fork.
+ * 
+ * @param delim		Delimiter string pointer.
+ * @param hd_file	File name string pointer.
+ * @param hd_fd		Heredoc file descriptor.
+*/
+int			ft_heredoc_line(char *delim, char *hd_file, int hd_fd);
 
-void			ft_parse_line(char **line, int hd_fd, int exp);
+/**
+ * @brief			Parse one heredoc line
+ * 
+ * @param line		Line string adress.
+ * @param hd_fd		Heredoc file descriptor.
+*/
+void		ft_parse_line(char **line, int hd_fd, int exp);
 
-void			ft_heredoc_limit(t_token *tokens, t_envvar **envp);
+void		ft_heredoc_limit(t_token *tokens, t_envvar **envp);
 
 /* CLOSE ******************************************************************** */
 
@@ -56,27 +125,26 @@ void			ft_heredoc_limit(t_token *tokens, t_envvar **envp);
  * @param nb		How many files to close.
  * @param fd		First fd, then vararg.
 */
-void			ft_close_v(int nb, int fd, ...);
+void		ft_close_v(int nb, int fd, ...);
 
 /**
  * @brief			Close a t_command's fd.
  * 
  * @param command	t_command to close.
 */
-void			ft_close_command(t_command *command);
+void		ft_close_command(t_command *command);
 
 /**
  * @brief			Close all fds in a tree recursively.
  * 
  * @param tree		t_node tree to close.
 */
-void			ft_close_tree_rec(t_node *tree);
+void		ft_close_tree_rec(t_node *tree);
 
+void		ft_close_executer(t_executer *ex);
 
-void			ft_close_executer(t_executer *ex);
+void		ft_close_pipes(t_pipes *tmp_pipe);
 
-void			ft_close_pipes(t_pipes *tmp_pipe);
-
-void			ft_fork_exit(t_executer *ex);
+void		ft_fork_exit(t_executer *ex);
 
 #endif

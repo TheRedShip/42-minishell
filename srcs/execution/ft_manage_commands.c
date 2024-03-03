@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:15:33 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 char	**ft_quoted_split(char *str, char *sep)
 {
 	t_qstate	qs;
-	char			**new;
-	char			*tmp;
-	char			*hold;
+	char		**new;
+	char		*tmp;
+	char		*hold;
 
 	new = NULL;
 	qs = QU_ZERO;

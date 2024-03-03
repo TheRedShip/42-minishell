@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:40 by ycontre           #+#    #+#             */
-/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:26:21 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_swap_strs(char **a, char **b)
 int	ft_dqstrlen(char *str)
 {
 	t_qstate	qs;
-	int				len;
+	int			len;
 
 	qs = QU_ZERO;
 	len = 0;

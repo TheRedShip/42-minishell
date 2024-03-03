@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/03/03 16:22:52 by rgramati         ###   ########.fr        #
+#    Updated: 2024/03/03 17:40:48 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,13 @@ SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 
-HEADERS		:=	includes/builtins.h includes/minishell.h includes/data_structures.h includes/executer.h
+HEADERS		:=	includes/minishell.h 			\
+				includes/ft_enumerates.h		\
+				includes/ft_data_structures.h 	\
+				includes/ft_parsing.h			\
+				includes/ft_builtins.h 			\
+				includes/ft_file_manager.h		\
+				includes/ft_execution.h
 
 CC          := cc
 CFLAGS      := -g -Wall -Wextra -Werror

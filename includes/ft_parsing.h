@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_parsing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 17:49:57 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-char		*ft_get_temp_file(char *head, int size);
+/**
+ * @brief			Tokenize a string.
+ * 
+ * @param str		String to tokenize.
+ * @param qs		Quote state.
+ * 
+ * @return			t_token linked list.
+*/
+t_token		*ft_tokenizer(char *str, t_qstate qs);
 
 /* STRING MANIPULATION ****************************************************** */
 

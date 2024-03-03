@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:24:27 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:25:41 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 t_error	ft_open_heredocs(t_command *cmd)
 {
 	t_error	err;
-	t_redir			*tmp;
-	char			*hd_file;
+	t_redir	*tmp;
+	char	*hd_file;
 
 	err = ERR_NOERRS;
 	tmp = cmd->redirs;

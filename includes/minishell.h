@@ -13,6 +13,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/* INCLUDES ***************************************************************** */
+
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -29,6 +31,15 @@
 # include <dirent.h>
 # include "libft.h"
 
+# include "ft_enumerates.h"
+# include "ft_data_structures.h"
+# include "ft_parsing.h"
+# include "ft_builtins.h"
+# include "ft_file_manager.h"
+# include "ft_execution.h"
+
+/* PROMPTS ****************************************************************** */
+
 # define P_SUCCESS "\001\033[32;1m\002$?\001\033[0m\002 "
 # define P_FAIL "\001\033[31;1m\002$?\001\033[0m\002 "
 # define P_TAIL "\001\033[37;1m\002 Minishell$\001\033[0m\002 "
@@ -41,6 +52,8 @@
 # define P_ERROR "\001\033[31;1m\002/!\\ ERROR! > "
 
 # define P_WARNING "\001\033[33;1m\002/!\\ WARNING! > "
+
+/* OPENING MODES ************************************************************ */
 
 // O_RDONLY = 00
 # ifndef OPEN_READ
@@ -62,50 +75,6 @@
 #  define OPEN_EXCL 01301
 # endif
 
-typedef enum e_handler_state
-{
-	SIGHANDLER_IGN,
-	SIGHANDLER_INT,
-	SIGHANDLER_DQU,
-	SIGHANDLER_H_D
-}	t_handler_state;
-
-typedef enum e_error_code
-{
-	ERR_NOERRS,
-	ERR_FAILED,
-	ERR_ERRORS,
-	ERR_NOTNUM,
-	ERR_TMARGS,
-	ERR_NOTSET,
-	ERR_NOFORD,
-	ERR_NOTVAL,
-	ERR_HDSTOP,
-	ERR_DQSTOP,
-	ERR_NOTCMD,
-	ERR_SYNTXQ,
-	ERR_SYNTXT,
-	ERR_HLIMIT,
-	ERR_NOPERM,
-	ERR_ISADIR,
-	ERR_INVOPT
-}	t_error;
-
-# include "data_structures.h"
-# include "parser.h"
-# include "ft_file_manager.h"
-# include "builtins.h"
-# include "executer.h"
-
-/**
- * @brief				Exit Handler.
- * 
- * @param exit_code		Exit code.
- * @param ec			Error code (see enum e_error_code).
- * @param cmd			t_command pointer with command meta-data.
-*/
-void	ft_exit_manager(int exit_code, int ec, t_command *cmd);
-
 /* ************************************************************************** */
 char	*ft_get_pwd(void);
 
@@ -124,7 +93,7 @@ t_error	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp);
 
 t_error	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp);
 
-void			ft_prompt_handler(t_envvar **envp);
+void	ft_prompt_handler(t_envvar **envp);
 
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:08:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:26:44 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_export_var(t_command *cmd, char *tmp)
 
 int	ft_export(t_command *cmd)
 {
-	char			**tmp;
+	char	**tmp;
 	t_error	errcode;
 
 	tmp = cmd->args;

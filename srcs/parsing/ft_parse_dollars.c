@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/03/03 16:16:02 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:18:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	ft_var_len(char *str)
 	tmp = str + 1;
 	if (!*tmp)
 		return (1);
-	if (ft_isdigit(*tmp) || (!ft_isalnum(*tmp) && !ft_strchr("_?", *tmp)))
+	if (ft_isdigit(*tmp) || ft_strchr("\"'", *tmp))
+		return (2);
+	if (!ft_strchr("_?", *tmp) && !ft_isalnum(*tmp))
 		return (1);
 	if (*tmp == '?')
 		return (2);
@@ -53,7 +55,13 @@ void	ft_insert_var(t_envvar *vars, char *start, char ***new, t_qstate qs)
 		return ;
 	}
 	start++;
+	if (ft_isdigit(*start))
+		return ;
 	len = ft_var_len(start - 1);
+	if (ft_strchr("\"'", *start))
+		ft_strapp(new, ft_strndup(start - 1, 2));
+	if (ft_strchr("\"'", *start))
+		return ;
 	name = ft_strndup(start, len - 1);
 	var_ptr = ft_get_var(vars, name);
 	if (!var_ptr)

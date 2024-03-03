@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:05:11 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 22:03:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:31:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ int	ft_env(t_command *cmd)
 	char		**tmp;
 
 	if (ft_tab_len(cmd->args) > 1)
-		return (127 - 2 * (*(cmd->args[1]) == '-'));
+	{
+		ft_error_message(ERR_TMARGS, "env");
+		return (127);
+	}
 	vars = *(cmd->envp);
 	vars_array = ft_get_var_strs(vars, 0);
 	if (!vars_array)
