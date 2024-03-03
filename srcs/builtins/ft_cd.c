@@ -20,7 +20,7 @@ void	ft_get_directory_vars(t_envvar *envp, t_envvar **vars)
 	vars[3] = NULL;
 }
 
-t_error_code	ft_manage_cd(int argc, char **argv, t_envvar **vars, int out)
+t_error	ft_manage_cd(int argc, char **argv, t_envvar **vars, int out)
 {
 	char	*target;
 

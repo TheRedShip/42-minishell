@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:02:22 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 18:47:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:08:01 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 
 /* FILE MANAGEMENT ********************************************************** */
 
-t_error_code	ft_heredoc_opening(t_node *tree);
+t_error	ft_heredoc_opening(t_node *tree);
 
-t_error_code	ft_manage_heredocs(t_node *nd, int *hd);
+t_error	ft_manage_heredocs(t_node *nd, int *hd);
 
-t_error_code	ft_open_heredocs(t_command *cmd);
+t_error	ft_open_heredocs(t_command *cmd);
 
 void			ft_open_file(t_command *cmd, char *file, int mode);
 
-t_error_code	ft_open_outputs(t_command *cmd);
+t_error	ft_open_outputs(t_command *cmd);
 
-t_error_code	ft_open_inputs(t_command *cmd);
+t_error	ft_open_inputs(t_command *cmd);
 
 /* HEREDOC ****************************************************************** */
 

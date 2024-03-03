@@ -87,8 +87,9 @@ typedef enum e_error_code
 	ERR_SYNTXT,
 	ERR_HLIMIT,
 	ERR_NOPERM,
-	ERR_ISADIR
-}	t_error_code;
+	ERR_ISADIR,
+	ERR_INVOPT
+}	t_error;
 
 # include "data_structures.h"
 # include "parser.h"
@@ -117,11 +118,11 @@ int		ft_quote_handler(char **line, t_envvar **envp, int status);
 /* ************************************************************************** */
 
 /* PROMPTING **************************************************************** */
-t_error_code	ft_prompt_line(t_envvar **envp, char **line);
+t_error	ft_prompt_line(t_envvar **envp, char **line);
 
-t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp);
+t_error	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp);
 
-t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp);
+t_error	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp);
 
 void			ft_prompt_handler(t_envvar **envp);
 
@@ -141,6 +142,6 @@ void	ft_signal_state(int toggle);
 
 void	ft_display_token(t_token *token);
 
-void	ft_error_message(t_error_code err, char *str);
+void	ft_error_message(t_error err, char *str);
 
 #endif

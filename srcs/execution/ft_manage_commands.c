@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_formatting.c                                    :+:      :+:    :+:   */
+/*   ft_manage_commands.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 18:19:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:08:01 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_path_updater(t_command *cmd)
 		cmd->path = ft_get_path(*cmd->args, *(cmd->envp));
 }
 
-t_error_code	ft_command_updater(t_command *cmd)
+t_error	ft_command_updater(t_command *cmd)
 {
 	char	**tmp;
 

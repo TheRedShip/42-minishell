@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-t_error_code	ft_prompt_line(t_envvar **envp, char **line)
+t_error	ft_prompt_line(t_envvar **envp, char **line)
 {
 	char	*prompt;
 	int		err_code;
@@ -43,9 +43,9 @@ t_error_code	ft_prompt_line(t_envvar **envp, char **line)
 	return (ERR_NOERRS);
 }
 
-t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
+t_error	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 {
-	t_error_code	syntax;
+	t_error	syntax;
 	char			*err_token;
 
 	syntax = (!!ft_quote_error(line, NULL, QU_ZERO) << 1);
@@ -72,14 +72,14 @@ t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 	return (ERR_NOERRS);
 }
 
-t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp)
+t_error	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp)
 {
 	*tree = ft_build_tree(*tokens, envp);
 	ft_clear_token_list(*tokens);
 	return (ERR_NOERRS);
 }
 
-t_error_code	ft_heredoc_opening(t_node *tree)
+t_error	ft_heredoc_opening(t_node *tree)
 {
 	int	hd_done;
 

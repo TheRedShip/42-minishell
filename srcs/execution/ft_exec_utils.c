@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 14:48:51 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 15:01:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 15:53:07 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 extern int	g_exit_code;
 
-void	ft_fake_pid_child(int err_code, t_command *cmd, t_executer *ex)
+void	ft_fake_pid_child(int err_code, t_executer *ex)
 {
 	pid_t	child;
 
 	child = fork();
 	if (child == 0)
 	{
-		ft_close_command(cmd);
+		ft_close_tree_rec(ft_tree_holder(0, NULL));
 		ft_fork_exit(ex);
 		exit(err_code);
 	}

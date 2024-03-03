@@ -6,11 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 14:50:05 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 14:50:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:08:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex)
 {
@@ -28,7 +30,7 @@ void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex)
 		}
 		ret = f(cmd);
 		ft_close_executer(ex);
-		ft_close_command(cmd);
+		ft_close_tree_rec(ft_tree_holder(0, NULL));
 		free(ex);
 		ex = NULL;
 		if (f != &ft_exit)
@@ -41,18 +43,40 @@ void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex)
 
 void	ft_wait_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex)
 {
+	int	err_code;
+
 	if (f == &ft_exit && ft_tab_len(cmd->args) <= 2)
 	{
+		ft_close_tree_rec(ft_tree_holder(0, NULL));
 		ft_close_executer(ex);
 		free(ex);
 		ft_dprintf(2, "exit\n");
 	}
-	int weshh = f(cmd);
-	ft_fake_pid_child(weshh, cmd, ex);
+	err_code = f(cmd);
+	ft_fake_pid_child(err_code, ex);
 	ft_close_command(cmd);
 }
 
-t_error_code	ft_builtin_handler(t_command *cmd, int *node_fd, t_executer *ex, t_mode mode)
+t_error	ft_builtin_checker(t_command *cmd)
+{
+	char	**tmp;
+
+	tmp = cmd->args;
+	if (!ft_strncmp(*tmp, "echo", 5))
+		return (ERR_NOERRS);
+	tmp++;
+	while (*tmp && **tmp != '-')
+		tmp++;
+	if (*tmp)
+	{
+		ft_error_message(ERR_INVOPT, *tmp);
+		g_exit_code = 1;
+		return (ERR_INVOPT);
+	}
+	return (ERR_NOERRS);
+}
+
+t_error	ft_builtin_handler(t_command *cmd, int *fd, t_executer *ex, t_mode mode)
 {
 	char		*trim;
 	char		**tmp;
@@ -68,10 +92,12 @@ t_error_code	ft_builtin_handler(t_command *cmd, int *node_fd, t_executer *ex, t_
 	free(trim);
 	if (!*tmp)
 		return (ERR_ERRORS);
-	if (cmd->infile == STDIN_FILENO && node_fd[0] != STDIN_FILENO)
-		cmd->infile = node_fd[0];
-	if (cmd->outfile == STDOUT_FILENO && node_fd[1] != STDOUT_FILENO)
-		cmd->outfile = node_fd[1];
+	if (cmd->infile == STDIN_FILENO && fd[0] != STDIN_FILENO)
+		cmd->infile = fd[0];
+	if (cmd->outfile == STDOUT_FILENO && fd[1] != STDOUT_FILENO)
+		cmd->outfile = fd[1];
+	if (ft_builtin_checker(cmd))
+		return (ERR_NOERRS);
 	if (mode == EX_PIPE)
 		ft_pipe_builtin(builtins[tmp - builtins_str], cmd, ex);
 	else
