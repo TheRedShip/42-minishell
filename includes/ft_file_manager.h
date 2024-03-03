@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:02:22 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 18:26:13 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:25:59 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ t_error		ft_manage_heredocs(t_node *nd, int *hd);
 t_error		ft_open_heredocs(t_command *cmd);
 
 /**
+ * @brief			Open a file.
  * 
+ * @param cmd		t_command to fill.
+ * @param file		Pathname.
+ * @param mode		Opening mode.
 */
 void		ft_open_file(t_command *cmd, char *file, int mode);
 
@@ -112,9 +116,16 @@ int			ft_heredoc_line(char *delim, char *hd_file, int hd_fd);
  * 
  * @param line		Line string adress.
  * @param hd_fd		Heredoc file descriptor.
+ * @param exp		Expansion boolean.
 */
 void		ft_parse_line(char **line, int hd_fd, int exp);
 
+/**
+ * @brief			Exit minishell if more than 16 heredocs.
+ * 
+ * @param tokens	Token linked list.
+ * @param envp		Environment linked list adress.
+*/
 void		ft_heredoc_limit(t_token *tokens, t_envvar **envp);
 
 /* CLOSE ******************************************************************** */
@@ -141,10 +152,27 @@ void		ft_close_command(t_command *command);
 */
 void		ft_close_tree_rec(t_node *tree);
 
+/**
+ * @brief			Close all fds from a t_executer.
+ * 
+ * @param ex		t_executer to close.
+*/
 void		ft_close_executer(t_executer *ex);
 
+/**
+ * @brief			Close a pipe.
+ * 
+ * @param tmp_pipe	Pipe to close.
+*/
 void		ft_close_pipes(t_pipes *tmp_pipe);
 
+/**
+ * @brief			Exit a fork.
+ * 
+ * @param ex		Current t_executer.
+*/
 void		ft_fork_exit(t_executer *ex);
+
+/* ************************************************************************** */
 
 #endif

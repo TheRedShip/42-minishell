@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/03/03 17:40:48 by rgramati         ###   ########.fr        #
+#    Updated: 2024/03/03 19:58:34 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,62 +29,71 @@ SRCS_DIR	:=	srcs
 OBJS_DIR	:=	.objs
 LFT_DIR 	:= ./libft
 
-SRC_DATA	:=	data_structures/constructors.c	\
-				data_structures/s_envvar.c		\
-				data_structures/s_envvar_utils.c \
-				data_structures/s_token.c		\
-				data_structures/s_node.c		\
-				data_structures/s_command.c		\
-				data_structures/s_pid.c			\
-				data_structures/s_pipes.c		\
-				data_structures/s_redir.c		\
+SRC_DATA	:=	data_structures/constructors.c		\
+				data_structures/s_envvar.c			\
+				data_structures/s_envvar_utils.c	\
+				data_structures/s_token.c			\
+				data_structures/s_node.c			\
+				data_structures/s_command.c			\
+				data_structures/s_pid.c				\
+				data_structures/s_pipes.c			\
+				data_structures/s_redir.c			\
 				data_structures/s_executer.c
 
-SRC_BUILTIN :=	builtins/ft_cd.c				\
-				builtins/ft_echo.c				\
-				builtins/ft_exit.c				\
-				builtins/ft_pwd.c				\
-				builtins/ft_env.c				\
-				builtins/ft_export.c			\
-				builtins/ft_unset.c
+SRC_BUILTIN :=	builtins/ft_cd.c					\
+				builtins/ft_echo.c					\
+				builtins/ft_exit.c					\
+				builtins/ft_pwd.c					\
+				builtins/ft_env.c					\
+				builtins/ft_export.c				\
+				builtins/ft_unset.c					\
+				builtins/ft_builtins_utils.c
 
-SRC_PARSING	:=  parsing/ft_tree_build.c			\
-				parsing/ft_tree_auth.c			\
-				parsing/ft_parse_dollars.c		\
-				parsing/ft_parse_quotes.c		\
-				parsing/ft_parse_wildcards.c	\
-				parsing/ft_token_auth.c			\
-				parsing/ft_tokenizer.c			\
+SRC_PARSING	:=  parsing/ft_tree_build.c				\
+				parsing/ft_parse_dollars.c			\
+				parsing/ft_parse_quotes.c			\
+				parsing/ft_parse_wildcards.c		\
+				parsing/ft_token_auth.c				\
+				parsing/ft_tokenizer.c				\
 				parsing/ft_parsing_utils.c
 
-SRC_EXEC	:=	execution/ft_manage_close.c		\
-				execution/ft_manage_files.c		\
-				execution/ft_manage_heredocs.c 	\
-				execution/ft_manage_commands.c	\
-				execution/ft_exec_binops.c		\
-				execution/ft_exec_builtins.c	\
-				execution/ft_exec_command.c		\
-				execution/ft_exec_pipeline.c	\
+SRC_EXEC	:=	execution/ft_manage_close.c			\
+				execution/ft_manage_files.c			\
+				execution/ft_manage_heredocs.c 		\
+				execution/ft_manage_commands.c		\
+				execution/ft_exec_binops.c			\
+				execution/ft_exec_builtins.c		\
+				execution/ft_exec_command.c			\
+				execution/ft_exec_pipeline.c		\
 				execution/ft_exec_utils.c
 
-SRC_PROMPT	:=  prompt/prompt.c					\
-				prompt/ft_manage_dquote.c		\
+SRC_PROMPT	:=  prompt/prompt.c						\
+				prompt/ft_manage_dquote.c			\
 				prompt/ft_holder.c
 
-SRC_SETUP	:=  setup/ft_setup_env.c			\
-				setup/setup_signals.c
+SRC_SETUP	:=  utils/ft_setup_env.c				\
+				utils/ft_handle_signals.c			\
+				utils/ft_error_handling.c
 
-ALL_SRCS	:=	$(SRC_DATA) $(SRC_BUILTIN) $(SRC_PARSING) $(SRC_PROMPT) $(SRC_EXEC) $(SRC_SETUP) global.c minishell.c ft_error_handling.c
+ALL_SRCS	:=	$(SRC_DATA) 						\
+				$(SRC_BUILTIN)						\
+				$(SRC_PARSING)						\
+				$(SRC_PROMPT)						\
+				$(SRC_EXEC)							\
+				$(SRC_SETUP)						\
+				global.c							\
+				minishell.c
+				
 SRCS		:=	$(ALL_SRCS:%=$(SRCS_DIR)/%)
 
 OBJS		:=	$(addprefix $(OBJS_DIR)/, $(SRCS:%.c=%.o))
 
-HEADERS		:=	includes/minishell.h 			\
-				includes/ft_enumerates.h		\
-				includes/ft_data_structures.h 	\
-				includes/ft_parsing.h			\
-				includes/ft_builtins.h 			\
-				includes/ft_file_manager.h		\
+HEADERS		:=	includes/minishell.h 				\
+				includes/ft_enumerates.h			\
+				includes/ft_data_structures.h 		\
+				includes/ft_parsing.h				\
+				includes/ft_builtins.h 				\
+				includes/ft_file_manager.h			\
 				includes/ft_execution.h
 
 CC          := cc

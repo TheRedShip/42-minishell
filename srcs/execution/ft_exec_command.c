@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:45:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 18:30:51 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/03 19:56:08 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 	pid_t	child;
 
 	child = fork();
+	if (child == -1)
+		return ;
 	if (child == 0)
 	{
 		env = ft_get_var_strs(*(cmd->envp), 0);

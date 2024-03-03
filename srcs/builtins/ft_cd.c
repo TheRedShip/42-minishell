@@ -20,6 +20,21 @@ void	ft_get_directory_vars(t_envvar *envp, t_envvar **vars)
 	vars[3] = NULL;
 }
 
+t_error	ft_change_directory(char *target)
+{
+	if (!target)
+		return (ERR_FAILED);
+	if (chdir(target) == -1)
+	{
+		if (errno == EACCES)
+			ft_error_message(ERR_NOPERM, target);
+		else
+			ft_error_message(ERR_NOFORD, target);
+		return (ERR_FAILED);
+	}
+	return (ERR_NOERRS);
+}
+
 t_error	ft_manage_cd(int argc, char **argv, t_envvar **vars, int out)
 {
 	char	*target;
@@ -44,17 +59,7 @@ t_error	ft_manage_cd(int argc, char **argv, t_envvar **vars, int out)
 		else
 			target = argv[0];
 	}
-	if (!target)
-		return (ERR_FAILED);
-	if (chdir(target) == -1)
-	{
-		if (errno == EACCES)
-			ft_error_message(ERR_NOPERM, target);
-		else
-			ft_error_message(ERR_NOFORD, target);
-		return (ERR_FAILED);
-	}
-	return (ERR_NOERRS);
+	return (ft_change_directory(target));
 }
 
 int	ft_cd(t_command *cmd)
@@ -73,8 +78,12 @@ int	ft_cd(t_command *cmd)
 		return (ERR_FAILED);
 	if (vars[2])
 		ft_set_var(cmd->envp, "OLDPWD", ft_strdup(vars[2]->values[0]));
+	else
+		ft_error_message(ERR_NOTSET, "OLDPWD");
 	newdir = ft_get_pwd();
 	if (newdir)
 		ft_set_var(cmd->envp, "PWD", newdir);
+	else
+		ft_error_message(ERR_NOTSET, "PWD");
 	return (ERR_NOERRS);
 }

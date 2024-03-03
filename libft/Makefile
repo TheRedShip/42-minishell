@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/02/23 15:10:11 by rgramati         ###   ########.fr        #
+#    Updated: 2024/03/03 18:54:02 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,27 +29,27 @@ SRCS_DIR	:=	srcs
 OBJS_DIR	:=	.objs
 
 # CHECK
-SRC_CHAR	:=	char/ft_max.c \
-				char/ft_isalnum.c \
-				char/ft_isalpha.c \
-				char/ft_isascii.c \
-				char/ft_isdigit.c \
-				char/ft_isprint.c \
-				char/ft_tolower.c \
-				char/ft_toupper.c \
-				char/ft_isspace.c \
-				char/ft_isupper.c \
+SRC_CHAR	:=	char/ft_max.c 		\
+				char/ft_isalnum.c 	\
+				char/ft_isalpha.c 	\
+				char/ft_isascii.c 	\
+				char/ft_isdigit.c 	\
+				char/ft_isprint.c 	\
+				char/ft_tolower.c 	\
+				char/ft_toupper.c 	\
+				char/ft_isspace.c 	\
+				char/ft_isupper.c 	\
 				char/ft_islower.c
 
 #LIST
-SRC_LIST	:=	link_l/ft_lstadd_back_bonus.c \
-				link_l/ft_lstadd_front_bonus.c \
-				link_l/ft_lstclear_bonus.c \
-				link_l/ft_lstdelone_bonus.c \
-				link_l/ft_lstiter_bonus.c \
-				link_l/ft_lstlast_bonus.c \
-				link_l/ft_lstmap_bonus.c \
-				link_l/ft_lstnew_bonus.c \
+SRC_LIST	:=	link_l/ft_lstadd_back_bonus.c	\
+				link_l/ft_lstadd_front_bonus.c	\
+				link_l/ft_lstclear_bonus.c		\
+				link_l/ft_lstdelone_bonus.c		\
+				link_l/ft_lstiter_bonus.c		\
+				link_l/ft_lstlast_bonus.c		\
+				link_l/ft_lstmap_bonus.c		\
+				link_l/ft_lstnew_bonus.c		\
 				link_l/ft_lstsize_bonus.c
 
 # MEMORY
@@ -59,7 +59,7 @@ SRC_MEM		:=	memory/ft_bzero.c memory/ft_calloc.c memory/ft_memchr.c memory/ft_me
 SRC_PRINT	:=	stdout/ft_displays.c stdout/ft_putendl_fd.c stdout/ft_itoa.c stdout/ft_dprintf.c
 
 # STRING
-SRC_STRING	:=	string/ft_strtab.c string/ft_strupp.c string/ft_strlow.c string/ft_strsjoin.c string/ft_wc.c string/ft_strtok.c string/ft_atoi.c string/ft_split.c string/ft_strchr.c string/ft_striteri.c string/ft_strdup.c string/ft_strjoin.c string/ft_strlcat.c string/ft_strlcpy.c string/ft_strlen.c string/ft_strmapi.c string/ft_strncmp.c string/ft_strnstr.c string/ft_strrchr.c string/ft_strtrim.c string/ft_substr.c string/ft_tablen.c
+SRC_STRING	:=	string/ft_sort_strs.c string/ft_strtab.c string/ft_strupp.c string/ft_strlow.c string/ft_strsjoin.c string/ft_wc.c string/ft_strtok.c string/ft_atoi.c string/ft_split.c string/ft_strchr.c string/ft_striteri.c string/ft_strdup.c string/ft_strjoin.c string/ft_strlcat.c string/ft_strlcpy.c string/ft_strlen.c string/ft_strmapi.c string/ft_strncmp.c string/ft_strnstr.c string/ft_strrchr.c string/ft_strtrim.c string/ft_substr.c string/ft_tablen.c
 
 # GNL
 SRC_GNL		:=	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c

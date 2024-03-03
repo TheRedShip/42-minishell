@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 15:11:29 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:56:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 	if (mode == EX_WAIT)
 		tmp = ex->pids;
 	ft_pipes_push(&(ex->pipes), ft_init_pipes());
+	if (ex->pipes->fd[0] == -1 || ex->pipes->fd[1] == -1)
+		return ;
 	fds[0] = node_fd[0];
 	fds[1] = ex->pipes->fd[1];
 	ft_exec_mux(tree->left, (int *) fds, ex, EX_PIPE);
@@ -79,6 +81,8 @@ void	ft_and_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 	if (mode == EX_PIPE)
 	{
 		child = fork();
+		if (child == -1)
+			return ;
 		if (child == 0)
 		{
 			ft_exec_and(tree, node_fd, ex);
@@ -98,6 +102,8 @@ void	ft_or_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 	if (mode == EX_PIPE)
 	{
 		child = fork();
+		if (child == -1)
+			return ;
 		if (child == 0)
 		{
 			ft_exec_or(tree, node_fd, ex);

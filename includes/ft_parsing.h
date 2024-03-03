@@ -6,12 +6,12 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 17:49:57 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:27:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef FT_PARSING_H
+# define FT_PARSING_H
 
 /**
  * @brief			Tokenize a string.
@@ -31,7 +31,7 @@ t_token		*ft_tokenizer(char *str, t_qstate qs);
  * @param str		Pointer to string to check.
  * @param qs		Carried quote state.
 */
-void			ft_quote_enforcer(char **str, int tmp_file_fd, t_qstate qs);
+void		ft_quote_enforcer(char **str, int tmp_file_fd, t_qstate qs);
 
 /**
  * @brief			Check for syntax error.
@@ -83,17 +83,17 @@ char		*ft_open_dquote(int tmp_fd, t_qstate qs);
  * @param str		String to format.
  * @param qs		Carried quote state.
 */
-void
-ft_replace_vars(t_envvar *vars, char **str, t_qstate qs);
+void		ft_replace_vars(t_envvar *vars, char **str, t_qstate qs);
 
 /**
  * @brief			Insert environment variable into a string array.
  * 
  * @param vars		Linked list.
- * @param new		String array to adress.
- * @param str		String.
+ * @param start		String to extract from.
+ * @param n			Array to add to.
+ * @param qs		Quote state.
 */
-void		ft_insert_var(t_envvar *vars, char *start, char ***new, t_qstate qs);
+void		ft_insert_var(t_envvar *vars, char *start, char ***n, t_qstate qs);
 
 /**
  * @brief			Dequote a string.
@@ -192,6 +192,7 @@ void		ft_wildcard_token(t_token **head, t_token **tokens);
 void		ft_replace_wildcard(t_token **tokens, t_token **tmp);
 
 /* TREE ********************************************************************* */
+
 /**
  * @brief			Recursively build a binary syntax tree.
  * 
@@ -199,10 +200,6 @@ void		ft_replace_wildcard(t_token **tokens, t_token **tmp);
  * @param env		Environment linked list.
 */
 t_node		*ft_build_tree(t_token *tokens, t_envvar **env);
-
-void		treeprint(t_node *root, int space);
-
-int			ft_check_commands(t_node *tree);
 
 /* UTILS ******************************************************************** */
 
@@ -248,5 +245,7 @@ int			ft_dqstrlen(char *str);
  * @param qs		Quote state.
 */
 void		ft_quoted_skip(char **str, int *len, t_qstate *qs);
+
+/* ************************************************************************** */
 
 #endif

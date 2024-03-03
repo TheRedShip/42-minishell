@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:40 by ycontre           #+#    #+#             */
-/*   Updated: 2024/03/03 16:26:21 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:53:23 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,6 @@ int	ft_qs_update(char c, t_qstate *qs)
 	return (*qs != tmp);
 }
 
-void	ft_swap_strs(char **a, char **b)
-{
-	char	*tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
 int	ft_dqstrlen(char *str)
 {
 	t_qstate	qs;
@@ -53,54 +44,25 @@ int	ft_dqstrlen(char *str)
 	return (len);
 }
 
-void	ft_sort_strs_tab(char **tab, int size)
+void	ft_remove_braces(t_token **tokens)
 {
-	int	min;
-	int	curr;
-	int	swp;
-	int	len;
+	t_token	*tmp;
 
-	curr = 0;
-	while (curr <= size)
+	tmp = *tokens;
+	while (tmp)
 	{
-		min = curr;
-		swp = curr + 1;
-		while (swp <= size - 1)
+		if (!ft_verif_binop_brace(tmp))
 		{
-			len = ft_strlen(*(tab + swp)) + 1;
-			if (ft_strncmp(*(tab + swp), *(tab + min), len) < 0)
-				min = swp;
-			swp++;
+			ft_remove_token(&tmp);
+			if (!tmp)
+			{
+				*tokens = NULL;
+				continue ;
+			}
+			if (!tmp->prev)
+				*tokens = tmp;
+			continue ;
 		}
-		ft_swap_strs(tab + curr, tab + min);
-		curr++;
-	}
-}
-
-void	ft_sort_lowstrs_tab(char **tab, int size)
-{
-	int		min;
-	int		curr;
-	int		swp;
-	char	*low_s;
-	char	*low_m;
-
-	curr = 0;
-	while (curr <= size)
-	{
-		min = curr;
-		swp = curr + 1;
-		while (swp <= size - 1)
-		{
-			low_s = ft_strlow(*(tab + swp));
-			low_m = ft_strlow(*(tab + min));
-			if (ft_strncmp(low_s, low_m, ft_strlen(low_s) + 1) < 0)
-				min = swp;
-			swp++;
-			free(low_s);
-			free(low_m);
-		}
-		ft_swap_strs(tab + curr, tab + min);
-		curr++;
+		tmp = tmp->next;
 	}
 }

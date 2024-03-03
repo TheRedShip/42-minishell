@@ -81,9 +81,9 @@ t_error	ft_to_tree_exec(t_token **tokens, t_node **tree, t_envvar **envp)
 
 	*tree = ft_build_tree(*tokens, envp);
 	ft_clear_token_list(*tokens);
+	ft_tree_holder(0, *tree);
 	if (ft_heredoc_opening(*tree))
 		return (ERR_HDSTOP);
-	ft_tree_holder(0, *tree);
 	exe = ft_init_executer();
 	ft_signal_state(SIGHANDLER_IGN);
 	ft_exec_mux(*tree, (int *) base_fd, exe, EX_WAIT);

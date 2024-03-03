@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:47:41 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 16:11:08 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:26:32 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,30 +102,4 @@ t_node	*ft_build_tree(t_token *tokens, t_envvar **env)
 			return (tree);
 	}
 	return (tree);
-}
-
-void	treeprint(t_node *root, int space)
-{
-	int	i;
-
-	if (root == NULL)
-		return ;
-	space += 12;
-	treeprint(root->right, space);
-	printf("\n");
-	i = 12;
-	while (i < space)
-	{
-		printf(" ");
-		i++;
-	}
-	printf("{%p}", root);
-	if (root->command)
-	{
-		printf(" %s ", root->command->path);
-		printf("[%d] -> [%d]\n", root->command->infile, root->command->outfile);
-	}
-	if (root->token)
-		printf("[%s]\n", root->token->str);
-	treeprint(root->left, space);
 }

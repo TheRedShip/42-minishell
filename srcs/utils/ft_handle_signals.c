@@ -46,7 +46,6 @@ void	ft_h_quote(int signal)
 		g_exit_code = 130;
 		exit(130);
 	}
-	(void) signal;
 }
 
 void	ft_h_heredoc(int signal)
@@ -67,7 +66,6 @@ void	ft_h_heredoc(int signal)
 		g_exit_code = 130;
 		exit(130);
 	}
-	(void) signal;
 }
 
 void	ft_signal_state(int state)

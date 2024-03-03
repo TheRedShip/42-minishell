@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 14:50:05 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 18:31:16 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:55:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex)
 	int		ret;
 
 	child = fork();
-	if (child == 0)
+	if (child == -1)
+		return ;
+	else if (child == 0)
 	{
 		if (f == &ft_exit)
 		{
@@ -65,6 +67,8 @@ t_error	ft_builtin_checker(t_command *cmd)
 	if (!ft_strncmp(*tmp, "echo", 5))
 		return (ERR_NOERRS);
 	tmp++;
+	if (!ft_strncmp(*(tmp - 1), "cd", 3) && !ft_strncmp(*tmp, "-", 2))
+		return (ERR_NOERRS);
 	while (*tmp && **tmp != '-')
 		tmp++;
 	if (*tmp)

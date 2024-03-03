@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_auth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/03/03 14:45:53 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/03 18:52:01 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,27 +115,4 @@ int	ft_verif_binop_brace(t_token *tk)
 	if (!(tk && isvalid))
 		ft_remove_token(&tk);
 	return (tk && isvalid);
-}
-
-void	ft_remove_braces(t_token **tokens)
-{
-	t_token	*tmp;
-
-	tmp = *tokens;
-	while (tmp)
-	{
-		if (!ft_verif_binop_brace(tmp))
-		{
-			ft_remove_token(&tmp);
-			if (!tmp)
-			{
-				*tokens = NULL;
-				continue ;
-			}
-			if (!tmp->prev)
-				*tokens = tmp;
-			continue ;
-		}
-		tmp = tmp->next;
-	}
 }
