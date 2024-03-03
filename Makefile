@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/03/03 16:04:52 by rgramati         ###   ########.fr        #
+#    Updated: 2024/03/03 16:22:52 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ SRC_PARSING	:=  parsing/ft_tree_build.c			\
 				parsing/ft_parse_wildcards.c	\
 				parsing/ft_token_auth.c			\
 				parsing/ft_tokenizer.c			\
-				parsing/utils.c
+				parsing/ft_parsing_utils.c
 
 SRC_EXEC	:=	execution/ft_manage_close.c		\
 				execution/ft_manage_files.c		\

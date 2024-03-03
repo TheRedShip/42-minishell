@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:11:30 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 18:19:58 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-void	ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs)
+void	ft_quote_enforcer(char **str, int tmp_file_fd, t_qstate qs)
 {
 	char			*string_holder;
 	char			*dquote_holder;
@@ -43,7 +43,7 @@ void	ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs)
 	*str = string_holder;
 }
 
-t_quote_state	ft_quote_error(char *str, char *end, t_quote_state qs)
+t_qstate	ft_quote_error(char *str, char *end, t_qstate qs)
 {
 	while (*str)
 		ft_qs_update(*(str++), &qs);
@@ -54,7 +54,7 @@ t_quote_state	ft_quote_error(char *str, char *end, t_quote_state qs)
 	return (qs);
 }
 
-void	ft_dequote_string(char **str, t_quote_state qs)
+void	ft_dequote_string(char **str, t_qstate qs)
 {
 	char	*tmp;
 	char	*tmpr;

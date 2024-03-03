@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_parsing_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:40 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/16 16:19:55 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_qs_update(char c, t_quote_state *qs)
+int	ft_qs_update(char c, t_qstate *qs)
 {
-	t_quote_state	tmp;
+	t_qstate	tmp;
 
 	tmp = *qs;
 	if (*qs == QU_ZERO)
@@ -40,7 +40,7 @@ void	ft_swap_strs(char **a, char **b)
 
 int	ft_dqstrlen(char *str)
 {
-	t_quote_state	qs;
+	t_qstate	qs;
 	int				len;
 
 	qs = QU_ZERO;

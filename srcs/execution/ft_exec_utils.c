@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 14:48:51 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 15:53:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:10:38 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ void	ft_command_exit(int err_code)
 		ft_dprintf(2, "\n");
 		g_exit_code = 130;
 	}
+}
+
+void	ft_fork_exit(t_executer *ex)
+{
+	ft_close_executer(ex);
+	free(ex);
+	rl_clear_history();
+	ft_clear_env(ft_update_env(NULL));
+	ft_clear_tree(ft_tree_holder(0, NULL));
 }
 
 char	*ft_backtrim(char *str, char c)

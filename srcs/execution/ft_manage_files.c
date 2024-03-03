@@ -6,28 +6,11 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:08:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:24:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_error	ft_manage_heredocs(t_node *nd, int *hd)
-{
-	t_error	err;
-
-	err = ERR_NOERRS;
-	if (*hd)
-		return (ERR_HDSTOP);
-	if (!nd->command)
-	{
-		err |= ft_manage_heredocs(nd->left, hd);
-		err |= ft_manage_heredocs(nd->right, hd);
-		return (err);
-	}
-	err = ft_open_heredocs(nd->command);
-	return (err);
-}
 
 t_error	ft_open_heredocs(t_command *cmd)
 {

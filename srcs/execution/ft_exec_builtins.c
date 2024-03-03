@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 14:50:05 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:08:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:09:19 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_error	ft_builtin_checker(t_command *cmd)
 	return (ERR_NOERRS);
 }
 
-t_error	ft_builtin_handler(t_command *cmd, int *fd, t_executer *ex, t_mode mode)
+t_error	ft_builtin(t_command *cmd, int *fd, t_executer *ex, t_mode mode)
 {
 	char		*trim;
 	char		**tmp;

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:08:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:09:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex);
 
 void	ft_wait_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex);
 
-t_error	ft_builtin_handler(t_command *cmd, int *fd, t_executer *ex, t_mode mode);
+t_error	ft_builtin(t_command *cmd, int *fd, t_executer *ex, t_mode mode);
 
 t_error	ft_command_startup(t_command *cmd, t_executer *ex);
 

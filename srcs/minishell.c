@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:13 by ycontre           #+#    #+#             */
-/*   Updated: 2024/03/03 14:38:40 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:15:20 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int	g_exit_code;
 int	ft_isnt_empty(char *str)
 {
 	char	*tmp;
-	
+
 	if (!*str)
 		return (0);
 	tmp = str;
@@ -71,46 +71,18 @@ char	*ft_get_temp_file(char *head, int size)
 	return (ft_strjoin(head, tmp, "-", 0b10));
 }
 
-void	ft_exec_single_command(char *line, t_envvar **envp)
-{
-	t_token	*tokens;
-	t_node	*tree;
-
-	if (ft_to_tokens(&tokens, line, envp))
-		return ;
-	if (ft_to_tree(&tokens, &tree, envp))
-	{
-		ft_clear_tree(tree);
-		exit(ERR_FAILED);
-	}
-	if (ft_heredoc_opening(tree))
-		return ;
-	// ft_exec(tree, ft_init_executor(tree), EX_WAIT);
-	ft_clear_tree(tree);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_envvar	*env;
 
 	rl_catch_signals = 0;
-	(void) argc;
-	(void) argv;
-	if (argc > 3)
+	if (argc > 1)
+	{
+		ft_error_message(ERR_INVOPT, argv[1]);
 		exit(ERR_FAILED);
+	}
 	env = ft_setup_env(argv, envp);
-	if (argc == 3 && !ft_strncmp(argv[1], "-c", 3))
-	{
-		ft_exec_single_command(ft_strdup(argv[2]), &env);
-		exit(g_exit_code);
-	}
-	else if (argc > 1)
-	{
-		ft_clear_env(env);
-		exit(ERR_FAILED);
-	}
 	ft_print_logo(env);
-	// rl_catch_signals = 0;
 	ft_signal_state(SIGHANDLER_INT);
 	while (1)
 	{
@@ -118,5 +90,5 @@ int	main(int argc, char **argv, char **envp)
 		ft_tree_holder(1, NULL);
 		ft_prompt_handler(&env);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

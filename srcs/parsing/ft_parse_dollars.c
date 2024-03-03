@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:19:03 by ycontre           #+#    #+#             */
-/*   Updated: 2024/03/02 20:02:09 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:16:02 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_var_len(char *str)
 	return (tmp - str);
 }
 
-void	ft_quoted_skip(char **str, int *len, t_quote_state *qs)
+void	ft_quoted_skip(char **str, int *len, t_qstate *qs)
 {
 	while (*str && **str && ((*len) > 0))
 	{
@@ -40,7 +40,7 @@ void	ft_quoted_skip(char **str, int *len, t_quote_state *qs)
 	}
 }
 
-void	ft_insert_var(t_envvar *vars, char *start, char ***new, t_quote_state qs)
+void	ft_insert_var(t_envvar *vars, char *start, char ***new, t_qstate qs)
 {
 	t_envvar	*var_ptr;
 	char		*name;
@@ -63,7 +63,7 @@ void	ft_insert_var(t_envvar *vars, char *start, char ***new, t_quote_state qs)
 	free(name);
 }
 
-void	ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs)
+void	ft_replace_vars(t_envvar *vars, char **str, t_qstate qs)
 {
 	int		len;
 	char	*tmp;

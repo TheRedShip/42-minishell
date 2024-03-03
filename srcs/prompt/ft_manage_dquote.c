@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dquotes.c                                       :+:      :+:    :+:   */
+/*   ft_manage_dquote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:52:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/23 13:59:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-char	*ft_open_dquote(int tmp_file_fd, t_quote_state qs)
+char	*ft_open_dquote(int tmp_file_fd, t_qstate qs)
 {
 	char	*line;
 

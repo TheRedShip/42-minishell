@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:45:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:08:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:10:04 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,22 @@ t_error	ft_command_checker(t_command *cmd, t_executer *ex)
 
 void	ft_cmd_handler(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 {
-	char	*err_str;
+	char		*err_str;
+	t_command	*cmd;
 
 	err_str = NULL;
-	if (ft_command_startup(tree->command, ex) || ft_command_checker(tree->command, ex))
+	cmd = tree->command;
+	if (ft_command_startup(cmd, ex) || ft_command_checker(cmd, ex))
 		return ;
-	if (!ft_builtin_handler(tree->command, node_fd, ex, mode))
+	if (!ft_builtin(cmd, node_fd, ex, mode))
 		return ;
-	if (access(tree->command->path, F_OK))
+	if (access(cmd->path, F_OK))
 	{
 		ft_fake_pid_child(127, ex);
-		if (tree->command->args && *tree->command->args)
-			err_str = *tree->command->args;
+		if (cmd->args && *cmd->args)
+			err_str = *cmd->args;
 		ft_error_message(ERR_NOTCMD, err_str);
 		return ;
 	}
-	ft_exec_cmd(tree->command, node_fd, ex);
+	ft_exec_cmd(cmd, node_fd, ex);
 }

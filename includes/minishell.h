@@ -112,7 +112,7 @@ char	*ft_get_pwd(void);
 int		ft_isnt_empty(char *str);
 
 /* PARSING ****************************************************************** */
-int		ft_qs_update(char c, t_quote_state *qs);
+int		ft_qs_update(char c, t_qstate *qs);
 
 int		ft_quote_handler(char **line, t_envvar **envp, int status);
 /* ************************************************************************** */
