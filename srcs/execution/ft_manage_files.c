@@ -1,37 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_file_manager.c                                  :+:      :+:    :+:   */
+/*   ft_manage_files.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 16:10:50 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:24:27 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_error_code	ft_manage_heredocs(t_node *nd, int *hd)
+t_error	ft_open_heredocs(t_command *cmd)
 {
-	t_error_code	err;
-
-	err = ERR_NOERRS;
-	if (*hd)
-		return (ERR_HDSTOP);
-	if (!nd->command)
-	{
-		err |= ft_manage_heredocs(nd->left, hd);
-		err |= ft_manage_heredocs(nd->right, hd);
-		return (err);
-	}
-	err = ft_open_heredocs(nd->command);
-	return (err);
-}
-
-t_error_code	ft_open_heredocs(t_command *cmd)
-{
-	t_error_code	err;
+	t_error	err;
 	t_redir			*tmp;
 	char			*hd_file;
 
@@ -72,7 +55,7 @@ void	ft_open_file(t_command *cmd, char *file, int mode)
 	free(file);
 }
 
-t_error_code	ft_open_outputs(t_command *cmd)
+t_error	ft_open_outputs(t_command *cmd)
 {
 	t_redir			*tmp;
 
@@ -106,7 +89,7 @@ void	ft_connect_input(t_command *cmd, int hd_last)
 	}
 }
 
-t_error_code	ft_open_inputs(t_command *cmd)
+t_error	ft_open_inputs(t_command *cmd)
 {
 	t_redir	*tmp;
 	int		hd_last;

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:59:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 15:42:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 14:56:45 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_pipes	*ft_init_pipes(void)
 		return (NULL);
 	new_pipe->fd[0] = -1;
 	new_pipe->fd[1] = -1;
+	pipe(new_pipe->fd);
 	new_pipe->next = NULL;
 	return (new_pipe);
 }

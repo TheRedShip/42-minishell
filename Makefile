@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/03/02 16:12:56 by rgramati         ###   ########.fr        #
+#    Updated: 2024/03/03 16:22:52 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ LFT_DIR 	:= ./libft
 
 SRC_DATA	:=	data_structures/constructors.c	\
 				data_structures/s_envvar.c		\
+				data_structures/s_envvar_utils.c \
 				data_structures/s_token.c		\
 				data_structures/s_node.c		\
 				data_structures/s_command.c		\
@@ -54,18 +55,20 @@ SRC_PARSING	:=  parsing/ft_tree_build.c			\
 				parsing/ft_parse_wildcards.c	\
 				parsing/ft_token_auth.c			\
 				parsing/ft_tokenizer.c			\
-				parsing/utils.c
+				parsing/ft_parsing_utils.c
 
-SRC_EXEC	:=	execution/ft_file_manager.c		\
-				execution/ft_close_manager.c	\
-				execution/ft_heredoc_manager.c 	\
-				execution/ft_formatting.c		\
-				execution/ft_exec_pipeline.c	\
+SRC_EXEC	:=	execution/ft_manage_close.c		\
+				execution/ft_manage_files.c		\
+				execution/ft_manage_heredocs.c 	\
+				execution/ft_manage_commands.c	\
+				execution/ft_exec_binops.c		\
+				execution/ft_exec_builtins.c	\
 				execution/ft_exec_command.c		\
-				execution/ft_exec_decider.c
+				execution/ft_exec_pipeline.c	\
+				execution/ft_exec_utils.c
 
 SRC_PROMPT	:=  prompt/prompt.c					\
-				prompt/ft_dquotes.c				\
+				prompt/ft_manage_dquote.c		\
 				prompt/ft_holder.c
 
 SRC_SETUP	:=  setup/ft_setup_env.c			\

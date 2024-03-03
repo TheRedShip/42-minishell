@@ -14,21 +14,7 @@
 
 extern int	g_exit_code;
 
-void	ft_display_token_list(t_token *tokens)
-{
-	t_token	*t;
-
-	t = tokens;
-	printf("------------- ACTUAL TOKEN LIST -------------\n");
-	while (t)
-	{
-		printf("[%s]->", t->str);
-		t = t->next;
-	}
-	printf("\n---------------------------------------------\n");
-}
-
-t_error_code	ft_prompt_line(t_envvar **envp, char **line)
+t_error	ft_prompt_line(t_envvar **envp, char **line)
 {
 	char	*prompt;
 	int		err_code;
@@ -57,10 +43,10 @@ t_error_code	ft_prompt_line(t_envvar **envp, char **line)
 	return (ERR_NOERRS);
 }
 
-t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
+t_error	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 {
-	t_error_code	syntax;
-	char			*err_token;
+	t_error	syntax;
+	char	*err_token;
 
 	syntax = (!!ft_quote_error(line, NULL, QU_ZERO) << 1);
 	*tokens = ft_tokenizer(line, QU_ZERO);
@@ -86,14 +72,35 @@ t_error_code	ft_to_tokens(t_token **tokens, char *line, t_envvar **envp)
 	return (ERR_NOERRS);
 }
 
-t_error_code	ft_to_tree(t_token **tokens, t_node **tree, t_envvar **envp)
+t_error	ft_to_tree_exec(t_token **tokens, t_node **tree, t_envvar **envp)
 {
+	t_executer	*exe;
+	t_pid		*towait;
+	int			err_code;
+	static int	base_fd[2] = {0, 1};
+
 	*tree = ft_build_tree(*tokens, envp);
 	ft_clear_token_list(*tokens);
+	if (ft_heredoc_opening(*tree))
+		return (ERR_HDSTOP);
+	ft_tree_holder(0, *tree);
+	exe = ft_init_executer();
+	ft_signal_state(SIGHANDLER_IGN);
+	ft_exec_mux(*tree, (int *) base_fd, exe, EX_WAIT);
+	while (exe->pids)
+	{
+		towait = ft_pid_pop(&(exe->pids));
+		waitpid(towait->pid, &err_code, 0);
+		g_exit_code = WEXITSTATUS(err_code);
+		ft_command_exit(err_code);
+		free(towait);
+	}
+	ft_signal_state(SIGHANDLER_INT);
+	free(exe);
 	return (ERR_NOERRS);
 }
 
-t_error_code	ft_heredoc_opening(t_node *tree)
+t_error	ft_heredoc_opening(t_node *tree)
 {
 	int	hd_done;
 
@@ -122,35 +129,8 @@ void	ft_prompt_handler(t_envvar **envp)
 		return ;
 	if (ft_to_tokens(&tokens, line, envp) || !tokens)
 		return ;
-	// ft_display_token_list(tokens);
-	if (ft_to_tree(&tokens, &tree, envp))
-	{
-		ft_clear_tree(tree);
-		exit(ERR_FAILED);
-	}
-	ft_tree_holder(0, tree);
-	if (ft_heredoc_opening(tree))
+	if (ft_to_tree_exec(&tokens, &tree, envp))
 		return ;
-
-	// treeprint(tree, 0);
-
-	int fdtest[2] = {0, 1};
-	t_executer *exe = ft_init_executer();
-
-	ft_exec_mux(tree, (int *) fdtest, exe, EX_WAIT);
-
-	int err_code = 0;
-	while (exe->pids)
-	{
-		t_pid *test = ft_pid_pop(&(exe->pids));
-		waitpid(test->pid, &err_code, 0);
-		ft_signal_state(SIGHANDLER_INT);
-		ft_command_exit(err_code);
-		if (!first++)
-			g_exit_code = WEXITSTATUS(err_code);
-		free(test);
-	}
-	free(exe);
 	ft_close_tree_rec(tree);
 	ft_clear_tree(tree);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_close_manager.c                                 :+:      :+:    :+:   */
+/*   ft_manage_close.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:40 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 17:01:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:10:22 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	ft_close_command(t_command *command)
 		close(command->infile);
 	if (command->outfile > 2)
 		close(command->outfile);
+	if (command->heredoc > 2)
+		close(command->heredoc);
 }
 
 void	ft_close_tree_rec(t_node *tree)
@@ -87,13 +89,4 @@ void	ft_close_pipes(t_pipes *tmp_pipe)
 			close(tmp_pipe->fd[1]);
 		tmp_pipe = tmp_pipe->next;
 	}
-}
-
-void	ft_fork_exit(t_executer *ex)
-{
-	ft_close_executer(ex);
-	free(ex);
-	rl_clear_history();
-	ft_clear_env(ft_update_env(NULL));
-	ft_clear_tree(ft_tree_holder(0, NULL));
 }

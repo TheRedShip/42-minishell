@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:10:24 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 19:10:25 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:05:31 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,6 @@ void	ft_remove_token(t_token **tokens)
 			(*tokens)->prev = NULL;
 		ft_del_token(tmp);
 	}
-}
-
-void	ft_display_token(t_token *token)
-{
-	printf("- TOKEN --- %p\n", token);
-	printf("STRING : %s\n", token->str);
-	printf("TYPE   : %u\n", token->type);
-	if (token->prev)
-		printf("PREV   : %p\n", token->prev);
-	else
-		printf("YA PAS DE PRECEDENT\n");
-	if (token->next)
-		printf("NEXT   : %p\n", token->next);
-	else
-		printf("YA PAS DE SUIVANT\n");
-	printf("---------\n");
 }
 
 t_token	*ft_dup_token(t_token *token)

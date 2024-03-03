@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 18:03:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char		*ft_get_temp_file(char *head, int size);
  * @param str		Pointer to string to check.
  * @param qs		Carried quote state.
 */
-void			ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
+void			ft_quote_enforcer(char **str, int tmp_file_fd, t_qstate qs);
 
 /**
  * @brief			Check for syntax error.
@@ -34,7 +34,7 @@ void			ft_quote_enforcer(char **str, int tmp_file_fd, t_quote_state qs);
  * 
  * @return			Syntax error char.		
 */
-t_quote_state	ft_quote_error(char *str, char *end, t_quote_state qs);
+t_qstate	ft_quote_error(char *str, char *end, t_qstate qs);
 
 /**
  * @brief			Get quoted string from bad input.
@@ -66,7 +66,7 @@ char		*ft_get_dquote_line(char *line, char *tmp_file, int status);
  * 
  * @return			Dquote readline return.
 */
-char		*ft_open_dquote(int tmp_fd, t_quote_state qs);
+char		*ft_open_dquote(int tmp_fd, t_qstate qs);
 
 /**
  * @brief			Replace $VARS by their values if existing.
@@ -76,7 +76,7 @@ char		*ft_open_dquote(int tmp_fd, t_quote_state qs);
  * @param qs		Carried quote state.
 */
 void
-ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs);
+ft_replace_vars(t_envvar *vars, char **str, t_qstate qs);
 
 /**
  * @brief			Insert environment variable into a string array.
@@ -85,7 +85,7 @@ ft_replace_vars(t_envvar *vars, char **str, t_quote_state qs);
  * @param new		String array to adress.
  * @param str		String.
 */
-void		ft_insert_var(t_envvar *vars, char *start, char ***new, t_quote_state qs);
+void		ft_insert_var(t_envvar *vars, char *start, char ***new, t_qstate qs);
 
 /**
  * @brief			Dequote a string.
@@ -93,7 +93,7 @@ void		ft_insert_var(t_envvar *vars, char *start, char ***new, t_quote_state qs);
  * @param str		String adress.
  * @param qs		Quote state.
 */
-void		ft_dequote_string(char **str, t_quote_state qs);
+void		ft_dequote_string(char **str, t_qstate qs);
 
 /**
  * @brief			Check if a string starts by a token.
@@ -103,7 +103,7 @@ void		ft_dequote_string(char **str, t_quote_state qs);
  * 
  * @return			1 if the string is headed by a token, 0 otherwise.
 */
-int			ft_is_token(char *str, t_quote_state qs);
+int			ft_is_token(char *str, t_qstate qs);
 
 /**
  * @brief			Check if a brace group contains a binary operator.
@@ -141,7 +141,7 @@ int			ft_verify_token(t_token *tokens, char **err_token);
  * 
  * @return			1 if the string contains only *, 0 otherwise.
 */
-int			ft_verify_wildcard(char *str, t_quote_state qs);
+int			ft_verify_wildcard(char *str, t_qstate qs);
 
 /**
  * @brief			Get current directory wildcard string.
@@ -239,6 +239,6 @@ int			ft_dqstrlen(char *str);
  * @param len		Len to skip.
  * @param qs		Quote state.
 */
-void		ft_quoted_skip(char **str, int *len, t_quote_state *qs);
+void		ft_quoted_skip(char **str, int *len, t_qstate *qs);
 
 #endif

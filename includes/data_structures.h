@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:05:54 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 17:51:22 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef enum e_quote_state
 	QU_SINGLE,
 	QU_DOUBLE,
 	QU_IGNORE
-}	t_quote_state;
+}	t_qstate;
 
 /**
  * @enum			e_exec_status.
@@ -253,7 +253,7 @@ t_token		*ft_dup_token(t_token *token);
  * 
  * @return			t_token linked list.
 */
-t_token		*ft_tokenizer(char *str, t_quote_state qs);
+t_token		*ft_tokenizer(char *str, t_qstate qs);
 
 /* T_ENVVAR ***************************************************************** */
 

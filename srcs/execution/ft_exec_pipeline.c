@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 14:26:58 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/03 15:11:29 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,47 +35,47 @@ void	ft_exec_mux(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 	}
 }
 
-void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
+void	ft_wait_pipeline(t_pid *tmp, t_executer *ex, t_mode mode)
 {
+	t_pid	*towait;
 	int		err_code;
-	int		fds[2];
 	int		first;
-	t_pid	*tmp;
-	t_pid	*test;
-	t_pipes	*test2;
 
 	first = 0;
-	if (mode == EX_WAIT)
-		tmp = ex->pids;
-	ft_pipes_push(&(ex->pipes), ft_init_pipes());
-	pipe(ex->pipes->fd);
-	fds[0] = node_fd[0];
-	fds[1] = ex->pipes->fd[1];
-	// ft_printf("[EXEC] : <%p> pipe branching left to <%p> [%d][%d]\n", ex->pipes, tree->left, fds[0], fds[1]);
-	ft_exec_mux(tree->left, (int *) fds, ex, EX_PIPE);
-	fds[0] = ex->pipes->fd[0];
-	fds[1] = node_fd[1];
-	// ft_printf("[EXEC] : <%p> pipe branching right to <%p> [%d][%d]\n", ex->pipes, tree->right, fds[0], fds[1]);
-	ft_exec_mux(tree->right, (int *) fds, ex, EX_PIPE);
-	test2 = ft_pipes_pop(&(ex->pipes));
-	ft_del_pipe(test2);
+	ft_del_pipe(ft_pipes_pop(&(ex->pipes)));
 	while (mode == EX_WAIT && ex->pids && ex->pids != tmp)
 	{
-		test = ft_pid_pop(&(ex->pids));
-		waitpid(test->pid, &err_code, 0);
-		ft_signal_state(SIGHANDLER_INT);
+		towait = ft_pid_pop(&(ex->pids));
+		waitpid(towait->pid, &err_code, 0);
 		ft_command_exit(err_code);
 		if (!first++)
 			g_exit_code = WEXITSTATUS(err_code);
-		free(test);
+		free(towait);
 	}
+}
+
+void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
+{
+	int		fds[2];
+	t_pid	*tmp;
+
+	tmp = NULL;
+	if (mode == EX_WAIT)
+		tmp = ex->pids;
+	ft_pipes_push(&(ex->pipes), ft_init_pipes());
+	fds[0] = node_fd[0];
+	fds[1] = ex->pipes->fd[1];
+	ft_exec_mux(tree->left, (int *) fds, ex, EX_PIPE);
+	fds[0] = ex->pipes->fd[0];
+	fds[1] = node_fd[1];
+	ft_exec_mux(tree->right, (int *) fds, ex, EX_PIPE);
+	ft_wait_pipeline(tmp, ex, mode);
 }
 
 void	ft_and_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 {
 	pid_t	child;
 
-	// ft_printf("\n[EXEC] : AND encountered\n");
 	if (mode == EX_PIPE)
 	{
 		child = fork();
@@ -86,7 +86,6 @@ void	ft_and_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 			exit(g_exit_code);
 		}
 		ft_pid_push(&(ex->pids), ft_init_pid(child));
-		// ft_printf("[EXEC] : pushed pid <%p> [pid=%d]\n", ex->pids, ex->pids->pid);
 	}
 	else
 		ft_exec_and(tree, node_fd, ex);
@@ -96,7 +95,6 @@ void	ft_or_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 {
 	pid_t	child;
 
-	// ft_printf("\n[EXEC] : OR encountered\n");
 	if (mode == EX_PIPE)
 	{
 		child = fork();
@@ -107,7 +105,6 @@ void	ft_or_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 			exit(g_exit_code);
 		}
 		ft_pid_push(&(ex->pids), ft_init_pid(child));
-		// ft_printf(": pushed pid <%p> [pid=%d]\n", ex->pids, ex->pids->pid);
 	}
 	else
 		ft_exec_or(tree, node_fd, ex);

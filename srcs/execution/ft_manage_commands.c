@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_formatting.c                                    :+:      :+:    :+:   */
+/*   ft_manage_commands.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 18:19:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**ft_quoted_split(char *str, char *sep)
 {
-	t_quote_state	qs;
+	t_qstate	qs;
 	char			**new;
 	char			*tmp;
 	char			*hold;
@@ -74,7 +74,7 @@ void	ft_path_updater(t_command *cmd)
 		cmd->path = ft_get_path(*cmd->args, *(cmd->envp));
 }
 
-t_error_code	ft_command_updater(t_command *cmd)
+t_error	ft_command_updater(t_command *cmd)
 {
 	char	**tmp;
 
@@ -86,4 +86,21 @@ t_error_code	ft_command_updater(t_command *cmd)
 	if (!cmd->path && !cmd->redirs)
 		return (ERR_NOTCMD);
 	return (ERR_NOERRS);
+}
+
+t_error	ft_manage_heredocs(t_node *nd, int *hd)
+{
+	t_error	err;
+
+	err = ERR_NOERRS;
+	if (*hd)
+		return (ERR_HDSTOP);
+	if (!nd->command)
+	{
+		err |= ft_manage_heredocs(nd->left, hd);
+		err |= ft_manage_heredocs(nd->right, hd);
+		return (err);
+	}
+	err = ft_open_heredocs(nd->command);
+	return (err);
 }

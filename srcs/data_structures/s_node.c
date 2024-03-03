@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_node.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:28:17 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 18:02:40 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/03 16:05:13 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,4 @@ void	ft_clear_tree(t_node *tree)
 	if (tree->command)
 		ft_del_command(tree->command);
 	free(tree);
-}
-
-void	ft_display_node(t_node *tree)
-{
-	printf("- NODE --- %p ------------------\n", tree);
-	if (tree->command)
-		ft_display_command(tree->command);
-	if (tree->token)
-		ft_display_token(tree->token);
-	if (tree->left)
-	{
-		printf("LEFT    : %p\n", tree->left);
-		// ft_display_node(tree->left);
-	}
-	if (tree->right)
-	{
-		printf("RIGHT   : %p\n", tree->right);
-		// ft_display_node(tree->right);
-	}
-	printf("--------------------------------------\n");
 }

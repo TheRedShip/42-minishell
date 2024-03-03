@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 22:16:24 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:09:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,13 @@ void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex);
 
 void	ft_wait_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex);
 
-t_error_code	ft_builtin_handler(t_command *cmd, int *node_fd, t_executer *ex, t_mode mode);
+t_error	ft_builtin(t_command *cmd, int *fd, t_executer *ex, t_mode mode);
 
-t_error_code	ft_verify_command(t_node *tree);
+t_error	ft_command_startup(t_command *cmd, t_executer *ex);
+
+t_error	ft_command_updater(t_command *cmd);
+
+t_error	ft_command_checker(t_command *cmd, t_executer *ex);
 
 /* UTILS ******************************************************************** */
 
@@ -115,8 +119,8 @@ void			ft_args_updater(t_command *cmd);
 
 void			ft_path_updater(t_command *cmd);
 
-t_error_code	ft_command_updater(t_command *cmd);
+void	ft_fake_pid_child(int err_code, t_executer *ex);
 
-t_error_code	ft_command_startup(t_command *cmd, t_executer *ex);
+void	ft_process_redirs(t_command *cmd, int *node_fd);
 
 #endif

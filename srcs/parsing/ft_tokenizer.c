@@ -6,13 +6,13 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/02/29 17:55:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_is_token(char *str, t_quote_state qs)
+int	ft_is_token(char *str, t_qstate qs)
 {
 	char		**tmp;
 	static char	*tokens[11] = {" ", "(", ")", "||", "&&", \
@@ -28,7 +28,7 @@ int	ft_is_token(char *str, t_quote_state qs)
 	return (ft_strlen(*tmp));
 }
 
-t_token_type	ft_ttyper(char *str, t_quote_state qs)
+t_token_type	ft_ttyper(char *str, t_qstate qs)
 {
 	if (qs != QU_ZERO)
 		return (TK_STRING);
@@ -43,7 +43,7 @@ t_token_type	ft_ttyper(char *str, t_quote_state qs)
 	return (TK_STRING);
 }
 
-t_token	*ft_tokenizer(char *str, t_quote_state qs)
+t_token	*ft_tokenizer(char *str, t_qstate qs)
 {
 	t_token	*token;
 	char	*tstring;
@@ -71,7 +71,7 @@ t_token	*ft_tokenizer(char *str, t_quote_state qs)
 	return (token);
 }
 
-int	ft_verify_wildcard(char *str, t_quote_state qs)
+int	ft_verify_wildcard(char *str, t_qstate qs)
 {
 	char	*tmp;
 

@@ -27,7 +27,6 @@ void	ft_h_inter(int signal)
 		ft_printf("^C\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		// rl_set_prompt(ft_get_prompt_string(ft_update_env(NULL)));
 		rl_redisplay();
 	}
 }
