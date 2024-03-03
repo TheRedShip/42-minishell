@@ -6,35 +6,45 @@
 /*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:56:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/03/01 18:33:08 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/03 14:45:53 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_valid_token(t_token *t, char **err_token)
+int	ft_sub_valid_token(t_token *t)
 {
 	t_token_type	bops;
 	t_token_type	strs;
 
 	bops = TK_BINOPS | TK_PIPEXS;
 	strs = TK_STRING | TK_REDIRS;
-	if (t->type & bops)
+	if ((t->type & TK_BINOPS) && (t->next->type & bops))
+		return (0);
+	else if (t->type == TK_REDIRS && !(t->next->type & TK_STRING))
+		return (0);
+	else if (t->type == TK_PIPEXS && (t->next->type & bops))
+		return (0);
+	else if (!ft_strncmp(t->str, "(", 2) && ((t->next->type & bops) || \
+			!ft_strncmp(t->next->str, ")", 2)))
+		return (0);
+	else if (t->type == TK_STRING && (t->next->type & TK_BRACES) && \
+			!ft_strncmp(t->next->str, "(", 2))
+		return (0);
+	else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & strs || \
+			!ft_strncmp(t->next->str, "(", 2)))
+		return (0);
+	return (1);
+}
+
+int	ft_valid_token(t_token *t, char **err_token)
+{
+	if (t->type & (TK_BINOPS | TK_PIPEXS))
 		return (0);
 	while (t->next)
 	{
 		*err_token = t->next->str;
-		if ((t->type & TK_BINOPS) && (t->next->type & bops))
-			return (0);
-		else if (t->type == TK_REDIRS && !(t->next->type & TK_STRING))
-			return (0);
-		else if (t->type == TK_PIPEXS && (t->next->type & bops))
-			return (0);
-		else if (!ft_strncmp(t->str, "(", 2) && ((t->next->type & bops) || !ft_strncmp(t->next->str, ")", 2)))
-			return (0);
-		else if (t->type == TK_STRING && (t->next->type & TK_BRACES) && !ft_strncmp(t->next->str, "(", 2))
-			return (0);
-		else if (!ft_strncmp(t->str, ")", 2) && (t->next->type & strs || !ft_strncmp(t->next->str, "(", 2)))
+		if (!ft_sub_valid_token(t))
 			return (0);
 		t = t->next;
 	}
