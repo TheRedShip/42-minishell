@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_decider.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:48:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 16:12:07 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 14:26:52 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex)
 	{
 		ft_close_pipes(ex->pipes);
 		waitpid(towait->pid, &err_code, 0);
+		ft_signal_state(SIGHANDLER_INT);
 		ft_printf("[EXEC] : AND waiting for pid [%d] at <%p>\n", towait->pid, towait);
 		err_code = WEXITSTATUS(err_code);
 	}
@@ -45,6 +46,7 @@ void	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex)
 		{
 			ft_close_pipes(ex->pipes);
 			waitpid(towait->pid, &err_code, 0);
+			ft_signal_state(SIGHANDLER_INT);
 			ft_printf("[EXEC] : AND waiting for pid [%d] at <%p>\n", towait->pid, towait);
 			err_code = WEXITSTATUS(err_code);
 		}
@@ -69,6 +71,7 @@ void	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex)
 	{
 		ft_close_pipes(ex->pipes);
 		waitpid(towait->pid, &err_code, 0);
+		ft_signal_state(SIGHANDLER_INT);
 		// ft_printf("[EXEC] : OR waiting for pid [%d] at <%p>\n", towait->pid, towait);
 		err_code = WEXITSTATUS(err_code);
 	}
@@ -84,6 +87,7 @@ void	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex)
 		{
 			ft_close_pipes(ex->pipes);
 			waitpid(towait->pid, &err_code, 0);
+			ft_signal_state(SIGHANDLER_INT);
 			// ft_printf("[EXEC] : OR waiting for pid [%d] at <%p>\n", towait->pid, towait);
 			err_code = WEXITSTATUS(err_code);
 		}

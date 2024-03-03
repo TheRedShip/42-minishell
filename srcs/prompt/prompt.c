@@ -144,6 +144,7 @@ void	ft_prompt_handler(t_envvar **envp)
 	{
 		t_pid *test = ft_pid_pop(&(exe->pids));
 		waitpid(test->pid, &err_code, 0);
+		ft_signal_state(SIGHANDLER_INT);
 		ft_command_exit(err_code);
 		if (!first++)
 			g_exit_code = WEXITSTATUS(err_code);

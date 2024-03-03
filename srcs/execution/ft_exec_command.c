@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:45:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 22:25:01 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 14:33:54 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_fake_pid_child(int err_code, t_command *cmd, t_executer *ex)
 {
 	pid_t	child;
 
-	ft_signal_state(SIGHANDLER_IGN);
 	child = fork();
 	if (child == 0)
 	{
@@ -43,7 +42,7 @@ void	ft_fake_pid_child(int err_code, t_command *cmd, t_executer *ex)
 		ft_fork_exit(ex);
 		exit(err_code);
 	}
-	ft_signal_state(SIGHANDLER_INT);
+	ft_signal_state(SIGHANDLER_IGN);
 	ft_pid_push(&(ex->pids), ft_init_pid(child));
 }
 
@@ -52,7 +51,6 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 	char	**env;
 	pid_t	child;
 
-	ft_signal_state(SIGHANDLER_IGN);
 	child = fork();
 	if (child == 0)
 	{
@@ -61,7 +59,7 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 		ft_close_pipes(ex->pipes);
 		execve(cmd->path, cmd->args, env);
 	}
-	ft_signal_state(SIGHANDLER_INT);
+	ft_signal_state(SIGHANDLER_IGN);
 	ft_close_command(cmd);
 	ft_pid_push(&(ex->pids), ft_init_pid(child));
 }
@@ -71,7 +69,6 @@ void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex)
 	pid_t	child;
 	int		ret;
 
-	ft_signal_state(SIGHANDLER_IGN);
 	child = fork();
 	if (child == 0)
 	{
@@ -90,7 +87,7 @@ void	ft_pipe_builtin(int (*f)(t_command *), t_command *cmd, t_executer *ex)
 			ft_fork_exit(ex);
 		exit(ret);
 	}
-	ft_signal_state(SIGHANDLER_INT);
+	ft_signal_state(SIGHANDLER_IGN);
 	ft_close_command(cmd);
 	ft_pid_push(&(ex->pids), ft_init_pid(child));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/02 22:21:32 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 14:26:58 by ycontre          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 	{
 		test = ft_pid_pop(&(ex->pids));
 		waitpid(test->pid, &err_code, 0);
+		ft_signal_state(SIGHANDLER_INT);
 		ft_command_exit(err_code);
 		if (!first++)
 			g_exit_code = WEXITSTATUS(err_code);
