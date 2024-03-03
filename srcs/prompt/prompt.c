@@ -14,20 +14,6 @@
 
 extern int	g_exit_code;
 
-void	ft_display_token_list(t_token *tokens)
-{
-	t_token	*t;
-
-	t = tokens;
-	printf("------------- ACTUAL TOKEN LIST -------------\n");
-	while (t)
-	{
-		printf("[%s]->", t->str);
-		t = t->next;
-	}
-	printf("\n---------------------------------------------\n");
-}
-
 t_error_code	ft_prompt_line(t_envvar **envp, char **line)
 {
 	char	*prompt;
@@ -122,7 +108,6 @@ void	ft_prompt_handler(t_envvar **envp)
 		return ;
 	if (ft_to_tokens(&tokens, line, envp) || !tokens)
 		return ;
-	// ft_display_token_list(tokens);
 	if (ft_to_tree(&tokens, &tree, envp))
 	{
 		ft_clear_tree(tree);
@@ -131,12 +116,10 @@ void	ft_prompt_handler(t_envvar **envp)
 	ft_tree_holder(0, tree);
 	if (ft_heredoc_opening(tree))
 		return ;
-
-	// treeprint(tree, 0);
-
 	int fdtest[2] = {0, 1};
 	t_executer *exe = ft_init_executer();
 
+	ft_signal_state(SIGHANDLER_IGN);
 	ft_exec_mux(tree, (int *) fdtest, exe, EX_WAIT);
 
 	int err_code = 0;
@@ -144,12 +127,12 @@ void	ft_prompt_handler(t_envvar **envp)
 	{
 		t_pid *test = ft_pid_pop(&(exe->pids));
 		waitpid(test->pid, &err_code, 0);
-		ft_signal_state(SIGHANDLER_INT);
-		ft_command_exit(err_code);
 		if (!first++)
 			g_exit_code = WEXITSTATUS(err_code);
+		ft_command_exit(err_code);
 		free(test);
 	}
+	ft_signal_state(SIGHANDLER_INT);
 	free(exe);
 	ft_close_tree_rec(tree);
 	ft_clear_tree(tree);

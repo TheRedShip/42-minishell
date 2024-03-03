@@ -6,7 +6,7 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/03/02 16:12:56 by rgramati         ###   ########.fr        #
+#    Updated: 2024/03/03 14:58:09 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,8 @@ SRC_EXEC	:=	execution/ft_file_manager.c		\
 				execution/ft_formatting.c		\
 				execution/ft_exec_pipeline.c	\
 				execution/ft_exec_command.c		\
+				execution/ft_exec_builtins.c	\
+				execution/ft_exec_utils.c		\
 				execution/ft_exec_decider.c
 
 SRC_PROMPT	:=  prompt/prompt.c					\
