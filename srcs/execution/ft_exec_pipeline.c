@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 19:56:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 00:00:50 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ void	ft_exec_mux(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 		else
 			ft_exec_pipe(tree, node_fd, ex, mode);
 	}
+	if (errno == ENFILE)
+	{
+		ft_error_message(ERR_INVFDS, "pipe");
+		return ;
+	}
 }
 
 void	ft_wait_pipeline(t_pid *tmp, t_executer *ex, t_mode mode)
@@ -58,11 +63,15 @@ void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 {
 	int		fds[2];
 	t_pid	*tmp;
+	t_pipes	*tmp_pipe;
 
 	tmp = NULL;
 	if (mode == EX_WAIT)
 		tmp = ex->pids;
+	tmp_pipe = ex->pipes;
 	ft_pipes_push(&(ex->pipes), ft_init_pipes());
+	if (ex->pipes == tmp_pipe)
+		return ;
 	if (ex->pipes->fd[0] == -1 || ex->pipes->fd[1] == -1)
 		return ;
 	fds[0] = node_fd[0];
@@ -77,7 +86,9 @@ void	ft_exec_pipe(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 void	ft_and_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 {
 	pid_t	child;
+	int		err_code;
 
+	err_code = 0;
 	if (mode == EX_PIPE)
 	{
 		child = fork();
@@ -85,9 +96,9 @@ void	ft_and_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 			return ;
 		if (child == 0)
 		{
-			ft_exec_and(tree, node_fd, ex);
+			err_code = ft_exec_and(tree, node_fd, ex);
 			ft_fork_exit(ex);
-			exit(g_exit_code);
+			exit(err_code);
 		}
 		ft_pid_push(&(ex->pids), ft_init_pid(child));
 	}
@@ -98,7 +109,9 @@ void	ft_and_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 void	ft_or_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 {
 	pid_t	child;
+	int		err_code;
 
+	err_code = 0;
 	if (mode == EX_PIPE)
 	{
 		child = fork();
@@ -106,9 +119,9 @@ void	ft_or_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 			return ;
 		if (child == 0)
 		{
-			ft_exec_or(tree, node_fd, ex);
+			err_code = ft_exec_or(tree, node_fd, ex);
 			ft_fork_exit(ex);
-			exit(g_exit_code);
+			exit(err_code);
 		}
 		ft_pid_push(&(ex->pids), ft_init_pid(child));
 	}

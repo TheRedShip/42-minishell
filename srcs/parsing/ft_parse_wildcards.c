@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 13:31:16 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 19:57:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/04 23:30:18 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,40 +99,28 @@ void	ft_wildcard_token(t_token **head, t_token **tokens)
 char	*ft_format_wildcard(char ***files)
 {
 	char	*formatted;
-	char	**tmp;
 
 	formatted = NULL;
 	ft_sort_lowstrs_tab(*files, ft_tab_len(*files));
-	tmp = *files;
-	while (*tmp)
-	{
-		if (!formatted)
-			formatted = ft_strjoin(formatted, *(tmp++), NULL, 0b00);
-		else
-			formatted = ft_strjoin(formatted, *(tmp++), " ", 0b01);
-	}
-	return (formatted);
+	return (ft_strsjoin(*files, ft_strdup(" "), 0b10));
 }
 
-void	ft_replace_wildcard(t_token **tokens, t_token **tmp)
+void	ft_replace_wildcard(char **str)
 {
 	char	**files;
 	char	*wcs;
 	char	*deq;
 
-	deq = ft_strdup((*tmp)->str);
+	deq = ft_strdup(*str);
 	ft_dequote_string(&deq, QU_ZERO);
 	files = ft_wildcard_array(deq);
 	free(deq);
 	if (files && *files)
 	{
-		free((*tmp)->str);
+		free(*str);
 		wcs = ft_format_wildcard(&files);
-		(*tmp)->str = ft_strdup(wcs);
-		ft_wildcard_token(tokens, tmp);
+		*str = ft_strdup(wcs);
 		free(wcs);
 	}
-	else
-		*tmp = (*tmp)->next;
 	ft_free_tab((void **)(files));
 }

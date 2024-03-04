@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:06:15 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:26:44 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/03 23:45:22 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,18 @@ int	ft_show_export_list(t_command *cmd)
 int	ft_export_var(t_command *cmd, char *tmp)
 {
 	char	**var;
+	char	*trim;
 
 	var = NULL;
 	if (ft_strchr(tmp, '='))
 	{
 		ft_strapp(&var, ft_strndup(tmp, ft_strcspn(tmp, "=")));
 		ft_strapp(&var, ft_strdup(tmp + ft_strlen(*var) + 1));
+		trim = ft_strtrim(var[1], "\"");
+		free(var[1]);
+		var[1] = trim;
 		if (ft_strlen(var[0]) && var[0][ft_strlen(var[0]) - 1] == '+')
-			ft_append_var(cmd->envp, var[0], ft_strtrim(var[1], "\""));
+			ft_append_var(cmd->envp, var[0], ft_strdup(var[1]));
 		else
 		{
 			if (var[1])

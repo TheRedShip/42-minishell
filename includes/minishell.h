@@ -53,6 +53,40 @@
 
 # define P_WARNING "\001\033[33;1m\002/!\\ WARNING! > "
 
+/* ERROR MESSAGES *********************************************************** */
+
+# define ES_NOTSET "%scd: %s not set\n"
+
+# define ES_NOFORD "%s%s no such file or directory\n"
+
+# define ES_TMARGS "%s%s: too many arguments\n"
+
+# define ES_NOTNUM "%s%s: numeric argument required\n"
+
+# define ES_NOTVAL "%sexport: `%s': not a valid identifier\n"
+
+# define ES_NOPERM "%s%s: Permission denied\n"
+
+# define ES_ISADIR "%s%s: Is a directory\n"
+
+# define ES_INVOPT "%s%s: Invalid option\n"
+
+# define ES_HDSTOP "%s here-document delimited by end-of-file, (wanted `%s')\n"
+
+# define ES_DQSTOP "%sunexpected EOF while looking for matching `%s\'\n"
+
+# define ES_SYNTXQ "%ssyntax error%s\n"
+
+# define ES_SYNTXT "%ssyntax error near unexcepted token `%s'\n"
+
+# define ES_SYNTXL "%ssyntax error\n"
+
+# define ES_HLIMIT "%smaximum here-document count exceeded\n"
+
+# define ES_INVFDS "%s%s: no more fds. Aborting\n"
+
+# define ES_AMBRED "%s%s: ambiguous redirect\n"
+
 /* OPENING MODES ************************************************************ */
 
 // O_RDONLY = 00

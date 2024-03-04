@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:36:47 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 19:22:26 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/04 22:58:51 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ typedef enum e_error_code
 	ERR_HLIMIT,
 	ERR_NOPERM,
 	ERR_ISADIR,
-	ERR_INVOPT
+	ERR_INVOPT,
+	ERR_INVFDS,
+	ERR_AMBRED
 }	t_error;
 
 /* ************************************************************************** */

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 19:27:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/04 23:32:53 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,12 +184,11 @@ void		ft_format_tokens(t_token **tokens, t_envvar *home);
 void		ft_wildcard_token(t_token **head, t_token **tokens);
 
 /**
- * @brief			Replace a tokn by its wildcard equivalent if there is one.
+ * @brief			Replace a string by its wildcard equivalent if there is one.
  * 
- * @param tokens	Token linked list adress.
- * @param tmp		Adress of current token.
+ * @param str		String adress.
 */
-void		ft_replace_wildcard(t_token **tokens, t_token **tmp);
+void		ft_replace_wildcard(char **str);
 
 /* TREE ********************************************************************* */
 
@@ -245,6 +244,16 @@ int			ft_dqstrlen(char *str);
  * @param qs		Quote state.
 */
 void		ft_quoted_skip(char **str, int *len, t_qstate *qs);
+
+/**
+ * @brief			Splits a string, respecting quoting rules.
+ * 
+ * @param str		string to split.
+ * @param sep		string of separators to cut.
+ * 
+ * @return			A NULL-terminated string array of str splitted by seps.
+*/
+char		**ft_quoted_split(char *str, char *sep);
 
 /* ************************************************************************** */
 

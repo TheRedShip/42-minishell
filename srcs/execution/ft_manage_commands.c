@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:42:43 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 18:15:33 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 00:10:09 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,14 @@ void	ft_args_updater(t_command *cmd)
 			ft_replace_vars(*cmd->envp, tmp, QU_ZERO);
 			if (**tmp)
 			{
-				raw = ft_quoted_split(*tmp, " ");
+				raw = ft_split(*tmp, ' ');
 				ft_strtabjoin(&new_args, raw);
 			}
 			tmp++;
 			continue ;
 		}
-		ft_dequote_string(tmp, QU_ZERO);
+		if (ft_strncmp(*cmd->args, "export", 7))
+			ft_dequote_string(tmp, QU_ZERO);
 		ft_strapp(&new_args, ft_strdup(*(tmp++)));
 	}
 	ft_free_tab((void **)cmd->args);
@@ -81,7 +82,12 @@ t_error	ft_command_updater(t_command *cmd)
 	ft_args_updater(cmd);
 	tmp = cmd->args;
 	while (tmp && *tmp)
-		ft_dequote_string(tmp++, QU_ZERO);
+	{
+		if (ft_verify_wildcard(*tmp, QU_ZERO))
+			ft_replace_wildcard(tmp++);
+		else
+			ft_dequote_string(tmp++, QU_ZERO);
+	}
 	ft_path_updater(cmd);
 	if (!cmd->path && !cmd->redirs)
 		return (ERR_NOTCMD);
@@ -92,6 +98,8 @@ t_error	ft_manage_heredocs(t_node *nd, int *hd)
 {
 	t_error	err;
 
+	if (!nd)
+		return (ERR_ERRORS);
 	err = ERR_NOERRS;
 	if (*hd)
 		return (ERR_HDSTOP);

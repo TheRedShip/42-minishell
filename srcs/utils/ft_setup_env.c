@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:08:31 by rgramati          #+#    #+#             */
-/*   Updated: 2024/02/20 15:38:05 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/04 23:41:46 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_envvar	*ft_setup_env(char **argv, char **envp)
 		ft_add_var(&env, ft_init_var(envp[i]));
 	if (!i)
 		ft_create_env(&env, argv);
-	if (ft_get_var(env, "SHLVL"))
+	if (ft_get_var(env, "SHLVL") && ft_get_var(env, "SHLVL")->values)
 		tmp = ft_itoa(1 + ft_atoi(ft_get_var(env, "SHLVL")->values[0]));
 	else
 		tmp = ft_strdup("1");
@@ -55,7 +55,8 @@ t_envvar	*ft_setup_env(char **argv, char **envp)
 		tmp = ft_strdup("minishell");
 		ft_set_var(&env, "SHELL", tmp);
 	}
-	tmp = ft_strjoin(ft_get_var(env, "PWD")->values[0], "/logo", "", 0b00);
+	if (ft_get_var(env, "PWD") && ft_get_var(env, "PWD")->values)
+		tmp = ft_strjoin(ft_get_var(env, "PWD")->values[0], "/logo", "", 0b00);
 	ft_set_var(&env, "LOGOPWD", tmp);
 	return (env);
 }

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:08 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 19:21:51 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/04 23:51:09 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_and_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
  * @param node_fd	Fds for this node.
  * @param ex		Current t_executer.
 */
-void	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex);
+int		ft_exec_and(t_node *tree, int *node_fd, t_executer *ex);
 
 /**
  * @brief			Divide OR execution, either forked or not.
@@ -71,7 +71,7 @@ void	ft_or_divider(t_node *tree, int *node_fd, t_executer *ex, t_mode mode);
  * @param node_fd	Fds for this node.
  * @param ex		Current t_executer.
 */
-void	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex);
+int		ft_exec_or(t_node *tree, int *node_fd, t_executer *ex);
 
 /**
  * @brief			Command handler for execution.

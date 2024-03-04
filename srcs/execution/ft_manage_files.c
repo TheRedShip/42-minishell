@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:25:41 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 00:07:47 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,38 @@ t_error	ft_open_heredocs(t_command *cmd)
 	return (cmd->heredoc == OP_FILEKO);
 }
 
-void	ft_open_file(t_command *cmd, char *file, int mode)
+t_error	ft_file_checker(t_command *cmd, char **file)
+{
+	char	**files;
+	char	*var;
+
+	var = ft_strdup(*file);
+	ft_replace_vars(*cmd->envp, file, QU_ZERO);
+	if (ft_verify_wildcard(*file, QU_ZERO))
+	{
+		ft_replace_wildcard(file);
+		ft_dprintf(2, "Print pour montrer a francois que ca mrahce\n");
+	}
+	files = ft_split(*file, ' ');
+	if (ft_tab_len(files) > 1)
+	{
+		ft_error_message(ERR_AMBRED, var);
+		free(var);
+		free(*file);
+		ft_free_tab((void **) files);
+		return (ERR_AMBRED);
+	}
+	free(var);
+	ft_free_tab((void **) files);
+	return (ERR_NOERRS);
+}
+
+t_error	ft_open_file(t_command *cmd, char *file, int mode)
 {
 	int	*fd;
 
+	if (ft_file_checker(cmd, &file))
+		return (ERR_AMBRED);
 	if (mode == OPEN_READ)
 		fd = &(cmd->infile);
 	else
@@ -51,26 +79,38 @@ void	ft_open_file(t_command *cmd, char *file, int mode)
 	else if (*fd != -1)
 		*fd = open(file, mode);
 	if (*fd == -1)
-		ft_error_message(ERR_NOFORD, file);
+	{
+		if (errno == ENFILE)
+			ft_error_message(ERR_INVFDS, file);
+		else
+			ft_error_message(ERR_NOFORD, file);
+		free(file);
+		return (ERR_INVFDS);
+	}
 	free(file);
+	return (ERR_NOERRS);
 }
 
 t_error	ft_open_outputs(t_command *cmd)
 {
-	t_redir			*tmp;
+	t_redir	*tmp;
+	t_error	op;
 
 	tmp = cmd->redirs;
-	while (tmp && cmd->outfile != OP_FILEKO)
+	op = ERR_NOERRS;
+	while (tmp && cmd->outfile != OP_FILEKO && op == ERR_NOERRS)
 	{
 		if (tmp->type == RD_INFILES && access(tmp->file, R_OK))
 			break ;
 		if (tmp->type == RD_OUTPUTS)
-			ft_open_file(cmd, ft_strdup(tmp->file), OPEN_CREATE);
+			op = ft_open_file(cmd, ft_strdup(tmp->file), OPEN_CREATE);
 		else if (tmp->type == RD_APPENDS)
-			ft_open_file(cmd, ft_strdup(tmp->file), OPEN_APPEND);
+			op = ft_open_file(cmd, ft_strdup(tmp->file), OPEN_APPEND);
 		if (cmd->outfile != OP_FILEKO)
 			tmp = tmp->next;
 	}
+	if (op == ERR_INVFDS || op == ERR_AMBRED)
+		return (op);
 	return (cmd->outfile == OP_FILEKO && access(tmp->file, R_OK));
 }
 
@@ -92,23 +132,27 @@ void	ft_connect_input(t_command *cmd, int hd_last)
 t_error	ft_open_inputs(t_command *cmd)
 {
 	t_redir	*tmp;
+	t_error	op;
 	int		hd_last;
 
 	if (!cmd->redirs)
 		return (ERR_NOERRS);
 	tmp = cmd->redirs;
+	op = ERR_NOERRS;
 	hd_last = 0;
-	while (tmp && cmd->infile != OP_FILEKO)
+	while (tmp && cmd->infile != OP_FILEKO && op == ERR_NOERRS)
 	{
 		if (tmp->type == RD_INFILES)
 		{
 			hd_last = 0;
-			ft_open_file(cmd, ft_strdup(tmp->file), OPEN_READ);
+			op = ft_open_file(cmd, ft_strdup(tmp->file), OPEN_READ);
 		}
 		if (tmp->type != RD_OUTPUTS && tmp->type != RD_APPENDS)
 			hd_last |= (tmp->type == RD_HEREDOC);
 		tmp = tmp->next;
 	}
+	if (op == ERR_INVFDS || op == ERR_AMBRED)
+		return (op);
 	ft_connect_input(cmd, hd_last);
 	return (cmd->infile == OP_FILEKO);
 }

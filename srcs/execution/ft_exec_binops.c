@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:48:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 16:05:38 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 00:00:42 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_wait_and_or(t_executer *ex)
 	int		err_code;
 
 	towait = ft_pid_pop(&(ex->pids));
+	err_code = 0;
 	if (towait)
 	{
 		ft_close_pipes(ex->pipes);
@@ -33,7 +34,7 @@ int	ft_wait_and_or(t_executer *ex)
 	return (err_code);
 }
 
-void	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex)
+int	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex)
 {
 	int	err_code;
 
@@ -41,14 +42,16 @@ void	ft_exec_and(t_node *tree, int *node_fd, t_executer *ex)
 		dup2(node_fd[0], STDIN_FILENO);
 	ft_exec_mux(tree->left, node_fd, ex, EX_WAIT);
 	err_code = ft_wait_and_or(ex);
+	g_exit_code = err_code;
 	if (err_code == ERR_NOERRS)
 	{
 		ft_exec_mux(tree->right, node_fd, ex, EX_WAIT);
-		ft_wait_and_or(ex);
+		g_exit_code = ft_wait_and_or(ex);
 	}
+	return (g_exit_code);
 }
 
-void	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex)
+int	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex)
 {
 	int	err_code;
 
@@ -56,9 +59,11 @@ void	ft_exec_or(t_node *tree, int *node_fd, t_executer *ex)
 		dup2(node_fd[0], STDIN_FILENO);
 	ft_exec_mux(tree->left, node_fd, ex, EX_WAIT);
 	err_code = ft_wait_and_or(ex);
+	g_exit_code = err_code;
 	if (err_code != ERR_NOERRS)
 	{
 		ft_exec_mux(tree->right, node_fd, ex, EX_WAIT);
-		ft_wait_and_or(ex);
+		g_exit_code = ft_wait_and_or(ex);
 	}
+	return (g_exit_code);
 }

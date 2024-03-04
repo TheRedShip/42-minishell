@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:34 by ycontre           #+#    #+#             */
-/*   Updated: 2024/03/03 16:15:54 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/04 23:27:48 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ void	ft_format_tokens(t_token **tokens, t_envvar *home)
 	tmp = *tokens;
 	while (tmp)
 	{
-		if (ft_verify_wildcard(tmp->str, QU_ZERO))
-			ft_replace_wildcard(tokens, &tmp);
-		else if (!ft_strncmp(tmp->str, "~", 2))
+		if (!ft_strncmp(tmp->str, "~", 2))
 		{
 			if (home)
 			{

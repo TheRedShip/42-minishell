@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:32:59 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 20:00:45 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/04 22:01:26 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_get_heredoc(char *delim, char *hd_file)
 	{
 		rl_catch_signals = 1;
 		ft_signal_state(SIGHANDLER_H_D);
-		hd_fd = open(hd_file, OPEN_EXCL, 0644);
+		hd_fd = open(hd_file, OPEN_EXCL, 0600);
 		ft_clear_tree(ft_tree_holder(0, NULL));
 		rl_clear_history();
 		err_code = ft_heredoc_line(delim, hd_file, hd_fd);
