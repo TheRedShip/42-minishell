@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/05 00:07:47 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 00:15:10 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ t_error	ft_file_checker(t_command *cmd, char **file)
 	var = ft_strdup(*file);
 	ft_replace_vars(*cmd->envp, file, QU_ZERO);
 	if (ft_verify_wildcard(*file, QU_ZERO))
-	{
 		ft_replace_wildcard(file);
-		ft_dprintf(2, "Print pour montrer a francois que ca mrahce\n");
-	}
 	files = ft_split(*file, ' ');
 	if (ft_tab_len(files) > 1)
 	{
