@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:52:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/04 22:01:27 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 00:28:47 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ft_get_dquote(char *line, t_envvar **env, char *tmp)
 	return (tmp_file_fd);
 }
 
-int	ft_quote_handler(char **line, t_envvar **envp, int status)
+t_error	ft_quote_handler(char **line, t_envvar **envp, int status)
 {
 	char		*dquote_file;
 	char		*history_line;

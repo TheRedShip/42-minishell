@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:02:22 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/04 22:47:17 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:21:04 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,11 @@ t_error		ft_open_outputs(t_command *cmd);
  * @brief			Open input files for one command.
  * 
  * @param cmd		t_command pointer.
+ * @param hd_last	heredoc last boolean.
  * 
  * @return			ERR_FAILED in case of error, ERR_NOERRS otherwise.
 */
-t_error		ft_open_inputs(t_command *cmd);
+t_error		ft_open_inputs(t_command *cmd, int *hd_last);
 
 /* HEREDOC ****************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/05 00:00:50 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:55:24 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_exec_mux(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 		return ;
 	if (tree->command)
 		ft_cmd_handler(tree, node_fd, ex, mode);
-	else
+	else if (tree->token)
 	{
 		if (tree->token->type & TK_BINOPS)
 		{
@@ -33,8 +33,9 @@ void	ft_exec_mux(t_node *tree, int *node_fd, t_executer *ex, t_mode mode)
 		else
 			ft_exec_pipe(tree, node_fd, ex, mode);
 	}
-	if (errno == ENFILE)
+	if (errno == EMFILE)
 	{
+		g_exit_code = 1;
 		ft_error_message(ERR_INVFDS, "pipe");
 		return ;
 	}

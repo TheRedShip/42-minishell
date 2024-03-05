@@ -6,28 +6,45 @@
 #    By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/24 14:17:35 by rgramati          #+#    #+#              #
-#    Updated: 2024/03/03 20:47:20 by rgramati         ###   ########.fr        #
+#    Updated: 2024/03/06 00:31:24 by rgramati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-GREEN	=	\033[38;5;76m
-RED		=	\033[38;5;160m
-YELLOW	=	\033[38;5;226m
-ORANGE	=	\033[38;5;202m
-PURPLE	=	\033[38;5;213m
-LBLUE	=	\033[38;5;51m
-BLUE	=	\033[38;5;117m
-INDI	=	\033[38;5;99m
-RESET	=	\033[00m
+BLACK		=	\033[30;49;3m
+RED			=	\033[31;49;3m
+GREEN		=	\033[32;49;3m
+YELLOW		=	\033[33;49;3m
+BLUE		=	\033[34;49;3m
+MAGENTA		=	\033[35;49;3m
+CYAN		=	\033[36;49;3m
+WHITE		=	\033[37;49;3m
+
+BBLACK		=	\033[30;49;3;1m
+BRED		=	\033[31;49;3;1m
+BGREEN		=	\033[32;49;3;1m
+BYELLOW		=	\033[33;49;3;1m
+BBLUE		=	\033[34;49;3;1m
+BMAGENTA	=	\033[35;49;3;1m
+BCYAN		=	\033[36;49;3;1m
+BWHITE		=	\033[37;49;3;1m
+
+RESET		=	\033[0m
+
+LINE_CLR	=	\33[2K\r
 
 FILE	=	$(shell ls -lR srcs/ | grep -F .c | wc -l)
 CMP		=	1
 
 NAME        := minishell
 
-SRCS_DIR	:=	srcs
-OBJS_DIR	:=	.objs
 LFT_DIR 	:= ./libft
+
+LFT			:= $(LFT_DIR)/libft.a
+
+SRCS_DIR	:=	srcs
+
+OBJS_DIR	:=	.objs
+
 
 SRC_DATA	:=	data_structures/constructors.c		\
 				data_structures/s_envvar.c			\
@@ -97,43 +114,59 @@ HEADERS		:=	includes/minishell.h 				\
 				includes/ft_execution.h
 
 CC          := cc
+
 CFLAGS      := -g -Wall -Wextra -Werror
+
 IFLAGS	    := -I $(LFT_DIR)/includes -I ./includes
 
+
 RM          := rm -rf
+
 MAKEFLAGS   += --no-print-directory
+
 DIR_DUP     = mkdir -p $(@D)
+
+# RULES ********************************************************************** #
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(HEADERS)
+$(NAME): $(LFT) $(OBJS) $(HEADERS)
 	@$(CC) $(CFLAGS) $(IFLAGS) $(OBJS) $(LFT_DIR)/libft.a -o $(NAME) -lreadline
-	@printf "\r                                                                                       \r"
-	@printf "\r$(LBLUE)$(NAME)$(RESET) [ $(LBLUE)$(NAME)$(RESET)      $(GREEN)DONE $(LBLUE)$(RESET)]$(RESET)\n"
+	@printf "$(LINE_CLR)  ⭐$(BWHITE) $(NAME):\t PROJECT READY !$(RESET)\n\n"
+
+$(LFT):
+	@make -C $(LFT_DIR)
 
 $(OBJS_DIR)/%.o: %.c
 	@$(DIR_DUP)
-	@make -C $(LFT_DIR)
-	@printf "$(LBLUE)[$(CMP)$(LBLUE)] $(RESET)Compilation in progress... $(GREEN)$<$(BLUE) [$(RESET)$(CMP)$(BLUE)/$(RESET)$(FILE)$(BLUE)]$(RESET)                        \r"
+	if [ $(CMP) -eq '1' ]; then \
+		printf "\n"; \
+	fi;
+	printf "$(LINE_CLR)$(WHITE)  🔄 $(NAME):\t$(CMP)/$(FILE) \t$(BWHITE)$<$(RESET) $(GREEN)compiling...$(RESET)"
 	@$(CC) $(CFLAGS) $(IFLAGS) -o $@ -c $^
 	@$(eval CMP=$(shell echo $$(($(CMP)+1))))
+	if [ $(CMP) -gt $(FILE) ]; then \
+		printf "$(LINE_CLR)$(WHITE)  🔄 $(NAME): $$(($(CMP)-1))/$(FILE)\n$(LINE_CLR)$(BGREEN)  ✅ Compilation done !$(RESET)\n"; \
+	fi \
 
 clean:
-	@printf "\r$(LBLUE)$(NAME)$(RESET) [$(LBLUE) objs files  $(RED)deleted$(RESET) ]$(RESET)\n"
+	@printf "\n$(BWHITE)  🚫 $(NAME):\t$(BRED) .o files deleted.$(RESET)\n"
 	@$(RM) $(OBJS)
 
-fclean: dclean
-	@printf "\r$(LBLUE)$(NAME)$(RESET) [$(LBLUE) $(NAME)   $(RED)deleted$(RESET) ]$(RESET)\n"
-	@make -C $(LFT_DIR) fclean
-	@$(RM) $(NAME)
-
 dclean: clean
-	@printf "\r$(LBLUE)$(NAME)$(RESET) [$(LBLUE) objs dir    $(RED)deleted$(RESET) ]$(RESET)\n"
+	@printf "$(BWHITE)  🚫 $(NAME):\t$(BRED) objs dir deleted.$(RESET)\n"
 	@$(RM) $(OBJS_DIR)
+
+fclean: dclean
+	@printf "$(BWHITE)  🚫 $(NAME):\t$(BRED) binary deleted.$(RESET)\n"
+	@$(RM) $(NAME)
+	@$(MAKE) -C $(LFT_DIR) fclean
 
 re:
 	@$(MAKE) fclean
 	@$(MAKE) all
+
+# **************************************************************************** #
 
 .PHONY: all clean fclean dclean re
 .SILENT:

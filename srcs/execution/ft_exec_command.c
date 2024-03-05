@@ -6,13 +6,28 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:45:23 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 20:16:18 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:21:31 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern int	g_exit_code;
+
+void	ft_connect_input(t_command *cmd, int hd_last)
+{
+	if (hd_last)
+	{
+		if (cmd->infile != STDIN_FILENO)
+			close(cmd->infile);
+		cmd->infile = cmd->heredoc;
+	}
+	else
+	{
+		if (cmd->heredoc > 2)
+			close(cmd->heredoc);
+	}
+}
 
 void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 {
@@ -36,16 +51,20 @@ void	ft_exec_cmd(t_command *cmd, int *node_fd, t_executer *ex)
 
 t_error	ft_command_startup(t_command *cmd, t_executer *ex)
 {
+	int	hd_last;
+
+	hd_last = 0;
 	if (ft_command_updater(cmd))
 	{
 		ft_fake_pid_child(0, ex);
 		return (ERR_NOTCMD);
 	}
-	if (ft_open_outputs(cmd) || ft_open_inputs(cmd))
+	if (ft_open_outputs(cmd) || ft_open_inputs(cmd, &hd_last))
 	{
 		ft_fake_pid_child(1, ex);
 		return (ERR_FAILED);
 	}
+	ft_connect_input(cmd, hd_last);
 	if (!cmd->path && cmd->redirs)
 	{
 		ft_fake_pid_child(0, ex);

@@ -6,12 +6,22 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:23:29 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/04 23:32:53 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 00:20:35 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PARSING_H
 # define FT_PARSING_H
+
+/**
+ * @brief			Quote state updater.
+ * 
+ * @param c			Current character.
+ * @param qs		Current auote state adress.
+ * 
+ * @return			! if quote state changed, 0 otherwise.
+*/
+int			ft_qs_update(char c, t_qstate *qs);
 
 /**
  * @brief			Tokenize a string.

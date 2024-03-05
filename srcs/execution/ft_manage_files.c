@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:28 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/05 00:15:10 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:21:34 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,45 +111,28 @@ t_error	ft_open_outputs(t_command *cmd)
 	return (cmd->outfile == OP_FILEKO && access(tmp->file, R_OK));
 }
 
-void	ft_connect_input(t_command *cmd, int hd_last)
-{
-	if (hd_last)
-	{
-		if (cmd->infile != STDIN_FILENO)
-			close(cmd->infile);
-		cmd->infile = cmd->heredoc;
-	}
-	else
-	{
-		if (cmd->heredoc > 2)
-			close(cmd->heredoc);
-	}
-}
-
-t_error	ft_open_inputs(t_command *cmd)
+t_error	ft_open_inputs(t_command *cmd, int *hd_last)
 {
 	t_redir	*tmp;
 	t_error	op;
-	int		hd_last;
 
 	if (!cmd->redirs)
 		return (ERR_NOERRS);
 	tmp = cmd->redirs;
 	op = ERR_NOERRS;
-	hd_last = 0;
+	*hd_last = 0;
 	while (tmp && cmd->infile != OP_FILEKO && op == ERR_NOERRS)
 	{
 		if (tmp->type == RD_INFILES)
 		{
-			hd_last = 0;
+			*hd_last = 0;
 			op = ft_open_file(cmd, ft_strdup(tmp->file), OPEN_READ);
 		}
 		if (tmp->type != RD_OUTPUTS && tmp->type != RD_APPENDS)
-			hd_last |= (tmp->type == RD_HEREDOC);
+			*hd_last |= (tmp->type == RD_HEREDOC);
 		tmp = tmp->next;
 	}
 	if (op == ERR_INVFDS || op == ERR_AMBRED)
 		return (op);
-	ft_connect_input(cmd, hd_last);
 	return (cmd->infile == OP_FILEKO);
 }

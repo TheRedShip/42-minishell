@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 07:14:12 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/03 19:51:12 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 00:23:09 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,15 @@ int			ft_unset(t_command *cmd);
  * @return			Trimmed string.
 */
 char		*ft_backtrim(char *str, char c);
+
+/**
+ * @brief			Checks if a string is empty or not.
+ * 
+ * @param str		String to check
+ * 
+ * @return			0 if str is only composed of whitespaces, 1 otherwise.
+*/
+int			ft_isnt_empty(char *str);
 
 /**
  * @brief			Get current working directory.

@@ -14,7 +14,7 @@
 
 extern int	g_exit_code;
 
-t_error	ft_prompt_line(t_envvar **envp, char **line)
+t_error	ft_prompt_line(char **line, t_envvar **envp)
 {
 	char	*prompt;
 	int		err_code;
@@ -125,7 +125,7 @@ void	ft_prompt_handler(t_envvar **envp)
 	tokens = NULL;
 	tree = NULL;
 	first = 0;
-	if (ft_prompt_line(envp, &line))
+	if (ft_prompt_line(&line, envp))
 		return ;
 	if (ft_to_tokens(&tokens, line, envp) || !tokens)
 		return ;

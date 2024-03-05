@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   s_command.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ycontre <ycontre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:00:02 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/01 18:00:59 by ycontre          ###   ########.fr       */
+/*   Updated: 2024/03/05 22:17:17 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,33 +44,4 @@ void	ft_del_command(t_command *cmd)
 	free(cmd->path);
 	ft_free_tab((void **)cmd->args);
 	free(cmd);
-}
-
-void	ft_display_command(t_command *cmd)
-{
-	char	**tmp;
-	t_redir	*red;
-
-	tmp = NULL;
-	printf("- COMMAND --- %p\n", cmd);
-	printf("INFILE FD : %d\n", cmd->infile);
-	printf("OUTFILE FD : %d\n", cmd->outfile);
-	printf("REDIRS : \n");
-	red = cmd->redirs;
-	while (red)
-	{
-		printf("    file : %s, type = %d\n", red->file, red->type);
-		red = red->next;
-	}
-	if (cmd->path)
-		printf("PATH : %s\n", cmd->path);
-	if (cmd->args)
-	{
-		tmp = cmd->args;
-		printf("ARGS : %p\n", cmd->args);
-		while (*tmp)
-			printf("  val : %s\n", *(tmp++));
-	}
-	printf("ENV    : %p\n", cmd->envp);
-	printf("--------------------------------------\n");
 }

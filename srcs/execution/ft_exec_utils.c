@@ -6,7 +6,7 @@
 /*   By: rgramati <rgramati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 14:48:51 by rgramati          #+#    #+#             */
-/*   Updated: 2024/03/05 00:07:49 by rgramati         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:17:37 by rgramati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ void	ft_command_exit(int err_code)
 		g_exit_code = 130;
 	}
 }
-
-
 
 void	ft_fork_exit(t_executer *ex)
 {
